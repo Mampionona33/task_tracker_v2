@@ -1,7 +1,8 @@
 type Fiches {
-  _id: String
+  _id: String!
   id: Int
   typeTrav: String
+  cat: String
   numFiche: String
   statuCom: String
   statuIvpn: String
@@ -16,12 +17,33 @@ type Fiches {
   productivity: String
 }
 
+type Taches {
+  _id: String!
+  id: Int!
+  name: String!
+  objectif: Int
+}
+
+input FichesInputs {
+  typeTrav: String
+  cat: String
+  numFiche: String
+  statuCom: String
+  statuIvpn: String
+  url: String
+  state: String
+  nbBefor: Int
+  nbAft: Int
+}
+
 #### top level declarations
 type Query {
   about: String!
   listFiches: [Fiches!]!
+  listTaches: [Taches!]!
 }
 
 type Mutation {
   setAboutMessage(message: String!): String
+  fichesAdd(Fiches: FichesInputs!): Fiches!
 }

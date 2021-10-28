@@ -6,4 +6,16 @@ async function list() {
   return fiches;
 }
 
-module.exports = { list };
+async function add(_, { fiche }) {
+  const db = getDb();
+  const newFiches = Object.assign({}, fiche);
+  newFiches.id = await getNextSequence('fiches');
+
+  const result = await db.collection('fiches').insertOne(newFiches);
+  const savedFiche = await db
+    .collection('fiches')
+    .findOne({ _id: result.insertedId });
+  return savedFiche;
+}
+
+module.exports = { list, add };

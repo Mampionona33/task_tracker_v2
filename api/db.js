@@ -13,7 +13,7 @@ async function connectToDb() {
 
 async function getNextSequence(name) {
   const result = await db
-    .collection('fichesCounter')
+    .collection('counter')
     .findOneAndUpdate(
       { _id: name },
       { $inc: { current: 1 } },

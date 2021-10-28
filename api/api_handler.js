@@ -12,6 +12,7 @@ const resolvers = {
   },
   Mutation: {
     setAboutMessage: about.setMessage,
+    fichesAdd: fiches.add,
   },
 };
 
