@@ -1,6 +1,25 @@
+type Fiches {
+  _id: String
+  id: Int
+  typeTrav: String
+  numFiche: String
+  statuCom: String
+  statuIvpn: String
+  url: String
+  state: String
+  submiteState: Boolean
+  nbBefor: Int
+  nbAft: Int
+  startDate: String
+  validDate: String
+  duree: String
+  productivity: String
+}
+
 #### top level declarations
 type Query {
   about: String!
+  listFiches: [Fiches!]!
 }
 
 type Mutation {

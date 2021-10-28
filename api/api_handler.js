@@ -3,10 +3,12 @@ require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 
 const about = require('./about');
+const fiches = require('./fiches');
 
 const resolvers = {
   Query: {
     about: about.getMessage,
+    listFiches: fiches.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,

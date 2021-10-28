@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -e .js, .graphql -w .env server.js"
+    "start": "nodemon -e js,graphql -w .env server.js"
   },
   "keywords": [],
   "author": "",
