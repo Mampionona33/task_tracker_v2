@@ -20,8 +20,8 @@ type Fiches {
 type Taches {
   _id: String!
   id: Int!
-  name: String!
-  objectif: Int
+  name: String
+  objectif: Float
 }
 
 input FichesInputs {
@@ -36,6 +36,11 @@ input FichesInputs {
   nbAft: Int
 }
 
+input TachesInputs {
+  name: String
+  objectif: Float
+}
+
 #### top level declarations
 type Query {
   about: String!
@@ -45,5 +50,6 @@ type Query {
 
 type Mutation {
   setAboutMessage(message: String!): String
-  fichesAdd(Fiches: FichesInputs!): Fiches!
+  fichesAdd(fiche: FichesInputs!): Fiches!
+  tachesAdd(tache: TachesInputs): Taches
 }

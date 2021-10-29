@@ -4,15 +4,18 @@ const { ApolloServer } = require('apollo-server-express');
 
 const about = require('./about');
 const fiches = require('./fiches');
+const taches = require('./tache');
 
 const resolvers = {
   Query: {
     about: about.getMessage,
     listFiches: fiches.list,
+    listTaches: taches.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
     fichesAdd: fiches.add,
+    tachesAdd: taches.add,
   },
 };
 
@@ -26,9 +29,9 @@ const server = new ApolloServer({
 });
 
 async function installHandler(app) {
+  await server.start();
   const enableCors = (process.env.ENABLE_CORS || 'true') === 'true';
   console.log('CORS setting: ', enableCors);
-  await server.start();
   server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
 }
 

@@ -7,6 +7,7 @@ async function list() {
 }
 
 async function add(_, { fiche }) {
+  console.log(fiche);
   const db = getDb();
   const newFiches = Object.assign({}, fiche);
   newFiches.id = await getNextSequence('fiches');
