@@ -37,7 +37,30 @@ input FichesInputs {
 }
 
 input SearchFichesInputs {
+  _id: String
+  id: Int
   numFiche: String
+  typeTrav: String
+  submiteState: Boolean
+}
+
+input UpdateFiches {
+  _id: String
+  id: Int
+  typeTrav: String
+  cat: String
+  numFiche: String
+  statuCom: String
+  statuIvpn: String
+  url: String
+  state: String
+  submiteState: Boolean
+  nbBefor: Int
+  nbAft: Int
+  startDate: String
+  validDate: String
+  duree: String
+  productivity: String
 }
 
 input TachesInputs {
@@ -56,5 +79,6 @@ type Query {
 type Mutation {
   setAboutMessage(message: String!): String
   fichesAdd(fiche: FichesInputs!): Fiches!
+  fichesUpdate(filter: SearchFichesInputs, update: UpdateFiches): Fiches
   tachesAdd(tache: TachesInputs): Taches
 }

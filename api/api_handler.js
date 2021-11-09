@@ -17,6 +17,7 @@ const resolvers = {
     setAboutMessage: about.setMessage,
     fichesAdd: fiches.add,
     tachesAdd: taches.add,
+    fichesUpdate: fiches.update,
   },
 };
 
