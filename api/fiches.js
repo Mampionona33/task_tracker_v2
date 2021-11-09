@@ -19,4 +19,13 @@ async function add(_, { fiche }) {
   return savedFiche;
 }
 
-module.exports = { list, add };
+async function search(_, { input: { numFiche } }) {
+  const db = getDb();
+  const filtredFiche = await db
+    .collection('fiches')
+    .find({ numFiche: { $regex: numFiche, $options: 'i' } })
+    .toArray();
+  return filtredFiche;
+}
+
+module.exports = { list, add, search };

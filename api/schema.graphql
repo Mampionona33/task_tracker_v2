@@ -36,6 +36,10 @@ input FichesInputs {
   nbAft: Int
 }
 
+input SearchFichesInputs {
+  numFiche: String
+}
+
 input TachesInputs {
   name: String
   objectif: Float
@@ -46,6 +50,7 @@ type Query {
   about: String!
   listFiches: [Fiches!]!
   listTaches: [Taches!]!
+  searchFiches(input: SearchFichesInputs): [Fiches]
 }
 
 type Mutation {

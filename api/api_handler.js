@@ -11,6 +11,7 @@ const resolvers = {
     about: about.getMessage,
     listFiches: fiches.list,
     listTaches: taches.list,
+    searchFiches: fiches.search,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
