@@ -19,12 +19,18 @@ async function add(_, { fiche }) {
   return savedFiche;
 }
 
-async function search(_, { input: { numFiche, typeTrav, submiteState } }) {
+async function search(
+  _,
+  { input: { numFiche, typeTrav, submiteState, cat, statuCom, statuIvpn } }
+) {
   const db = getDb();
   const filtredFiche = await db
     .collection('fiches')
     .find({
       numFiche: { $regex: numFiche, $options: 'i' },
+      statuIvpn: { $regex: statuIvpn, $options: 'i' },
+      statuCom: { $regex: statuCom, $options: 'i' },
+      cat: { $regex: cat, $options: 'i' },
       typeTrav: { $regex: typeTrav, $options: 'i' },
       submiteState,
     })
@@ -37,6 +43,7 @@ async function update(
   {
     filter: { id },
     update: {
+      numFiche,
       typeTrav,
       cat,
       statuCom,
@@ -88,4 +95,11 @@ async function update(
   return updateFiche;
 }
 
-module.exports = { list, add, search, update };
+async function del(_, { filter: { id } }) {
+  const db = getDb();
+  const delFiche = db.collection('fiches').deleteOne({ id: id });
+
+  return delFiche;
+}
+
+module.exports = { list, add, search, update, del };

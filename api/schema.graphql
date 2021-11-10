@@ -37,8 +37,10 @@ input FichesInputs {
 }
 
 input SearchFichesInputs {
-  _id: String
   id: Int
+  cat: String
+  statuCom: String
+  statuIvpn: String
   numFiche: String
   typeTrav: String
   submiteState: Boolean
@@ -67,6 +69,10 @@ input TachesInputs {
   name: String
   objectif: Float
 }
+type DeleteResponse {
+  acknowledged: Boolean
+  deletedCount: Int
+}
 
 #### top level declarations
 type Query {
@@ -78,7 +84,8 @@ type Query {
 
 type Mutation {
   setAboutMessage(message: String!): String
+  tachesAdd(tache: TachesInputs): Taches
   fichesAdd(fiche: FichesInputs!): Fiches!
   fichesUpdate(filter: SearchFichesInputs, update: UpdateFiches): Fiches
-  tachesAdd(tache: TachesInputs): Taches
+  fichesDelete(filter: SearchFichesInputs): DeleteResponse!
 }

@@ -1,4 +1,4 @@
-// Initialisation of db run this command : node init.mongo.js
+// Initialisation of db run this command in api folder: node init.mongo.js
 
 // Atlas URL - replace UUU with user, PPP with password, XXX with hostname
 // const url = 'mongodb+srv://UUU:PPP@cluster0-XXX.mongodb.net/task_tracker?retryWrites=true';
