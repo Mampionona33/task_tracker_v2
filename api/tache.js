@@ -21,7 +21,6 @@ identique au varriable qui se trouve dans schema.graphql
  tachesAdd(tache: TachesInputs): Taches <=> async function add(_, { tache }) */
 
 async function add(_, { tache }) {
-  console.log(tache);
   validate(tache);
   const db = getDb();
   const newTache = Object.assign({}, tache);
@@ -32,7 +31,33 @@ async function add(_, { tache }) {
     .collection('fiches')
     .findOne({ _id: result.insertedId });
   return savedTaches;
-  console.log(savedTaches);
 }
 
-module.exports = { list, add };
+async function update(_, { filter: { id }, update: { name, objectif } }) {
+  const db = getDb();
+  const filter = { id: id };
+  const update = {
+    $set: {
+      name: name,
+      objectif: objectif,
+    },
+  };
+  const options = { upsert: false, returnNewDocument: true };
+  const updateFiche = db
+    .collection('taches')
+    .findOneAndUpdate(filter, update, options, (error, doc) => {
+      if (error) {
+        console.log('error');
+      }
+      console.log(doc);
+    });
+  return updateFiche;
+}
+
+async function del(_, { filter: { id } }) {
+  const db = getDb();
+  const deletedTache = db.collection('taches').deleteOne({ id: id });
+  return deletedTache;
+}
+
+module.exports = { list, add, update, del };

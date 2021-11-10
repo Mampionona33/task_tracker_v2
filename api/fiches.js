@@ -6,6 +6,9 @@ async function list() {
   return fiches;
 }
 
+/* le varriable tache doit etre exactement 
+identique au varriable qui se trouve dans schema.graphql 
+ fichesAdd(fiche: FichesInputs!): Fiches! <=> async function add(_, { fiche }){...} */
 async function add(_, { fiche }) {
   console.log(fiche);
   const db = getDb();
@@ -80,9 +83,7 @@ async function update(
       productivity: productivity,
     },
   };
-  const options = { new: false, upsert: false, returnNewDocument: true };
-
-  console.log(update);
+  const options = { upsert: false, returnNewDocument: true };
 
   const updateFiche = db
     .collection('fiches')
@@ -98,7 +99,7 @@ async function update(
 async function del(_, { filter: { id } }) {
   const db = getDb();
   const delFiche = db.collection('fiches').deleteOne({ id: id });
-
+  console.log(delFiche);
   return delFiche;
 }
 

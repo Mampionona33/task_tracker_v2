@@ -5,20 +5,35 @@ const { ApolloServer } = require('apollo-server-express');
 const about = require('./about');
 const fiches = require('./fiches');
 const taches = require('./tache');
+const statCom = require('./statusCom');
 
 const resolvers = {
   Query: {
     about: about.getMessage,
+
     listFiches: fiches.list,
-    listTaches: taches.list,
     searchFiches: fiches.search,
+
+    listTaches: taches.list,
+
+    listStatCom: statCom.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
+    // taches
     tachesAdd: taches.add,
+    tacheUpdate: taches.update,
+    tacheDelete: taches.del,
+
+    // fiches
     fichesAdd: fiches.add,
     fichesUpdate: fiches.update,
     fichesDelete: fiches.del,
+
+    // StatCom
+    statComAdd: statCom.add,
+    statComUpdate: statCom.update,
+    statComDelete: statCom.del,
   },
 };
 

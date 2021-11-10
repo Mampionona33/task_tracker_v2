@@ -17,14 +17,19 @@ async function resetMongo() {
     const collectionFiches = db.collection('fiches');
     const collectionCounter = db.collection('counter');
     const collectionTaches = db.collection('taches');
+    const collectionStatCom = db.collection('statCom');
     const initialCounter = [
       {
         _id: 'fiches',
-        current: 6,
+        current: 7,
       },
       {
         _id: 'taches',
-        current: 47,
+        current: 48,
+      },
+      {
+        _id: 'statCom',
+        current: 10,
       },
     ];
     const initialFiches = [
@@ -139,7 +144,7 @@ async function resetMongo() {
       },
       {
         id: 3,
-        name: ' Contenu (ContenuFullMAJ) ',
+        name: ' Contenu +20 ',
         objectif: 15.5,
       },
       {
@@ -363,6 +368,44 @@ async function resetMongo() {
         objectif: 15,
       },
     ];
+    const initialStatCom = [
+      {
+        id: 1,
+        value: '---',
+      },
+      {
+        id: 2,
+        value: 'Abondon',
+      },
+      {
+        id: 3,
+        value: 'Abonné',
+      },
+      {
+        id: 4,
+        value: 'Dégradé',
+      },
+      {
+        id: 5,
+        value: 'Dégradé Definitif',
+      },
+      {
+        id: 6,
+        value: 'Essai',
+      },
+      {
+        id: 7,
+        value: 'EssaiNouveau',
+      },
+      {
+        id: 8,
+        value: 'Essai Payant',
+      },
+      {
+        id: 9,
+        value: 'Retiré',
+      },
+    ];
 
     await collectionFiches.deleteMany({});
     await collectionFiches.insertMany(initialFiches);
@@ -373,16 +416,22 @@ async function resetMongo() {
     await collectionTaches.deleteMany({});
     await collectionTaches.insertMany(initTaches);
 
+    await collectionStatCom.deleteMany({});
+    await collectionStatCom.insertMany(initialStatCom);
+
     const resultFiches = await collectionFiches.find({}).toArray();
     const resultCounter = await collectionCounter.find({}).toArray();
     const resultTaches = await collectionTaches.find({}).toArray();
+    const resultStatCom = await collectionStatCom.find({}).toArray();
     console.log(
       'Result of insert: \n',
       resultFiches,
       '----- \n ',
       resultCounter,
       '----- \n',
-      resultTaches
+      resultTaches,
+      '----- \n',
+      resultStatCom
     );
   } catch (err) {
     console.log(err);
