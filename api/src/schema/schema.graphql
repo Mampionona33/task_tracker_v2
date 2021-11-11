@@ -59,8 +59,8 @@ input UpdateFiches {
   productivity: String
 }
 
-#Taches ----------
-type Taches {
+#TypeTache ----------
+type TypeTache {
   _id: String!
   id: Int!
   name: String
@@ -109,7 +109,7 @@ input FilterById {
 type Query {
   about: String!
   listFiches: [Fiches!]!
-  listTypeTaches: [Taches!]!
+  listTypeTaches: [TypeTache!]!
   listStatCom: [StatCom!]!
   listStatIvpn: [StatIvpn!]!
   searchFiches(input: SearchFichesInputs): [Fiches]
@@ -118,8 +118,8 @@ type Query {
 type Mutation {
   setAboutMessage(message: String!): String
 
-  typeTachesAdd(typeTache: TachesInputs): Taches
-  typeTacheUpdate(filter: FilterById, update: TachesInputs): Taches
+  typeTachesAdd(typeTache: TachesInputs): TypeTache
+  typeTacheUpdate(filter: FilterById, update: TachesInputs): TypeTache
   typeTacheDelete(filter: FilterById): DeleteResponse!
 
   fichesAdd(fiche: FichesInputs!): Fiches!
