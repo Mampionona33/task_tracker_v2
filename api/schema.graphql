@@ -83,6 +83,13 @@ input StatComInput {
   value: String!
 }
 
+##Statut IVPN
+type StatIvpn {
+  _id: String!
+  id: Int!
+  name: String!
+}
+
 #Responses
 type DeleteResponse {
   acknowledged: Boolean
@@ -102,17 +109,18 @@ input FilterById {
 type Query {
   about: String!
   listFiches: [Fiches!]!
-  listTaches: [Taches!]!
+  listTypeTaches: [Taches!]!
   listStatCom: [StatCom!]!
+  listStatIvpn: [StatIvpn!]!
   searchFiches(input: SearchFichesInputs): [Fiches]
 }
 
 type Mutation {
   setAboutMessage(message: String!): String
 
-  tachesAdd(tache: TachesInputs): Taches
-  tacheUpdate(filter: FilterById, update: TachesInputs): Taches
-  tacheDelete(filter: FilterById): DeleteResponse!
+  typeTachesAdd(typeTache: TachesInputs): Taches
+  typeTacheUpdate(filter: FilterById, update: TachesInputs): Taches
+  typeTacheDelete(filter: FilterById): DeleteResponse!
 
   fichesAdd(fiche: FichesInputs!): Fiches!
   fichesUpdate(filter: FilterById, update: UpdateFiches): Fiches

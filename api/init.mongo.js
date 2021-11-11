@@ -16,7 +16,7 @@ async function resetMongo() {
     const db = client.db();
     const collectionFiches = db.collection('fiches');
     const collectionCounter = db.collection('counter');
-    const collectionTaches = db.collection('taches');
+    const collectionTypeTaches = db.collection('typeTache');
     const collectionStatCom = db.collection('statCom');
     const initialCounter = [
       {
@@ -24,7 +24,7 @@ async function resetMongo() {
         current: 7,
       },
       {
-        _id: 'taches',
+        _id: 'typeTaches',
         current: 48,
       },
       {
@@ -131,7 +131,7 @@ async function resetMongo() {
         productivity: '100%',
       },
     ];
-    const initTaches = [
+    const initTypeTaches = [
       {
         id: 1,
         name: ' Contenu ',
@@ -413,15 +413,15 @@ async function resetMongo() {
     await collectionCounter.deleteMany({});
     await collectionCounter.insertMany(initialCounter);
 
-    await collectionTaches.deleteMany({});
-    await collectionTaches.insertMany(initTaches);
+    await collectionTypeTaches.deleteMany({});
+    await collectionTypeTaches.insertMany(initTypeTaches);
 
     await collectionStatCom.deleteMany({});
     await collectionStatCom.insertMany(initialStatCom);
 
     const resultFiches = await collectionFiches.find({}).toArray();
     const resultCounter = await collectionCounter.find({}).toArray();
-    const resultTaches = await collectionTaches.find({}).toArray();
+    const resultTypeTaches = await collectionTypeTaches.find({}).toArray();
     const resultStatCom = await collectionStatCom.find({}).toArray();
     console.log(
       'Result of insert: \n',
@@ -429,7 +429,7 @@ async function resetMongo() {
       '----- \n ',
       resultCounter,
       '----- \n',
-      resultTaches,
+      resultTypeTaches,
       '----- \n',
       resultStatCom
     );

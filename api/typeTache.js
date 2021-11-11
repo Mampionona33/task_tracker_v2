@@ -3,7 +3,7 @@ const { UserInputError } = require('apollo-server-express');
 
 async function list() {
   const db = getDb();
-  const taches = await db.collection('taches').find({}).toArray();
+  const taches = await db.collection('typeTache').find({}).toArray();
   return taches;
 }
 
@@ -20,13 +20,13 @@ function validate(tache) {
 identique au varriable qui se trouve dans schema.graphql 
  tachesAdd(tache: TachesInputs): Taches <=> async function add(_, { tache }) */
 
-async function add(_, { tache }) {
-  validate(tache);
+async function add(_, { typeTache }) {
+  validate(typeTache);
   const db = getDb();
-  const newTache = Object.assign({}, tache);
-  newTache.id = await getNextSequence('taches');
+  const newTache = Object.assign({}, typeTache);
+  newTache.id = await getNextSequence('typeTache');
 
-  const result = await db.collection('taches').insertOne(newTache);
+  const result = await db.collection('typeTache').insertOne(newTache);
   const savedTaches = await db
     .collection('fiches')
     .findOne({ _id: result.insertedId });
@@ -44,7 +44,7 @@ async function update(_, { filter: { id }, update: { name, objectif } }) {
   };
   const options = { upsert: false, returnNewDocument: true };
   const updateFiche = db
-    .collection('taches')
+    .collection('typeTache')
     .findOneAndUpdate(filter, update, options, (error, doc) => {
       if (error) {
         console.log('error');
@@ -56,7 +56,7 @@ async function update(_, { filter: { id }, update: { name, objectif } }) {
 
 async function del(_, { filter: { id } }) {
   const db = getDb();
-  const deletedTache = db.collection('taches').deleteOne({ id: id });
+  const deletedTache = db.collection('typeTache').deleteOne({ id: id });
   return deletedTache;
 }
 

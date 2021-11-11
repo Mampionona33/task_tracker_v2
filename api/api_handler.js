@@ -4,7 +4,7 @@ const { ApolloServer } = require('apollo-server-express');
 
 const about = require('./about');
 const fiches = require('./fiches');
-const taches = require('./tache');
+const typeTache = require('./typeTache');
 const statCom = require('./statusCom');
 
 const resolvers = {
@@ -14,16 +14,16 @@ const resolvers = {
     listFiches: fiches.list,
     searchFiches: fiches.search,
 
-    listTaches: taches.list,
+    listTypeTaches: typeTache.list,
 
     listStatCom: statCom.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
     // taches
-    tachesAdd: taches.add,
-    tacheUpdate: taches.update,
-    tacheDelete: taches.del,
+    typeTachesAdd: typeTache.add,
+    typeTacheUpdate: typeTache.update,
+    typeTacheDelete: typeTache.del,
 
     // fiches
     fichesAdd: fiches.add,
