@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -w . -e js,graphql -w .env server.js "
+    "start": "nodemon -w ./src -e js,graphql -w .env ./src/server.js "
   },
   "keywords": [],
   "author": "",

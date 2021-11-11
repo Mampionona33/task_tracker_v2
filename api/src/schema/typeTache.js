@@ -1,4 +1,4 @@
-const { getDb, getNextSequence } = require('./db');
+const { getDb, getNextSequence } = require('../db');
 const { UserInputError } = require('apollo-server-express');
 
 async function list() {

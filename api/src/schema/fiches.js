@@ -1,4 +1,4 @@
-const { getDb, getNextSequence } = require('./db');
+const { getDb, getNextSequence } = require('../db');
 
 async function list() {
   const db = getDb();

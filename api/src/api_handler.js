@@ -1,11 +1,14 @@
+// https://firebase.google.com/products/auth?gclid=CjwKCAiAm7OMBhAQEiwArvGi3KpLbF9EXwSVjVDv1zAbs2DA-W5tAynAz8IXxncA5QMAzOWfK2WZbhoCbJAQAvD_BwE&gclsrc=aw.ds
+
 const fs = require('fs');
+const pathResolver = require('path');
 require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 
-const about = require('./about');
-const fiches = require('./fiches');
-const typeTache = require('./typeTache');
-const statCom = require('./statusCom');
+const about = require('./schema/about');
+const fiches = require('./schema/fiches');
+const typeTache = require('./schema/typeTache');
+const statCom = require('./schema/statusCom');
 
 const resolvers = {
   Query: {
@@ -38,7 +41,10 @@ const resolvers = {
 };
 
 const server = new ApolloServer({
-  typeDefs: fs.readFileSync('schema.graphql', 'utf-8'),
+  typeDefs: fs.readFileSync(
+    pathResolver.join(__dirname, 'schema/schema.graphql'),
+    'utf-8'
+  ),
   resolvers,
   formatError: (error) => {
     console.log(error);
