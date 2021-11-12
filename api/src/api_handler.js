@@ -9,6 +9,7 @@ const about = require('./schema/about');
 const fiches = require('./schema/fiches');
 const typeTache = require('./schema/typeTache');
 const statCom = require('./schema/statusCom');
+const statIvpn = require('./schema/statIvpn');
 
 const resolvers = {
   Query: {
@@ -20,10 +21,12 @@ const resolvers = {
     listTypeTaches: typeTache.list,
 
     listStatCom: statCom.list,
+
+    listStatIvpn: statIvpn.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
-    // taches
+    // type de tache
     typeTachesAdd: typeTache.add,
     typeTacheUpdate: typeTache.update,
     typeTacheDelete: typeTache.del,
@@ -37,6 +40,11 @@ const resolvers = {
     statComAdd: statCom.add,
     statComUpdate: statCom.update,
     statComDelete: statCom.del,
+
+    // Status IVPN
+    statIvpnAdd: statIvpn.add,
+    statIvpnUpdate: statIvpn.update,
+    statIvpnDelete: statIvpn.del,
   },
 };
 

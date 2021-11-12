@@ -13,11 +13,15 @@ async function resetMongo() {
   try {
     await client.connect();
     console.log('Connected to MongoDb');
+    // connect to db
     const db = client.db();
+    // asign documents to variables
     const collectionFiches = db.collection('fiches');
     const collectionCounter = db.collection('counter');
     const collectionTypeTaches = db.collection('typeTache');
     const collectionStatCom = db.collection('statCom');
+    const collectionStatIvpn = db.collection('statIvpn');
+
     const initialCounter = [
       {
         _id: 'fiches',
@@ -30,6 +34,10 @@ async function resetMongo() {
       {
         _id: 'statCom',
         current: 10,
+      },
+      {
+        _id: 'statIvpn',
+        current: 5,
       },
     ];
     const initialFiches = [
@@ -407,6 +415,14 @@ async function resetMongo() {
       },
     ];
 
+    const initialStatIvpn = [
+      { id: 1, name: 'I' },
+      { id: 2, name: 'V' },
+      { id: 3, name: 'P' },
+      { id: 4, name: 'N' },
+    ];
+
+    // Delete and re insert new collections
     await collectionFiches.deleteMany({});
     await collectionFiches.insertMany(initialFiches);
 
@@ -419,10 +435,14 @@ async function resetMongo() {
     await collectionStatCom.deleteMany({});
     await collectionStatCom.insertMany(initialStatCom);
 
+    await collectionStatIvpn.deleteMany({});
+    await collectionStatIvpn.insertMany(initialStatIvpn);
+
     const resultFiches = await collectionFiches.find({}).toArray();
     const resultCounter = await collectionCounter.find({}).toArray();
     const resultTypeTaches = await collectionTypeTaches.find({}).toArray();
     const resultStatCom = await collectionStatCom.find({}).toArray();
+    const resultStatIvpn = await collectionStatIvpn.find({}).toArray();
     console.log(
       'Result of insert: \n',
       resultFiches,
@@ -431,7 +451,9 @@ async function resetMongo() {
       '----- \n',
       resultTypeTaches,
       '----- \n',
-      resultStatCom
+      resultStatCom,
+      '----- \n',
+      resultStatIvpn
     );
   } catch (err) {
     console.log(err);

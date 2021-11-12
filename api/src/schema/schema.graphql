@@ -63,7 +63,7 @@ input UpdateFiches {
 type TypeTache {
   _id: String!
   id: Int!
-  name: String
+  name: String!
   objectif: Float
 }
 ##Taches Inputs ------
@@ -80,13 +80,16 @@ type StatCom {
 }
 
 input StatComInput {
-  value: String!
+  value: String
 }
 
 ##Statut IVPN
 type StatIvpn {
   _id: String!
   id: Int!
+  name: String!
+}
+input StatIvpnInput {
   name: String!
 }
 
@@ -118,15 +121,23 @@ type Query {
 type Mutation {
   setAboutMessage(message: String!): String
 
+  # Mutation for type de taches
   typeTachesAdd(typeTache: TachesInputs): TypeTache
   typeTacheUpdate(filter: FilterById, update: TachesInputs): TypeTache
   typeTacheDelete(filter: FilterById): DeleteResponse!
 
+  # mutation for fiche
   fichesAdd(fiche: FichesInputs!): Fiches!
   fichesUpdate(filter: FilterById, update: UpdateFiches): Fiches
   fichesDelete(filter: FilterById): DeleteResponse!
 
+  # Mutation for status Commerciales
   statComAdd(statCom: StatComInput): StatCom!
   statComUpdate(filter: FilterById, update: StatComInput): StatCom
   statComDelete(filter: FilterById): DeleteResponse!
+
+  # Mutation status IVPN
+  statIvpnAdd(statIvpn: StatIvpnInput): StatIvpn!
+  statIvpnUpdate(filter: FilterById, update: StatIvpnInput): StatIvpn
+  statIvpnDelete(filter: FilterById): DeleteResponse!
 }
