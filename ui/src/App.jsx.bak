@@ -11,6 +11,3 @@ const element = <TaskList />;
 ReactDOM.render(element, document.getElementById('root'));
 
 // Hot module replacement
-if (module.hot){
-	module.hot.accept();
-}
