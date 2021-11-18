@@ -4,12 +4,12 @@
   "main": "uiserver.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -w . uiserver.js --ext js,jsx,json -w .env uiserver.js",
-    "compile": "webpack --mode production",
+    "#start": "UI server. HMR is enabled in dev mode.",
+    "start": "nodemon -w uiserver.js -w .env usiserver.js",
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.16.0",
+    "babel-polyfill": "^6.26.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.15",
@@ -19,16 +19,14 @@
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "babel-loader": "^8.2.3",
-    "babel-polyfill": "^6.26.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "webpack": "^5.64.1",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-middleware": "^5.2.1",
-    "webpack-hot-middleware": "^2.25.1"
+    "webpack-cli": "^4.9.1"
   }
 }

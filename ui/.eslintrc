@@ -3,7 +3,7 @@
   "env": {
     "node": true
   },
-  "rule": {
+  "rules": {
     "no-console": "off"
   }
 }
