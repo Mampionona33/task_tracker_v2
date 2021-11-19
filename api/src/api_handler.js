@@ -10,6 +10,7 @@ const fiches = require('./schema/fiches');
 const typeTache = require('./schema/typeTache');
 const statCom = require('./schema/statusCom');
 const statIvpn = require('./schema/statIvpn');
+const GraphQLDate = require('./schema/graphql_date');
 
 const resolvers = {
   Query: {
@@ -58,6 +59,7 @@ const server = new ApolloServer({
     console.log(error);
     return error;
   },
+  GraphQLDate,
 });
 
 async function installHandler(app) {
