@@ -11,13 +11,18 @@
   "dependencies": {
     "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "babel-polyfill": "^6.26.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^2.0.1",
     "nodemon": "^2.0.15",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.3"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -25,10 +30,12 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
+    "style-loader": "^3.3.1",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-middleware": "^5.2.2",
