@@ -17,7 +17,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
-import { makeStyles } from '@mui/styles';
+import { makeStyles,useStyles  } from '@mui/styles';
+import {List ,ListItem ,ListItemButton ,ListItemIcon ,ListItemText } from '@mui/material'
+import InboxIcon from '@mui/icons-material/Inbox';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,6 +60,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+
+function DrawerList(){
+return(
+	<List>
+		<ListItem>
+			<ListItemButton sx={{color:'#fff'}}>
+				<ListItemIcon>
+					<InboxIcon sx={{color:"#fff"}}/>
+				</ListItemIcon>
+				<ListItemText primary="Dashboard" />
+			</ListItemButton>
+		</ListItem>
+	</List>)
+}
+
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -160,10 +178,16 @@ export default function Navbar() {
 // Gestion des style par la class
 const useStyles = makeStyles({
 	drawer:{
+		color: "#fff",
 		width:300,
-		backgroundColor: "blue",
-	}
-})
+		backgroundColor: "#1976d2 !important",
+	},
+	fullList:{
+		width:'auto',
+		// backgroundColor: "red",
+	},
+
+});
 const classes = useStyles();
 
 
@@ -259,10 +283,27 @@ const toggleDrawer = (open) => (event) => {
 		  {renderMenu}
 		</Box>
 	</React.Fragment>
+	
 	<React.Fragment>
 		<Drawer classes={{ paper: classes.drawer }} open={isOpen} onClose={toggleDrawer(false)}>
-		Text 123
+			<Box>
+				<List>
+					<ListItem>
+						<ListItemButton onClick={toggleDrawer(false)}>
+							<ListItemIcon>
+								<InboxIcon sx={{color:"#fff"}}/>
+							</ListItemIcon>
+							<ListItemText primary={
+								<Typography variant="h6" style={{color:'#fff'}}>
+									Dashboard
+								</Typography>
+								} />
+						</ListItemButton>
+					</ListItem>
+	</List>
+			</Box>
 		</Drawer>
+			
 	</React.Fragment>
 	
   </React.Fragment>
