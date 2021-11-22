@@ -18,15 +18,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles, useStyles } from '@mui/styles';
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+import { List, ListItem, ListItemButton } from '@mui/material';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+
+// import components
+import DrawerListItem from './DrawerListItem.jsx';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -67,21 +64,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-function DrawerList() {
-  return (
-    <List>
-      <ListItem>
-        <ListItemButton sx={{ color: '#fff' }}>
-          <ListItemIcon>
-            <InboxIcon sx={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary='Dashboard' />
-        </ListItemButton>
-      </ListItem>
-    </List>
-  );
-}
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -190,7 +172,11 @@ export default function Navbar() {
     },
     fullList: {
       width: 'auto',
-      // backgroundColor: "red",
+    },
+    drawerListItem: {
+      height: 'auto',
+      // padding: '0 !important',
+      margin: 0,
     },
   });
   const classes = useStyles();
@@ -300,19 +286,20 @@ export default function Navbar() {
           onClose={toggleDrawer(false)}
         >
           <Box>
-            <List>
-              <ListItem>
+            <List disablePadding={true}>
+              <ListItem className={classes.drawerListItem}>
                 <ListItemButton onClick={toggleDrawer(false)}>
-                  <ListItemIcon>
-                    <DashboardIcon style={{ color: '#fff' }} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography variant='h5' style={{ color: '#fff' }}>
-                        Dashboard
-                      </Typography>
-                    }
+                  <DrawerListItem
+                    icon={<DashboardIcon />}
+                    itemText='Dashboard'
                   />
+                </ListItemButton>
+              </ListItem>
+            </List>
+            <List disablePadding={true}>
+              <ListItem className={classes.drawerListItem}>
+                <ListItemButton onClick={toggleDrawer(false)}>
+                  <DrawerListItem icon={<MailIcon />} itemText='Mail' />
                 </ListItemButton>
               </ListItem>
             </List>
