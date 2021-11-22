@@ -10,16 +10,20 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles, useStyles } from '@mui/styles';
 import { List, ListItem, ListItemButton } from '@mui/material';
+// icons
+import MoreIcon from '@mui/icons-material/MoreVert';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import SettingsIcon from '@mui/icons-material/Settings';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import StorageIcon from '@mui/icons-material/Storage';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -166,7 +170,7 @@ export default function Navbar() {
   const useStyles = makeStyles({
     drawer: {
       color: '#fff',
-      width: 300,
+      width: 'auto',
       backgroundColor: '#1976d2 !important',
     },
     fullList: {
@@ -176,6 +180,9 @@ export default function Navbar() {
       height: 'auto',
       // padding: '0 !important',
       margin: 0,
+    },
+    iconWhite: {
+      color: '#fff',
     },
   });
   const classes = useStyles();
@@ -288,13 +295,23 @@ export default function Navbar() {
             <List>
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<DashboardIcon />}
+                icon={<DashboardIcon className={classes.iconWhite} />}
                 itemText='Dashboard'
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<MailIcon />}
-                itemText='Mail'
+                icon={<FormatListBulletedIcon className={classes.iconWhite} />}
+                itemText='Tasks List'
+              />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<StorageIcon className={classes.iconWhite} />}
+                itemText='Submited Data'
+              />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<SettingsIcon className={classes.iconWhite} />}
+                itemText='Settings'
               />
             </List>
           </Box>
