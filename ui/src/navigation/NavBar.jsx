@@ -19,7 +19,6 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles, useStyles } from '@mui/styles';
 import { List, ListItem, ListItemButton } from '@mui/material';
-import InboxIcon from '@mui/icons-material/Inbox';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // import components
@@ -286,22 +285,17 @@ export default function Navbar() {
           onClose={toggleDrawer(false)}
         >
           <Box>
-            <List disablePadding={true}>
-              <ListItem className={classes.drawerListItem}>
-                <ListItemButton onClick={toggleDrawer(false)}>
-                  <DrawerListItem
-                    icon={<DashboardIcon />}
-                    itemText='Dashboard'
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <List disablePadding={true}>
-              <ListItem className={classes.drawerListItem}>
-                <ListItemButton onClick={toggleDrawer(false)}>
-                  <DrawerListItem icon={<MailIcon />} itemText='Mail' />
-                </ListItemButton>
-              </ListItem>
+            <List>
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<DashboardIcon />}
+                itemText='Dashboard'
+              />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<MailIcon />}
+                itemText='Mail'
+              />
             </List>
           </Box>
         </Drawer>
