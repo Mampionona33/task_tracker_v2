@@ -238,6 +238,17 @@ eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/he
 
 /***/ }),
 
+/***/ "./node_modules/@mui/icons-material/Dashboard.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@mui/icons-material/Dashboard.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime/helpers/interopRequireDefault.js\");\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));\nexports[\"default\"] = void 0;\n\nvar _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ \"./node_modules/@mui/icons-material/utils/createSvgIcon.js\"));\n\nvar _jsxRuntime = __webpack_require__(/*! react/jsx-runtime */ \"./node_modules/react/jsx-runtime.js\");\n\nvar _default = (0, _createSvgIcon.default)( /*#__PURE__*/(0, _jsxRuntime.jsx)(\"path\", {\n  d: \"M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z\"\n}), 'Dashboard');\n\nexports[\"default\"] = _default;\n\n//# sourceURL=webpack://task_tracker_ui/./node_modules/@mui/icons-material/Dashboard.js?");
+
+/***/ }),
+
 /***/ "./node_modules/@mui/icons-material/Inbox.js":
 /*!***************************************************!*\
   !*** ./node_modules/@mui/icons-material/Inbox.js ***!

@@ -6,7 +6,7 @@
   "scripts": {
     "#start": "UI server. HMR is enabled in dev mode.",
     "start": "nodemon -w uiserver.js -w .env usiserver.js",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch --progress"
   },
   "dependencies": {
     "@mui/icons-material": "^5.1.1",

@@ -14,11 +14,14 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
-	  {
-		test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-	  },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
+  },
+  watchOptions: {
+    poll: 1000, // Check for changes every second
   },
   optimization: {
     splitChunks: {

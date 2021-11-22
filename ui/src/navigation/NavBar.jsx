@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,9 +17,16 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
-import { makeStyles,useStyles  } from '@mui/styles';
-import {List ,ListItem ,ListItemButton ,ListItemIcon ,ListItemText } from '@mui/material'
+import { makeStyles, useStyles } from '@mui/styles';
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import InboxIcon from '@mui/icons-material/Inbox';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -61,21 +68,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-function DrawerList(){
-return(
-	<List>
-		<ListItem>
-			<ListItemButton sx={{color:'#fff'}}>
-				<ListItemIcon>
-					<InboxIcon sx={{color:"#fff"}}/>
-				</ListItemIcon>
-				<ListItemText primary="Dashboard" />
-			</ListItemButton>
-		</ListItem>
-	</List>)
+function DrawerList() {
+  return (
+    <List>
+      <ListItem>
+        <ListItemButton sx={{ color: '#fff' }}>
+          <ListItemIcon>
+            <InboxIcon sx={{ color: '#fff' }} />
+          </ListItemIcon>
+          <ListItemText primary='Dashboard' />
+        </ListItemButton>
+      </ListItem>
+    </List>
+  );
 }
-
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -141,8 +147,8 @@ export default function Navbar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+        <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
+          <Badge badgeContent={4} color='error'>
             <MailIcon />
           </Badge>
         </IconButton>
@@ -150,11 +156,11 @@ export default function Navbar() {
       </MenuItem>
       <MenuItem>
         <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
+          size='large'
+          aria-label='show 17 new notifications'
+          color='inherit'
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={17} color='error'>
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -162,11 +168,11 @@ export default function Navbar() {
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+          size='large'
+          aria-label='account of current user'
+          aria-controls='primary-search-account-menu'
+          aria-haspopup='true'
+          color='inherit'
         >
           <AccountCircle />
         </IconButton>
@@ -175,138 +181,144 @@ export default function Navbar() {
     </Menu>
   );
 
-// Gestion des style par la class
-const useStyles = makeStyles({
-	drawer:{
-		color: "#fff",
-		width:300,
-		backgroundColor: "#1976d2 !important",
-	},
-	fullList:{
-		width:'auto',
-		// backgroundColor: "red",
-	},
+  // Gestion des style par la class
+  const useStyles = makeStyles({
+    drawer: {
+      color: '#fff',
+      width: 300,
+      backgroundColor: '#1976d2 !important',
+    },
+    fullList: {
+      width: 'auto',
+      // backgroundColor: "red",
+    },
+  });
+  const classes = useStyles();
 
-});
-const classes = useStyles();
-
-
-// Gestion d'affichage de Drawer
-const [isOpen,setIsOpen] = useState(false);
-const toggleDrawer = (open) => (event) => {
-	console.log(event.type);
-	if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-		console.log(event.key);
+  // Gestion d'affichage de Drawer
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDrawer = (open) => (event) => {
+    console.log(event.type);
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      console.log(event.key);
       return;
     }
-	setIsOpen(open)
-}
+    setIsOpen(open);
+  };
 
   return (
-  
-  
-  <React.Fragment>
-	<React.Fragment>
-	  <Box sx={{ flexGrow: 1 }}>
-		  <AppBar position="static">
-			<Toolbar>
-			  <IconButton
-				size="large"
-				edge="start"
-				color="inherit"
-				aria-label="open drawer"
-				sx={{ mr: 2 }}
-				onClick={toggleDrawer(true)}
-			  >
-				<MenuIcon />
-			  </IconButton>
-			  <Typography
-				variant="h6"
-				noWrap
-				component="div"
-				sx={{ display: { xs: 'none', sm: 'block' } }}
-			  >
-				Task Tracker
-			  </Typography>
-			  <Search>
-				<SearchIconWrapper>
-				  <SearchIcon />
-				</SearchIconWrapper>
-				<StyledInputBase
-				  placeholder="Search…"
-				  inputProps={{ 'aria-label': 'search' }}
-				/>
-			  </Search>
-			  <Box sx={{ flexGrow: 1 }} />
-			  <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-				<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-				  <Badge badgeContent={4} color="error">
-					<MailIcon />
-				  </Badge>
-				</IconButton>
-				<IconButton
-				  size="large"
-				  aria-label="show 17 new notifications"
-				  color="inherit"
-				>
-				  <Badge badgeContent={17} color="error">
-					<NotificationsIcon />
-				  </Badge>
-				</IconButton>
-				<IconButton
-				  size="large"
-				  edge="end"
-				  aria-label="account of current user"
-				  aria-controls={menuId}
-				  aria-haspopup="true"
-				  onClick={handleProfileMenuOpen}
-				  color="inherit"
-				>
-				  <AccountCircle />
-				</IconButton>
-			  </Box>
-			  <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-				<IconButton
-				  size="large"
-				  aria-label="show more"
-				  aria-controls={mobileMenuId}
-				  aria-haspopup="true"
-				  onClick={handleMobileMenuOpen}
-				  color="inherit"
-				>
-				  <MoreIcon />
-				</IconButton>
-			  </Box>
-			</Toolbar>
-		  </AppBar>
-		  {renderMobileMenu}
-		  {renderMenu}
-		</Box>
-	</React.Fragment>
-	
-	<React.Fragment>
-		<Drawer classes={{ paper: classes.drawer }} open={isOpen} onClose={toggleDrawer(false)}>
-			<Box>
-				<List>
-					<ListItem>
-						<ListItemButton onClick={toggleDrawer(false)}>
-							<ListItemIcon>
-								<InboxIcon sx={{color:"#fff"}}/>
-							</ListItemIcon>
-							<ListItemText primary={
-								<Typography variant="h6" style={{color:'#fff'}}>
-									Dashboard
-								</Typography>
-								} />
-						</ListItemButton>
-					</ListItem>
-	</List>
-			</Box>
-		</Drawer>
-			
-	</React.Fragment>
-	
-  </React.Fragment>
-    
+    <React.Fragment>
+      <React.Fragment>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position='static'>
+            <Toolbar>
+              <IconButton
+                size='large'
+                edge='start'
+                color='inherit'
+                aria-label='open drawer'
+                sx={{ mr: 2 }}
+                onClick={toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant='h6'
+                noWrap
+                component='div'
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+              >
+                Task Tracker
+              </Typography>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder='Search…'
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <IconButton
+                  size='large'
+                  aria-label='show 4 new mails'
+                  color='inherit'
+                >
+                  <Badge badgeContent={4} color='error'>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size='large'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <Badge badgeContent={17} color='error'>
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size='large'
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-controls={menuId}
+                  aria-haspopup='true'
+                  onClick={handleProfileMenuOpen}
+                  color='inherit'
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size='large'
+                  aria-label='show more'
+                  aria-controls={mobileMenuId}
+                  aria-haspopup='true'
+                  onClick={handleMobileMenuOpen}
+                  color='inherit'
+                >
+                  <MoreIcon />
+                </IconButton>
+              </Box>
+            </Toolbar>
+          </AppBar>
+          {renderMobileMenu}
+          {renderMenu}
+        </Box>
+      </React.Fragment>
+
+      <React.Fragment>
+        <Drawer
+          classes={{ paper: classes.drawer }}
+          open={isOpen}
+          onClose={toggleDrawer(false)}
+        >
+          <Box>
+            <List>
+              <ListItem>
+                <ListItemButton onClick={toggleDrawer(false)}>
+                  <ListItemIcon>
+                    <DashboardIcon style={{ color: '#fff' }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Typography variant='h5' style={{ color: '#fff' }}>
+                        Dashboard
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Box>
+        </Drawer>
+      </React.Fragment>
+    </React.Fragment>
   );
 }
