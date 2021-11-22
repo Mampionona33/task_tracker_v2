@@ -11,9 +11,10 @@ export default function DrawerListItem(props) {
   const icon = props.icon;
   const itemText = props.itemText;
   const drawerOpen = props.drawerOpen;
+  const href = props.href;
   return (
     <React.Fragment>
-      <ListItem>
+      <ListItem component='a' href={href}>
         <ListItemButton onClick={() => drawerOpen(false)}>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText
