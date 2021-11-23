@@ -189,13 +189,14 @@ export default function Navbar() {
 
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleDrawer = (open) => (event) => {
-    console.log(event.type);
+    // console.log(event.type);
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
     ) {
-      console.log(event.key);
+      // console.log(event.key);
       return;
     }
     setIsOpen(open);
@@ -316,7 +317,7 @@ export default function Navbar() {
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<SettingsIcon className={classes.iconWhite} />}
                 itemText='Settings'
-                href='#/setting'
+                href='#/settings'
               />
             </List>
           </Box>

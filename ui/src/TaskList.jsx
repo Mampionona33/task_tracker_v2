@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {} from 'babel-polyfill';
-import Navbar from './navigation/Navbar.jsx'
 
 const dateRegex = '^\\d\\d\\d\\d-\\d\\d-\\d\\d';
 
@@ -26,8 +25,7 @@ function TaskList() {
 
   return (
     <React.Fragment>
-	<Navbar/>
-      <h1>List fiche</h1>
+      <h1>List fiche test</h1>
       <button>click</button>
     </React.Fragment>
   );
