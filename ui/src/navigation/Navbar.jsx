@@ -58,7 +58,13 @@ export default function Navbar() {
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<DashboardIcon />}
                 itemText='Dashboard'
-                href='#/Dashboard'
+                href='#/dashboard'
+              />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<DashboardIcon />}
+                itemText='Task list'
+                href='#/tasklist'
               />
             </List>
           </Drawer>
