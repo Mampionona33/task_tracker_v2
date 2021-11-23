@@ -202,7 +202,7 @@ export default function Navbar() {
   };
 
   return (
-  // Navigation bar
+    // Navigation bar
     <React.Fragment>
       <React.Fragment>
         <Box sx={{ flexGrow: 1 }}>
@@ -285,7 +285,7 @@ export default function Navbar() {
           {renderMenu}
         </Box>
       </React.Fragment>
-	  
+
       <React.Fragment>
         <Drawer
           classes={{ paper: classes.drawer }}
@@ -298,25 +298,25 @@ export default function Navbar() {
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<DashboardIcon className={classes.iconWhite} />}
                 itemText='Dashboard'
-				href='/Dashboard'
+                href='#/Dashboard'
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<FormatListBulletedIcon className={classes.iconWhite} />}
                 itemText='Tasks List'
-				href='TaskList'
+                href='#/TaskList'
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<StorageIcon className={classes.iconWhite} />}
                 itemText='Submited Data'
-				href='submitedData'
+                href='#/submitedData'
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<SettingsIcon className={classes.iconWhite} />}
                 itemText='Settings'
-				href='setting'
+                href='#/setting'
               />
             </List>
           </Box>

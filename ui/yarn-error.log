@@ -1,5 +1,5 @@
 Arguments: 
-  D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node.exe D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\bin\yarn.js
+  D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node.exe D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\bin\yarn.js add Swtich
 
 PATH: 
   C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin64\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin32\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files\Intel\iCLS Client\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin64\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin32\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;D:\Mampionona1\Traitement\Utilitaire\php-7.4.16-nts-Win32-vc15-x64;D:\Mampionona1\Traitement\Utilitaire\PortableGit\cmd;D:\Mampionona1\Traitement\Utilitaire\curl-7.76.1-win64-mingw\bin;D:\Mampionona1\Traitement\Utilitaire\VSCode-win32-ia32-1.53.0\bin;D:\Mampionona1\Traitement\Utilitaire\nvm;D:\Mampionona1\Traitement\Utilitaire\nodejs;D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0;
@@ -14,16 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.1.1.tgz: ESOCKETTIMEDOUT
-      at ClientRequest.<anonymous> (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:141510:19)
+  Error: https://registry.yarnpkg.com/Swtich: Not found
+      at Request.params.callback [as _callback] (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:67029:18)
+      at Request.self.callback (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:140883:22)
+      at Request.emit (node:events:390:28)
+      at Request.<anonymous> (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:141855:10)
+      at Request.emit (node:events:390:28)
+      at IncomingMessage.<anonymous> (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:141777:12)
       at Object.onceWrapper (node:events:509:28)
-      at ClientRequest.emit (node:events:390:28)
-      at TLSSocket.emitRequestTimeout (node:_http_client:763:9)
-      at Object.onceWrapper (node:events:509:28)
-      at TLSSocket.emit (node:events:402:35)
-      at TLSSocket.Socket._onTimeout (node:net:501:8)
-      at listOnTimeout (node:internal/timers:557:17)
-      at processTimers (node:internal/timers:500:7)
+      at IncomingMessage.emit (node:events:402:35)
+      at endReadableNT (node:internal/streams/readable:1343:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -34,7 +35,7 @@ npm manifest:
     "scripts": {
       "#start": "UI server. HMR is enabled in dev mode.",
       "start": "nodemon -w uiserver.js -w .env usiserver.js",
-      "watch": "webpack --watch"
+      "watch": "webpack --watch --progress"
     },
     "dependencies": {
       "@mui/icons-material": "^5.1.1",
@@ -48,7 +49,9 @@ npm manifest:
       "nodemon": "^2.0.15",
       "react": "^17.0.2",
       "react-dom": "^17.0.2",
-      "styled-components": "^5.3.3"
+      "react-router-dom": "^6.0.2",
+      "styled-components": "^5.3.3",
+      "whatwg-fetch": "^3.6.2"
     },
     "resolutions": {
       "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
@@ -991,7 +994,7 @@ Lockfile:
       core-js-pure "^3.19.0"
       regenerator-runtime "^0.13.4"
   
-  "@babel/runtime@^7.10.2", "@babel/runtime@^7.16.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+  "@babel/runtime@^7.10.2", "@babel/runtime@^7.16.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
     version "7.16.3"
     resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
     integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -2822,6 +2825,13 @@ Lockfile:
     dependencies:
       function-bind "^1.1.1"
   
+  history@^5.1.0:
+    version "5.1.0"
+    resolved "https://registry.yarnpkg.com/history/-/history-5.1.0.tgz#2e93c09c064194d38d52ed62afd0afc9d9b01ece"
+    integrity sha512-zPuQgPacm2vH2xdORvGGz1wQMuHSIB56yNAy5FnLuwOwgSYyPKptJtcMm6Ev+hRGeS+GzhbmRacHzvlESbFwDg==
+    dependencies:
+      "@babel/runtime" "^7.7.6"
+  
   hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.2:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
@@ -3964,6 +3974,21 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
     integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
   
+  react-router-dom@^6.0.2:
+    version "6.0.2"
+    resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.0.2.tgz#860cefa697b9d4965eced3f91e82cdbc5995f3ad"
+    integrity sha512-cOpJ4B6raFutr0EG8O/M2fEoyQmwvZWomf1c6W2YXBZuFBx8oTk/zqjXghwScyhfrtnt0lANXV2182NQblRxFA==
+    dependencies:
+      history "^5.1.0"
+      react-router "6.0.2"
+  
+  react-router@6.0.2:
+    version "6.0.2"
+    resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.0.2.tgz#bd2b0fa84fd1d152671e9f654d9c0b1f5a7c86da"
+    integrity sha512-8/Wm3Ed8t7TuedXjAvV39+c8j0vwrI5qVsYqjFr5WkJjsJpEvNSoLRUbtqSEYzqaTUj1IV+sbPJxvO+accvU0Q==
+    dependencies:
+      history "^5.1.0"
+  
   react-transition-group@^4.4.2:
     version "4.4.2"
     resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"
@@ -4707,6 +4732,11 @@ Lockfile:
       terser-webpack-plugin "^5.1.3"
       watchpack "^2.2.0"
       webpack-sources "^3.2.2"
+  
+  whatwg-fetch@^3.6.2:
+    version "3.6.2"
+    resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+    integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
   
   which-boxed-primitive@^1.0.2:
     version "1.0.2"
