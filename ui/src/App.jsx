@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
-import TaskList from './TaskList.jsx';
+// import components
+import Page from './Page.jsx';
 
-const element = <TaskList />;
+const element = (
+  <Router>
+    <Page />
+  </Router>
+);
 
 ReactDOM.render(element, document.getElementById('root'));
 
