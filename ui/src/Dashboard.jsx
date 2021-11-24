@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import graphQLFetch from './graphQLFetch.jsx';
-
-// import dotenv from 'dotenv/config'
 
 export default function DashBoard() {
   const [data, setData] = useState({ listFiches: [] });
@@ -14,7 +11,7 @@ export default function DashBoard() {
       }
     }`;
     const vars = {};    
-    graphQLFetch(query, vars);
+    graphQLFetch(query,vars);
   }, []);
 
   return (
