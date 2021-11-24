@@ -21,13 +21,14 @@ export default function DashBoard() {
       const result = queryResult.data.data;
       setData({ listFiches: result.listFiches });
       console.log(result.listFiches);
+      console.log(result.listFiches.length);
     };
     fetchData();
   }, []);
 
   return (
     <React.Fragment>
-      <h1>Place holder dashboard test</h1>
+      <h1>Place holder dashboard test </h1>
     </React.Fragment>
   );
 }
