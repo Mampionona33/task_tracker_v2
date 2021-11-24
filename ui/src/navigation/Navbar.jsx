@@ -9,20 +9,20 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useState } from 'react';
-import { makeStyles } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 
 export default function Navbar() {
-  // creation style for material ui  components
+  /* // creation style for material ui  components
   const useStyles = makeStyles({
     drawer: {
       color: '#fff',
       backgroundColor: '#1976d2 !important',
     },
   });
-  const classes = useStyles();
+  const classes = useStyles(); */
 
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function Navbar() {
       <React.Fragment>
         <Box>
           <Drawer
-            classes={{ paper: classes.drawer }}
+            // Style={paper:'backgroundColor':'#1976d2 !important'}
             open={isOpen}
             onClose={toggleDrawer(false)}
           >
