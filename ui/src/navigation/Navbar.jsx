@@ -9,11 +9,21 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useState } from 'react';
+import { makeStyles } from '@mui/styles';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 
 export default function Navbar() {
+  // creation style for material ui  components
+  const useStyles = makeStyles({
+    drawer: {
+      color: '#fff',
+      backgroundColor: '#1976d2 !important',
+    },
+  });
+  const classes = useStyles();
+
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -52,7 +62,11 @@ export default function Navbar() {
       {/* Drawer */}
       <React.Fragment>
         <Box>
-          <Drawer open={isOpen} onClose={toggleDrawer(false)}>
+          <Drawer
+            classes={{ paper: classes.drawer }}
+            open={isOpen}
+            onClose={toggleDrawer(false)}
+          >
             <List>
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
