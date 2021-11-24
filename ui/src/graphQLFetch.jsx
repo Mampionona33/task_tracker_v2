@@ -23,6 +23,7 @@ export default async function graphQLFetch(query, variables = {}) {
         alert(`${error.extensions.code}:${error.message}`);
       }
     }
+    console.log(result.data);
     return result.data;
   } catch (e) {
     alert(`Error in sending data to server:${e.message}`);

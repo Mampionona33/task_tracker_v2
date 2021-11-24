@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import graphQLFetch from './graphQLFetch.jsx';
 
 // import dotenv from 'dotenv/config'
 
@@ -7,23 +8,13 @@ export default function DashBoard() {
   const [data, setData] = useState({ listFiches: [] });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const query = `query listFiches{
-        listFiches{
-          id typeTrav cat
-        }
-      }`;
-      // call GRAPHQL API
-      const queryResult = await axios.post('http://localhost:3000/graphql', {
-        query: query,
-      });
-      // Update component state
-      const result = queryResult.data.data;
-      setData({ listFiches: result.listFiches });
-      console.log(result.listFiches);
-      console.log(result.listFiches.length);
-    };
-    fetchData();
+    const query = `query listFiches{
+      listFiches{
+        id typeTrav cat
+      }
+    }`;
+    const vars = {};    
+    graphQLFetch(query, vars);
   }, []);
 
   return (
