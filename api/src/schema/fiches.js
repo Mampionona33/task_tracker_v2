@@ -27,17 +27,30 @@ async function search(
   { input: { numFiche, typeTrav, submiteState, cat, statuCom, statuIvpn } }
 ) {
   const db = getDb();
-  const filtredFiche = await db
-    .collection('fiches')
-    .find({
-      numFiche: { $regex: numFiche, $options: 'i' },
-      statuIvpn: { $regex: statuIvpn, $options: 'i' },
-      statuCom: { $regex: statuCom, $options: 'i' },
-      cat: { $regex: cat, $options: 'i' },
-      typeTrav: { $regex: typeTrav, $options: 'i' },
-      submiteState,
-    })
-    .toArray();
+  // create filter
+  const filter = {};
+  if (numFiche) {
+    filter.numFiche = { $regex: numFiche, $options: 'i' };
+  }
+  if (typeTrav) {
+    filter.typeTrav = { $regex: typeTrav, $options: 'i' };
+  }
+  if (cat) {
+    filter.cat = { $regex: cat, $options: 'i' };
+  }
+  if (statuCom) {
+    filter.cat = { $regex: statuCom, $options: 'i' };
+  }
+  if (statuIvpn) {
+    filter.cat = { $regex: statuIvpn, $options: 'i' };
+  }
+  if (submiteState) {
+    filter.submiteState = submiteState;
+  }
+
+  const filtredFiche = await db.collection('fiches').find(filter).toArray();
+  console.log(filter);
+
   return filtredFiche;
 }
 
