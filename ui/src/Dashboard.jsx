@@ -5,12 +5,21 @@ export default function DashBoard() {
   const [data, setData] = useState({ listFiches: [] });
 
   useEffect(() => {
-    const query = `query listFiches{
-      listFiches{
-        id typeTrav cat
-      }
-    }`;
-    const vars = {};    
+    const query = `query SearchFiches($input: SearchFichesInputs) {
+  searchFiches(input: $input) {
+    id
+    typeTrav
+    cat
+    numFiche
+    statuCom
+    statuIvpn
+  }
+}`;
+    const vars = {
+	  "input": {
+		"numFiche": "4"
+	  }
+	};    
     graphQLFetch(query,vars);
   }, []);
 
