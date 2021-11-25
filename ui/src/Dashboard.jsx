@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
 
+// impot components
+import SubmitTask from './SubmitTask.jsx';
+
 export default function DashBoard() {
   const [data, setData] = useState({});
   
@@ -37,8 +40,7 @@ export default function DashBoard() {
 
   return (
     <React.Fragment>
-      <h1>Place holder dashboard test pionou</h1>
-	  <p>le nombre de fiche valider est : {data.length}</p>
+      <SubmitTask/>
     </React.Fragment>
   );
 }
