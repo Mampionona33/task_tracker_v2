@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
 
 export default function DashBoard() {
-  const [data, setData] = useState({ listFiches: [] });
-
-  useEffect(() => {
+  const [data, setData] = useState({});
+  
+  async function loadData(){	  
     const query = `query SearchFiches($input: SearchFichesInputs) {
   searchFiches(input: $input) {
     id
@@ -13,19 +13,32 @@ export default function DashBoard() {
     numFiche
     statuCom
     statuIvpn
+	submiteState
   }
 }`;
     const vars = {
 	  "input": {
-		"numFiche": "4"
+		
 	  }
-	};    
-    graphQLFetch(query,vars);
+	};   
+	
+	const data = await graphQLFetch(query,vars);
+	
+	if(data){
+		setData(data.searchFiches);
+	}
+  }			
+  
+  console.log(data);
+		
+  useEffect(() => {
+	  loadData();
   }, []);
 
   return (
     <React.Fragment>
-      <h1>Place holder dashboard test </h1>
+      <h1>Place holder dashboard test pionou</h1>
+	  <p>le nombre de fiche valider est : {data.length}</p>
     </React.Fragment>
   );
 }
