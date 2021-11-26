@@ -48,7 +48,13 @@ export default function DashBoard() {
     }
   }
 
-  const list = data.map((item) => console.log(item.submiteState));
+  const list = data.map((item, count) => {
+    count = 0;
+    if (item.submiteState === true) {
+      count++;
+    }
+    return count;
+  });
 
   console.log(list);
 
