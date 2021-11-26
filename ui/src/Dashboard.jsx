@@ -48,13 +48,8 @@ export default function DashBoard() {
     }
   }
 
-  const list = data.map((item, count) => {
-    count = 0;
-    if (item.submiteState === true) {
-      count++;
-    }
-    return count;
-  });
+  // comptage occurence submiteState === true
+  const list = data.filter((item) => item.submiteState === true);
 
   console.log(list);
 
