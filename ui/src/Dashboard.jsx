@@ -49,9 +49,9 @@ export default function DashBoard() {
   }
 
   // comptage occurence submiteState === true
-  const list = data.filter((item) => item.submiteState === true);
+  // const list = data.filter((item) => item.submiteState === true);
 
-  console.log(list);
+  // console.log(list);
 
   useEffect(() => {
     loadData();
@@ -59,7 +59,7 @@ export default function DashBoard() {
 
   return (
     <React.Fragment>
-      <SubmitTask />
+      <SubmitTask data={data} />
     </React.Fragment>
   );
 }
