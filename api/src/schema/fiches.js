@@ -49,7 +49,6 @@ async function search(
   }
 
   const filtredFiche = await db.collection('fiches').find(filter).toArray();
-  console.log(filter);
 
   return filtredFiche;
 }

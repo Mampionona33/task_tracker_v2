@@ -5,10 +5,10 @@ import graphQLFetch from './graphQLFetch.jsx';
 import SubmitTask from './SubmitTask.jsx';
 
 export default function DashBoard() {
-  const [data, setData] = useState({});
-  
-  async function loadData(){	  
-    const query = `query SearchFiches($input: SearchFichesInputs) {
+  const [data, setData] = useState([]);
+
+  async function loadData() {
+    /* const query = `query SearchFiches($input: SearchFichesInputs) {
   searchFiches(input: $input) {
     id
     typeTrav
@@ -18,29 +18,47 @@ export default function DashBoard() {
     statuIvpn
 	submiteState
   }
-}`;
-    const vars = {
-	  "input": {
-		
-	  }
-	};   
-	
-	const data = await graphQLFetch(query,vars);
-	
-	if(data){
-		setData(data.searchFiches);
-	}
-  }			
-  
-  console.log(data);
-		
+}`; */
+    const vars = {};
+
+    const query = `query listFiches {
+    listFiches {
+      id
+      typeTrav
+      cat
+      numFiche
+      statuCom
+      statuIvpn
+      url
+      state
+      submiteState
+      nbBefor
+      nbAft
+      startDate
+      validDate
+      duree
+      productivity
+    }
+  }`;
+
+    const data = await graphQLFetch(query, vars);
+
+    if (data) {
+      setData(data.listFiches);
+    }
+  }
+
+  const list = data.map((item) => console.log(item.submiteState));
+
+  console.log(list);
+
   useEffect(() => {
-	  loadData();
+    loadData();
   }, []);
 
   return (
     <React.Fragment>
-      <SubmitTask/>
+      <SubmitTask />
     </React.Fragment>
   );
 }
