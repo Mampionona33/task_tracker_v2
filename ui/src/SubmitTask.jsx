@@ -1,5 +1,6 @@
 import React from 'react';
 import { Paper, Box, Card, Typography, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { styled, withStyles } from '@mui/material/styles';
 
 export default function SubmitTask(prop) {
   const data = prop.data;  
@@ -32,8 +33,10 @@ export default function SubmitTask(prop) {
   return (
     <React.Fragment>
       <Card sx={{ maxWidth:'30vw' }}>
-        <Typography variant='h6'>Total submited booth : {formateDec(submitedFiche.length)} </Typography>
-        <Divider />
+		  <Box sx={{backgroundColor:'secondary.main', color:'secondary.contrastText', padding:'0.5em'}}>
+			<Typography variant='h6'  >Total submited booth : {formateDec(submitedFiche.length)} </Typography>
+		  </Box>
+			<Divider />
 			<List>
 				<TypeTrav type='CréaPrio' nbr={nbrCreaPrio} />	
 				<TypeTrav type='MAJPrio' nbr={nbrMajPrio} />			

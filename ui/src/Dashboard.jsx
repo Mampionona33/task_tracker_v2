@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
+import { Grid } from '@mui/material';
+
 
 // impot components
 import SubmitTask from './SubmitTask.jsx';
@@ -59,7 +61,9 @@ export default function DashBoard() {
 
   return (
     <React.Fragment>
-      <SubmitTask data={data} />
+		<Grid container sx={{padding:3}}>
+			<SubmitTask data={data} />
+		</Grid>
     </React.Fragment>
   );
 }
