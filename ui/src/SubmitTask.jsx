@@ -6,40 +6,61 @@ export default function SubmitTask(prop) {
   const data = prop.data;  
   
   const submitedFiche = data.filter(item => item.submiteState === true);
-  const nbrCreaPrio =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'CréaPrio')).length;
-  const nbrMajPrio  =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'MAJPrio')).length;
   
-  const formateDec = (input)=>{
+  const creaPrio =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'CréaPrio'));
+  const majPrio  =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'MAJPrio'));
+ 
+  
+  const trav = submitedFiche.map(fiche => fiche.typeTrav);
+  
+  const removDuplicate = (array) => {
+	  let a =[];
+	  array.map(x => {
+		  if(!a.includes(x)){
+			  a.push(x)
+		  }
+	  });
+	  return a;
+  }; 
+  
+  
+  const formatNbr = (input)=>{
 	  if(input < 10){
 		  return (`0${input}`);
 	  }
-  }
+  } 
   
   
-  const TypeTrav = (prop) => {	  
-	  const type = prop.type;
-	  const nbr  = prop.nbr;
-	  
+  const typeTravUnique = removDuplicate(trav);     
+    
+  
+  const ListTrav = (prop) => typeTravUnique.map((type,index) => {
+	  let nbr = 0;
+	  if(type === 'CréaPrio'){
+		  nbr = formatNbr(creaPrio.length);
+	  }
+	  if(type === 'MAJPrio'){
+		  nbr = formatNbr(majPrio.length);
+	  }
 	  return(
-		<ListItem>
+		<ListItem key={index}>
 			<ListItemText primary={
-				<Typography> {type} : {formateDec(nbr)}  </Typography>
+				<Typography> {type} : {nbr} </Typography>
 			} />
 		</ListItem>
 	  )
-  }
+  })
   
   
   return (
     <React.Fragment>
-      <Card sx={{ maxWidth:'30vw' }}>
+      <Card sx={{ maxWidth:'30vw'}}>
 		  <Box sx={{backgroundColor:'secondary.main', color:'secondary.contrastText', padding:'0.5em'}}>
-			<Typography variant='h6'  >Total submited booth : {formateDec(submitedFiche.length)} </Typography>
+			<Typography variant='h6'  >Total submited booth : {formatNbr(submitedFiche.length)} </Typography>
 		  </Box>
 			<Divider />
 			<List>
-				<TypeTrav type='CréaPrio' nbr={nbrCreaPrio} />	
-				<TypeTrav type='MAJPrio' nbr={nbrMajPrio} />			
+				<ListTrav/>
 			</List>
       </Card>
     </React.Fragment>
