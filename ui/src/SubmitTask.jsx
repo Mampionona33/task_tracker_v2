@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Box, Card, Typography, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Paper, Box, Card, Typography, Divider, List, ListItem, ListItemText, Grid } from '@mui/material';
 import { styled, withStyles } from '@mui/material/styles';
 
 export default function SubmitTask(prop) {
@@ -9,6 +9,7 @@ export default function SubmitTask(prop) {
   
   const creaPrio =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'CréaPrio'));
   const majPrio  =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'MAJPrio'));
+  const  contenu =  submitedFiche.filter(fiche => ( fiche.typeTrav === 'Contenu'));
  
   
   const trav = submitedFiche.map(fiche => fiche.typeTrav);
@@ -41,6 +42,8 @@ export default function SubmitTask(prop) {
 	  }
 	  if(type === 'MAJPrio'){
 		  nbr = formatNbr(majPrio.length);
+	  }if(type === 'Contenu'){
+		  nbr = formatNbr(contenu.length);
 	  }
 	  return(
 		<ListItem key={index}>
@@ -54,15 +57,17 @@ export default function SubmitTask(prop) {
   
   return (
     <React.Fragment>
-      <Card sx={{ maxWidth:'30vw'}}>
-		  <Box sx={{backgroundColor:'secondary.main', color:'secondary.contrastText', padding:'0.5em'}}>
-			<Typography variant='h6'  >Total submited booth : {formatNbr(submitedFiche.length)} </Typography>
-		  </Box>
-			<Divider />
-			<List>
-				<ListTrav/>
-			</List>
-      </Card>
+		<Grid item>
+		  <Card sx={{ maxWidth:'30vw'}} elevation={3}>
+			  <Box sx={{backgroundColor:'secondary.main', color:'secondary.contrastText', padding:'0.5em'}}>
+				<Typography variant='h6'  >Total submited booth : {formatNbr(submitedFiche.length)} </Typography>
+			  </Box>
+				<Divider />
+				<List>
+					<ListTrav/>
+				</List>
+		  </Card>
+		</Grid>
     </React.Fragment>
   );
 }
