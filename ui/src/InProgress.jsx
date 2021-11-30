@@ -49,7 +49,7 @@ export default function InProgress({ data }) {
       nbr = Stdby.length;
     }
     return (
-      <Badge badgeContent={nbr} color='warning' sx={{ marginRight: '0.5rem' }}>
+      <Badge badgeContent={nbr} color='warning'>
         <Paper
           sx={{
             backgroundColor: '#F81A17',
@@ -66,6 +66,28 @@ export default function InProgress({ data }) {
     );
   };
 
+  const detailStdby = (text) => {
+    const nbrStdby = Stdby.filter((item) => item.typeTrav === text);
+    if (nbrStdby.length > 0) {
+      return (
+        <React.Fragment>
+          <Badge badgeContent={nbrStdby.length} color='warning'>
+            <Paper
+              sx={{
+                backgroundColor: '#F81A17',
+                borderRadius: 25,
+                padding: '0.02rem 0.3rem',
+                color: 'secondary.contrastText',
+              }}
+            >
+              <Typography sx={{ fontSize: 11 }}>Stby</Typography>
+            </Paper>
+          </Badge>
+        </React.Fragment>
+      );
+    }
+  };
+
   const ListTrav = () =>
     typeTravNoDouble.map((type, index) => {
       let nbr = 0;
@@ -80,9 +102,18 @@ export default function InProgress({ data }) {
         <ListItem key={index}>
           <ListItemText
             primary={
-              <Typography>
-                {type}:{formatNbr(nbr)}
-              </Typography>
+              <Grid
+                container
+                justifyContent='space-between'
+                alignItems='center'
+              >
+                <Grid padding='0px 20px 0 0px'>
+                  <Typography>
+                    {type}:{formatNbr(nbr)}
+                  </Typography>
+                </Grid>
+                <Grid>{detailStdby(type)}</Grid>
+              </Grid>
             }
           />
         </ListItem>
@@ -100,9 +131,14 @@ export default function InProgress({ data }) {
               padding: '0.5em',
             }}
           >
-            <Typography variant='h6'>
-              Tasks in Progress : {formatNbr(inProgress.length)} | {badgeSby()}
-            </Typography>
+            <Grid container justifyContent='space-between' alignItems='center'>
+              <Grid>
+                <Typography variant='h6'>
+                  Tasks in Progress : {formatNbr(inProgress.length)}
+                </Typography>
+              </Grid>
+              <Grid padding='0px 5px 0 20px'>{badgeSby()}</Grid>
+            </Grid>
           </Box>
           <Divider />
           <List>
