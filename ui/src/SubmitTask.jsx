@@ -16,6 +16,8 @@ import { styled, withStyles } from '@mui/material/styles';
 export default function SubmitTask({ data }) {
   const submitedFiche = data.filter((item) => item.submiteState === true);
 
+  const typeTravSub = submitedFiche.map((fiche) => fiche.typeTrav);
+
   const nbrTypeTrav = (type) =>
     submitedFiche.filter((fiche) => fiche.typeTrav === type).length;
 
@@ -25,17 +27,30 @@ export default function SubmitTask({ data }) {
     }
   };
 
+  const arrayRemoveDuplicate = (array) => {
+    let newArray = [];
+    array.map((item) => {
+      if (!newArray.includes(item)) {
+        newArray.push(item);
+      }
+    });
+    return newArray;
+  };
+
+  const typeTravNoDouble = arrayRemoveDuplicate(typeTravSub);
+
   const ListTrav = () =>
-    submitedFiche.map((type, index) => {
+    typeTravNoDouble.map((type, index) => {
       let nbr = 0;
-      nbr = nbrTypeTrav(type.typeTrav);
+      nbr = nbrTypeTrav(type);
+
       return (
         <ListItem sx={{ paddingBottom: 0, paddingTop: 0 }} key={index}>
           <ListItemText
             primary={
               <Grid container spacing={1}>
                 <Grid item>
-                  <Typography>{type.typeTrav}</Typography>
+                  <Typography>{type}</Typography>
                 </Grid>
                 <Grid item>{formatNbr(nbr)}</Grid>
               </Grid>
