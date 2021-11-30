@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemText,
   Grid,
+  Paper,
 } from '@mui/material';
 
 // au lieu d'utiliser props on fait la destructuration , donc on recupere uniquement data par {data}
@@ -39,22 +40,40 @@ export default function InProgress({ data }) {
     }
   };
 
-  const stbyAutoValidCreaPrio = autoValidCreaPrio.filter(
-    (fiche) => fiche.state === 'Sby'
-  );
+  const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby');
 
-  console.log(typeTravNoDouble);
+  const badgeSby = () => {
+    let text = `Stdby`;
+    let nbr = 0;
+    if (Stdby) {
+      nbr = Stdby.length;
+    }
+    return (
+      <Badge badgeContent={nbr} color='warning' sx={{ marginRight: '0.5rem' }}>
+        <Paper
+          sx={{
+            backgroundColor: '#F81A17',
+            color: 'secondary.contrastText',
+            borderRadius: 25,
+            paddingLeft: '0.2rem',
+            paddingRight: '0.2rem',
+            fontSize: 12,
+          }}
+        >
+          {text}
+        </Paper>
+      </Badge>
+    );
+  };
 
   const ListTrav = () =>
     typeTravNoDouble.map((type, index) => {
       let nbr = 0;
-      let badge = ``;
       if (type === 'Contenu') {
         nbr = contenu.length;
       }
       if (type === 'AUTOVALIDCREAPrio') {
         nbr = autoValidCreaPrio.length;
-        badge = `stby${stbyAutoValidCreaPrio.length}`;
       }
 
       return (
@@ -62,7 +81,7 @@ export default function InProgress({ data }) {
           <ListItemText
             primary={
               <Typography>
-                  {type}:{formatNbr(nbr)}
+                {type}:{formatNbr(nbr)}
               </Typography>
             }
           />
@@ -82,7 +101,7 @@ export default function InProgress({ data }) {
             }}
           >
             <Typography variant='h6'>
-              Tasks in Progress : {formatNbr(inProgress.length)}
+              Tasks in Progress : {formatNbr(inProgress.length)} | {badgeSby()}
             </Typography>
           </Box>
           <Divider />
