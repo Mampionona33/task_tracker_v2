@@ -49,7 +49,7 @@ async function resetMongo() {
         statuIvpn: 'I',
         url: 'http://www.directindustry.com/r/FicheSociete.php?s=174711&w=1232305TiNo4Hs6tZmC5l2D56Z41Y1Z2l2V7pzgri52S4p3T3&droit=on',
         state: 'Normal',
-        submiteState: false,
+        submiteState: true,
         nbBefor: 5,
         nbAft: 50,
         startDate: '29/10/2021',
@@ -60,7 +60,7 @@ async function resetMongo() {
 
       {
         id: 2,
-        typeTrav: 'CréaPrio',
+        typeTrav: 'MAJPrio',
         numFiche: '4545',
         statuCom: '---',
         statuIvpn: 'P',
@@ -114,7 +114,7 @@ async function resetMongo() {
         statuIvpn: 'P',
         url: 'http://www.directindustry.com/r/FicheSociete.php?s=239657&w=1789817fs!RiGhtOwtSrCing&droit=stag&user=Mampionona',
         state: 'Normal',
-        submiteState: true,
+        submiteState: false,
         nbBefor: 11,
         nbAft: 11,
         startDate: '29/10/2021',
