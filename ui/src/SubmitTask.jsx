@@ -16,23 +16,8 @@ import { styled, withStyles } from '@mui/material/styles';
 export default function SubmitTask({ data }) {
   const submitedFiche = data.filter((item) => item.submiteState === true);
 
-  const creaPrio = submitedFiche.filter(
-    (fiche) => fiche.typeTrav === 'CréaPrio'
-  );
-  const majPrio = submitedFiche.filter((fiche) => fiche.typeTrav === 'MAJPrio');
-  const contenu = submitedFiche.filter((fiche) => fiche.typeTrav === 'Contenu');
-
-  const trav = submitedFiche.map((fiche) => fiche.typeTrav);
-
-  const removDuplicate = (array) => {
-    let a = [];
-    array.map((x) => {
-      if (!a.includes(x)) {
-        a.push(x);
-      }
-    });
-    return a;
-  };
+  const nbrTypeTrav = (type) =>
+    submitedFiche.filter((fiche) => fiche.typeTrav === type).length;
 
   const formatNbr = (input) => {
     if (input < 10) {
@@ -40,27 +25,20 @@ export default function SubmitTask({ data }) {
     }
   };
 
-  const typeTravUnique = removDuplicate(trav);
-
   const ListTrav = () =>
-    typeTravUnique.map((type, index) => {
+    submitedFiche.map((type, index) => {
       let nbr = 0;
-      if (type === 'CréaPrio') {
-        nbr = formatNbr(creaPrio.length);
-      }
-      if (type === 'MAJPrio') {
-        nbr = formatNbr(majPrio.length);
-      }
-      if (type === 'Contenu') {
-        nbr = formatNbr(contenu.length);
-      }
+      nbr = nbrTypeTrav(type.typeTrav);
       return (
-        <ListItem key={index}>
+        <ListItem sx={{ paddingBottom: 0, paddingTop: 0 }} key={index}>
           <ListItemText
             primary={
-              <Typography>
-                {type} : {nbr}
-              </Typography>
+              <Grid container spacing={1}>
+                <Grid item>
+                  <Typography>{type.typeTrav}</Typography>
+                </Grid>
+                <Grid item>{formatNbr(nbr)}</Grid>
+              </Grid>
             }
           />
         </ListItem>

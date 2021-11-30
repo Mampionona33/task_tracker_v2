@@ -66,7 +66,7 @@ async function resetMongo() {
         statuIvpn: 'P',
         url: 'http://www.directindustry.com/r/FicheSociete.php?s=174711&w=1232305TiNo4Hs6tZmC5l2D56Z41Y1Z2l2V7pzgri52S4p3T3&droit=on',
         state: 'Paf',
-        submiteState: true,
+        submiteState: false,
         nbBefor: 5,
         nbAft: 50,
         startDate: '29/10/2021',

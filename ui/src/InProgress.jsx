@@ -29,10 +29,8 @@ export default function InProgress({ data }) {
   };
   const typeTravNoDouble = arrayRemoveDuplicate(typeTravInprogress);
 
-  const contenu = inProgress.filter((fiche) => fiche.typeTrav === 'Contenu');
-  const autoValidCreaPrio = inProgress.filter(
-    (fiche) => fiche.typeTrav === 'AUTOVALIDCREAPrio'
-  );
+  const nbrTypeTrav = (type) =>
+    inProgress.filter((fiche) => fiche.typeTrav === type).length;
 
   const formatNbr = (input) => {
     if (input < 10) {
@@ -66,7 +64,7 @@ export default function InProgress({ data }) {
     );
   };
 
-  const detailStdby = (text) => {
+  const onStdby = (text) => {
     const nbrStdby = Stdby.filter((item) => item.typeTrav === text);
     if (nbrStdby.length > 0) {
       return (
@@ -91,28 +89,18 @@ export default function InProgress({ data }) {
   const ListTrav = () =>
     typeTravNoDouble.map((type, index) => {
       let nbr = 0;
-      if (type === 'Contenu') {
-        nbr = contenu.length;
-      }
-      if (type === 'AUTOVALIDCREAPrio') {
-        nbr = autoValidCreaPrio.length;
-      }
+      nbr = nbrTypeTrav(type);
 
       return (
-        <ListItem key={index}>
+        <ListItem key={index} sx={{ paddingTop: 0, paddingBottom: 0 }}>
           <ListItemText
             primary={
-              <Grid
-                container
-                justifyContent='space-between'
-                alignItems='center'
-              >
-                <Grid padding='0px 20px 0 0px'>
-                  <Typography>
-                    {type}:{formatNbr(nbr)}
-                  </Typography>
+              <Grid container alignItems='center' spacing={1}>
+                <Grid item>
+                  <Typography>{type}</Typography>
                 </Grid>
-                <Grid>{detailStdby(type)}</Grid>
+                <Grid item>{formatNbr(nbr)}</Grid>
+                <Grid item>{onStdby(type)}</Grid>
               </Grid>
             }
           />
