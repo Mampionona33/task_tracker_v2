@@ -1,12 +1,36 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {TextField,Grid} from '@mui/material';
+import React,{useState, useEffect} from 'react'
+
+import graphQLFetch from './graphQLFetch.jsx';
+
+
 
 export default function DialogAddNewTask({ open, onClose }) {
+	
+	// fetching data from mongodb
+	const [data, setData] = useState([]);
+	
+	
+	async function loadData(){
+		
+		const queryTypeTrav = `query ListTypeTaches {
+								  listTypeTaches {
+									name
+									id
+								  }
+								}`;
+	  const vars= {};
+	  const data = await graphQLFetch(queryTypeTrav, vars)
+	};
+	
+	
+	
   return (
     <div>
       <Dialog
@@ -16,18 +40,27 @@ export default function DialogAddNewTask({ open, onClose }) {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {"Use Google's location service?"}
+          {"Add New Task"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
+			<Grid container>
+				<Grid item>
+				  <TextField
+					autoFocus
+					margin="dense"
+					id="name"
+					label="Num fiche"
+					type="Text"
+					fullWidth
+					variant="standard"
+				  />
+				</Grid>
+			</Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Disagree</Button>
           <Button onClick={onClose} autoFocus>
-            Agree
+            Save
           </Button>
         </DialogActions>
       </Dialog>
