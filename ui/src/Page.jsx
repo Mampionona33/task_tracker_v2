@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import Contents from './Contents.jsx';
-import Navbar from './navigation/NavBar.jsx';
+import Navbar from './NavBar.jsx';
 
 export default function Page() {
   return (
