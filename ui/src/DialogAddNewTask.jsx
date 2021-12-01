@@ -25,10 +25,10 @@ export default function DialogAddNewTask({ open, onClose }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={}>Disagree</Button>
-          <Button onClick={} autoFocus>
+          <Button onClick={onClose}>Disagree</Button>
+          <Button onClick={onClose} autoFocus>
             Agree
-          </Button> */}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
