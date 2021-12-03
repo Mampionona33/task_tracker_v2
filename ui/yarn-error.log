@@ -1,29 +1,21 @@
 Arguments: 
-  D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node.exe D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\bin\yarn.js
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add react-hook-form
 
 PATH: 
-  C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin64\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin32\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files\Intel\iCLS Client\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin64\;C:\Program Files (x86)\Druide\Antidote 9\Application\Bin32\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;D:\Mampionona1\Traitement\Utilitaire\php-7.4.16-nts-Win32-vc15-x64;D:\Mampionona1\Traitement\Utilitaire\PortableGit\cmd;D:\Mampionona1\Traitement\Utilitaire\curl-7.76.1-win64-mingw\bin;D:\Mampionona1\Traitement\Utilitaire\VSCode-win32-ia32-1.53.0\bin;D:\Mampionona1\Traitement\Utilitaire\nvm;D:\Mampionona1\Traitement\Utilitaire\nodejs;D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0;
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft VS Code\bin;C:\Users\mampionona\AppData\Roaming\nvm;C:\Program Files\nodejs;;C:\Users\mampionona\AppData\Roaming\nvm;C:\Program Files\nodejs
 
 Yarn version: 
-  1.22.17
+  1.22.15
 
 Node version: 
-  16.12.0
+  12.22.6
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.2.0.tgz: ESOCKETTIMEDOUT
-      at ClientRequest.<anonymous> (D:\Mampionona1\Traitement\Utilitaire\nvm\v16.12.0\node_modules\yarn\lib\cli.js:141510:19)
-      at Object.onceWrapper (node:events:509:28)
-      at ClientRequest.emit (node:events:390:28)
-      at TLSSocket.emitRequestTimeout (node:_http_client:763:9)
-      at Object.onceWrapper (node:events:509:28)
-      at TLSSocket.emit (node:events:402:35)
-      at TLSSocket.Socket._onTimeout (node:net:501:8)
-      at listOnTimeout (node:internal/timers:557:17)
-      at processTimers (node:internal/timers:500:7)
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:66:26)
 
 npm manifest: 
   {

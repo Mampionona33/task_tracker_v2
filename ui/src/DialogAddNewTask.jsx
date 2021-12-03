@@ -12,7 +12,7 @@ import {
   TextareaAutosize,
   FormControl,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import loadData from './loadData.jsx';
 
@@ -22,9 +22,22 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [statIvpn, setStatIvpn] = useState([]);
   const [statCom, setStatCom] = useState([]);
   const [value, setValue] = useState('');
+  
+  const formRef = useRef();
 
   const handleValueChange = (e) => {
     setValue(e.target.value);
+  };
+  
+  async function handleReset(e){
+	  setValue(e.target.value) ;	  
+  }
+  
+  const handleSubmit = (e) => {
+	 e.preventDefault();
+	console.log(e.target);
+	 setValue('');
+	 
   };
 
   useEffect(() => {
@@ -37,9 +50,8 @@ export default function DialogAddNewTask({ open, onClose }) {
   const listStatIvpn = statIvpn.map((item) => item.name);
   const listStatCom = statCom.map((item) => item.name);
 
-  const alert = (e) => {
-    console.log(value);
-  };
+  
+  
 
   return (
     <div>
@@ -53,6 +65,7 @@ export default function DialogAddNewTask({ open, onClose }) {
       >
         <DialogTitle id='alert-dialog-title'>{'Add New Task'}</DialogTitle>
         <DialogContent>
+		<form id='formId' action='/' method='POST' onSubmit={handleSubmit} ref={formRef}>
           <Box
             sx={{
               display: 'grid',
@@ -179,12 +192,14 @@ export default function DialogAddNewTask({ open, onClose }) {
               style={{ width: '100%', minHeight: '4rem' }}
             />
           </Box>
+		</form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={alert} autoFocus>
+          <Button onClick={onClose} type='Submit' autoFocus form='formId'>
             Save
           </Button>
           <Button onClick={onClose}>Cancel</Button>
+		  <Button onClick={handleReset} type='reset'>Reset</Button>
         </DialogActions>
       </Dialog>
     </div>
