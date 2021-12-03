@@ -379,39 +379,39 @@ async function resetMongo() {
     const initialStatCom = [
       {
         id: 1,
-        value: '---',
+        name: '---',
       },
       {
         id: 2,
-        value: 'Abondon',
+        name: 'Abondon',
       },
       {
         id: 3,
-        value: 'Abonné',
+        name: 'Abonné',
       },
       {
         id: 4,
-        value: 'Dégradé',
+        name: 'Dégradé',
       },
       {
         id: 5,
-        value: 'Dégradé Definitif',
+        name: 'Dégradé Definitif',
       },
       {
         id: 6,
-        value: 'Essai',
+        name: 'Essai',
       },
       {
         id: 7,
-        value: 'EssaiNouveau',
+        name: 'EssaiNouveau',
       },
       {
         id: 8,
-        value: 'Essai Payant',
+        name: 'Essai Payant',
       },
       {
         id: 9,
-        value: 'Retiré',
+        name: 'Retiré',
       },
     ];
 

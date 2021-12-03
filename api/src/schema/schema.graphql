@@ -76,11 +76,11 @@ input TachesInputs {
 type StatCom {
   _id: String!
   id: Int!
-  value: String!
+  name: String!
 }
 
 input StatComInput {
-  value: String
+  name: String
 }
 
 ##Statut IVPN
