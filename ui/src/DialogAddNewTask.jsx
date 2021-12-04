@@ -26,7 +26,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const formRef = useRef();
 
   const handleValueChange = (e) => {
-    setValue(e.target.value);
+    setValue(e.target.value);	
   };
   
   async function handleReset(e){
@@ -35,8 +35,13 @@ export default function DialogAddNewTask({ open, onClose }) {
   
   const handleSubmit = (e) => {
 	 e.preventDefault();
-	console.log(e.target);
-	 setValue('');
+	 const form = document.forms.addNew
+		const fiche = {
+			numFiche: form.numFiche.value,
+		}
+	console.log(fiche);
+	setValue('');
+	 
 	 
   };
 
@@ -65,7 +70,7 @@ export default function DialogAddNewTask({ open, onClose }) {
       >
         <DialogTitle id='alert-dialog-title'>{'Add New Task'}</DialogTitle>
         <DialogContent>
-		<form id='formId' action='/' method='POST' onSubmit={handleSubmit} ref={formRef}>
+		<form id='formId' name='addNew' action='/' method='POST' onSubmit={handleSubmit} ref={formRef}>
           <Box
             sx={{
               display: 'grid',
