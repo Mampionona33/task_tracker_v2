@@ -16,6 +16,7 @@ type Fiches {
   validDate: String
   duree: String
   productivity: String
+  comment: String
 }
 ##Filtre Fiches -------
 input SearchFichesInputs {
@@ -36,8 +37,10 @@ input FichesInputs {
   statuIvpn: String
   url: String
   state: String
-  nbBefor: Int
-  nbAft: Int
+  nbBefor: Int = 0
+  nbAft: Int = 0
+  submiteState: Boolean = false
+  comment : String
 }
 ##Update Fiches --------
 input UpdateFiches {

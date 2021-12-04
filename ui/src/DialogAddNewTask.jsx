@@ -15,6 +15,7 @@ import {
 import React, { useState, useEffect, useRef } from 'react';
 
 import loadData from './loadData.jsx';
+import graphQLFetch from './graphQLFetch.jsx'
 
 export default function DialogAddNewTask({ open, onClose }) {
   // fetching data from mongodb
@@ -36,34 +37,54 @@ export default function DialogAddNewTask({ open, onClose }) {
   };
   
   async function handleReset(e){
-	  setValue(e.target.value) ;	  
+	  const form = document.forms.addNew;
+	  setValue(form) ;	  
   }
   
   const handleSubmit = (e) => {
-	 e.preventDefault();
-	 const form = document.forms.addNew
-		const fiche = {
-			numFiche: form.numFiche.value,
-			cat : form.cat.value,
-			statCom : form.comboBoxStateCom.value,
-			url: form.url.value,
-			typeTrav : form.comboboxTypeTrav.value,
-			statIvpn : form.comboBoxStatIvpn.value,
-			nbBefore : form.nbBefore.value,
-			nbAft : form.nbAft.value,
-			comment: form.comment.value,
-		}
-	console.log(fiche);
-	setValue('');
-	 
-	 
-  };
+	e.preventDefault();
+	const form = document.forms.addNew
+	const fiche = {
+		numFiche: form.numFiche.value,
+		cat : form.cat.value,
+		statuCom : form.comboBoxStateCom.value,
+		url: form.url.value,
+		typeTrav : form.comboboxTypeTrav.value,
+		statuIvpn : form.comboBoxStatIvpn.value,
+		nbBefor : form.nbBefore.value === "" ? 0 : form.nbBefore.value.parseFloat ,
+		nbAft : form.nbAft.value === "" ? 0 :  form.nbAft.value.parseFloat ,
+		comment: form.comment.value,
+	}	
+	createFiche(fiche);
+  }; 
+  
+  
+  const createFiche =  async (fiche) => {
+	const query = `mutation FichesAdd($fiche: FichesInputs!) {
+	  fichesAdd(fiche: $fiche) {
+		typeTrav
+		cat
+		numFiche
+		statuCom
+		statuIvpn
+		url
+		state
+		submiteState
+		nbBefor
+		nbAft
+	  }
+	}`;
+	const data = await graphQLFetch(query,{fiche});
+	data ? console.log(data) : '';
+  }
+  
 
   useEffect(() => {
     loadData(setTypeTache, 'listTypeTaches');
     loadData(setStatIvpn, 'listStatIvpn');
     loadData(setStatCom, 'listStatCom');
   }, []);
+  
 
   const listTaches = typeTache.map((item) => item.name);
   const listStatIvpn = statIvpn.map((item) => item.name);
@@ -232,7 +253,7 @@ export default function DialogAddNewTask({ open, onClose }) {
             Save
           </Button>
           <Button onClick={onClose}>Cancel</Button>
-		  <Button onClick={handleReset} type='reset'>Reset</Button>
+		  <Button type='Reset' form='formId'>Reset</Button>
         </DialogActions>
       
 	  </Dialog>
