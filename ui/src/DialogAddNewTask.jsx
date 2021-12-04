@@ -22,11 +22,17 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [statIvpn, setStatIvpn] = useState([]);
   const [statCom, setStatCom] = useState([]);
   const [value, setValue] = useState('');
+  const [userForm, setUserForm] = useState({numFiche:'',cat:'',statCom:'',url:'',typeTrav:'', statIvpn:'', nbBefore:'', nbAft:''
+  });  
+
   
   const formRef = useRef();
 
   const handleValueChange = (e) => {
-    setValue(e.target.value);
+	e.preventDefault();
+	const idElement = e.target.id;
+	idElement === 'numFiche' ? setUserForm({numFiche:e.target.value}) : '';
+    
   };
   
   async function handleReset(e){
@@ -40,6 +46,12 @@ export default function DialogAddNewTask({ open, onClose }) {
 			numFiche: form.numFiche.value,
 			cat : form.cat.value,
 			statCom : form.comboBoxStateCom.value,
+			url: form.url.value,
+			typeTrav : form.comboboxTypeTrav.value,
+			statIvpn : form.comboBoxStatIvpn.value,
+			nbBefore : form.nbBefore.value,
+			nbAft : form.nbAft.value,
+			comment: form.comment.value,
 		}
 	console.log(fiche);
 	setValue('');
@@ -90,8 +102,6 @@ export default function DialogAddNewTask({ open, onClose }) {
 					label='Num fiche'
 					type='text'
 					variant='standard'
-					value={value}
-					onChange={handleValueChange}
 				  />
 				</Box>
 				
@@ -112,6 +122,7 @@ export default function DialogAddNewTask({ open, onClose }) {
 					options={listStatCom}
 					size={'small'}
 					id='comboBoxStateCom'
+					defaultValue='---'
 					sx={{ marginTop: 1.5 }}
 					PaperComponent={({ children }) => (
 					  <Paper sx={{ typography: 'body2' }}>{children}</Paper>
@@ -140,7 +151,7 @@ export default function DialogAddNewTask({ open, onClose }) {
 				<Box sx={{ paddingBottom: 0 }}>
 				  <Autocomplete
 					disablePortal
-					id='combo-box-type-taches'
+					id='comboboxTypeTrav'
 					options={listTaches}
 					size={'small'}
 					sx={{ marginTop: 1.5 }}
@@ -160,7 +171,8 @@ export default function DialogAddNewTask({ open, onClose }) {
 				<Box sx={{ paddingBottom: 0 }}>
 				  <Autocomplete
 					disablePortal
-					id='combo-box-list-stat-ivpn'
+					id='comboBoxStatIvpn'
+					defaultValue = 'N'
 					options={listStatIvpn}
 					size={'small'}
 					sx={{ marginTop: 1.5 }}
@@ -191,7 +203,7 @@ export default function DialogAddNewTask({ open, onClose }) {
 				<Box>
 				  <TextField
 					autoFocus
-					id='nbAfter'
+					id='nbAft'
 					margin='dense'
 					type='text'
 					label='Nb AFTER'
