@@ -1,7 +1,7 @@
 import React from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
 
-export default loadListTache = async () =>{
+export default loadListTache = async () => {
 	const vars = {};
 
     const query = `query listFiches {

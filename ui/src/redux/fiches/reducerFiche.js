@@ -1,11 +1,11 @@
 import {ADD_FICHE} from './type.js';
-import listTache from '../loadListTache.js'
+
 
 const initialStateFiche = {
 	fiche : {}
 }
 
-const reducerFiche = (state= initialStateFiche, action) => {
+const reducerFiche = (state = initialStateFiche, action) => {
 	switch(action.type){
 		case ADD_FICHE:
 		{

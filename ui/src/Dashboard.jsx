@@ -62,7 +62,7 @@ export default function DashBoard() {
     <React.Fragment>
 		<Grid container sx={{padding:3}} spacing={2} >
 			<SubmitTask data={data} />
-			<InProgress data={data} />
+			<InProgress />
 		</Grid>
     </React.Fragment>
   );
