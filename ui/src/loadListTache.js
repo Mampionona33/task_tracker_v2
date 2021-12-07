@@ -25,4 +25,5 @@ export default loadListTache = async () =>{
   }`;
 
     const data = await graphQLFetch(query, vars);
+	return(data);
 }

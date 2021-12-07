@@ -54,8 +54,6 @@ export default function DashBoard() {
   // comptage occurence submiteState === true
   // const list = data.filter((item) => item.submiteState === true);
 
-  // console.log(list);
-
   useEffect(() => {
     loadData();
   }, []);

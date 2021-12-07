@@ -1,0 +1,1 @@
+export const ADD_FICHE = 'ADD_FICHE';
