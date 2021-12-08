@@ -16,35 +16,70 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import loadData from './loadData.jsx';
 import graphQLFetch from './graphQLFetch.jsx';
+
 import { useMutation } from '@apollo/client';
 import { ADD_FICHE } from './GraphQL/Mutation';
+
+import { useQuery, gql } from '@apollo/client';
+import { LOAD_TYPE_DATA } from './GraphQL/Queries';
+
 
 export default function DialogAddNewTask({ open, onClose }) {
   // fetching data from mongodb
   const [typeTache, setTypeTache] = useState([]);
-  const [statIvpn, setStatIvpn] = useState([]);
+  const [listStatIvpn, setListStatIvpn] = useState([]);
   const [statCom, setStatCom] = useState([]);
   const [value, setValue] = useState('');
-  const [userForm, setUserForm] = useState({
-    numFiche: '',
-    cat: '',
-    statCom: '',
-    url: '',
-    typeTrav: '',
-    statIvpn: '',
-    nbBefore: '',
-    nbAft: '',
-  });
+  
+  
+  const [numFiche, setNumFiche] = useState('');
+  const [cat, setCat] = useState('');
+  const [statuCom, setStatuCom] = useState('');
+  const [url, setUrl] = useState('');
+  const [typeTrav, setTypeTrav] = useState('');
+  const [statuIvpn, setStatuIvpn] = useState('');
+  const [nbBefor, setNbBefor] = useState(0);
+  const [nbAft, setNbAft] = useState(0);
+  const [comment, setComment] = useState('');
+ 
 
   const [fichesAdd, { error }] = useMutation(ADD_FICHE);
+  
   const addFiche = () => {
     fichesAdd({
-      variables: {},
+      variables: {
+		'fiche' : {
+			numFiche : numFiche,
+			cat:  cat,
+			typeTrav : typeTrav,
+			statuCom : statuCom,
+			statuIvpn : statuIvpn,
+			url: url,
+			nbBefor : nbBefor,
+			nbAft  : nbAft,
+			comment : comment,
+		}
+	},
     });
     if (error) {
       console.log(error);
     }
-  };
+  };  
+ 
+  
+  const {data , loading, error:queryDataError} = useQuery(LOAD_TYPE_DATA);
+  
+ 
+  useEffect(() => {	 
+  
+	 data.listTypeTaches ? setTypeTache(data.listTypeTaches) : setTypeTache([]);
+	 
+	 data.listStatIvpn ? setListStatIvpn(data.listStatIvpn) : setListStatIvpn([]);	 
+	 
+    // loadData(setTypeTache, 'listTypeTaches');
+    // loadData(setStatIvpn, 'listStatIvpn');
+    loadData(setStatCom, 'listStatCom');
+  }, [data]);
 
   const formRef = useRef();
 
@@ -62,7 +97,18 @@ export default function DialogAddNewTask({ open, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = document.forms.addNew;
-    const fiche = {
+	
+	setNumFiche(form.numFiche.value);
+	setCat(form.cat.value);
+	setStatCom(form.comboBoxStateCom.value);
+	setUrl(form.url.value);
+	setTypeTrav(form.comboboxTypeTrav.value);
+	setStatIvpn(form.comboBoxStatIvpn.value);
+	setNbBefor(form.nbBefor.value === '' ? 0 : form.nbBefor.value.parseInt);
+	setNbAft(form.nbAft.value === '' ? 0 : form.nbAft.value.parseInt);
+	setComment(form.comment.value);	
+	
+    /* const fiche = {
       numFiche: form.numFiche.value,
       cat: form.cat.value,
       statuCom: form.comboBoxStateCom.value,
@@ -72,14 +118,12 @@ export default function DialogAddNewTask({ open, onClose }) {
       nbBefor: form.nbBefore.value === '' ? 0 : form.nbBefore.value.parseFloat,
       nbAft: form.nbAft.value === '' ? 0 : form.nbAft.value.parseFloat,
       comment: form.comment.value,
-    };
-    console.log(fiche);
-    setUserForm(fiche);
-    console.log(userForm);
+    }; */
+    
     // createFiche(fiche);
   };
 
-  const createFiche = async (fiche) => {
+  /* const createFiche = async (fiche) => {
     const query = `mutation FichesAdd($fiche: FichesInputs!) {
 	  fichesAdd(fiche: $fiche) {
 		typeTrav
@@ -96,16 +140,12 @@ export default function DialogAddNewTask({ open, onClose }) {
 	}`;
     const data = await graphQLFetch(query, { fiche });
     data ? console.log(data) : '';
-  };
+  }; */
 
-  useEffect(() => {
-    loadData(setTypeTache, 'listTypeTaches');
-    loadData(setStatIvpn, 'listStatIvpn');
-    loadData(setStatCom, 'listStatCom');
-  }, []);
+  
 
   const listTaches = typeTache.map((item) => item.name);
-  const listStatIvpn = statIvpn.map((item) => item.name);
+  const comboListStatIvpn = listStatIvpn.map((item) => item.name);
   const listStatCom = statCom.map((item) => item.name);
 
   return (
@@ -215,7 +255,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                   disablePortal
                   id='comboBoxStatIvpn'
                   defaultValue='N'
-                  options={listStatIvpn}
+                  options={comboListStatIvpn}
                   size={'small'}
                   sx={{ marginTop: 1.5 }}
                   PaperComponent={({ children }) => (
@@ -267,7 +307,7 @@ export default function DialogAddNewTask({ open, onClose }) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={addFiche} autoFocus form='formId'>
+          <Button onClick={onClose} type='submit' autoFocus form='formId'>
             Save
           </Button>
           <Button onClick={onClose}>Cancel</Button>
