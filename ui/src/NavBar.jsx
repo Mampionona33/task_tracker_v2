@@ -100,7 +100,10 @@ export default function Navbar() {
         </Box>
       </React.Fragment>
       <React.Fragment>
-        <DialogAddNewTask open={dialOpen} onClose={handleClickCloseDialAddNewTask} />
+        <DialogAddNewTask
+          open={dialOpen}
+          onClose={handleClickCloseDialAddNewTask}
+        />
       </React.Fragment>
     </React.Fragment>
   );

@@ -16,6 +16,8 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import loadData from './loadData.jsx';
 import graphQLFetch from './graphQLFetch.jsx';
+import { useMutation } from '@apollo/client';
+import { ADD_FICHE } from './GraphQL/Mutation';
 
 export default function DialogAddNewTask({ open, onClose }) {
   // fetching data from mongodb
@@ -33,6 +35,16 @@ export default function DialogAddNewTask({ open, onClose }) {
     nbBefore: '',
     nbAft: '',
   });
+
+  const [fichesAdd, { error }] = useMutation(ADD_FICHE);
+  const addFiche = () => {
+    fichesAdd({
+      variables: {},
+    });
+    if (error) {
+      console.log(error);
+    }
+  };
 
   const formRef = useRef();
 
@@ -61,7 +73,10 @@ export default function DialogAddNewTask({ open, onClose }) {
       nbAft: form.nbAft.value === '' ? 0 : form.nbAft.value.parseFloat,
       comment: form.comment.value,
     };
-    createFiche(fiche);
+    console.log(fiche);
+    setUserForm(fiche);
+    console.log(userForm);
+    // createFiche(fiche);
   };
 
   const createFiche = async (fiche) => {
@@ -252,7 +267,7 @@ export default function DialogAddNewTask({ open, onClose }) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={onClose} type='Submit' autoFocus form='formId'>
+          <Button onClick={addFiche} autoFocus form='formId'>
             Save
           </Button>
           <Button onClick={onClose}>Cancel</Button>

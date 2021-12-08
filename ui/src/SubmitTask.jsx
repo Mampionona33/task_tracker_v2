@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Paper,
   Box,
@@ -11,10 +11,20 @@ import {
   Grid,
 } from '@mui/material';
 import { styled, withStyles } from '@mui/material/styles';
+import { useQuery, gql } from '@apollo/client';
+import { LOAD_LIST_TACHE } from './GraphQL/Queries';
 
 // destructuration de props => on utilise {data}
-export default function SubmitTask({ data }) {
-  const submitedFiche = data.filter((item) => item.submiteState === true);
+export default function SubmitTask() {
+  const [tache, setTache] = useState([]);
+  const { error, loading, data } = useQuery(LOAD_LIST_TACHE);
+  useEffect(() => {
+    if (data) {
+      setTache(data.listFiches);
+    }
+  }, [data]);
+
+  const submitedFiche = tache.filter((item) => item.submiteState === true);
 
   const typeTravSub = submitedFiche.map((fiche) => fiche.typeTrav);
 

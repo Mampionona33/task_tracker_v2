@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Badge,
   Box,
@@ -15,11 +15,22 @@ import { addFiche } from './redux/fiches/actionFiche.js';
 import { useSelector, useDispatch } from 'react-redux';
 import graphQLFetch from './graphQLFetch.jsx';
 
+import { useQuery, gql } from '@apollo/client';
+import { LOAD_LIST_TACHE } from './GraphQL/Queries';
+
 // au lieu d'utiliser props on fait la destructuration , donc on recupere uniquement data par {data}
 
-function InProgress(props) {
-  const tache = useSelector((state) => state);
-  useEffect(() => {}, []);
+function InProgress() {
+  const [tache, setTache] = useState([]);
+
+  const { error, loading, data } = useQuery(LOAD_LIST_TACHE);
+  useEffect(() => {
+    if (data) {
+      setTache(data.listFiches);
+    }
+  }, [data]);
+
+  console.log(tache);
 
   // const inProgress = data.filter((fiche) => fiche.submiteState === false);
 
