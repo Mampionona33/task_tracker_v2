@@ -1,10 +1,9 @@
-import React from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
 
 export default loadListTache = async () => {
-	const vars = {};
+  const vars = {};
 
-    const query = `query listFiches {
+  const query = `query listFiches {
     listFiches {
       id
       typeTrav
@@ -24,6 +23,6 @@ export default loadListTache = async () => {
     }
   }`;
 
-    const data = await graphQLFetch(query, vars);
-	return(data);
-}
+  const data = await graphQLFetch(query, vars);
+  return data;
+};

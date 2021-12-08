@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import graphQLFetch from './graphQLFetch.jsx';
 import { Grid } from '@mui/material';
 
-
 // impot components
 import SubmitTask from './SubmitTask.jsx';
-import InProgress from  './InProgress.jsx';
+import InProgress from './InProgress.jsx';
 
 export default function DashBoard() {
   const [data, setData] = useState([]);
@@ -60,10 +59,10 @@ export default function DashBoard() {
 
   return (
     <React.Fragment>
-		<Grid container sx={{padding:3}} spacing={2} >
-			<SubmitTask data={data} />
-			<InProgress />
-		</Grid>
+      <Grid container sx={{ padding: 3 }} spacing={2}>
+        <SubmitTask data={data} />
+        <InProgress />
+      </Grid>
     </React.Fragment>
   );
 }
