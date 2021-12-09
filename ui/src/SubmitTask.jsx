@@ -12,12 +12,12 @@ import {
 } from '@mui/material';
 import { styled, withStyles } from '@mui/material/styles';
 import { useQuery, gql } from '@apollo/client';
-import { LOAD_LIST_TACHE } from './GraphQL/Queries';
+import { LOAD_DATA } from './GraphQL/Queries';
 
 // destructuration de props => on utilise {data}
 export default function SubmitTask() {
   const [tache, setTache] = useState([]);
-  const { error, loading, data } = useQuery(LOAD_LIST_TACHE);
+  const { error, loading, data } = useQuery(LOAD_DATA);
   useEffect(() => {
     if (data) {
       setTache(data.listFiches);
