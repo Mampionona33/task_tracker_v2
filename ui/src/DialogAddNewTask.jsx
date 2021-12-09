@@ -17,7 +17,7 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_FICHE } from './GraphQL/Mutation';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, refetchQueries } from '@apollo/client';
 import { LOAD_DATA } from './GraphQL/Queries';
 
 export default function DialogAddNewTask({ open, onClose }) {
@@ -25,7 +25,6 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [typeTache, setTypeTache] = useState([]);
   const [listStatIvpn, setListStatIvpn] = useState([]);
   const [comboStatCom, setComboStatCom] = useState([]);
-  const [value, setValue] = useState('');
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
@@ -37,7 +36,9 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
 
-  const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE);
+  const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
 
   const addFiche = () => {
     fichesAdd({
@@ -71,8 +72,14 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [data]);
 
   async function handleReset(e) {
-    const form = document.forms.addNew;
-    setValue(form);
+    setNumFiche('');
+    setCat('');
+    setStatuCom('');
+    setUrl('');
+    setTypeTrav('');
+    setNbBefor(0);
+    setNbAft(0);
+    setComment('');
   }
 
   const listTaches = typeTache.map((item) => item.name);
@@ -256,9 +263,8 @@ export default function DialogAddNewTask({ open, onClose }) {
             onClick={(e) => {
               addFiche();
               onClose();
+              handleReset();
             }}
-            autoFocus
-            form='formId'
           >
             Save
           </Button>
