@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {formatNbr} from './Features/formatNbr';
 import {
   Badge,
   Box,
@@ -50,10 +51,7 @@ function InProgress() {
   const nbrTypeTrav = (type) =>
     inProgress.filter((fiche) => fiche.typeTrav === type).length;
 
-  const formatNbr = (input) => {
-    return input < 10 ? `0${input}` : input;
-  };
-
+  
   const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby');
 
   const badgeSby = () => {

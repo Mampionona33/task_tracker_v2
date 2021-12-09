@@ -28,9 +28,9 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
-  const [statuCom, setStatuCom] = useState('');
+  const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
-  const [typeTrav, setTypeTrav] = useState('');
+  const [typeTrav, setTypeTrav] = useState('Contenu');
   const [statuIvpn, setStatuIvpn] = useState('');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
@@ -139,7 +139,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listStatCom}
                 size={'small'}
                 id='comboBoxStateCom'
-                defaultValue='---'
+				value={statuCom}
                 onChange={(e) => setStatuCom(e.target.innerText)}
                 sx={{ marginTop: 1.5 }}
                 PaperComponent={({ children }) => (
@@ -175,6 +175,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listTaches}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
+				value={typeTrav}
                 onChange={(e) => setTypeTrav(e.target.innerText)}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
@@ -268,10 +269,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           >
             Save
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type='Reset' form='formId'>
-            Reset
-          </Button>
+          <Button onClick={onClose}>Cancel</Button>          
         </DialogActions>
       </Dialog>
     </div>

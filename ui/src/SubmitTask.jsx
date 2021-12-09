@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import {formatNbr} from './Features/formatNbr';
+
 import {
   Paper,
   Box,
@@ -31,13 +33,7 @@ export default function SubmitTask() {
   const nbrTypeTrav = (type) =>
     submitedFiche.filter((fiche) => fiche.typeTrav === type).length;
 
-  const formatNbr = (input) => {
-    if (input < 10) {
-      return `0${input}`;
-    }
-  };
-
-  const arrayRemoveDuplicate = (array) => {
+   const arrayRemoveDuplicate = (array) => {
     let newArray = [];
     array.map((item) => {
       if (!newArray.includes(item)) {
