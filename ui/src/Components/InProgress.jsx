@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {formatNbr} from './Features/formatNbr';
+import { formatNbr } from '../Features/formatNbr';
 import {
   Badge,
   Box,
@@ -12,12 +12,12 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
-import { addFiche } from './redux/fiches/actionFiche.js';
+import { addFiche } from '../redux/fiches/actionFiche.js';
 import { useSelector, useDispatch } from 'react-redux';
-import graphQLFetch from './graphQLFetch.jsx';
+import graphQLFetch from '../graphQLFetch.jsx';
 
 import { useQuery, gql } from '@apollo/client';
-import { LOAD_DATA } from './GraphQL/Queries';
+import { LOAD_DATA } from '../GraphQL/Queries';
 
 // au lieu d'utiliser props on fait la destructuration , donc on recupere uniquement data par {data}
 
@@ -51,7 +51,6 @@ function InProgress() {
   const nbrTypeTrav = (type) =>
     inProgress.filter((fiche) => fiche.typeTrav === type).length;
 
-  
   const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby');
 
   const badgeSby = () => {
@@ -109,12 +108,17 @@ function InProgress() {
         <ListItem key={index} sx={{ paddingTop: 0, paddingBottom: 0 }}>
           <ListItemText
             primary={
-              <Grid container alignItems='center' spacing={1}>
+              <Grid
+                container
+                alignItems='center'
+                spacing={1}
+                justifyContent='space-between'
+              >
                 <Grid item>
                   <Typography>{type}</Typography>
                 </Grid>
-                <Grid item>{formatNbr(nbr)}</Grid>
                 <Grid item>{onStdby(type)}</Grid>
+                <Grid item>{formatNbr(nbr)}</Grid>
               </Grid>
             }
           />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {formatNbr} from './Features/formatNbr';
+import {formatNbr} from '../Features/formatNbr';
 
 import {
   Paper,
@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { styled, withStyles } from '@mui/material/styles';
 import { useQuery, gql } from '@apollo/client';
-import { LOAD_DATA } from './GraphQL/Queries';
+import { LOAD_DATA } from '../GraphQL/Queries';
 
 // destructuration de props => on utilise {data}
 export default function SubmitTask() {

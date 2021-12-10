@@ -10,9 +10,12 @@ export const ADD_FICHE = gql`
       statuIvpn
       url
       state
-      submiteState
       nbBefor
       nbAft
+      startDate
+      validDate
+      submiteState
+      comment
     }
   }
 `;

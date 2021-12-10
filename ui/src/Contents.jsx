@@ -2,9 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // import components
-import TaskList from './TaskList.jsx';
-import DashBoard from './Dashboard.jsx';
-
+import TaskList from './Components/TaskList.jsx';
+import DashBoard from './Components/Dashboard.jsx';
 const NotFound = () => {
   return <h1>Page Not Found</h1>;
 };

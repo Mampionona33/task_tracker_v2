@@ -10,6 +10,7 @@ const fiches = require('./schema/fiches');
 const typeTache = require('./schema/typeTache');
 const statCom = require('./schema/statusCom');
 const statIvpn = require('./schema/statIvpn');
+const GraphQLDate = require('./schema/graphql_date');
 
 const resolvers = {
   Query: {
@@ -46,6 +47,7 @@ const resolvers = {
     statIvpnUpdate: statIvpn.update,
     statIvpnDelete: statIvpn.del,
   },
+  GraphQLDate,
 };
 
 const server = new ApolloServer({

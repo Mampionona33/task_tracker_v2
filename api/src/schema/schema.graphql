@@ -1,3 +1,9 @@
+scalar GraphQLDate
+enum StateType {
+  Normal
+  Sby
+  Paf
+}
 #Fiches ---------
 type Fiches {
   _id: String!
@@ -8,12 +14,12 @@ type Fiches {
   statuCom: String
   statuIvpn: String
   url: String
-  state: String
+  state: StateType
   submiteState: Boolean
   nbBefor: Int
   nbAft: Int
-  startDate: String
-  validDate: String
+  startDate: GraphQLDate
+  validDate: GraphQLDate
   duree: String
   productivity: String
   comment: String
@@ -36,11 +42,13 @@ input FichesInputs {
   statuCom: String
   statuIvpn: String
   url: String
-  state: String
+  state: StateType = Normal
   nbBefor: Int = 0
   nbAft: Int = 0
+  startDate: GraphQLDate
+  validDate: GraphQLDate
   submiteState: Boolean = false
-  comment : String
+  comment: String
 }
 ##Update Fiches --------
 input UpdateFiches {
@@ -52,12 +60,12 @@ input UpdateFiches {
   statuCom: String
   statuIvpn: String
   url: String
-  state: String
+  state: StateType
   submiteState: Boolean
   nbBefor: Int
   nbAft: Int
-  startDate: String
-  validDate: String
+  startDate: GraphQLDate
+  validDate: GraphQLDate
   duree: String
   productivity: String
 }

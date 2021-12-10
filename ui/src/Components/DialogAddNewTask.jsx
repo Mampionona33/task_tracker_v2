@@ -10,15 +10,16 @@ import {
   Paper,
   Typography,
   TextareaAutosize,
-  FormControl,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { ADD_FICHE } from './GraphQL/Mutation';
+import { ADD_FICHE } from '../GraphQL/Mutation';
 
 import { useQuery, gql, refetchQueries } from '@apollo/client';
-import { LOAD_DATA } from './GraphQL/Queries';
+import { LOAD_DATA } from '../GraphQL/Queries';
+
+import { GetStartDateTime } from '../Features/time';
 
 export default function DialogAddNewTask({ open, onClose }) {
   // fetching data from mongodb
@@ -30,11 +31,12 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [cat, setCat] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
-  const [typeTrav, setTypeTrav] = useState('Contenu');
+  const [typeTrav, setTypeTrav] = useState('');
   const [statuIvpn, setStatuIvpn] = useState('');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
 
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -53,6 +55,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           nbBefor: nbBefor,
           nbAft: nbAft,
           comment: comment,
+          startDate: startDate,
         },
       },
     });
@@ -139,7 +142,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listStatCom}
                 size={'small'}
                 id='comboBoxStateCom'
-				value={statuCom}
+                defaultValue='---'
                 onChange={(e) => setStatuCom(e.target.innerText)}
                 sx={{ marginTop: 1.5 }}
                 PaperComponent={({ children }) => (
@@ -175,17 +178,13 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listTaches}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
-				value={typeTrav}
+                defaultValue='Contenu'
                 onChange={(e) => setTypeTrav(e.target.innerText)}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
                 )}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label='Type de Travail'
-                    variant='standard'
-                  />
+                  <TextField {...params} label='Work Type' variant='standard' />
                 )}
               />
             </Box>
@@ -265,11 +264,12 @@ export default function DialogAddNewTask({ open, onClose }) {
               addFiche();
               onClose();
               handleReset();
+              setStartDate(GetStartDateTime());
             }}
           >
             Save
           </Button>
-          <Button onClick={onClose}>Cancel</Button>          
+          <Button onClick={onClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </div>
