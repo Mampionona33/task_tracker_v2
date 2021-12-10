@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Card,
@@ -9,10 +9,21 @@ import {
   ListItem,
 } from '@mui/material';
 
-import { getTime } from '../Features/time';
+import { useQuery, gql } from '@apollo/client';
+import { LOAD_DATA } from '../GraphQL/Queries';
 
 export default function processing(params) {
-  //   console.log(getTime);
+  const [taches, setTaches] = useState([]);
+  const { error, loading, data } = useQuery(LOAD_DATA);
+  useEffect(() => {
+    if (data) {
+      setTaches(data.listFiches);
+    }
+  }, [data]);
+
+  const processing = taches.filter((item) => item.processing === true);
+  // console.log(processing);
+
   return (
     <React.Fragment>
       <Grid item>

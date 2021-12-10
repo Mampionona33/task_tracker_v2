@@ -23,6 +23,7 @@ type Fiches {
   duree: String
   productivity: String
   comment: String
+  processing: Boolean
 }
 ##Filtre Fiches -------
 input SearchFichesInputs {
@@ -49,6 +50,7 @@ input FichesInputs {
   validDate: GraphQLDate
   submiteState: Boolean = false
   comment: String
+  processing: Boolean = false
 }
 ##Update Fiches --------
 input UpdateFiches {

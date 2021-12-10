@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {formatNbr} from '../Features/formatNbr';
+import { formatNbr } from '../Features/formatNbr';
 
 import {
   Paper,
@@ -12,7 +12,6 @@ import {
   ListItemText,
   Grid,
 } from '@mui/material';
-import { styled, withStyles } from '@mui/material/styles';
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 
@@ -33,7 +32,7 @@ export default function SubmitTask() {
   const nbrTypeTrav = (type) =>
     submitedFiche.filter((fiche) => fiche.typeTrav === type).length;
 
-   const arrayRemoveDuplicate = (array) => {
+  const arrayRemoveDuplicate = (array) => {
     let newArray = [];
     array.map((item) => {
       if (!newArray.includes(item)) {

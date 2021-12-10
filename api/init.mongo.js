@@ -56,6 +56,7 @@ async function resetMongo() {
         validDate: new Date('2019-01-16'),
         duree: '03:15:00',
         productivity: '100%',
+        processing: false,
       },
 
       {
@@ -73,6 +74,7 @@ async function resetMongo() {
         validDate: new Date('2003-05-01'),
         duree: '03:15:00',
         productivity: '102%',
+        processing: false,
       },
       {
         id: 3,
@@ -89,6 +91,7 @@ async function resetMongo() {
         validDate: new Date('2019-01-17'),
         duree: '03:15:00',
         productivity: '103%',
+        processing: false,
       },
       {
         id: 4,
@@ -105,6 +108,7 @@ async function resetMongo() {
         validDate: new Date('2021-07-30'),
         duree: '03:15:00',
         productivity: '100%',
+        processing: false,
       },
       {
         id: 5,
@@ -121,6 +125,7 @@ async function resetMongo() {
         validDate: new Date('2021-12-17'),
         duree: '03:15:00',
         productivity: '100%',
+        processing: false,
       },
       {
         id: 6,
@@ -137,6 +142,7 @@ async function resetMongo() {
         validDate: new Date('2000-03-04'),
         duree: '03:15:00',
         productivity: '100%',
+        processing: true,
       },
     ];
     const initTypeTaches = [

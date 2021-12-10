@@ -26,6 +26,9 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [typeTache, setTypeTache] = useState([]);
   const [listStatIvpn, setListStatIvpn] = useState([]);
   const [comboStatCom, setComboStatCom] = useState([]);
+  const [listFicheFromData, setListFichesFromData] = useState([]);
+
+  const [prevPrecessiong, setPrevProcessing] = useState(true);
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
@@ -37,6 +40,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
   const [startDate, setStartDate] = useState(new Date());
+  const [processing, setProcessing] = useState(true);
 
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -56,6 +60,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           nbAft: nbAft,
           comment: comment,
           startDate: startDate,
+          processing: processing,
         },
       },
     });
@@ -71,8 +76,15 @@ export default function DialogAddNewTask({ open, onClose }) {
       setTypeTache(data.listTypeTaches);
       setListStatIvpn(data.listStatIvpn);
       setComboStatCom(data.listStatCom);
+      setListFichesFromData(data.listFiches);
     }
   }, [data]);
+
+  const currentProcessing = listFicheFromData.filter(
+    (fiche) => fiche.processing === true
+  );
+
+  console.log(currentProcessing);
 
   async function handleReset(e) {
     setNumFiche('');

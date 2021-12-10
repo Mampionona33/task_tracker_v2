@@ -24,11 +24,14 @@ async function add(_, { fiche }) {
 
 async function search(
   _,
-  { input: { numFiche, typeTrav, submiteState, cat, statuCom, statuIvpn } }
+  { input: { id, numFiche, typeTrav, submiteState, cat, statuCom, statuIvpn } }
 ) {
   const db = getDb();
   // create filter
   const filter = {};
+  if (id) {
+    filter.id = id;
+  }
   if (numFiche) {
     filter.numFiche = { $regex: numFiche, $options: 'i' };
   }

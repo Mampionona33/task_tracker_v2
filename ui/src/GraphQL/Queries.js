@@ -16,6 +16,10 @@ export const LOAD_DATA = gql`
       nbAft
       startDate
       validDate
+      duree
+      productivity
+      comment
+      processing
     }
     listTypeTaches {
       id
@@ -29,6 +33,30 @@ export const LOAD_DATA = gql`
     listStatIvpn {
       id
       name
+    }
+  }
+`;
+
+export const SEARCH_FICHE_BY_ID = gql`
+  query SearchFiches($input: SearchFichesInputs) {
+    searchFiches(input: $input) {
+      id
+      typeTrav
+      cat
+      numFiche
+      statuCom
+      statuIvpn
+      url
+      state
+      submiteState
+      nbBefor
+      nbAft
+      startDate
+      validDate
+      duree
+      productivity
+      comment
+      processing
     }
   }
 `;

@@ -12,14 +12,9 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
-import { addFiche } from '../redux/fiches/actionFiche.js';
-import { useSelector, useDispatch } from 'react-redux';
-import graphQLFetch from '../graphQLFetch.jsx';
 
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
-
-// au lieu d'utiliser props on fait la destructuration , donc on recupere uniquement data par {data}
 
 function InProgress() {
   const [tache, setTache] = useState([]);
@@ -32,8 +27,6 @@ function InProgress() {
   }, [data]);
 
   const inProgress = tache.filter((fiche) => fiche.submiteState === false);
-
-  // console.log(inProgress);
 
   const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav);
 
