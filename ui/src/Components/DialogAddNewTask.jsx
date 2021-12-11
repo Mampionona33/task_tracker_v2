@@ -81,10 +81,8 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [data]);
 
   const currentProcessing = listFicheFromData.filter(
-    (fiche) => fiche.processing === true
-  );
+    (fiche) => fiche.processing === true  );
 
-  console.log(currentProcessing);
 
   async function handleReset(e) {
     setNumFiche('');
