@@ -31,22 +31,23 @@ export default function processing(params) {
 	const [day, setDay] = useState(0);	
 	const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`;	
 	
-	
-	const chronometer = () => {		
-			setSec((sec) => sec+1);
-			if(sec >= 60){
-				setSec(0);
-				setMin((min) => min+1);
-				if(min >= 60){
-					setMin(0);
-					setHrs((hrs) => hrs+1);
-					if(hrs >= 24){
-						setHours(0);
-						setDay((day) => day+1);
-					}
-				}
+	// set tick
+	const tick = () => {		
+		setSec(sec => sec+1);		
+	}
+	// increment clock
+	if(sec >= 60 ){
+		setSec(0);
+		setMin(min => min+1);
+		if(min >= 60){
+			setMin(0);
+			setHrs(hrs => hrs+1);
+			if(hrs >= 24){
+				setHrs(0);
+				setDay(day => day+1);
 			}
-	} 
+		}
+	}
 	
   
   useEffect(() => {  
@@ -55,13 +56,12 @@ export default function processing(params) {
       setTaches(data.listFiches);
     }
 		
-	const intervalId = setInterval(() => chronometer(),1000);	
+	const intervalId = setInterval(() => tick(),1000);	
 	
 	return () => clearInterval(intervalId);	
 	
   }, [data]);
   
-    
   
   return (
     <React.Fragment>
