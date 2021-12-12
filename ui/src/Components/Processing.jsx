@@ -13,14 +13,12 @@ import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import { formatNbr } from '../Features/formatNbr';
 
-// import { chronometer } from '../Features/time';
-
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const { error, loading, data } = useQuery(LOAD_DATA);
   
-   const processing = taches.filter((item) => item.processing === true)  
+  const processing = taches.filter((item) => item.processing === true)  
   const numFiche = processing.map(item => item.numFiche);
   const typeTrav = processing.map(item => item.typeTrav);
   const duration = processing.map(item => item.duree); 
@@ -29,7 +27,11 @@ export default function processing(params) {
 	const [min, setMin] = useState(0);
 	const [hrs, setHrs] = useState(0);
 	const [day, setDay] = useState(0);	
-	const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`;	
+	const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`;
+	
+	let hrsData={};
+	let hrsDataInt = 0;
+	
 	
 	// set tick
 	const tick = () => {		
@@ -49,19 +51,36 @@ export default function processing(params) {
 		}
 	}
 	
+	
+	// fetch last worked time
+	const timeData = duration[0];
+	
+	if(timeData){
+		hrsData = timeData.slice(0,2);
+		hrsDataInt = parseInt(hrsData);
+	}
+	console.log(hrsDataInt);
+	
+	
   
-  useEffect(() => {  
+  useEffect(() => {
+	
 		  
     if (data) {
       setTaches(data.listFiches);
     }
+	
+	if(hrsDataInt !== 0){
+		setHrs(hrsDataInt);		
+	}
 		
 	const intervalId = setInterval(() => tick(),1000);	
 	
-	return () => clearInterval(intervalId);	
+	return () => clearInterval(intervalId);
+	
 	
   }, [data]);
-  
+    
   
   return (
     <React.Fragment>
