@@ -18,59 +18,49 @@ import { formatNbr } from '../Features/formatNbr';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const { error, loading, data } = useQuery(LOAD_DATA); 
-  const [milSec, setMilSec] = useState(0);
-	const [sec, setSec] = useState(0);
-	const [min, setMin] = useState(0);
-	const [hrs, setHrs] = useState(0);
-	const [day, setDay] = useState(0);
-	const [output, setOutput] = useState(``);
-	
+  const { error, loading, data } = useQuery(LOAD_DATA);
   
-  useEffect(() => {
-	  
-	const chronometer = () => {	
-	
-	setMilSec(milSec => milSec+1);
-	if(milSec >= 60 ){
-		setMilSec(0);
-		setSec((sec) => sec+1);
-		if(sec >= 60){
-			setSec(0);
-			setMin((min) => min+1);
-			if(min >= 60){
-				setMin(0);
-				setHrs((hrs) => hrs+1);
-				if(hrs >= 24){
-					setHours(0);
-					setDay((day) => day+1);
-				}
-			}
-		}
-	}
-	
-	setOutput(`${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`);
-  }   
-	  
-    if (data) {
-      setTaches(data.listFiches);
-    }
-	
-
-	const interval = setInterval(chronometer(),1000);
-
-	return () => clearInterval(interval);
-	
-  }, [data, milSec ]);
-  
-  
-		
-  
-  const processing = taches.filter((item) => item.processing === true);
-  
+   const processing = taches.filter((item) => item.processing === true)  
   const numFiche = processing.map(item => item.numFiche);
   const typeTrav = processing.map(item => item.typeTrav);
   const duration = processing.map(item => item.duree); 
+  
+	const [sec, setSec] = useState(0);
+	const [min, setMin] = useState(0);
+	const [hrs, setHrs] = useState(0);
+	const [day, setDay] = useState(0);	
+	const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`;	
+	
+	
+	const chronometer = () => {		
+			setSec((sec) => sec+1);
+			if(sec >= 60){
+				setSec(0);
+				setMin((min) => min+1);
+				if(min >= 60){
+					setMin(0);
+					setHrs((hrs) => hrs+1);
+					if(hrs >= 24){
+						setHours(0);
+						setDay((day) => day+1);
+					}
+				}
+			}
+	} 
+	
+  
+  useEffect(() => {  
+		  
+    if (data) {
+      setTaches(data.listFiches);
+    }
+		
+	const intervalId = setInterval(() => chronometer(),1000);	
+	
+	return () => clearInterval(intervalId);	
+	
+  }, [data]);
+  
     
   
   return (
@@ -91,7 +81,7 @@ export default function processing(params) {
             <List>
               <ListItem>Work Type : {typeTrav}</ListItem>
               <ListItem>Time Elapsed : {duration} </ListItem>
-              <ListItem>Time Left : {output} </ListItem>
+              <ListItem>Time Left : {timer} </ListItem>
               <ListItem>productivity</ListItem>
               <ListItem>Goal</ListItem>
             </List>
