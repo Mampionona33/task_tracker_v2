@@ -58,9 +58,7 @@ export default function processing(params) {
 	if(timeData){
 		hrsData = timeData.slice(0,2);
 		hrsDataInt = parseInt(hrsData);
-	}
-	console.log(hrsDataInt);
-	
+	}	
 	
   
   useEffect(() => {

@@ -14,7 +14,7 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { ADD_FICHE } from '../GraphQL/Mutation';
+import { ADD_FICHE,UPDATE_FICHE } from '../GraphQL/Mutation';
 
 import { useQuery, gql, refetchQueries } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
@@ -22,7 +22,6 @@ import { LOAD_DATA } from '../GraphQL/Queries';
 import { GetStartDateTime } from '../Features/time';
 
 export default function DialogAddNewTask({ open, onClose }) {
-  // fetching data from mongodb
   const [typeTache, setTypeTache] = useState([]);
   const [listStatIvpn, setListStatIvpn] = useState([]);
   const [comboStatCom, setComboStatCom] = useState([]);
@@ -34,18 +33,20 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [cat, setCat] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
-  const [typeTrav, setTypeTrav] = useState('');
+  const [typeTrav, setTypeTrav] = useState(undefined);
   const [statuIvpn, setStatuIvpn] = useState('');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [processing, setProcessing] = useState(true);
+  // const [submiteState, setSubmiteState] = useState(false);
 
+	// execute mutation ficheAdd
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
-
+	// Function to add new task in data base
   const addFiche = () => {
     fichesAdd({
       variables: {
@@ -69,7 +70,37 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   };
 
+	// Loadin data from data base
   const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+	// Get the current task in process
+  const currentProcessing = listFicheFromData.filter(
+    (fiche) => fiche.processing === true  );
+	
+	const objIdCurrent = currentProcessing.map(fiche => fiche.id);
+	// get id of current task in process
+	const idCurrent = objIdCurrent[0];
+	// get the current task in process from data base using mutation
+	const [fichesUpdate,{error:erroUpDate}] = useMutation(UPDATE_FICHE,{refetchQueries:[LOAD_DATA]});
+	console.log(idCurrent);
+	
+	// function to execute the update
+	const updateData = async () => {
+		await addFiche();
+		fichesUpdate({
+			variables:{
+				filter : {
+					id : idCurrent,
+				},
+				update:{
+					processing : false,
+				}
+			}
+		});
+		if (erroUpDate) {
+			console.log(erroUpDate);
+		}
+	};
+	
 
   useEffect(() => {
     if (data) {
@@ -79,17 +110,15 @@ export default function DialogAddNewTask({ open, onClose }) {
       setListFichesFromData(data.listFiches);
     }
   }, [data]);
-
-  const currentProcessing = listFicheFromData.filter(
-    (fiche) => fiche.processing === true  );
-
+	
 
   async function handleReset(e) {
+	await updateData();
     setNumFiche('');
     setCat('');
     setStatuCom('');
     setUrl('');
-    setTypeTrav('');
+    setTypeTrav(undefined);
     setNbBefor(0);
     setNbAft(0);
     setComment('');
@@ -188,7 +217,6 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listTaches}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
-                defaultValue='Contenu'
                 onChange={(e) => setTypeTrav(e.target.innerText)}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
@@ -271,9 +299,8 @@ export default function DialogAddNewTask({ open, onClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              addFiche();
               onClose();
-              handleReset();
+			  handleReset();
               setStartDate(GetStartDateTime());
             }}
           >

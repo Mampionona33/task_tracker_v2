@@ -37,7 +37,7 @@ input SearchFichesInputs {
 }
 ##Inputs Fiches --------
 input FichesInputs {
-  typeTrav: String
+  typeTrav: String = "Empty Type"
   cat: String
   numFiche: String
   statuCom: String
@@ -63,13 +63,14 @@ input UpdateFiches {
   statuIvpn: String
   url: String
   state: StateType
-  submiteState: Boolean
+  submiteState: Boolean 
   nbBefor: Int
   nbAft: Int
   startDate: GraphQLDate
   validDate: GraphQLDate
   duree: String
   productivity: String
+  processing: Boolean
 }
 
 #TypeTache ----------
