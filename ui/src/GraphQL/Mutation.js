@@ -16,6 +16,15 @@ export const ADD_FICHE = gql`
       validDate
       submiteState
       comment
+      processing
+    }
+  }
+`;
+
+export const UPDATE_FICHE = gql`
+  mutation FichesUpdate($filter: FilterById, $update: UpdateFiches) {
+    fichesUpdate(filter: $filter, update: $update) {
+      processing
     }
   }
 `;

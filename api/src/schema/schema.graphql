@@ -34,6 +34,7 @@ input SearchFichesInputs {
   numFiche: String
   typeTrav: String
   submiteState: Boolean
+  processing: Boolean
 }
 ##Inputs Fiches --------
 input FichesInputs {
@@ -70,6 +71,7 @@ input UpdateFiches {
   validDate: GraphQLDate
   duree: String
   productivity: String
+  processing: Boolean
 }
 
 #TypeTache ----------

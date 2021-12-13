@@ -14,7 +14,7 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { ADD_FICHE } from '../GraphQL/Mutation';
+import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 
 import { useQuery, gql, refetchQueries } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
@@ -22,13 +22,10 @@ import { LOAD_DATA } from '../GraphQL/Queries';
 import { GetStartDateTime } from '../Features/time';
 
 export default function DialogAddNewTask({ open, onClose }) {
-  // fetching data from mongodb
   const [typeTache, setTypeTache] = useState([]);
   const [listStatIvpn, setListStatIvpn] = useState([]);
   const [comboStatCom, setComboStatCom] = useState([]);
   const [listFicheFromData, setListFichesFromData] = useState([]);
-
-  const [prevPrecessiong, setPrevProcessing] = useState(true);
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
@@ -42,10 +39,12 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [startDate, setStartDate] = useState(new Date());
   const [processing, setProcessing] = useState(true);
 
+  // execute a mutation ADD_FICHE then refetch Queries
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
 
+  // function to execute mutation AddFiche when button save clicked
   const addFiche = () => {
     fichesAdd({
       variables: {
@@ -69,7 +68,40 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   };
 
+  // Make a query to load data from mongodb
   const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+  // take the current task in process with processing status true
+  const currentProcessing = listFicheFromData.filter(
+    (fiche) => fiche.processing === true
+  );
+
+  // get the id of the current task in process
+  const idCurrent = currentProcessing.map((fiche) => fiche.id);
+  const idCurrentNumb = idCurrent[0];
+  // execut a mutation to update the current task with processing status true to false
+  const [FichesUpdate, { error: errorUpdateCurrentProcessingState }] =
+    useMutation(UPDATE_FICHE, {
+      refetchQueries: [LOAD_DATA],
+    });
+
+  // function to execute inside mutation FichesUpdate to set processing false for the current processing.
+  const setCurrentProcessingFalse = async () => {
+    // waiting until current task processing set false before add new
+    await addFiche();
+    FichesUpdate({
+      variables: {
+        filter: {
+          id: idCurrentNumb,
+        },
+        update: {
+          processing: false,
+        },
+      },
+    });
+    if (errorUpdateCurrentProcessingState) {
+      console.log(errorUpdateCurrentProcessingState);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -79,10 +111,6 @@ export default function DialogAddNewTask({ open, onClose }) {
       setListFichesFromData(data.listFiches);
     }
   }, [data]);
-
-  const currentProcessing = listFicheFromData.filter(
-    (fiche) => fiche.processing === true  );
-
 
   async function handleReset(e) {
     setNumFiche('');
@@ -271,10 +299,10 @@ export default function DialogAddNewTask({ open, onClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              addFiche();
+              setCurrentProcessingFalse();
+              setStartDate(GetStartDateTime());
               onClose();
               handleReset();
-              setStartDate(GetStartDateTime());
             }}
           >
             Save
