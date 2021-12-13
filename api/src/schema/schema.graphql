@@ -21,7 +21,7 @@ type Fiches {
   startDate: GraphQLDate
   validDate: GraphQLDate
   duree: String
-  productivity: String
+  productivity: Float
   comment: String
   processing: Boolean
 }
@@ -47,6 +47,7 @@ input FichesInputs {
   state: StateType = Normal
   nbBefor: Int = 0
   nbAft: Int = 0
+  duree: String = "00:00:00"
   startDate: GraphQLDate
   validDate: GraphQLDate
   submiteState: Boolean = false
@@ -57,7 +58,7 @@ input FichesInputs {
 input UpdateFiches {
   _id: String
   id: Int
-  typeTrav: String
+  typeTrav: String = "Empty Type"
   cat: String
   numFiche: String
   statuCom: String
@@ -70,7 +71,7 @@ input UpdateFiches {
   startDate: GraphQLDate
   validDate: GraphQLDate
   duree: String
-  productivity: String
+  productivity: Float
   processing: Boolean
 }
 

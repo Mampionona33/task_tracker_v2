@@ -19,6 +19,7 @@ import { LOAD_DATA } from '../GraphQL/Queries';
 function InProgress() {
   const [tache, setTache] = useState([]);
 
+  // fetch data from mangoDb
   const { error, loading, data } = useQuery(LOAD_DATA);
   useEffect(() => {
     if (data) {
@@ -26,10 +27,13 @@ function InProgress() {
     }
   }, [data]);
 
+  // filter all unsubmited task
   const inProgress = tache.filter((fiche) => fiche.submiteState === false);
 
+  // get all task type
   const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav);
 
+  // Remove all duplicate task type
   const arrayRemoveDuplicate = (array) => {
     let newArray = [];
     array.map((item) => {
@@ -40,6 +44,7 @@ function InProgress() {
     return newArray;
   };
   const typeTravNoDouble = arrayRemoveDuplicate(typeTravInprogress);
+  console.log(typeTravNoDouble);
 
   const nbrTypeTrav = (type) =>
     inProgress.filter((fiche) => fiche.typeTrav === type).length;
@@ -108,7 +113,12 @@ function InProgress() {
                 justifyContent='space-between'
               >
                 <Grid item>
-                  <Typography>{type}</Typography>
+                  <Typography
+                    // set the color of text to red if type fiche is 'Empty Type'
+                    style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
+                  >
+                    {type}
+                  </Typography>
                 </Grid>
                 <Grid item>{onStdby(type)}</Grid>
                 <Grid item>{formatNbr(nbr)}</Grid>

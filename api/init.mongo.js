@@ -55,7 +55,7 @@ async function resetMongo() {
         startDate: new Date('2019-01-15'),
         validDate: new Date('2019-01-16'),
         duree: '03:15:00',
-        productivity: '100%',
+        productivity: 0.96,
         processing: false,
       },
 
@@ -73,7 +73,7 @@ async function resetMongo() {
         startDate: new Date('2003-04-30'),
         validDate: new Date('2003-05-01'),
         duree: '03:15:00',
-        productivity: '102%',
+        productivity: 1,
         processing: false,
       },
       {
@@ -90,7 +90,7 @@ async function resetMongo() {
         startDate: new Date('2021-01-15'),
         validDate: new Date('2019-01-17'),
         duree: '03:15:00',
-        productivity: '103%',
+        productivity: 1.03,
         processing: false,
       },
       {
@@ -107,7 +107,7 @@ async function resetMongo() {
         startDate: new Date('2021-07-20'),
         validDate: new Date('2021-07-30'),
         duree: '03:15:00',
-        productivity: '100%',
+        productivity: 1.02,
         processing: false,
       },
       {
@@ -124,7 +124,7 @@ async function resetMongo() {
         startDate: new Date('2021-12-15'),
         validDate: new Date('2021-12-17'),
         duree: '03:15:00',
-        productivity: '100%',
+        productivity: 0.5,
         processing: false,
       },
       {
@@ -141,7 +141,7 @@ async function resetMongo() {
         startDate: new Date('2000-03-03'),
         validDate: new Date('2000-03-04'),
         duree: '03:15:00',
-        productivity: '100%',
+        productivity: 1,
         processing: true,
       },
     ];

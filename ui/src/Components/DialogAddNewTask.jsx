@@ -31,7 +31,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [cat, setCat] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
-  const [typeTrav, setTypeTrav] = useState('');
+  const [typeTrav, setTypeTrav] = useState('Empty Type');
   const [statuIvpn, setStatuIvpn] = useState('');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
@@ -78,6 +78,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   // get the id of the current task in process
   const idCurrent = currentProcessing.map((fiche) => fiche.id);
   const idCurrentNumb = idCurrent[0];
+  console.log(idCurrentNumb);
   // execut a mutation to update the current task with processing status true to false
   const [FichesUpdate, { error: errorUpdateCurrentProcessingState }] =
     useMutation(UPDATE_FICHE, {
@@ -113,11 +114,12 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [data]);
 
   async function handleReset(e) {
+    await setCurrentProcessingFalse();
     setNumFiche('');
     setCat('');
     setStatuCom('');
     setUrl('');
-    setTypeTrav('');
+    setTypeTrav('Empty Type');
     setNbBefor(0);
     setNbAft(0);
     setComment('');
@@ -299,7 +301,6 @@ export default function DialogAddNewTask({ open, onClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              setCurrentProcessingFalse();
               setStartDate(GetStartDateTime());
               onClose();
               handleReset();
