@@ -76,7 +76,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const prevProcess = listFicheFromData.filter(
     (fiche) => fiche.processing === true
   );
-  
+
   // get all key value of current processing task
   let prevProcessData = {};
   const prevProcessResult = prevProcess.map((fiche) => {
@@ -134,6 +134,7 @@ export default function DialogAddNewTask({ open, onClose }) {
         },
         update: {
           processing: false,
+          duree: prevProcessDuree,
           typeTrav: prevProcessTypeTrav,
           cat: prevProcessCat,
           numFiche: prevProcessNumFiche,
@@ -146,7 +147,6 @@ export default function DialogAddNewTask({ open, onClose }) {
           nbAft: prevProcessNbAft,
           startDate: prevProcessStartDate,
           validDate: prevProcessValidDate,
-          duree: prevProcessDuree,
           productivity: prevProcessProductivity,
           comment: prevProcessComment,
         },
