@@ -11,10 +11,16 @@ import {
   ListItemText,
   Grid,
   Paper,
+  keyframes,
 } from '@mui/material';
-
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
+
+// keyframe for animating text if type = 'Empty Type'
+const blink = keyframes`
+from{color: red;}
+to{color : white;}
+`;
 
 function InProgress() {
   const [tache, setTache] = useState([]);
@@ -46,6 +52,7 @@ function InProgress() {
 
   const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby');
 
+  // badget show on fiche state = Sby
   const badgeSby = () => {
     let text = `Stdby`;
     let nbr = 0;
@@ -107,7 +114,11 @@ function InProgress() {
                 spacing={1}
                 justifyContent='space-between'
                 // set the color of text to red if type fiche is 'Empty Type'
-                style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
+                // style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
+                sx={{
+                  animation:
+                    type === 'Empty Type' ? `${blink} 1s infinite linear` : '',
+                }}
               >
                 <Grid item>
                   <Typography>{type}</Typography>
