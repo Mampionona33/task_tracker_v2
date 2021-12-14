@@ -117,7 +117,9 @@ function InProgress() {
                 // style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
                 sx={{
                   animation:
-                    type === 'Empty Type' ? `${blink} 1s infinite linear` : '',
+                    type === 'Empty Type'
+                      ? `${blink} 1s infinite cubic-bezier(1,0.3,1,2)`
+                      : '',
                 }}
               >
                 <Grid item>
