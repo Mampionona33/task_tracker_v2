@@ -14,10 +14,10 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { ADD_FICHE,UPDATE_FICHE } from '../GraphQL/Mutation';
+import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 
 import { useQuery, gql, refetchQueries } from '@apollo/client';
-import { LOAD_DATA } from '../GraphQL/Queries';
+import { LOAD_DATA, SEARCH_FICHE_BY_ID } from '../GraphQL/Queries';
 
 import { GetStartDateTime } from '../Features/time';
 
@@ -42,11 +42,11 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [processing, setProcessing] = useState(true);
   // const [submiteState, setSubmiteState] = useState(false);
 
-	// execute mutation ficheAdd
+  // execute mutation ficheAdd
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
-	// Function to add new task in data base
+  // Function to add new task in data base
   const addFiche = () => {
     fichesAdd({
       variables: {
@@ -70,37 +70,92 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   };
 
-	// Loadin data from data base
+  // Loadin data from data base
   const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
-	// Get the current task in process
-  const currentProcessing = listFicheFromData.filter(
-    (fiche) => fiche.processing === true  );
-	
-	const objIdCurrent = currentProcessing.map(fiche => fiche.id);
-	// get id of current task in process
-	const idCurrent = objIdCurrent[0];
-	// get the current task in process from data base using mutation
-	const [fichesUpdate,{error:erroUpDate}] = useMutation(UPDATE_FICHE,{refetchQueries:[LOAD_DATA]});
-	console.log(idCurrent);
-	
-	// function to execute the update
-	const updateData = async () => {
-		await addFiche();
-		fichesUpdate({
-			variables:{
-				filter : {
-					id : idCurrent,
-				},
-				update:{
-					processing : false,
-				}
-			}
-		});
-		if (erroUpDate) {
-			console.log(erroUpDate);
-		}
-	};
-	
+  // Get the current task in process by filter processing = true
+  const prevProcess = listFicheFromData.filter(
+    (fiche) => fiche.processing === true
+  );
+  
+  // get all key value of current processing task
+  let prevProcessData = {};
+  const prevProcessResult = prevProcess.map((fiche) => {
+    prevProcessData = {
+      typeTrav: fiche.typeTrav,
+      cat: fiche.cat,
+      numFiche: fiche.numFiche,
+      statuCom: fiche.statuCom,
+      statuIvpn: fiche.statuIvpn,
+      url: fiche.url,
+      state: fiche.state,
+      submiteState: fiche.submiteState,
+      nbBefor: fiche.nbBefor,
+      nbAft: fiche.nbAft,
+      startDate: fiche.startDate,
+      validDate: fiche.validDate,
+      duree: fiche.duree,
+      productivity: fiche.productivity,
+      comment: fiche.comment,
+      processing: fiche.processing,
+      id: fiche.id,
+    };
+  });
+
+  const prevProcessId = prevProcessData.id;
+  const prevProcessProcessing = prevProcessData.processing;
+  const prevProcessComment = prevProcessData.comment;
+  const prevProcessProductivity = prevProcessData.productivity;
+  const prevProcessDuree = prevProcessData.duree;
+  const prevProcessValidDate = prevProcessData.validDate;
+  const prevProcessStartDate = prevProcessData.startDate;
+  const prevProcessNbAft = prevProcessData.nbAft;
+  const prevProcessNbBefor = prevProcessData.nbBefor;
+  const prevProcessSubmiteState = prevProcessData.submiteState;
+  const prevProcessState = prevProcessData.state;
+  const prevProcessUrl = prevProcessData.url;
+  const prevProcessStatuIvpn = prevProcessData.statuIvpn;
+  const prevProcessStatuCom = prevProcessData.statuCom;
+  const prevProcessNumFiche = prevProcessData.numFiche;
+  const prevProcessCat = prevProcessData.cat;
+  const prevProcessTypeTrav = prevProcessData.typeTrav;
+
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
+
+  // function to execute the update
+  const updateData = async () => {
+    await addFiche();
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: prevProcessId,
+        },
+        update: {
+          processing: false,
+          typeTrav: prevProcessTypeTrav,
+          cat: prevProcessCat,
+          numFiche: prevProcessNumFiche,
+          statuCom: prevProcessStatuCom,
+          statuIvpn: prevProcessStatuIvpn,
+          url: prevProcessUrl,
+          state: prevProcessState,
+          submiteState: prevProcessSubmiteState,
+          nbBefor: prevProcessNbBefor,
+          nbAft: prevProcessNbAft,
+          startDate: prevProcessStartDate,
+          validDate: prevProcessValidDate,
+          duree: prevProcessDuree,
+          productivity: prevProcessProductivity,
+          comment: prevProcessComment,
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -110,10 +165,9 @@ export default function DialogAddNewTask({ open, onClose }) {
       setListFichesFromData(data.listFiches);
     }
   }, [data]);
-	
 
   async function handleReset(e) {
-	await updateData();
+    await updateData();
     setNumFiche('');
     setCat('');
     setStatuCom('');
@@ -300,7 +354,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           <Button
             onClick={(e) => {
               onClose();
-			  handleReset();
+              handleReset();
               setStartDate(GetStartDateTime());
             }}
           >

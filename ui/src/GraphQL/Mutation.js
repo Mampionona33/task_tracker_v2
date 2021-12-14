@@ -20,26 +20,25 @@ export const ADD_FICHE = gql`
   }
 `;
 
-
 export const UPDATE_FICHE = gql`
-	mutation FichesUpdate($filter: FilterById, $update: UpdateFiches) {
-	fichesUpdate(filter: $filter, update: $update) {
-    processing
-    comment
-    productivity
-    nbAft
-	startDate
-	validDate
-	duree
-    submiteState
-	nbBefor
-    state
-    url
-    statuIvpn
-    numFiche
-	statuCom
-    typeTrav
-	cat
+  mutation FichesUpdate($filter: FilterById, $update: UpdateFiches) {
+    fichesUpdate(filter: $filter, update: $update) {
+      processing
+      comment
+      productivity
+      nbAft
+      startDate
+      validDate
+      duree
+      submiteState
+      nbBefor
+      state
+      url
+      statuIvpn
+      numFiche
+      statuCom
+      typeTrav
+      cat
+    }
   }
-}
 `;

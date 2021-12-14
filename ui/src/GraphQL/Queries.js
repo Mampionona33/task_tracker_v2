@@ -40,7 +40,6 @@ export const LOAD_DATA = gql`
 export const SEARCH_FICHE_BY_ID = gql`
   query SearchFiches($input: SearchFichesInputs) {
     searchFiches(input: $input) {
-      id
       typeTrav
       cat
       numFiche
@@ -57,6 +56,7 @@ export const SEARCH_FICHE_BY_ID = gql`
       productivity
       comment
       processing
+      id
     }
   }
 `;

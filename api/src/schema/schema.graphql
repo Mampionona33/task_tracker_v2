@@ -63,7 +63,7 @@ input UpdateFiches {
   statuIvpn: String
   url: String
   state: StateType
-  submiteState: Boolean 
+  submiteState: Boolean
   nbBefor: Int
   nbAft: Int
   startDate: GraphQLDate
@@ -71,6 +71,7 @@ input UpdateFiches {
   duree: String
   productivity: String
   processing: Boolean
+  comment: String
 }
 
 #TypeTache ----------
