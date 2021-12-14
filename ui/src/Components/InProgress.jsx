@@ -106,6 +106,8 @@ function InProgress() {
                 alignItems='center'
                 spacing={1}
                 justifyContent='space-between'
+                // set the color of text to red if type fiche is 'Empty Type'
+                style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
               >
                 <Grid item>
                   <Typography>{type}</Typography>
