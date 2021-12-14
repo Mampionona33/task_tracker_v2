@@ -15,14 +15,14 @@ import { formatNbr } from '../Features/formatNbr';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [day, setDay] = useState(dayInt != undefined ? dayInt : 0 );
-  const [hrs, setHrs] = useState(hrsInt != undefined ? hrsInt : 0);
-  const [sec, setSec] = useState(secInt != undefined ? secInt : 0);
-  const [min, setMin] = useState(minInt != undefined ? minInt : 0);
+  const [day, setDay] = useState( 0 );
+  const [hrs, setHrs] = useState(0);
+  const [sec, setSec] = useState( 0);
+  const [min, setMin] = useState(0);
   const [dayInt, setDayInt] = useState(0);
   const [hrsInt, setHrsInt] = useState(0);
   const [minInt, setMinInt] = useState(0);
-  const [secInt, setSecint] = useState(0);
+  const [secInt, setSecInt] = useState(0);  
 
   const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
     min
@@ -71,11 +71,30 @@ export default function processing(params) {
       }
     }
   }
-  const [count, setCount] = useState(0);
+   
+  
+  const runTick = async () => {
+	  await initTimer();
+	  const intervalId = setInterval(() =>  tick(), 1000);
+    return () => clearInterval(intervalId);
+  }
+  
+  const initTimer = () => {
+	  if((dayInt != undefined) && (hrsInt != undefined) && (minInt != undefined) && (secInt != undefined)){
+		setDay(dayInt);
+		setHrs(hrsInt);
+		setMin(minInt);
+		setSec(secInt);
+	}
+  }
+  
+  
   useEffect(() => {
     if (data) {
       setTaches(data.listFiches);
     }
+	
+	
 	
 	if(duree != undefined){
 		let dayString = duree.slice(0,2);
@@ -85,14 +104,11 @@ export default function processing(params) {
 		setDayInt(prev => parseInt(dayString));
 		setHrsInt(prev => parseInt(hrsString));
 		setMinInt(prev => parseInt(minString));
-		
+		setSecInt(prev => parseInt(secString));
 	}
-    // const intervalId = setInterval(() => setCount((prev) => prev + 1), 1000);
-    // return () => clearInterval(intervalId);
-	
-    // const intervalId = setInterval(() => tick(), 1000);
-    // return () => clearInterval(intervalId);
-  }, [data,duree]);
+	runTick();
+    
+  }, [data,duree, hrsInt,minInt,secInt]);
 
 		// console.log(`${dayInt}:${hrsInt}:${minInt}:${secInt}`);
  

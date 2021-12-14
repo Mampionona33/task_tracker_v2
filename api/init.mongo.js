@@ -123,9 +123,9 @@ async function resetMongo() {
         nbAft: 11,
         startDate: new Date('2021-12-15'),
         validDate: new Date('2021-12-17'),
-        duree: '00:01:15:00',
+        duree: '00:01:15:25',
         productivity: '100%',
-        processing: false,
+        processing: true,
       },
       {
         id: 6,
@@ -140,9 +140,9 @@ async function resetMongo() {
         nbAft: 164,
         startDate: new Date('2000-03-03'),
         validDate: new Date('2000-03-04'),
-        duree: '00:03:15:00',
+        duree: '00:03:15:25',
         productivity: '100%',
-        processing: true,
+        processing: false,
       },
     ];
     const initTypeTaches = [
