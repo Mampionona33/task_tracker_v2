@@ -4,7 +4,7 @@ import React,{useState} from 'react';
 export const GetStartDateTime = () => {
   const timeElapsed = Date.now();
   const timeNow = new Date(timeElapsed);
-  console.log(timeNow);
+  // console.log(timeNow);
   return timeNow;
 };
 

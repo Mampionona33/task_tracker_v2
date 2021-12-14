@@ -15,14 +15,14 @@ import { formatNbr } from '../Features/formatNbr';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [day, setDay] = useState(0);
-  const [hrs, setHrs] = useState(0);
-  const [sec, setSec] = useState(0);
-  const [min, setMin] = useState(0);
-  // const [dayInt, setDayInt] = useState(0);
-  // const [hrsInt, setHrsInt] = useState(0);
-  // const [minInt, setMinInt] = useState(0);
-  // const [secInt, setSecint] = useState(0);
+  const [day, setDay] = useState(dayInt != undefined ? dayInt : 0 );
+  const [hrs, setHrs] = useState(hrsInt != undefined ? hrsInt : 0);
+  const [sec, setSec] = useState(secInt != undefined ? secInt : 0);
+  const [min, setMin] = useState(minInt != undefined ? minInt : 0);
+  const [dayInt, setDayInt] = useState(0);
+  const [hrsInt, setHrsInt] = useState(0);
+  const [minInt, setMinInt] = useState(0);
+  const [secInt, setSecint] = useState(0);
 
   const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
     min
@@ -52,50 +52,8 @@ export default function processing(params) {
   const typeTrav = processingData.typeTrav;
   const duree = processingData.duree;
 
-  // variable to store current duration as string
-
-  // let dayString,
-  //   hrsString,
-  //   minString,
-  //   secString = {};
-
-  // let dayInt,
-  //   hrsInt,
-  //   minInt,
-  //   secInt = 0;
-
-  // if (duree) {
-  //   dayString = duree.slice(0, 2);
-  //   hrsString = duree.slice(3, 5);
-  //   minString = duree.slice(6, 8);
-  //   secString = duree.slice(9, 11);
-
-  //   dayInt = parseInt(dayString);
-  //   hrsInt = parseInt(hrsString);
-  //   minInt = parseInt(minString);
-  //   secInt = parseInt(secString);
-  // }
-
-  // if (duree) {
-  //   dayString = duree.slice(0, 2);
-  //   hrsString = duree.slice(3, 5);
-  //   minString = duree.slice(6, 8);
-  //   secString = duree.slice(9, 11);
-  // }
-
-  // console.log(
-  //   `day : ${dayInt} / hours : ${hrsInt} / min : ${minInt} / sec : ${secInt}`
-  // );
-
-  // console.log(duree);
-  // console.log(hrs);
-
-  // const initialValue = () => {
-  //   setHrs(duree.slice(3, 5));
-  //   console.log(hrs);
-  //   console.log('duree', duree);
-  // };
-
+  // variable to store current duration as string  
+	
   // set tick
   const tick = async () => {
     setSec((sec) => sec + 1);
@@ -118,19 +76,26 @@ export default function processing(params) {
     if (data) {
       setTaches(data.listFiches);
     }
-    const intervalId = setInterval(() => setCount((prev) => prev + 1), 1000);
-    return () => clearInterval(intervalId);
+	
+	if(duree != undefined){
+		let dayString = duree.slice(0,2);
+		let  hrsString = duree.slice(3 , 5);
+		let minString = duree.slice(6,8);
+		let secString = duree.slice(9,12);
+		setDayInt(prev => parseInt(dayString));
+		setHrsInt(prev => parseInt(hrsString));
+		setMinInt(prev => parseInt(minString));
+		
+	}
+    // const intervalId = setInterval(() => setCount((prev) => prev + 1), 1000);
+    // return () => clearInterval(intervalId);
+	
     // const intervalId = setInterval(() => tick(), 1000);
     // return () => clearInterval(intervalId);
-  }, [data]);
+  }, [data,duree]);
 
-  console.log(count);
-  if (count >= 60) {
-    setMin((min) => min + 1);
-    if (min >= 60) {
-      setMin(0);
-    }
-  }
+		// console.log(`${dayInt}:${hrsInt}:${minInt}:${secInt}`);
+ 
   return (
     <React.Fragment>
       <Grid item>
@@ -148,7 +113,7 @@ export default function processing(params) {
           <Box>
             <List>
               <ListItem>Work Type : {typeTrav}</ListItem>
-              <ListItem>Time Elapsed : {duree} </ListItem>
+              <ListItem>Time Elapsed : {/*hrsInt*/} </ListItem>
               <ListItem>Time Left : {timer} </ListItem>
               <ListItem>productivity</ListItem>
               <ListItem>Goal</ListItem>
