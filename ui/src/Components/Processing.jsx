@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Grid,
   Card,
@@ -7,7 +7,11 @@ import {
   Divider,
   List,
   ListItem,
+  Button,
+  IconButton,
 } from '@mui/material';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
@@ -23,12 +27,11 @@ export default function processing(params) {
   const [hrsInt, setHrsInt] = useState(0);
   const [minInt, setMinInt] = useState(0);
   const [secInt, setSecInt] = useState(0);
+  const increment = useRef(null);
 
   const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
     min
   )}:${formatNbr(sec)}`;
-
-  const [times, setTimes] = useState(0);
 
   // querying data from mongodb
   const { error, loading, data } = useQuery(LOAD_DATA);
@@ -86,6 +89,17 @@ export default function processing(params) {
     }
   };
 
+  // arretter l'incrementation par la click sur le button pause
+  const handleClickPause = (e) => {
+    e.preventDefault();
+    clearInterval(increment.current);
+  };
+  // activer l'incrementation par la click sur le button play
+  const handleClickPlay = (e) => {
+    e.preventDefault();
+    increment.current = setInterval(() => tick(), 1000);
+  };
+
   // useEffect -------------------------------
   useEffect(() => {
     if (data) {
@@ -103,15 +117,15 @@ export default function processing(params) {
     }
 
     initTimer();
-    const intervalId = setInterval(() => tick(), 1000);
-    return () => clearInterval(intervalId);
+    increment.current = setInterval(() => tick(), 1000);
+    return () => clearInterval(increment.current);
   }, [data, duree, hrsInt, minInt, secInt]);
 
   return (
     <React.Fragment>
       <Grid item>
         <Card>
-          <Box
+          <Grid
             sx={{
               backgroundColor: '#B03A2E',
               color: 'secondary.contrastText',
@@ -119,9 +133,9 @@ export default function processing(params) {
             }}
           >
             <Typography variant='h6'>Processing Booth : {numFiche}</Typography>
-          </Box>
+          </Grid>
           <Divider />
-          <Box>
+          <Grid>
             <List>
               <ListItem>Work Type : {typeTrav}</ListItem>
               <ListItem>Time Elapsed : {/*hrsInt*/} </ListItem>
@@ -129,7 +143,25 @@ export default function processing(params) {
               <ListItem>productivity</ListItem>
               <ListItem>Goal</ListItem>
             </List>
-          </Box>
+          </Grid>
+          <Grid display='flex' justifyContent='flex-end'>
+            <IconButton
+              color='primary'
+              component='span'
+              aria-label='Play button'
+              onClick={handleClickPlay}
+            >
+              <PlayCircleIcon />
+            </IconButton>
+            <IconButton
+              color='primary'
+              component='span'
+              aria-label='Pause button'
+              onClick={handleClickPause}
+            >
+              <PauseCircleIcon />
+            </IconButton>
+          </Grid>
         </Card>
       </Grid>
     </React.Fragment>
