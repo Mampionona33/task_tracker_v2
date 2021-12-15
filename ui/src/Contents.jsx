@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 
 // import components
 import TaskList from './Components/TaskList.jsx';
@@ -11,9 +11,9 @@ const NotFound = () => {
 export default function Contents() {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to='/dashboard' />} />
+      <Route path='/' element={<Navigate to='/dashboard/:fiche_id' />} />
       <Route path='/tasklist' element={<TaskList />} />
-      <Route path='/dashboard' element={<DashBoard />} />
+      <Route path='/dashboard/:fiche_id' element={<DashBoard />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   );

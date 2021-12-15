@@ -124,6 +124,11 @@ input FilterById {
   id: Int
 }
 
+type IdCounter {
+  _id: String
+  current: Int
+}
+
 #### top level declarations
 type Query {
   about: String!
@@ -132,6 +137,7 @@ type Query {
   listStatCom: [StatCom!]!
   listStatIvpn: [StatIvpn!]!
   searchFiches(input: SearchFichesInputs): [Fiches]
+  idCounter: [IdCounter]
 }
 
 type Mutation {

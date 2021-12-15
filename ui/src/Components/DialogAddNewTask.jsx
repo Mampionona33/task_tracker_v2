@@ -10,6 +10,7 @@ import {
   Paper,
   Typography,
   TextareaAutosize,
+  Link,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
@@ -26,6 +27,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [listStatIvpn, setListStatIvpn] = useState([]);
   const [comboStatCom, setComboStatCom] = useState([]);
   const [listFicheFromData, setListFichesFromData] = useState([]);
+  const [idCounter, setIdCounter] = useState([]);
 
   const [prevPrecessiong, setPrevProcessing] = useState(true);
 
@@ -124,6 +126,16 @@ export default function DialogAddNewTask({ open, onClose }) {
     refetchQueries: [LOAD_DATA],
   });
 
+  // get the fiche in idCounter
+  const idCounterGetFiche = idCounter.filter((item) => item._id === 'fiches');
+  let currentCounter = {};
+  const arrayIdCounter = idCounterGetFiche.map((item) => {
+    currentCounter = {
+      type: item._id,
+      id: item.current,
+    };
+  });
+
   // function to execute the update
   const updateData = async () => {
     await addFiche();
@@ -163,6 +175,7 @@ export default function DialogAddNewTask({ open, onClose }) {
       setListStatIvpn(data.listStatIvpn);
       setComboStatCom(data.listStatCom);
       setListFichesFromData(data.listFiches);
+      setIdCounter(data.idCounter);
     }
   }, [data]);
 
@@ -357,6 +370,8 @@ export default function DialogAddNewTask({ open, onClose }) {
               handleReset();
               setStartDate(GetStartDateTime());
             }}
+            component={Link}
+            href='#/dashboard/${fiche.id}'
           >
             Save
           </Button>

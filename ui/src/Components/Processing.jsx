@@ -17,6 +17,8 @@ import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import { formatNbr } from '../Features/formatNbr';
 
+import { withRouter } from 'react-router-dom';
+
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const [day, setDay] = useState(0);
@@ -54,6 +56,7 @@ export default function processing(params) {
       })
   );
 
+  const id = processingData.id;
   const numFiche = processingData.numFiche;
   const typeTrav = processingData.typeTrav;
   const duree = processingData.duree;

@@ -34,6 +34,10 @@ export const LOAD_DATA = gql`
       id
       name
     }
+    idCounter {
+      _id
+      current
+    }
   }
 `;
 

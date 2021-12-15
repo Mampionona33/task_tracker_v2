@@ -10,6 +10,7 @@ const fiches = require('./schema/fiches');
 const typeTache = require('./schema/typeTache');
 const statCom = require('./schema/statusCom');
 const statIvpn = require('./schema/statIvpn');
+const idCounter = require('./schema/idCounter');
 const GraphQLDate = require('./schema/graphql_date');
 
 const resolvers = {
@@ -24,6 +25,8 @@ const resolvers = {
     listStatCom: statCom.list,
 
     listStatIvpn: statIvpn.list,
+
+    idCounter: idCounter.list,
   },
   Mutation: {
     setAboutMessage: about.setMessage,
