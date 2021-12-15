@@ -371,7 +371,7 @@ export default function DialogAddNewTask({ open, onClose }) {
               setStartDate(GetStartDateTime());
             }}
             component={Link}
-            href='#/dashboard/${fiche.id}'
+            href={`#/dashboard/${currentCounter.id}`}
           >
             Save
           </Button>
