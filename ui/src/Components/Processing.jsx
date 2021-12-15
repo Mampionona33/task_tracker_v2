@@ -28,6 +28,7 @@ export default function processing(params) {
   const [minInt, setMinInt] = useState(0);
   const [secInt, setSecInt] = useState(0);
   const increment = useRef(null);
+  const [isClicked, setIsClicked] = useState(false);
 
   const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
     min
@@ -121,6 +122,37 @@ export default function processing(params) {
     return () => clearInterval(increment.current);
   }, [data, duree, hrsInt, minInt, secInt]);
 
+  const ButtonPlay = () => {
+    return (
+      <IconButton
+        color='primary'
+        component='span'
+        aria-label='Play button'
+        onClick={handleClickPlay}
+      >
+        <PlayCircleIcon />
+      </IconButton>
+    );
+  };
+
+  const ButtonPause = () => {
+    return (
+      <IconButton
+        color='primary'
+        component='span'
+        aria-label='Pause button'
+        onClick={handleClickPause}
+      >
+        <PauseCircleIcon />
+      </IconButton>
+    );
+  };
+
+  const handleClickButton = (e) => {
+    e.preventDefault();
+    isClicked ? setIsClicked(false) : setIsClicked(true);
+  };
+
   return (
     <React.Fragment>
       <Grid item>
@@ -145,21 +177,8 @@ export default function processing(params) {
             </List>
           </Grid>
           <Grid display='flex' justifyContent='flex-end'>
-            <IconButton
-              color='primary'
-              component='span'
-              aria-label='Play button'
-              onClick={handleClickPlay}
-            >
-              <PlayCircleIcon />
-            </IconButton>
-            <IconButton
-              color='primary'
-              component='span'
-              aria-label='Pause button'
-              onClick={handleClickPause}
-            >
-              <PauseCircleIcon />
+            <IconButton onClick={handleClickButton}>
+              {isClicked ? <ButtonPlay /> : <ButtonPause />}
             </IconButton>
           </Grid>
         </Card>
