@@ -15,18 +15,20 @@ import { formatNbr } from '../Features/formatNbr';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [day, setDay] = useState( 0 );
+  const [day, setDay] = useState(0);
   const [hrs, setHrs] = useState(0);
-  const [sec, setSec] = useState( 0);
+  const [sec, setSec] = useState(0);
   const [min, setMin] = useState(0);
   const [dayInt, setDayInt] = useState(0);
   const [hrsInt, setHrsInt] = useState(0);
   const [minInt, setMinInt] = useState(0);
-  const [secInt, setSecInt] = useState(0);  
+  const [secInt, setSecInt] = useState(0);
 
   const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
     min
   )}:${formatNbr(sec)}`;
+
+  const [times, setTimes] = useState(0);
 
   // querying data from mongodb
   const { error, loading, data } = useQuery(LOAD_DATA);
@@ -52,8 +54,6 @@ export default function processing(params) {
   const typeTrav = processingData.typeTrav;
   const duree = processingData.duree;
 
-  // variable to store current duration as string  
-	
   // set tick
   const tick = async () => {
     setSec((sec) => sec + 1);
@@ -71,47 +71,42 @@ export default function processing(params) {
       }
     }
   }
-   
-  
-  const runTick = async () => {
-	  await initTimer();
-	  const intervalId = setInterval(() =>  tick(), 1000);
-    return () => clearInterval(intervalId);
-  }
-  
+
   const initTimer = () => {
-	  if((dayInt != undefined) && (hrsInt != undefined) && (minInt != undefined) && (secInt != undefined)){
-		setDay(dayInt);
-		setHrs(hrsInt);
-		setMin(minInt);
-		setSec(secInt);
-	}
-  }
-  
-  
+    if (
+      dayInt != undefined &&
+      hrsInt != undefined &&
+      minInt != undefined &&
+      secInt != undefined
+    ) {
+      setDay(dayInt);
+      setHrs(hrsInt);
+      setMin(minInt);
+      setSec(secInt);
+    }
+  };
+
+  // useEffect -------------------------------
   useEffect(() => {
     if (data) {
       setTaches(data.listFiches);
     }
-	
-	
-	
-	if(duree != undefined){
-		let dayString = duree.slice(0,2);
-		let  hrsString = duree.slice(3 , 5);
-		let minString = duree.slice(6,8);
-		let secString = duree.slice(9,12);
-		setDayInt(prev => parseInt(dayString));
-		setHrsInt(prev => parseInt(hrsString));
-		setMinInt(prev => parseInt(minString));
-		setSecInt(prev => parseInt(secString));
-	}
-	runTick();
-    
-  }, [data,duree, hrsInt,minInt,secInt]);
+    if (duree != undefined) {
+      let dayString = duree.slice(0, 2);
+      let hrsString = duree.slice(3, 5);
+      let minString = duree.slice(6, 8);
+      let secString = duree.slice(9, 12);
+      setDayInt((prev) => parseInt(dayString));
+      setHrsInt((prev) => parseInt(hrsString));
+      setMinInt((prev) => parseInt(minString));
+      setSecInt((prev) => parseInt(secString));
+    }
 
-		// console.log(`${dayInt}:${hrsInt}:${minInt}:${secInt}`);
- 
+    initTimer();
+    const intervalId = setInterval(() => tick(), 1000);
+    return () => clearInterval(intervalId);
+  }, [data, duree, hrsInt, minInt, secInt]);
+
   return (
     <React.Fragment>
       <Grid item>
