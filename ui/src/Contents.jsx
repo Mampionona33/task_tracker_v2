@@ -11,9 +11,9 @@ const NotFound = () => {
 export default function Contents() {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to='/dashboard/:fiche_id' />} />
+      <Route path='/' element={<Navigate to='/dashboard' />} />
       <Route path='/tasklist' element={<TaskList />} />
-      <Route path='/dashboard/:fiche_id' element={<DashBoard />} />
+      <Route path='/dashboard' element={<DashBoard />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   );

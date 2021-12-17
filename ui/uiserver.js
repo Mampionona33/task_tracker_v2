@@ -34,6 +34,7 @@ if (apiProxyTarget) {
   );
 }
 
+// sending endpoint env to process.env
 const UI_API_ENDPOINT =
   process.env.UI_API_ENDPOINT || 'http://localhost:3000/graphql';
 const env = { UI_API_ENDPOINT };
