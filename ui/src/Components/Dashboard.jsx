@@ -17,7 +17,7 @@ export default function DashBoard() {
         justifyContent='space-evenly'
       >
         <SubmitTask />
-        <InProgress  />
+        <InProgress />
         <Processing />
       </Grid>
     </React.Fragment>
