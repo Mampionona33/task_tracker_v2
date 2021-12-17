@@ -19,6 +19,8 @@ import store from './redux/store.js';
 // import components
 import Page from './Page.jsx';
 
+import Auth0ProviderWithHistory from './auth0Provider';
+
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
@@ -38,11 +40,13 @@ const client = new ApolloClient({
 });
 
 const element = (
-  <ApolloProvider client={client}>
-    <Router>
-      <Page />
-    </Router>
-  </ApolloProvider>
+  <Auth0ProviderWithHistory>
+    <ApolloProvider client={client}>
+      <Router>
+        <Page />
+      </Router>
+    </ApolloProvider>
+  </Auth0ProviderWithHistory>
 );
 
 ReactDOM.render(element, document.getElementById('root'));

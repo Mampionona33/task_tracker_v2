@@ -15,6 +15,7 @@ import { Button } from '@mui/material';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 import DialogAddNewTask from './DialogAddNewTask.jsx';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Navbar() {
   // Gestion d'affichage de Drawer
@@ -45,6 +46,8 @@ export default function Navbar() {
     },
   }));
 
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+
   return (
     <React.Fragment>
       {/* Navbar */}
@@ -74,6 +77,21 @@ export default function Navbar() {
               >
                 Add New Task
               </Button>
+              <React.Fragment>
+                {!isLoading && !user && (
+                  <Button
+                    sx={{ color: 'white' }}
+                    onClick={() => loginWithRedirect()}
+                  >
+                    Loug In
+                  </Button>
+                )}
+                {!isLoading && user && (
+                  <Button sx={{ color: 'white' }} onClick={() => logout()}>
+                    Logout
+                  </Button>
+                )}
+              </React.Fragment>
             </Toolbar>
           </AppBar>
         </Box>
