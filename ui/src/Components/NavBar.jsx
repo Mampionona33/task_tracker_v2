@@ -4,13 +4,15 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
+import LogoutIcon from '@mui/icons-material/Logout'
+import AddIcon from '@mui/icons-material/Add'
 import MenuIcon from '@mui/icons-material/Menu'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import { useState } from 'react'
 import { styled, withStyles } from '@mui/material/styles'
-import { Button } from '@mui/material'
+import { Button, Avatar } from '@mui/material'
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx'
@@ -47,7 +49,9 @@ export default function Navbar() {
   }))
 
   const { loginWithRedirect, logout, user, isLoading } = useAuth0()
-  user ? console.log(user.address) : console.log('nop')
+
+  user ? console.log(user) : console.log('nop')
+
   return (
     <React.Fragment>
       {/* Navbar */}
@@ -75,8 +79,10 @@ export default function Navbar() {
                 }}
                 onClick={handleClickOpenDialAddNewTask}
               >
+                <AddIcon />
                 Add New Task
               </Button>
+
               <React.Fragment>
                 {/* {!isLoading && !user && (
                   <Button
@@ -87,15 +93,36 @@ export default function Navbar() {
                   </Button>
                 )} */}
                 {!isLoading && user && (
-                  <Button sx={{ color: 'white' }} onClick={() => logout()}>
-                    Log out
-                  </Button>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    columnGap="5px"
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        color: 'inherit',
+                        backgroundColor: 'primary.dark',
+                      }}
+                      onClick={() => logout()}
+                    >
+                      <LogoutIcon />
+                    </Button>
+                    <Avatar
+                      alt={user.name}
+                      src={user.picture}
+                      sx={{ width: 25, height: 25 }}
+                    />
+                  </Box>
                 )}
               </React.Fragment>
             </Toolbar>
           </AppBar>
         </Box>
       </React.Fragment>
+
       {/* Drawer */}
       <React.Fragment>
         <Box>
