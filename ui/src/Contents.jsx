@@ -20,10 +20,11 @@ export default function Contents() {
   } = useAuth0()
 
   useEffect(() => {
-    if (!user && !isLoading) {
+    // check if user is sign in else redirect to login page of auth0
+    if (!user && !isLoading && !isAuthenticated) {
       loginWithRedirect()
     }
-  }, [user, isLoading])
+  }, [user, isLoading, isAuthenticated])
 
   return (
     <Routes>
