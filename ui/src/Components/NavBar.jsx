@@ -1,74 +1,74 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import { useState } from 'react';
-import { styled, withStyles } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import { useState } from 'react'
+import { styled, withStyles } from '@mui/material/styles'
+import { Button } from '@mui/material'
 
 // import components
-import DrawerListItem from './DrawerListItem.jsx';
-import DialogAddNewTask from './DialogAddNewTask.jsx';
-import { useAuth0 } from '@auth0/auth0-react';
+import DrawerListItem from './DrawerListItem.jsx'
+import DialogAddNewTask from './DialogAddNewTask.jsx'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Navbar() {
   // Gestion d'affichage de Drawer
-  const [isOpen, setIsOpen] = useState(false);
-  const [dialOpen, setDialIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [dialOpen, setDialIsOpen] = useState(false)
 
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
     ) {
-      return;
+      return
     }
-    setIsOpen(open);
-  };
+    setIsOpen(open)
+  }
 
   const handleClickOpenDialAddNewTask = () => {
-    setDialIsOpen(true);
-  };
+    setDialIsOpen(true)
+  }
   const handleClickCloseDialAddNewTask = () => {
-    setDialIsOpen(false);
-  };
+    setDialIsOpen(false)
+  }
 
   // creat custom drawer with custom paper
   const CustomDrawer = styled(Drawer)(({ theme }) => ({
     '& > .MuiDrawer-paper ': {
       backgroundColor: theme.palette.primary.main,
     },
-  }));
+  }))
 
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0()
+  user ? console.log(user.address) : console.log('nop')
   return (
     <React.Fragment>
       {/* Navbar */}
       <React.Fragment>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position='static'>
-            <Toolbar variant='dense'>
+          <AppBar position="static">
+            <Toolbar variant="dense">
               <IconButton
-                edge='start'
-                color='inherit'
-                aria-label='menu'
+                edge="start"
+                color="inherit"
+                aria-label="menu"
                 sx={{ mr: 2 }}
                 onClick={toggleDrawer(true)}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Task Tracker
               </Typography>
               <Button
-                variant='outlined'
+                variant="outlined"
                 sx={{
                   color: 'inherit',
                   backgroundColor: 'primary.dark',
@@ -78,17 +78,17 @@ export default function Navbar() {
                 Add New Task
               </Button>
               <React.Fragment>
-                {!isLoading && !user && (
+                {/* {!isLoading && !user && (
                   <Button
                     sx={{ color: 'white' }}
                     onClick={() => loginWithRedirect()}
                   >
-                    Loug In
+                    Loug out
                   </Button>
-                )}
+                )} */}
                 {!isLoading && user && (
                   <Button sx={{ color: 'white' }} onClick={() => logout()}>
-                    Logout
+                    Log out
                   </Button>
                 )}
               </React.Fragment>
@@ -104,14 +104,14 @@ export default function Navbar() {
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<DashboardIcon />}
-                itemText='Dashboard'
-                href='#/dashboard'
+                itemText="Dashboard"
+                href="#/dashboard"
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<DashboardIcon />}
-                itemText='Task list'
-                href='#/tasklist'
+                itemText="Task list"
+                href="#/tasklist"
               />
             </List>
           </CustomDrawer>
@@ -124,5 +124,5 @@ export default function Navbar() {
         />
       </React.Fragment>
     </React.Fragment>
-  );
+  )
 }
