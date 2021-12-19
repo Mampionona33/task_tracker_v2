@@ -48,9 +48,8 @@ export default function Navbar() {
     },
   }))
 
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0()
-
-  user ? console.log(user) : console.log('nop')
+  const { logout, user, isLoading } = useAuth0()
+  console
 
   return (
     <React.Fragment>

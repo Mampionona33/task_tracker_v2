@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export const LOAD_DATA = gql`
   query Query {
     listFiches {
+      user
       id
       typeTrav
       cat
@@ -44,6 +45,7 @@ export const LOAD_DATA = gql`
 export const SEARCH_FICHE_BY_ID = gql`
   query SearchFiches($input: SearchFichesInputs) {
     searchFiches(input: $input) {
+      user
       typeTrav
       cat
       numFiche

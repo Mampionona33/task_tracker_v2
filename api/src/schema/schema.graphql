@@ -7,6 +7,7 @@ enum StateType {
 #Fiches ---------
 type Fiches {
   _id: String!
+  user: String!
   id: Int
   typeTrav: String
   cat: String
@@ -37,6 +38,7 @@ input SearchFichesInputs {
 }
 ##Inputs Fiches --------
 input FichesInputs {
+  user: String!
   typeTrav: String = "Empty Type"
   cat: String
   numFiche: String

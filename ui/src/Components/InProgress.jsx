@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { formatNbr } from '../Features/formatNbr';
+import React, { useEffect, useState } from 'react'
+import { formatNbr } from '../Features/formatNbr'
 import {
   Badge,
   Box,
@@ -12,55 +12,62 @@ import {
   Grid,
   Paper,
   keyframes,
-} from '@mui/material';
-import { useQuery, gql } from '@apollo/client';
-import { LOAD_DATA } from '../GraphQL/Queries';
+} from '@mui/material'
+import { useQuery, gql } from '@apollo/client'
+import { LOAD_DATA } from '../GraphQL/Queries'
+import { useAuth0 } from '@auth0/auth0-react'
 
 // keyframe for animating text if type = 'Empty Type'
 const blink = keyframes`
 from{color: red;}
 to{color : white;}
-`;
+`
 
 function InProgress() {
-  const [tache, setTache] = useState([]);
+  const [tache, setTache] = useState([])
 
-  const { error, loading, data } = useQuery(LOAD_DATA);
+  const { error, loading, data } = useQuery(LOAD_DATA)
   useEffect(() => {
     if (data) {
-      setTache(data.listFiches);
+      setTache(data.listFiches)
     }
-  }, [data]);
+  }, [data])
 
-  const inProgress = tache.filter((fiche) => fiche.submiteState === false);
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0()
+  let dataByUser = []
+  if (user) {
+    dataByUser = tache.filter((fiche) => fiche.user === user.name)
+  }
 
-  const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav);
+  const inProgress = dataByUser.filter((fiche) => fiche.submiteState === false)
+
+  const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav)
 
   const arrayRemoveDuplicate = (array) => {
-    let newArray = [];
+    let newArray = []
     array.map((item) => {
       if (!newArray.includes(item)) {
-        newArray.push(item);
+        newArray.push(item)
       }
-    });
-    return newArray;
-  };
-  const typeTravNoDouble = arrayRemoveDuplicate(typeTravInprogress);
+    })
+    return newArray
+  }
+  const typeTravNoDouble = arrayRemoveDuplicate(typeTravInprogress)
 
   const nbrTypeTrav = (type) =>
-    inProgress.filter((fiche) => fiche.typeTrav === type).length;
+    inProgress.filter((fiche) => fiche.typeTrav === type).length
 
-  const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby');
+  const Stdby = inProgress.filter((fiche) => fiche.state === 'Sby')
 
   // badget show on fiche state = Sby
   const badgeSby = () => {
-    let text = `Stdby`;
-    let nbr = 0;
+    let text = `Stdby`
+    let nbr = 0
     if (Stdby) {
-      nbr = Stdby.length;
+      nbr = Stdby.length
     }
     return (
-      <Badge badgeContent={nbr} color='warning'>
+      <Badge badgeContent={nbr} color="warning">
         <Paper
           sx={{
             backgroundColor: '#F81A17',
@@ -74,15 +81,15 @@ function InProgress() {
           {text}
         </Paper>
       </Badge>
-    );
-  };
-
+    )
+  }
+  let nbrStdby = []
   const onStdby = (text) => {
-    const nbrStdby = Stdby.filter((item) => item.typeTrav === text);
+    nbrStdby = Stdby.filter((item) => item.typeTrav === text)
     if (nbrStdby.length > 0) {
       return (
         <React.Fragment>
-          <Badge badgeContent={nbrStdby.length} color='warning'>
+          <Badge badgeContent={nbrStdby.length} color="warning">
             <Paper
               sx={{
                 backgroundColor: '#F81A17',
@@ -95,14 +102,14 @@ function InProgress() {
             </Paper>
           </Badge>
         </React.Fragment>
-      );
+      )
     }
-  };
+  }
 
   const ListTrav = () =>
     typeTravNoDouble.map((type, index) => {
-      let nbr = 0;
-      nbr = nbrTypeTrav(type);
+      let nbr = 0
+      nbr = nbrTypeTrav(type)
 
       return (
         <ListItem key={index} sx={{ paddingTop: 0, paddingBottom: 0 }}>
@@ -110,9 +117,9 @@ function InProgress() {
             primary={
               <Grid
                 container
-                alignItems='center'
+                alignItems="center"
                 spacing={1}
-                justifyContent='space-between'
+                justifyContent="space-between"
                 // set the color of text to red if type fiche is 'Empty Type'
                 // style={{ color: type === 'Empty Type' ? 'red' : 'black' }}
                 sx={{
@@ -131,8 +138,8 @@ function InProgress() {
             }
           />
         </ListItem>
-      );
-    });
+      )
+    })
 
   return (
     <React.Fragment>
@@ -145,13 +152,28 @@ function InProgress() {
               padding: '0.5em',
             }}
           >
-            <Grid container justifyContent='space-between' alignItems='center'>
+            <Grid container justifyContent="space-between" alignItems="center">
               <Grid>
-                <Typography variant='h6'>
+                <Typography variant="h6">
                   Tasks in Progress :{formatNbr(inProgress.length)}
                 </Typography>
               </Grid>
-              <Grid padding='0px 5px 0 20px'>{badgeSby()}</Grid>
+              <Grid padding="0px 5px 0 20px">
+                {Stdby.length > 0 && (
+                  <Badge badgeContent={Stdby.length} color="warning">
+                    <Paper
+                      sx={{
+                        backgroundColor: '#F81A17',
+                        borderRadius: 25,
+                        padding: '0.02rem 0.3rem',
+                        color: 'secondary.contrastText',
+                      }}
+                    >
+                      <Typography sx={{ fontSize: 11 }}>Stby</Typography>
+                    </Paper>
+                  </Badge>
+                )}
+              </Grid>
             </Grid>
           </Box>
           <Divider />
@@ -159,7 +181,7 @@ function InProgress() {
         </Card>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default InProgress;
+export default InProgress

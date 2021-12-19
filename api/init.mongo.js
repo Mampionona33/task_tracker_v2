@@ -42,6 +42,7 @@ async function resetMongo() {
     ];
     const initialFiches = [
       {
+        user: 'Mampionona RAMAHAZOMANANA',
         id: 1,
         typeTrav: 'Contenu',
         numFiche: '15454',
@@ -60,6 +61,7 @@ async function resetMongo() {
       },
 
       {
+        user: 'Mino Aurelie Ravolarimanasoa',
         id: 2,
         typeTrav: 'MAJPrio',
         numFiche: '4545',
@@ -77,6 +79,7 @@ async function resetMongo() {
         processing: false,
       },
       {
+        user: 'Mampionona RAMAHAZOMANANA',
         id: 3,
         typeTrav: 'AUTOVALIDCREAPrio',
         numFiche: '188595',
@@ -91,9 +94,10 @@ async function resetMongo() {
         validDate: new Date('2019-01-17'),
         duree: '00:03:15:00',
         productivity: '103%',
-        processing: false,
+        processing: true,
       },
       {
+        user: 'Mampionona RAMAHAZOMANANA',
         id: 4,
         typeTrav: 'AUTOVALIDCREAPrio',
         numFiche: '126963',
@@ -111,6 +115,7 @@ async function resetMongo() {
         processing: false,
       },
       {
+        user: 'Mino Aurelie Ravolarimanasoa',
         id: 5,
         typeTrav: 'CréaPrio',
         numFiche: '239657',
@@ -128,6 +133,7 @@ async function resetMongo() {
         processing: true,
       },
       {
+        user: 'Mampionona RAMAHAZOMANANA',
         id: 6,
         typeTrav: 'MAJPrio',
         numFiche: '14922',
