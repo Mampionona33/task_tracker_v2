@@ -20,6 +20,10 @@ import DialogAddNewTask from './DialogAddNewTask.jsx'
 import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Navbar() {
+// get the loged user
+const { logout, user, isLoading } = useAuth0()
+
+
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false)
   const [dialOpen, setDialIsOpen] = useState(false)
@@ -41,15 +45,16 @@ export default function Navbar() {
     setDialIsOpen(false)
   }
 
+  const handelClickLoghout =()=>{
+    console.log('logout')
+  }
+
   // creat custom drawer with custom paper
   const CustomDrawer = styled(Drawer)(({ theme }) => ({
     '& > .MuiDrawer-paper ': {
       backgroundColor: theme.palette.primary.main,
     },
   }))
-
-  const { logout, user, isLoading } = useAuth0()
-  console
 
   return (
     <React.Fragment>
@@ -83,14 +88,6 @@ export default function Navbar() {
               </Button>
 
               <React.Fragment>
-                {/* {!isLoading && !user && (
-                  <Button
-                    sx={{ color: 'white' }}
-                    onClick={() => loginWithRedirect()}
-                  >
-                    Loug out
-                  </Button>
-                )} */}
                 {!isLoading && user && (
                   <Box
                     display="flex"

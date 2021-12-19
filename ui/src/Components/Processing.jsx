@@ -130,6 +130,9 @@ export default function processing(params) {
     }
 
     initTimer()
+    // trying to set timer persistant
+    localStorage.setItem('timer', JSON.stringify(timer))
+
     increment.current = setInterval(() => tick(), 1000)
     return () => clearInterval(increment.current)
     if (isLoading) {
