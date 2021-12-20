@@ -35,13 +35,19 @@ export default function processing(params) {
   const [ticTac, setTicTac] = useState(0);
 
   useEffect(() => {
-    if (sec > 0) {
-      localStorage.setItem('timer', sec);
+    if (sec) {
+      localStorage.setItem('sec', sec);
+    }
+
+    if (min > 0) {
+      localStorage.setItem('min', min);
     }
   }, [sec]);
 
   useEffect(() => {
-    const tim = JSON.parse(localStorage.getItem('timer'));
+    const tim = localStorage.getItem('sec')
+      ? JSON.parse(localStorage.getItem('sec'))
+      : 0;
     setSec((prev) => tim);
   });
 
