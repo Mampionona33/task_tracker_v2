@@ -13,7 +13,7 @@ import {
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, setLogVerbosity } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import { formatNbr } from '../Features/formatNbr';
 
@@ -33,29 +33,61 @@ export default function processing(params) {
   const [isClicked, setIsClicked] = useState(false);
   const [newTimer, setNewTimer] = useState(0);
   const [ticTac, setTicTac] = useState(0);
+  const [timer, setTimer] = useState(``);
+
+  // setTimer(
+  //   `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`
+  // );
+
+  // const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
+  //   min
+  // )}:${formatNbr(sec)}`;
+
+  // set tick
+  const tick = async () => {
+    await setSec((sec) => sec + 1);
+    // setTicTac((s) => s + 1);
+  };
 
   useEffect(() => {
-    if (sec) {
+    if (sec > 0) {
       localStorage.setItem('sec', sec);
     }
+    if (sec > 59) {
+      const incMin = async () => {
+        await localStorage.setItem('sec', 0);
+        pp();
+      };
+      incMin();
 
-    if (min > 0) {
-      localStorage.setItem('min', min);
+      const pp = async () => {
+        await setMin((perv) => prev + 1);
+        localStorage.setItem('min', min);
+      };
     }
-  }, [sec]);
+  }, [sec, min]);
+
+  // increment clock
+  // if (sec >= 60) {
+  //   // setSec(0);
+  //   setMin((min) => min + 1);
+  //   if (min >= 60) {
+  //     localStorage.setItem('min', 0);
+  //     setHrs((hrs) => hrs + 1);
+  //     if (hrs >= 24) {
+  //       setHrs(0);
+  //       setDay((day) => day + 1);
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
-    const tim = localStorage.getItem('sec')
-      ? JSON.parse(localStorage.getItem('sec'))
-      : 0;
-    setSec((prev) => tim);
+    const tim = JSON.parse(localStorage.getItem('sec'));
+    setSec((perv) => tim);
+    if (sec) {
+      setTimer(`${min}:${sec}`);
+    }
   });
-
-  console.log(ticTac);
-
-  const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
-    min
-  )}:${formatNbr(sec)}`;
 
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -90,26 +122,6 @@ export default function processing(params) {
   const numFiche = processingData.numFiche;
   const typeTrav = processingData.typeTrav;
   const duree = processingData.duree;
-
-  // set tick
-  const tick = async () => {
-    setSec((sec) => sec + 1);
-    // setTicTac((s) => s + 1);
-  };
-
-  // increment clock
-  if (sec >= 60) {
-    setSec(0);
-    setMin((min) => min + 1);
-    if (min >= 60) {
-      setMin(0);
-      setHrs((hrs) => hrs + 1);
-      if (hrs >= 24) {
-        setHrs(0);
-        setDay((day) => day + 1);
-      }
-    }
-  }
 
   const initTimer = () => {
     if (
