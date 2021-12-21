@@ -37,7 +37,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
   const [typeTrav, setTypeTrav] = useState(undefined);
-  const [statuIvpn, setStatuIvpn] = useState('N');
+  const [statuIvpn, setStatuIvpn] = useState('');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
@@ -310,7 +310,6 @@ export default function DialogAddNewTask({ open, onClose }) {
               <Autocomplete
                 disablePortal
                 id='comboBoxStatIvpn'
-                defaultValue='N'
                 options={comboListStatIvpn}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
