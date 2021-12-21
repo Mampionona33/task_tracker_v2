@@ -83,6 +83,7 @@ async function update(
   {
     filter: { id },
     update: {
+      user,
       numFiche,
       typeTrav,
       cat,
@@ -104,31 +105,65 @@ async function update(
 ) {
   const db = getDb();
   const filter = { id: id };
-  const update = {
-    $set: {
-      typeTrav: typeTrav,
-      cat: cat,
-      numFiche: numFiche,
-      statuCom: statuCom,
-      statuIvpn: statuIvpn,
-      url: url,
-      state: state,
-      submiteState: submiteState,
-      nbBefor: nbBefor,
-      nbAft: nbAft,
-      startDate: startDate,
-      validDate: validDate,
-      duree: duree,
-      productivity: productivity,
-      processing: processing,
-      lastUpdate: lastUpdate,
-    },
-  };
+  // making partial update
+  let update = [{ $set: {} }];
+  if (typeTrav) {
+    update[0].$set.typeTrav = typeTrav;
+  }
+  if (cat) {
+    update[0].$set.cat = cat;
+  }
+  if (user) {
+    update[0].$set.user = user;
+  }
+  if (numFiche) {
+    update[0].$set.numFiche = numFiche;
+  }
+  if (statuCom) {
+    update[0].$set.statuCom = statuCom;
+  }
+  if (statuIvpn) {
+    update[0].$set.statuIvpn = statuIvpn;
+  }
+  if (url) {
+    update[0].$set.url = url;
+  }
+  if (state) {
+    update[0].$set.state = state;
+  }
+  if (submiteState) {
+    update[0].$set.submiteState = submiteState;
+  }
+  if (nbBefor) {
+    update[0].$set.nbBefor = nbBefor;
+  }
+  if (nbAft) {
+    update[0].$set.nbAft = nbAft;
+  }
+  if (startDate) {
+    update[0].$set.startDate = startDate;
+  }
+  if (validDate) {
+    update[0].$set.validDate = validDate;
+  }
+  if (duree) {
+    update[0].$set.duree = duree;
+  }
+  if (productivity) {
+    update[0].$set.productivity = productivity;
+  }
+  if (processing) {
+    update[0].$set.processing = processing;
+  }
+  if (lastUpdate) {
+    update[0].$set.lastUpdate = lastUpdate;
+  }
+
   const options = { upsert: false, returnNewDocument: true };
 
   const updateFiche = db
     .collection('fiches')
-    .findOneAndUpdate(filter, update, options, (error, doc) => {
+    .findOneAndUpdate(filter, ...update, options, (error, doc) => {
       if (error) {
         console.log('error');
       }
@@ -136,6 +171,65 @@ async function update(
     });
   return updateFiche;
 }
+
+// async function update(
+//   _,
+//   {
+//     filter: { id },
+//     update: {
+//       numFiche,
+//       typeTrav,
+//       cat,
+//       statuCom,
+//       statuIvpn,
+//       url,
+//       state,
+//       submiteState,
+//       nbBefor,
+//       nbAft,
+//       startDate,
+//       validDate,
+//       duree,
+//       productivity,
+//       processing,
+//       lastUpdate,
+//     },
+//   }
+// ) {
+//   const db = getDb();
+//   const filter = { id: id };
+//   const update = {
+//     $set: {
+//       typeTrav: typeTrav,
+//       cat: cat,
+//       numFiche: numFiche,
+//       statuCom: statuCom,
+//       statuIvpn: statuIvpn,
+//       url: url,
+//       state: state,
+//       submiteState: submiteState,
+//       nbBefor: nbBefor,
+//       nbAft: nbAft,
+//       startDate: startDate,
+//       validDate: validDate,
+//       duree: duree,
+//       productivity: productivity,
+//       processing: processing,
+//       lastUpdate: lastUpdate,
+//     },
+//   };
+//   const options = { upsert: false, returnNewDocument: true };
+
+//   const updateFiche = db
+//     .collection('fiches')
+//     .findOneAndUpdate(filter, update, options, (error, doc) => {
+//       if (error) {
+//         console.log('error');
+//       }
+//       console.log(doc);
+//     });
+//   return updateFiche;
+// }
 
 async function del(_, { filter: { id } }) {
   const db = getDb();

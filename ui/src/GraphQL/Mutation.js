@@ -18,6 +18,7 @@ export const ADD_FICHE = gql`
       submiteState
       comment
       lastUpdate
+      processing
     }
   }
 `;

@@ -94,7 +94,7 @@ async function resetMongo() {
         validDate: new Date('2019-01-17'),
         duree: '00:03:15:00',
         productivity: '103%',
-        processing: true,
+        processing: false,
         lastUpdate: new Date('2021-12-18'),
       },
       {

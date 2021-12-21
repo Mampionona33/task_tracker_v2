@@ -41,15 +41,14 @@ export default function processing(params) {
   if (user) {
     logedUserData = taches.filter((fiche) => fiche.user === user.name);
   }
+  // get the current task in process
+  const currentBooth = logedUserData.filter(
+    (fiche) => fiche.processing === true
+  );
+  // currentBooth ? console.log(currentBooth) : console.warn('nop');
 
-  user ? console.log(logedUserData) : console.log('nop');
-  isLoading ? console.log('is Loading') : console.log('nop 1');
-
-
-  
   // get the current time
   const currentTime = new Date();
-  console.log(currentTime);
 
   // Mutation to execute whene button pause clicked
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -58,6 +57,7 @@ export default function processing(params) {
 
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {
+    // console.log(currentTime);
     e.preventDefault();
     // clearInterval(increment.current);
   };

@@ -151,6 +151,7 @@ type Mutation {
 
   # Mutation for type de taches
   typeTachesAdd(typeTache: TachesInputs): TypeTache
+  # typeTacheUpdate(filter: FilterById!): TypeTache
   typeTacheUpdate(filter: FilterById, update: TachesInputs): TypeTache
   typeTacheDelete(filter: FilterById): DeleteResponse!
 
