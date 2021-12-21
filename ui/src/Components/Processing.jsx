@@ -9,165 +9,93 @@ import {
   ListItem,
   Button,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql, setLogVerbosity } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
+import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 
 import { useAuth0 } from '@auth0/auth0-react';
+import { useMutation } from '@apollo/client';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [day, setDay] = useState(0);
-  const [hrs, setHrs] = useState(0);
-  const [sec, setSec] = useState(0);
-  const [min, setMin] = useState(0);
-  const [dayInt, setDayInt] = useState(0);
-  const [hrsInt, setHrsInt] = useState(0);
-  const [minInt, setMinInt] = useState(0);
-  const [secInt, setSecInt] = useState(0);
   const increment = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
-  const [newTimer, setNewTimer] = useState(0);
-  const [ticTac, setTicTac] = useState(0);
-  const [timer, setTimer] = useState(``);
 
-  // setTimer(
-  //   `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(min)}:${formatNbr(sec)}`
-  // );
-
-  // const timer = `${formatNbr(day)}:${formatNbr(hrs)}:${formatNbr(
-  //   min
-  // )}:${formatNbr(sec)}`;
-
-  // set tick
-  const tick = async () => {
-    await setSec((sec) => sec + 1);
-    // setTicTac((s) => s + 1);
-  };
-
+  // querying data from mongodb
+  const { error, loading, data } = useQuery(LOAD_DATA);
+  // if data load, then asign data to taches on components mount
   useEffect(() => {
-    if (sec > 0) {
-      localStorage.setItem('sec', sec);
-    }
-    if (sec > 59) {
-      const incMin = async () => {
-        await localStorage.setItem('sec', 0);
-        pp();
-      };
-      incMin();
+    data ? setTaches(data.listFiches) : setTaches([]);
+  }, [data]);
 
-      const pp = async () => {
-        await setMin((perv) => prev + 1);
-        localStorage.setItem('min', min);
-      };
-    }
-  }, [sec, min]);
-
-  // increment clock
-  // if (sec >= 60) {
-  //   // setSec(0);
-  //   setMin((min) => min + 1);
-  //   if (min >= 60) {
-  //     localStorage.setItem('min', 0);
-  //     setHrs((hrs) => hrs + 1);
-  //     if (hrs >= 24) {
-  //       setHrs(0);
-  //       setDay((day) => day + 1);
-  //     }
-  //   }
-  // }
-
-  useEffect(() => {
-    const tim = JSON.parse(localStorage.getItem('sec'));
-    setSec((perv) => tim);
-    if (sec) {
-      setTimer(`${min}:${sec}`);
-    }
-  });
-
-  // get the user
+  // get user authentified
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   let logedUserData = [];
+  // if there is user, check the user in the database
   if (user) {
     logedUserData = taches.filter((fiche) => fiche.user === user.name);
   }
-  let processing = [];
-  // querying data from mongodb
-  const { error, loading, data } = useQuery(LOAD_DATA);
-  // get actual processing task
-  user
-    ? (processing = logedUserData.filter((item) => item.processing === true))
-    : (processing = []);
-  // get all values in the processing task
-  let processingData = {};
-  const processingValues = processing.map(
-    (value) =>
-      (processingData = {
-        duree: value.duree,
-        typeTrav: value.typeTrav,
-        numFiche: value.numFiche,
-        productivity: value.productivity,
-        url: value.url,
-        nbBefor: value.nbBefor,
-        nbAft: value.nbAft,
-        id: value.id,
-      })
-  );
+  user ? console.log(logedUserData) : console.log('nop');
+  isLoading ? console.log('is Loading') : console.log('nop 1');
 
-  const id = processingData.id;
-  const numFiche = processingData.numFiche;
-  const typeTrav = processingData.typeTrav;
-  const duree = processingData.duree;
-
-  const initTimer = () => {
-    if (
-      dayInt != undefined &&
-      hrsInt != undefined &&
-      minInt != undefined &&
-      secInt != undefined
-    ) {
-      setDay(dayInt);
-      setHrs(hrsInt);
-      setMin(minInt);
-      setSec(secInt);
+  // Mutation to execute whene button pause clicked
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
+  // function to execute the update
+  const updateData = async () => {
+    await addFiche();
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: prevProcessId,
+        },
+        update: {
+          user: prevProcessUser,
+          processing: false,
+          duree: prevProcessDuree,
+          typeTrav: prevProcessTypeTrav,
+          cat: prevProcessCat,
+          numFiche: prevProcessNumFiche,
+          statuCom: prevProcessStatuCom,
+          statuIvpn: prevProcessStatuIvpn,
+          url: prevProcessUrl,
+          state: prevProcessState,
+          submiteState: prevProcessSubmiteState,
+          nbBefor: prevProcessNbBefor,
+          nbAft: prevProcessNbAft,
+          startDate: prevProcessStartDate,
+          validDate: prevProcessValidDate,
+          productivity: prevProcessProductivity,
+          comment: prevProcessComment,
+          lastUpdate: prevProcesslastUpdate,
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
     }
   };
+  // get the current time
+  const currentTime = new Date();
+  console.log(currentTime);
 
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {
     e.preventDefault();
-    clearInterval(increment.current);
+    // clearInterval(increment.current);
   };
   // activer l'incrementation par la click sur le button play
   const handleClickPlay = (e) => {
     e.preventDefault();
-    increment.current = setInterval(() => tick(), 1000);
+    // increment.current = setInterval(() => tick(), 1000);
   };
-
-  // useEffect -------------------------------
-  useEffect(() => {
-    if (data) {
-      setTaches(data.listFiches);
-    }
-    if (duree != undefined) {
-      let dayString = duree.slice(0, 2);
-      let hrsString = duree.slice(3, 5);
-      let minString = duree.slice(6, 8);
-      let secString = duree.slice(9, 12);
-      setDayInt((prev) => parseInt(dayString));
-      setHrsInt((prev) => parseInt(hrsString));
-      setMinInt((prev) => parseInt(minString));
-      setSecInt((prev) => parseInt(secString));
-    }
-
-    initTimer();
-    increment.current = setInterval(() => tick(), 1000);
-    return () => clearInterval(increment.current);
-  }, [data, duree, hrsInt, minInt, secInt, isLoading]);
 
   // handle event functions
   const ButtonPlay = () => {
@@ -196,7 +124,7 @@ export default function processing(params) {
     );
   };
 
-  const handleClickButton = (e) => {
+  const handleClickButtonPausePlay = (e) => {
     e.preventDefault();
     isClicked ? setIsClicked(false) : setIsClicked(true);
   };
@@ -212,20 +140,22 @@ export default function processing(params) {
               padding: '0.5em',
             }}
           >
-            <Typography variant='h6'>Processing Booth : {numFiche}</Typography>
+            <Typography variant='h6'>
+              Processing Booth : {/*numFiche*/}
+            </Typography>
           </Grid>
           <Divider />
           <Grid>
             <List>
-              <ListItem>Work Type : {typeTrav}</ListItem>
+              <ListItem>Work Type : {/*typeTrav*/}</ListItem>
               <ListItem>Time Elapsed : {/*hrsInt*/} </ListItem>
-              <ListItem>Time Left : {timer} </ListItem>
+              <ListItem>Time Left : {/*timer*/} </ListItem>
               <ListItem>productivity</ListItem>
               <ListItem>Goal</ListItem>
             </List>
           </Grid>
           <Grid display='flex' justifyContent='flex-end'>
-            <IconButton onClick={handleClickButton}>
+            <IconButton onClick={handleClickButtonPausePlay}>
               {isClicked ? <ButtonPlay /> : <ButtonPause />}
             </IconButton>
           </Grid>

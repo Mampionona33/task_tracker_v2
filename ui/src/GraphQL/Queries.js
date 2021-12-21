@@ -21,6 +21,7 @@ export const LOAD_DATA = gql`
       productivity
       comment
       processing
+      lastUpdate
     }
     listTypeTaches {
       id
@@ -63,6 +64,7 @@ export const SEARCH_FICHE_BY_ID = gql`
       comment
       processing
       id
+      lastUpdate
     }
   }
 `;

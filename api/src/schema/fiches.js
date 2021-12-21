@@ -24,7 +24,20 @@ async function add(_, { fiche }) {
 
 async function search(
   _,
-  { input: { user, id, numFiche, typeTrav, submiteState, cat, statuCom, statuIvpn, processing } }
+  {
+    input: {
+      lastUpdate,
+      user,
+      id,
+      numFiche,
+      typeTrav,
+      submiteState,
+      cat,
+      statuCom,
+      statuIvpn,
+      processing,
+    },
+  }
 ) {
   const db = getDb();
   // create filter
@@ -56,6 +69,9 @@ async function search(
   if (processing) {
     filter.processing = processing;
   }
+  if (lastUpdate) {
+    filter.processing = lastUpdate;
+  }
 
   const filtredFiche = await db.collection('fiches').find(filter).toArray();
 
@@ -82,6 +98,7 @@ async function update(
       duree,
       productivity,
       processing,
+      lastUpdate,
     },
   }
 ) {
@@ -104,6 +121,7 @@ async function update(
       duree: duree,
       productivity: productivity,
       processing: processing,
+      lastUpdate: lastUpdate,
     },
   };
   const options = { upsert: false, returnNewDocument: true };

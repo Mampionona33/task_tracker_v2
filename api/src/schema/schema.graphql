@@ -25,6 +25,7 @@ type Fiches {
   productivity: String
   comment: String
   processing: Boolean
+  lastUpdate: GraphQLDate
 }
 ##Filtre Fiches -------
 input SearchFichesInputs {
@@ -54,6 +55,7 @@ input FichesInputs {
   comment: String
   processing: Boolean = false
   duree: String = "00:00:00:00"
+  lastUpdate: GraphQLDate
 }
 ##Update Fiches --------
 input UpdateFiches {
@@ -75,6 +77,7 @@ input UpdateFiches {
   productivity: String
   processing: Boolean
   comment: String
+  lastUpdate: GraphQLDate
 }
 
 #TypeTache ----------

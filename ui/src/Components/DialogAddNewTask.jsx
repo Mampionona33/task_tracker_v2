@@ -1,8 +1,8 @@
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import {
   TextField,
   Autocomplete,
@@ -11,38 +11,39 @@ import {
   Typography,
   TextareaAutosize,
   Link,
-} from '@mui/material'
-import React, { useState, useEffect } from 'react'
+} from '@mui/material';
+import React, { useState, useEffect } from 'react';
 
-import { useMutation } from '@apollo/client'
-import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation'
+import { useMutation } from '@apollo/client';
+import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 
-import { useQuery, gql, refetchQueries } from '@apollo/client'
-import { LOAD_DATA, SEARCH_FICHE_BY_ID } from '../GraphQL/Queries'
+import { useQuery, gql, refetchQueries } from '@apollo/client';
+import { LOAD_DATA, SEARCH_FICHE_BY_ID } from '../GraphQL/Queries';
 
-import { GetStartDateTime } from '../Features/time'
-import { useAuth0 } from '@auth0/auth0-react'
+import { GetStartDateTime } from '../Features/time';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function DialogAddNewTask({ open, onClose }) {
-  const [typeTache, setTypeTache] = useState([])
-  const [listStatIvpn, setListStatIvpn] = useState([])
-  const [comboStatCom, setComboStatCom] = useState([])
-  const [listFicheFromData, setListFichesFromData] = useState([])
-  const [idCounter, setIdCounter] = useState([])
+  const [typeTache, setTypeTache] = useState([]);
+  const [listStatIvpn, setListStatIvpn] = useState([]);
+  const [comboStatCom, setComboStatCom] = useState([]);
+  const [listFicheFromData, setListFichesFromData] = useState([]);
+  const [idCounter, setIdCounter] = useState([]);
 
-  const [prevPrecessiong, setPrevProcessing] = useState(true)
+  const [prevPrecessiong, setPrevProcessing] = useState(true);
 
-  const [numFiche, setNumFiche] = useState('')
-  const [cat, setCat] = useState('')
-  const [statuCom, setStatuCom] = useState(' --- ')
-  const [url, setUrl] = useState('')
-  const [typeTrav, setTypeTrav] = useState(undefined)
-  const [statuIvpn, setStatuIvpn] = useState('')
-  const [nbBefor, setNbBefor] = useState(0)
-  const [nbAft, setNbAft] = useState(0)
-  const [comment, setComment] = useState('')
-  const [startDate, setStartDate] = useState(new Date())
-  const [processing, setProcessing] = useState(true)
+  const [numFiche, setNumFiche] = useState('');
+  const [cat, setCat] = useState('');
+  const [statuCom, setStatuCom] = useState(' --- ');
+  const [url, setUrl] = useState('');
+  const [typeTrav, setTypeTrav] = useState(undefined);
+  const [statuIvpn, setStatuIvpn] = useState('');
+  const [nbBefor, setNbBefor] = useState(0);
+  const [nbAft, setNbAft] = useState(0);
+  const [comment, setComment] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [processing, setProcessing] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState(new Date());
 
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -50,7 +51,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   // execute mutation ficheAdd
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
     refetchQueries: [LOAD_DATA],
-  })
+  });
   // Function to add new task in data base
   const addFiche = () => {
     fichesAdd({
@@ -68,23 +69,24 @@ export default function DialogAddNewTask({ open, onClose }) {
           comment: comment,
           startDate: startDate,
           processing: processing,
+          lastUpdate: lastUpdate,
         },
       },
-    })
+    });
     if (errorCreatFiche) {
-      console.log(errorCreatFiche)
+      console.log(errorCreatFiche);
     }
-  }
+  };
 
   // Loadin data from data base
-  const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA)
+  const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
   // Get the current task in process by filter processing = true
   const prevProcess = listFicheFromData.filter(
-    (fiche) => fiche.processing === true,
-  )
+    (fiche) => fiche.processing === true
+  );
 
   // get all key value of current processing task
-  let prevProcessData = {}
+  let prevProcessData = {};
   const prevProcessResult = prevProcess.map((fiche) => {
     prevProcessData = {
       typeTrav: fiche.typeTrav,
@@ -105,46 +107,38 @@ export default function DialogAddNewTask({ open, onClose }) {
       processing: fiche.processing,
       id: fiche.id,
       user: fiche.user,
-    }
-  })
+      lastUpdate: fiche.lastUpdate,
+    };
+  });
 
-  const prevProcessId = prevProcessData.id
-  const prevProcessProcessing = prevProcessData.processing
-  const prevProcessComment = prevProcessData.comment
-  const prevProcessProductivity = prevProcessData.productivity
-  const prevProcessDuree = prevProcessData.duree
-  const prevProcessValidDate = prevProcessData.validDate
-  const prevProcessStartDate = prevProcessData.startDate
-  const prevProcessNbAft = prevProcessData.nbAft
-  const prevProcessNbBefor = prevProcessData.nbBefor
-  const prevProcessSubmiteState = prevProcessData.submiteState
-  const prevProcessState = prevProcessData.state
-  const prevProcessUrl = prevProcessData.url
-  const prevProcessStatuIvpn = prevProcessData.statuIvpn
-  const prevProcessStatuCom = prevProcessData.statuCom
-  const prevProcessNumFiche = prevProcessData.numFiche
-  const prevProcessCat = prevProcessData.cat
-  const prevProcessTypeTrav = prevProcessData.typeTrav
-  const prevProcessUser = prevProcessData.user
+  const prevProcessId = prevProcessData.id;
+  const prevProcessProcessing = prevProcessData.processing;
+  const prevProcessComment = prevProcessData.comment;
+  const prevProcessProductivity = prevProcessData.productivity;
+  const prevProcessDuree = prevProcessData.duree;
+  const prevProcessValidDate = prevProcessData.validDate;
+  const prevProcessStartDate = prevProcessData.startDate;
+  const prevProcessNbAft = prevProcessData.nbAft;
+  const prevProcessNbBefor = prevProcessData.nbBefor;
+  const prevProcessSubmiteState = prevProcessData.submiteState;
+  const prevProcessState = prevProcessData.state;
+  const prevProcessUrl = prevProcessData.url;
+  const prevProcessStatuIvpn = prevProcessData.statuIvpn;
+  const prevProcessStatuCom = prevProcessData.statuCom;
+  const prevProcessNumFiche = prevProcessData.numFiche;
+  const prevProcessCat = prevProcessData.cat;
+  const prevProcessTypeTrav = prevProcessData.typeTrav;
+  const prevProcessUser = prevProcessData.user;
+  const prevProcesslastUpdate = prevProcessData.lastUpdate;
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
-  })
-
-  // get the fiche in idCounter
-  const idCounterGetFiche = idCounter.filter((item) => item._id === 'fiches')
-  let currentCounter = {}
-  const arrayIdCounter = idCounterGetFiche.map((item) => {
-    currentCounter = {
-      type: item._id,
-      id: item.current,
-    }
-  })
+  });
 
   // function to execute the update
   const updateData = async () => {
-    await addFiche()
+    await addFiche();
     fichesUpdate({
       variables: {
         filter: {
@@ -168,51 +162,62 @@ export default function DialogAddNewTask({ open, onClose }) {
           validDate: prevProcessValidDate,
           productivity: prevProcessProductivity,
           comment: prevProcessComment,
+          lastUpdate: prevProcesslastUpdate,
         },
       },
-    })
+    });
     if (erroUpDate) {
-      console.log(erroUpDate)
+      console.log(erroUpDate);
     }
-  }
+  };
+
+  // get the fiche in idCounter
+  const idCounterGetFiche = idCounter.filter((item) => item._id === 'fiches');
+  let currentCounter = {};
+  const arrayIdCounter = idCounterGetFiche.map((item) => {
+    currentCounter = {
+      type: item._id,
+      id: item.current,
+    };
+  });
 
   useEffect(() => {
     if (data) {
-      setTypeTache(data.listTypeTaches)
-      setListStatIvpn(data.listStatIvpn)
-      setComboStatCom(data.listStatCom)
-      setListFichesFromData(data.listFiches)
-      setIdCounter(data.idCounter)
+      setTypeTache(data.listTypeTaches);
+      setListStatIvpn(data.listStatIvpn);
+      setComboStatCom(data.listStatCom);
+      setListFichesFromData(data.listFiches);
+      setIdCounter(data.idCounter);
     }
-  }, [data])
+  }, [data]);
 
   async function handleReset(e) {
-    await updateData()
-    setNumFiche('')
-    setCat('')
-    setStatuCom('')
-    setUrl('')
-    setTypeTrav(undefined)
-    setNbBefor(0)
-    setNbAft(0)
-    setComment('')
+    await updateData();
+    setNumFiche('');
+    setCat('');
+    setStatuCom('');
+    setUrl('');
+    setTypeTrav(undefined);
+    setNbBefor(0);
+    setNbAft(0);
+    setComment('');
   }
 
-  const listTaches = typeTache.map((item) => item.name)
-  const comboListStatIvpn = listStatIvpn.map((item) => item.name)
-  const listStatCom = comboStatCom.map((item) => item.name)
+  const listTaches = typeTache.map((item) => item.name);
+  const comboListStatIvpn = listStatIvpn.map((item) => item.name);
+  const listStatCom = comboStatCom.map((item) => item.name);
 
   return (
     <div>
       <Dialog
         open={open}
         onClose={onClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
         PaperProps={{ sx: { height: '80vh' } }}
         fullWidth
       >
-        <DialogTitle id="alert-dialog-title">{'Add New Task'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'Add New Task'}</DialogTitle>
 
         <DialogContent>
           <Box
@@ -225,12 +230,12 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box>
               <TextField
                 autoFocus
-                margin="dense"
-                id="numFiche"
-                label="Num fiche"
-                type="text"
-                variant="standard"
-                name="numFiche"
+                margin='dense'
+                id='numFiche'
+                label='Num fiche'
+                type='text'
+                variant='standard'
+                name='numFiche'
                 value={numFiche}
                 onChange={(e) => setNumFiche(e.target.value)}
               />
@@ -239,11 +244,11 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box>
               <TextField
                 autoFocus
-                id="cat"
-                margin="dense"
-                type="text"
-                label="Category"
-                variant="standard"
+                id='cat'
+                margin='dense'
+                type='text'
+                label='Category'
+                variant='standard'
                 value={cat}
                 onChange={(e) => setCat(e.target.value)}
               />
@@ -254,8 +259,8 @@ export default function DialogAddNewTask({ open, onClose }) {
                 disablePortal
                 options={listStatCom}
                 size={'small'}
-                id="comboBoxStateCom"
-                defaultValue="---"
+                id='comboBoxStateCom'
+                defaultValue='---'
                 onChange={(e) => setStatuCom(e.target.innerText)}
                 sx={{ marginTop: 1.5 }}
                 PaperComponent={({ children }) => (
@@ -264,8 +269,8 @@ export default function DialogAddNewTask({ open, onClose }) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Status Commercial"
-                    variant="standard"
+                    label='Status Commercial'
+                    variant='standard'
                   />
                 )}
               />
@@ -274,11 +279,11 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box>
               <TextField
                 autoFocus
-                id="url"
-                margin="dense"
-                type="text"
-                label="Url"
-                variant="standard"
+                id='url'
+                margin='dense'
+                type='text'
+                label='Url'
+                variant='standard'
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
@@ -287,7 +292,7 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box sx={{ paddingBottom: 0 }}>
               <Autocomplete
                 disablePortal
-                id="comboboxTypeTrav"
+                id='comboboxTypeTrav'
                 options={listTaches}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
@@ -296,7 +301,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
                 )}
                 renderInput={(params) => (
-                  <TextField {...params} label="Work Type" variant="standard" />
+                  <TextField {...params} label='Work Type' variant='standard' />
                 )}
               />
             </Box>
@@ -304,8 +309,8 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box sx={{ paddingBottom: 0 }}>
               <Autocomplete
                 disablePortal
-                id="comboBoxStatIvpn"
-                defaultValue="N"
+                id='comboBoxStatIvpn'
+                defaultValue='N'
                 options={comboListStatIvpn}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
@@ -316,8 +321,8 @@ export default function DialogAddNewTask({ open, onClose }) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Status IVPN"
-                    variant="standard"
+                    label='Status IVPN'
+                    variant='standard'
                   />
                 )}
               />
@@ -326,16 +331,16 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box>
               <TextField
                 autoFocus
-                id="nbBefor"
-                margin="dense"
-                type="text"
-                label="Nb BEFORE"
-                variant="standard"
+                id='nbBefor'
+                margin='dense'
+                type='text'
+                label='Nb BEFORE'
+                variant='standard'
                 value={nbBefor}
                 onChange={(e) => {
                   e.target.value === ''
                     ? setNbBefor(0)
-                    : setNbBefor(parseInt(e.target.value))
+                    : setNbBefor(parseInt(e.target.value));
                 }}
               />
             </Box>
@@ -343,26 +348,26 @@ export default function DialogAddNewTask({ open, onClose }) {
             <Box>
               <TextField
                 autoFocus
-                id="nbAft"
-                margin="dense"
-                type="text"
-                label="Nb AFTER"
-                variant="standard"
+                id='nbAft'
+                margin='dense'
+                type='text'
+                label='Nb AFTER'
+                variant='standard'
                 value={nbAft}
                 onChange={(e) => {
                   e.target.value === ''
                     ? setNbAft(0)
-                    : setNbAft(parseInt(e.target.value))
+                    : setNbAft(parseInt(e.target.value));
                 }}
               />
             </Box>
           </Box>
           <Box sx={{ marginTop: '1rem' }}>
-            <Typography fontFamily="sans-serif" color="GrayText">
+            <Typography fontFamily='sans-serif' color='GrayText'>
               COMMENT
             </Typography>
             <TextareaAutosize
-              id="comment"
+              id='comment'
               style={{ width: '100%', minHeight: '4rem' }}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -373,9 +378,9 @@ export default function DialogAddNewTask({ open, onClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              onClose()
-              handleReset()
-              setStartDate(GetStartDateTime())
+              onClose();
+              handleReset();
+              setStartDate(GetStartDateTime());
             }}
             component={Link}
             // href={`#/dashboard/${currentCounter.id}`}
@@ -386,5 +391,5 @@ export default function DialogAddNewTask({ open, onClose }) {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }

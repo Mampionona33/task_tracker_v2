@@ -16,6 +16,7 @@ export const ADD_FICHE = gql`
       validDate
       submiteState
       comment
+      lastUpdate
     }
   }
 `;
@@ -39,6 +40,7 @@ export const UPDATE_FICHE = gql`
       statuCom
       typeTrav
       cat
+      lastUpdate
     }
   }
 `;
