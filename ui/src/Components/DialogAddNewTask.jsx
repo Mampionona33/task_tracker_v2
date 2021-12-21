@@ -137,7 +137,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   });
 
   // function to execute the update
-  const updateData = async () => {
+  const updatePrevTask = async () => {
     await addFiche();
     fichesUpdate({
       variables: {
@@ -192,7 +192,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [data]);
 
   async function handleReset(e) {
-    await updateData();
+    await updatePrevTask();
     setNumFiche('');
     setCat('');
     setStatuCom('');
