@@ -41,50 +41,20 @@ export default function processing(params) {
   if (user) {
     logedUserData = taches.filter((fiche) => fiche.user === user.name);
   }
+
   user ? console.log(logedUserData) : console.log('nop');
   isLoading ? console.log('is Loading') : console.log('nop 1');
+
+
+  
+  // get the current time
+  const currentTime = new Date();
+  console.log(currentTime);
 
   // Mutation to execute whene button pause clicked
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
-  // function to execute the update
-  const updateData = async () => {
-    await addFiche();
-    fichesUpdate({
-      variables: {
-        filter: {
-          id: prevProcessId,
-        },
-        update: {
-          user: prevProcessUser,
-          processing: false,
-          duree: prevProcessDuree,
-          typeTrav: prevProcessTypeTrav,
-          cat: prevProcessCat,
-          numFiche: prevProcessNumFiche,
-          statuCom: prevProcessStatuCom,
-          statuIvpn: prevProcessStatuIvpn,
-          url: prevProcessUrl,
-          state: prevProcessState,
-          submiteState: prevProcessSubmiteState,
-          nbBefor: prevProcessNbBefor,
-          nbAft: prevProcessNbAft,
-          startDate: prevProcessStartDate,
-          validDate: prevProcessValidDate,
-          productivity: prevProcessProductivity,
-          comment: prevProcessComment,
-          lastUpdate: prevProcesslastUpdate,
-        },
-      },
-    });
-    if (erroUpDate) {
-      console.log(erroUpDate);
-    }
-  };
-  // get the current time
-  const currentTime = new Date();
-  console.log(currentTime);
 
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {

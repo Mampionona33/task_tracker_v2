@@ -37,7 +37,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [statuCom, setStatuCom] = useState(' --- ');
   const [url, setUrl] = useState('');
   const [typeTrav, setTypeTrav] = useState(undefined);
-  const [statuIvpn, setStatuIvpn] = useState('');
+  const [statuIvpn, setStatuIvpn] = useState('N');
   const [nbBefor, setNbBefor] = useState(0);
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
@@ -145,7 +145,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           id: prevProcessId,
         },
         update: {
-          user: prevProcessUser,
+          user: user.name,
           processing: false,
           duree: prevProcessDuree,
           typeTrav: prevProcessTypeTrav,

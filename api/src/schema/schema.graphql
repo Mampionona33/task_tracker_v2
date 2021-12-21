@@ -61,6 +61,7 @@ input FichesInputs {
 input UpdateFiches {
   _id: String
   id: Int
+  user: String
   typeTrav: String
   cat: String
   numFiche: String
