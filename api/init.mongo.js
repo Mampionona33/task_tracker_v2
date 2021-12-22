@@ -57,7 +57,7 @@ async function resetMongo() {
         validDate: new Date('2019-01-16'),
         duree: '00:00:15:00',
         productivity: '100%',
-        processing: false,
+        processing: 'isFalse',
       },
 
       {
@@ -76,7 +76,7 @@ async function resetMongo() {
         validDate: new Date('2003-05-01'),
         duree: '00:03:15:00',
         productivity: '102%',
-        processing: false,
+        processing: 'isFalse',
       },
       {
         user: 'Mino Aurelie Ravolarimanasoa',
@@ -94,7 +94,7 @@ async function resetMongo() {
         validDate: new Date('2019-01-17'),
         duree: '00:03:15:00',
         productivity: '103%',
-        processing: false,
+        processing: 'isFalse',
         lastUpdate: new Date('2021-12-18'),
       },
       {
@@ -113,7 +113,7 @@ async function resetMongo() {
         validDate: new Date('2021-07-30'),
         duree: '00:03:15:00',
         productivity: '100%',
-        processing: false,
+        processing: 'isFalse',
         lastUpdate: new Date('2021-12-18'),
       },
       {
@@ -132,7 +132,7 @@ async function resetMongo() {
         validDate: new Date('2021-12-17'),
         duree: '00:01:15:25',
         productivity: '100%',
-        processing: true,
+        processing: 'isFalse',
       },
       {
         user: 'Mino Aurelie Ravolarimanasoa',
@@ -150,7 +150,7 @@ async function resetMongo() {
         validDate: new Date('2000-03-04'),
         duree: '00:03:15:25',
         productivity: '100%',
-        processing: false,
+        processing: 'isFalse',
       },
     ];
     const initTypeTaches = [

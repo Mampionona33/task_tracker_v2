@@ -4,6 +4,10 @@ enum StateType {
   Sby
   Paf
 }
+enum BooleanType {
+  isFalse
+  isTrue
+}
 #Fiches ---------
 type Fiches {
   _id: String!
@@ -24,7 +28,7 @@ type Fiches {
   duree: String
   productivity: String
   comment: String
-  processing: Boolean
+  processing: BooleanType
   lastUpdate: GraphQLDate
 }
 ##Filtre Fiches -------
@@ -53,7 +57,7 @@ input FichesInputs {
   validDate: GraphQLDate
   submiteState: Boolean = false
   comment: String
-  processing: Boolean = false
+  processing: BooleanType = 0
   duree: String = "00:00:00:00"
   lastUpdate: GraphQLDate
 }
@@ -76,7 +80,7 @@ input UpdateFiches {
   validDate: GraphQLDate
   duree: String
   productivity: String
-  processing: Boolean
+  processing: BooleanType
   comment: String
   lastUpdate: GraphQLDate
 }

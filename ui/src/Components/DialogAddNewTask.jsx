@@ -42,7 +42,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
   const [startDate, setStartDate] = useState(new Date());
-  const [processing, setProcessing] = useState(true);
+  const [processing, setProcessing] = useState('isTrue');
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
   // get the user
@@ -80,7 +80,7 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   // Loadin data from data base
   const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
-  // Get the user specific task
+  // Get task for the loged user
   let userTasks = [];
   let prevProcess = [];
   let prevProcessData = {};
@@ -91,8 +91,8 @@ export default function DialogAddNewTask({ open, onClose }) {
     console.log('user task', userTasks);
   }
   if (userTasks) {
-    // Get the prev task in process by filter processing = true
-    prevProcess = userTasks.filter((fiche) => fiche.processing === true);
+    // Get the prev task in process by filter processing = isTrue
+    prevProcess = userTasks.filter((fiche) => fiche.processing === 'isTrue');
 
     updateId = prevProcess.map((fiche) => {
       prevProcessData = {
@@ -104,7 +104,6 @@ export default function DialogAddNewTask({ open, onClose }) {
     console.log('prevProcess', prevProcessId);
   }
 
-  // get all key value of current processing task
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -119,8 +118,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           id: prevProcessId,
         },
         update: {
-          processing: false,
-          nbAft: 60,
+          processing: 'isFalse',
         },
       },
     });
