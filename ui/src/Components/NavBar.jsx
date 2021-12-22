@@ -11,9 +11,9 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { useState } from 'react';
+import CachedIcon from '@mui/icons-material/Cached';import { useState } from 'react';
 import { styled, withStyles } from '@mui/material/styles';
-import { Button, Avatar } from '@mui/material';
+import { Button, Avatar, keyframes } from '@mui/material';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -21,6 +21,10 @@ import DialogAddNewTask from './DialogAddNewTask.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Navbar() {
+  // animation key for loading icons
+  const rotateIcon = keyframes`
+  100%{transform: rotate(360deg)}
+`;
   // get the loged user
   const { logout, user, isLoading } = useAuth0();
 
@@ -87,6 +91,21 @@ export default function Navbar() {
                 Add New Task
               </Button>
               <React.Fragment>
+                {!isLoading && !user && (
+                  <Box
+                    display='flex'
+                    flexDirection='row'
+                    justifyContent='space-between'
+                    alignItems='center'
+                    columnGap='5px'
+                  >
+                    <CachedIcon
+                      sx={{
+                        animation: `${rotateIcon} 1s linear infinite`,
+                      }}
+                    />
+                  </Box>
+                )}
                 {!isLoading && user && (
                   <Box
                     display='flex'
