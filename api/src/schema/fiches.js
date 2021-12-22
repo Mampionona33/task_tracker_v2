@@ -46,7 +46,8 @@ async function search(
     filter.id = id;
   }
   if (user) {
-    filter.user = { $regex: user, $options: 'i' };
+    // filter.user = { $regex: user, $options: 'i' };
+    filter.user = user;
   }
   if (numFiche) {
     filter.numFiche = { $regex: numFiche, $options: 'i' };
@@ -171,65 +172,6 @@ async function update(
     });
   return updateFiche;
 }
-
-// async function update(
-//   _,
-//   {
-//     filter: { id },
-//     update: {
-//       numFiche,
-//       typeTrav,
-//       cat,
-//       statuCom,
-//       statuIvpn,
-//       url,
-//       state,
-//       submiteState,
-//       nbBefor,
-//       nbAft,
-//       startDate,
-//       validDate,
-//       duree,
-//       productivity,
-//       processing,
-//       lastUpdate,
-//     },
-//   }
-// ) {
-//   const db = getDb();
-//   const filter = { id: id };
-//   const update = {
-//     $set: {
-//       typeTrav: typeTrav,
-//       cat: cat,
-//       numFiche: numFiche,
-//       statuCom: statuCom,
-//       statuIvpn: statuIvpn,
-//       url: url,
-//       state: state,
-//       submiteState: submiteState,
-//       nbBefor: nbBefor,
-//       nbAft: nbAft,
-//       startDate: startDate,
-//       validDate: validDate,
-//       duree: duree,
-//       productivity: productivity,
-//       processing: processing,
-//       lastUpdate: lastUpdate,
-//     },
-//   };
-//   const options = { upsert: false, returnNewDocument: true };
-
-//   const updateFiche = db
-//     .collection('fiches')
-//     .findOneAndUpdate(filter, update, options, (error, doc) => {
-//       if (error) {
-//         console.log('error');
-//       }
-//       console.log(doc);
-//     });
-//   return updateFiche;
-// }
 
 async function del(_, { filter: { id } }) {
   const db = getDb();
