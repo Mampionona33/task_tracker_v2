@@ -13,9 +13,6 @@ import {
 
 import { onError } from '@apollo/client/link/error';
 
-import { Provider } from 'react-redux';
-import store from './redux/store.js';
-
 // import components
 import Page from './Page.jsx';
 
@@ -31,7 +28,7 @@ const errorLink = onError(({ graphqlErrors, networkError }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ url: process.env.UI_API_ENDPOINT}),
+  new HttpLink({ url: process.env.UI_API_ENDPOINT }),
 ]);
 
 const client = new ApolloClient({

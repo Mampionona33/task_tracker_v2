@@ -30,8 +30,6 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [listFicheFromData, setListFichesFromData] = useState([]);
   const [idCounter, setIdCounter] = useState([]);
 
-  const [prevPrecessiong, setPrevProcessing] = useState(true);
-
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
