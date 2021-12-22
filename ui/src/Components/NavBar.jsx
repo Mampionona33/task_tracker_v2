@@ -11,7 +11,9 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import CachedIcon from '@mui/icons-material/Cached';import { useState } from 'react';
+import CachedIcon from '@mui/icons-material/Cached';
+import { useState } from 'react';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
 
@@ -59,7 +61,7 @@ export default function Navbar() {
       backgroundColor: theme.palette.primary.main,
     },
   }));
-
+  console.log(user);
   return (
     <React.Fragment>
       {/* Navbar */}
@@ -82,6 +84,7 @@ export default function Navbar() {
               <Button
                 variant='outlined'
                 sx={{
+                  marginRight: '1rem',
                   color: 'inherit',
                   backgroundColor: 'primary.dark',
                 }}
@@ -123,12 +126,19 @@ export default function Navbar() {
                         }}
                         onClick={() => logout()}
                       >
-                        <LogoutIcon />
-                        <Avatar
-                          alt={user.name}
-                          src={user.picture}
-                          sx={{ width: 25, height: 25 }}
-                        />
+                        <Box
+                          display='flex'
+                          justifyContent='space-between'
+                          columnGap='0.5rem'
+                        >
+                          <Avatar
+                            alt={user.name}
+                            src={user.picture}
+                            sx={{ width: 25, height: 25 }}
+                          />
+                          {user.given_name}
+                          <PowerSettingsNewIcon />
+                        </Box>
                       </Button>
                     </Tooltip>
                   </Box>
