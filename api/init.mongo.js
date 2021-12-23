@@ -143,7 +143,7 @@ async function resetMongo() {
         statuIvpn: 'P',
         url: 'http://www.directindustry.com/r/FicheSociete.php?s=14922&w=98456ERfs!RiGhtOwtSrCing&droit=stag&user=mampionona',
         state: 'Normal',
-        submiteState: true,
+        submiteState: false,
         nbBefor: 178,
         nbAft: 164,
         startDate: new Date('2000-03-03'),
@@ -151,6 +151,7 @@ async function resetMongo() {
         duree: '00:03:15:25',
         productivity: '100%',
         processing: 'isPlay',
+        lastUpdate: new Date('2021-12-18T11:02:20.000Z'),
       },
     ];
     const initTypeTaches = [

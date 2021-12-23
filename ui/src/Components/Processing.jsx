@@ -47,9 +47,29 @@ export default function processing(params) {
 
   // get the current task in process
   const currentBooth = taches.filter((fiche) => fiche.processing === 'isPlay');
+  const currentTypeTrav = currentBooth.map((fiche) => fiche.typeTrav);
+  const getLastUpdate = currentBooth.map((fiche) => fiche.lastUpdate);
+  const lastUpDate = new Date(getLastUpdate.toLocaleString());
 
   // get the current time
   const currentTime = new Date();
+  console.log('lastUpDate:', lastUpDate);
+  console.log('currentTime:', currentTime);
+
+  let diffDate = currentTime.getTime() - lastUpDate.getTime();
+  console.log('diff date :', diffDate);
+
+  let intervalDay = Math.floor(diffDate / 86400000);
+
+  let hours = Math.floor(diffDate / 3600) % 24;
+  let min = Math.floor(diffDate / 60) % 60;
+  let sec = Math.floor(diffDate % 60);
+
+  console.log(
+    `Durée : ${formatNbr(intervalDay)} : ${formatNbr(hours)} : ${formatNbr(
+      min
+    )} : ${formatNbr(sec)}`
+  );
 
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {
@@ -114,14 +134,20 @@ export default function processing(params) {
           <Grid>
             <List>
               <ListItem>
-                <Typography>
-                  Work Type : {currentBooth.map((fiche) => fiche.typeTrav)}
-                </Typography>
+                <Typography>Work Type : {currentTypeTrav}</Typography>
               </ListItem>
-              <ListItem>Time Elapsed : {/*hrsInt*/} </ListItem>
-              <ListItem>Time Left : {/*timer*/} </ListItem>
-              <ListItem>productivity</ListItem>
-              <ListItem>Goal</ListItem>
+              <ListItem>
+                <Typography>Time Elapsed :</Typography>
+              </ListItem>
+              <ListItem>
+                <Typography>Time Left :</Typography>
+              </ListItem>
+              <ListItem>
+                <Typography>Productivity</Typography>
+              </ListItem>
+              <ListItem>
+                <Typography>Goal</Typography>
+              </ListItem>
             </List>
           </Grid>
           <Grid display='flex' justifyContent='flex-end'>
