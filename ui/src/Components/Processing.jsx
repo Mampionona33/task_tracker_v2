@@ -25,6 +25,7 @@ import { useMutation } from '@apollo/client';
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+  const [processDuration, setPocessDuration] = useState(``);
 
   // get user authentified
   const { loginWithRedirect, user, isLoading } = useAuth0();
@@ -55,15 +56,20 @@ export default function processing(params) {
   const currentTime = new Date();
 
   let diffDate = currentTime.getTime() - lastUpDate.getTime();
-  console.log(diffDate);
+
   let day = Math.floor(diffDate / 86400000);
   let hours = Math.floor((diffDate / 3600000) % 24);
   let min = Math.floor((diffDate / 60000) % 60);
   let sec = Math.floor((diffDate / 1000) % 60);
   let milSec = Math.floor(diffDate % 1000);
 
+  const initialDuration = `${day}:${hours}:${min}:${sec}`;
+
   console.debug(`${day}:${hours}:${min}:${sec}`);
-  // arretter l'incrementation par la click sur le button pause
+
+  useEffect(() => {}, []);
+
+  // on click Pause Button
   const handleClickPause = (e) => {
     // console.log(currentTime);
     e.preventDefault();
@@ -129,7 +135,7 @@ export default function processing(params) {
                 <Typography>Work Type : {currentTypeTrav}</Typography>
               </ListItem>
               <ListItem>
-                <Typography>Time Elapsed :</Typography>
+                <Typography>Time Elapsed : {processDuration} </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Time Left :</Typography>

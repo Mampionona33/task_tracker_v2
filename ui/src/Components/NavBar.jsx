@@ -11,7 +11,7 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import CachedIcon from '@mui/icons-material/Cached';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { useState } from 'react';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
@@ -101,7 +101,7 @@ export default function Navbar() {
                     alignItems='center'
                     columnGap='5px'
                   >
-                    <CachedIcon
+                    <AutorenewIcon
                       sx={{
                         animation: `${rotateIcon} 1s linear infinite`,
                       }}
