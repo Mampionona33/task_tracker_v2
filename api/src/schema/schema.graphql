@@ -4,9 +4,10 @@ enum StateType {
   Sby
   Paf
 }
-enum BooleanType {
-  isFalse
-  isTrue
+enum ProcessingType {
+  isOff
+  isPause
+  isPlay
 }
 #Fiches ---------
 type Fiches {
@@ -28,7 +29,7 @@ type Fiches {
   duree: String
   productivity: String
   comment: String
-  processing: BooleanType
+  processing: ProcessingType
   lastUpdate: GraphQLDate
 }
 ##Filtre Fiches -------
@@ -58,7 +59,7 @@ input FichesInputs {
   validDate: GraphQLDate
   submiteState: Boolean = false
   comment: String
-  processing: BooleanType = 0
+  processing: ProcessingType = isOff
   duree: String = "00:00:00:00"
   lastUpdate: GraphQLDate
 }
@@ -81,7 +82,7 @@ input UpdateFiches {
   validDate: GraphQLDate
   duree: String
   productivity: String
-  processing: BooleanType
+  processing: ProcessingType
   comment: String
   lastUpdate: GraphQLDate
 }
