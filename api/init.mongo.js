@@ -151,7 +151,7 @@ async function resetMongo() {
         duree: '00:03:15:25',
         productivity: '100%',
         processing: 'isPlay',
-        lastUpdate: new Date('2021-12-23T05:04:20.000Z'),
+        lastUpdate: new Date('Mon Dec 20 2021 13:05:33 GMT+0300'),
       },
     ];
     const initTypeTaches = [

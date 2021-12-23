@@ -53,24 +53,16 @@ export default function processing(params) {
 
   // get the current time
   const currentTime = new Date();
-  console.log('lastUpDate:', lastUpDate);
-  console.log('currentTime:', currentTime);
 
   let diffDate = currentTime.getTime() - lastUpDate.getTime();
-  console.log('diff date :', diffDate);
+  console.log(diffDate);
+  let day = Math.floor(diffDate / 86400000);
+  let hours = Math.floor((diffDate / 3600000) % 24);
+  let min = Math.floor((diffDate / 60000) % 60);
+  let sec = Math.floor((diffDate / 1000) % 60);
+  let milSec = Math.floor(diffDate % 1000);
 
-  let intervalDay = Math.floor(diffDate / 86400000);
-
-  let hours = Math.floor(diffDate / 3600) % 24;
-  let min = Math.floor(diffDate / 60) % 60;
-  let sec = Math.floor(diffDate % 60);
-
-  console.log(
-    `Durée : ${formatNbr(intervalDay)} : ${formatNbr(hours)} : ${formatNbr(
-      min
-    )} : ${formatNbr(sec)}`
-  );
-
+  console.debug(`${day}:${hours}:${min}:${sec}`);
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {
     // console.log(currentTime);
