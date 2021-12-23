@@ -115,7 +115,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           id: prevProcessId,
         },
         update: {
-          processing: 'isFalse',
+          processing: 'isOff',
         },
       },
     });

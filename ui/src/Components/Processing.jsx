@@ -15,7 +15,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql, setLogVerbosity } from '@apollo/client';
-import { FILTRED_FICHE } from '../GraphQL/Queries';
+import { FILTRED_FICHE, LOAD_DATA } from '../GraphQL/Queries';
 import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 
@@ -24,8 +24,11 @@ import { useMutation } from '@apollo/client';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [isClicked, setIsClicked] = useState(false);
-  const [processDuration, setPocessDuration] = useState(``);
+  const [isClicked, setIsClicked] = useState(true);
+  const [processDuration, setPocessDuration] = useState(0);
+  const [onPlayButtonId, setOnPlayButtonId] = useState(0);
+  const [tickInc, setTickInc] = useState(0);
+  const increment = useRef(null);
 
   // get user authentified
   const { loginWithRedirect, user, isLoading } = useAuth0();
@@ -33,29 +36,38 @@ export default function processing(params) {
   user ? (currentUser = user.name) : (currentUser = '');
 
   // querying data from mongodb with variable user
-  const { error, loading, data } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        user: currentUser,
-      },
-    },
-  });
+  const { error, loading, data } = useQuery(LOAD_DATA);
+
+  // get tasks for the current user loged
+  const userLogedTask = taches.filter((fiche) => fiche.user === currentUser);
 
   // if data load, then asign data to taches on components mount
   useEffect(() => {
-    data ? setTaches(data.searchFiches) : setTaches([]);
+    data ? setTaches(data.listFiches) : setTaches([]);
   }, [data]);
 
-  // get the current task in process
-  const currentBooth = taches.filter((fiche) => fiche.processing === 'isPlay');
-  const currentTypeTrav = currentBooth.map((fiche) => fiche.typeTrav);
-  const getLastUpdate = currentBooth.map((fiche) => fiche.lastUpdate);
+  const processingState = userLogedTask.map((fiche) => fiche.processing);
+  console.debug(processingState);
+
+  // get the current task in processing play
+  const currentPlay = taches.filter((fiche) => fiche.processing === 'isPlay');
+  const currentTypeTrav = currentPlay.map((fiche) => fiche.typeTrav);
+  const getLastUpdate = currentPlay.map((fiche) => fiche.lastUpdate);
   const lastUpDate = new Date(getLastUpdate.toLocaleString());
+  const prevLastUpDate = currentPlay.filter((fiche) => fiche.duree);
+  let arrayId = {};
+  const objectTaskId = currentPlay.map((fiche) => {
+    arrayId.id = fiche.id;
+  });
+  const taskId = arrayId.id;
+  console.debug('array id:', arrayId.id);
 
   // get the current time
   const currentTime = new Date();
-
+  // get difference between the last update and now, type int
   let diffDate = currentTime.getTime() - lastUpDate.getTime();
+
+  const processingHours = Math.floor(diffDate / 3600000);
 
   let day = Math.floor(diffDate / 86400000);
   let hours = Math.floor((diffDate / 3600000) % 24);
@@ -63,22 +75,79 @@ export default function processing(params) {
   let sec = Math.floor((diffDate / 1000) % 60);
   let milSec = Math.floor(diffDate % 1000);
 
-  const initialDuration = `${day}:${hours}:${min}:${sec}`;
+  let initialDuration = ``;
 
-  console.debug(`${day}:${hours}:${min}:${sec}`);
+  if (day && hours && min && sec) {
+    initialDuration = `${day}:${hours}:${min}:${sec}`;
+  }
 
-  useEffect(() => {}, []);
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
+
+  // function to execute when clicking on pause button
+  const setProcessingPause = async () => {
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: taskId,
+        },
+        update: {
+          processing: 'isPause',
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
+
+  console.debug('onPlayButtonId', onPlayButtonId);
+  // get the current task in processing pause
+  const currentPause = taches.filter((fiche) => fiche.processing === 'isPause');
+  const getIdPaused = currentPause.map((fiche) => fiche.id);
+  const arrayIdPause = {};
+
+  // function to execute when clicking on Play button
+  const setProcessingPlay = async () => {
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: onPlayButtonId,
+        },
+        update: {
+          processing: 'isPlay',
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
+
+  const tick = async () => {
+    setTickInc((prev) => prev + 1);
+  };
+
+  // get the processing state
+  useEffect(() => {
+    // increment.current = setInterval(() => tick(), 1000);
+    // return () => clearInterval(increment.current);
+  }, []);
+
+  console.log('tickInc', tickInc);
 
   // on click Pause Button
   const handleClickPause = (e) => {
-    // console.log(currentTime);
     e.preventDefault();
+    // console.log(currentTime);
     // clearInterval(increment.current);
   };
   // activer l'incrementation par la click sur le button play
   const handleClickPlay = (e) => {
     e.preventDefault();
-    // increment.current = setInterval(() => tick(), 1000);
+    increment.current = setInterval(() => tick(), 1000);
   };
 
   // handle event functions
@@ -135,7 +204,7 @@ export default function processing(params) {
                 <Typography>Work Type : {currentTypeTrav}</Typography>
               </ListItem>
               <ListItem>
-                <Typography>Time Elapsed : {processDuration} </Typography>
+                <Typography>Time Elapsed : {initialDuration} </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Time Left :</Typography>
@@ -150,7 +219,8 @@ export default function processing(params) {
           </Grid>
           <Grid display='flex' justifyContent='flex-end'>
             <IconButton onClick={handleClickButtonPausePlay}>
-              {isClicked ? <ButtonPlay /> : <ButtonPause />}
+              {/* swhitch between buttons */}
+              {isClicked ? <ButtonPlay taskId={taskId} /> : <ButtonPause />}
             </IconButton>
           </Grid>
         </Card>
