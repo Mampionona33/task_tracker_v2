@@ -40,7 +40,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [nbAft, setNbAft] = useState(0);
   const [comment, setComment] = useState('');
   const [startDate, setStartDate] = useState(new Date());
-  const [processing, setProcessing] = useState('isTrue');
+  const [processing, setProcessing] = useState('isPlay');
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
   // get the user
@@ -86,11 +86,11 @@ export default function DialogAddNewTask({ open, onClose }) {
   let updateId = 0;
   if (user) {
     userTasks = listFicheFromData.filter((fiche) => fiche.user === user.name);
-    console.log('user task', userTasks);
+    // console.log('user task', userTasks);
   }
   if (userTasks) {
     // Get the prev task in process by filter processing = isTrue
-    prevProcess = userTasks.filter((fiche) => fiche.processing === 'isTrue');
+    prevProcess = userTasks.filter((fiche) => fiche.processing === 'isPlay');
 
     updateId = prevProcess.map((fiche) => {
       prevProcessData = {
@@ -99,7 +99,6 @@ export default function DialogAddNewTask({ open, onClose }) {
       return prevProcessData;
     });
     prevProcessId = prevProcessData.id;
-    console.log('prevProcess', prevProcessId);
   }
 
   // execute mutation fichesUpdate with useMutation

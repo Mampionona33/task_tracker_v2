@@ -43,7 +43,7 @@ export const LOAD_DATA = gql`
   }
 `;
 
-export const SEARCH_FICHE_BY_ID = gql`
+export const FILTRED_FICHE = gql`
   query SearchFiches($input: SearchFichesInputs) {
     searchFiches(input: $input) {
       user

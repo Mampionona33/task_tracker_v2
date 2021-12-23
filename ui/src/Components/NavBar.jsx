@@ -61,7 +61,6 @@ export default function Navbar() {
       backgroundColor: theme.palette.primary.main,
     },
   }));
-  console.log(user);
   return (
     <React.Fragment>
       {/* Navbar */}

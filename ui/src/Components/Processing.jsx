@@ -15,7 +15,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql, setLogVerbosity } from '@apollo/client';
-import { LOAD_DATA } from '../GraphQL/Queries';
+import { FILTRED_FICHE } from '../GraphQL/Queries';
 import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 
@@ -24,36 +24,32 @@ import { useMutation } from '@apollo/client';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const increment = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
 
-  // querying data from mongodb
-  const { error, loading, data } = useQuery(LOAD_DATA);
+  // get user authentified
+  const { loginWithRedirect, user, isLoading } = useAuth0();
+  let currentUser = '';
+  user ? (currentUser = user.name) : (currentUser = '');
+
+  // querying data from mongodb with variable user
+  const { error, loading, data } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        user: currentUser,
+      },
+    },
+  });
+
   // if data load, then asign data to taches on components mount
   useEffect(() => {
-    data ? setTaches(data.listFiches) : setTaches([]);
+    data ? setTaches(data.searchFiches) : setTaches([]);
   }, [data]);
 
-  // get user authentified
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-  let logedUserData = [];
-  // if there is user, check the user in the database
-  if (user) {
-    logedUserData = taches.filter((fiche) => fiche.user === user.name);
-  }
   // get the current task in process
-  const currentBooth = logedUserData.filter(
-    (fiche) => fiche.processing === true
-  );
-  // currentBooth ? console.log(currentBooth) : console.warn('nop');
+  const currentBooth = taches.filter((fiche) => fiche.processing === 'isPlay');
 
   // get the current time
   const currentTime = new Date();
-
-  // Mutation to execute whene button pause clicked
-  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [LOAD_DATA],
-  });
 
   // arretter l'incrementation par la click sur le button pause
   const handleClickPause = (e) => {
@@ -117,7 +113,11 @@ export default function processing(params) {
           <Divider />
           <Grid>
             <List>
-              <ListItem>Work Type : {/*typeTrav*/}</ListItem>
+              <ListItem>
+                <Typography>
+                  Work Type : {currentBooth.map((fiche) => fiche.typeTrav)}
+                </Typography>
+              </ListItem>
               <ListItem>Time Elapsed : {/*hrsInt*/} </ListItem>
               <ListItem>Time Left : {/*timer*/} </ListItem>
               <ListItem>productivity</ListItem>
