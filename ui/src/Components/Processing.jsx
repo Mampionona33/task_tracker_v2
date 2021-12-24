@@ -26,7 +26,7 @@ export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const [isClicked, setIsClicked] = useState(true);
   const [processDuration, setPocessDuration] = useState(0);
-  const [onPlayButtonId, setOnPlayButtonId] = useState(0);
+  // const [onPlayButtonId, setOnPlayButtonId] = useState(0);
   const [tickInc, setTickInc] = useState(0);
   const increment = useRef(null);
 
@@ -35,7 +35,7 @@ export default function processing(params) {
   let currentUser = '';
   user ? (currentUser = user.name) : (currentUser = '');
 
-  // querying data from mongodb with variable user
+  // querying data from mongodb
   const { error, loading, data } = useQuery(LOAD_DATA);
 
   // get tasks for the current user loged
@@ -47,7 +47,7 @@ export default function processing(params) {
   }, [data]);
 
   const processingState = userLogedTask.map((fiche) => fiche.processing);
-  console.debug(processingState);
+  // console.debug(processingState);
 
   // get the current task in processing play
   const currentPlay = taches.filter((fiche) => fiche.processing === 'isPlay');
@@ -60,7 +60,7 @@ export default function processing(params) {
     arrayId.id = fiche.id;
   });
   const taskId = arrayId.id;
-  console.debug('array id:', arrayId.id);
+  // console.debug('array id:', arrayId.id);
 
   // get the current time
   const currentTime = new Date();
@@ -103,11 +103,13 @@ export default function processing(params) {
     }
   };
 
-  console.debug('onPlayButtonId', onPlayButtonId);
   // get the current task in processing pause
   const currentPause = taches.filter((fiche) => fiche.processing === 'isPause');
-  const getIdPaused = currentPause.map((fiche) => fiche.id);
   const arrayIdPause = {};
+  const getIdPaused = currentPause.map((fiche) => {
+    arrayIdPause.id = fiche.id;
+  });
+  const onPlayButtonId = arrayIdPause.id;
 
   // function to execute when clicking on Play button
   const setProcessingPlay = async () => {
@@ -136,21 +138,22 @@ export default function processing(params) {
     // return () => clearInterval(increment.current);
   }, []);
 
-  console.log('tickInc', tickInc);
-
   // on click Pause Button
-  const handleClickPause = (e) => {
+  const handleClickPause = async (e) => {
     e.preventDefault();
-    // console.log(currentTime);
-    // clearInterval(increment.current);
+    setProcessingPause();
+    // stop counter
+    clearInterval(increment.current);
   };
   // activer l'incrementation par la click sur le button play
-  const handleClickPlay = (e) => {
+  const handleClickPlay = async (e) => {
     e.preventDefault();
+    setProcessingPlay();
+    // increment counter
     increment.current = setInterval(() => tick(), 1000);
   };
 
-  // handle event functions
+  // handle event functions ...ButtonPlay/ButtonPause/handleClickButtonPausePlay
   const ButtonPlay = () => {
     return (
       <IconButton

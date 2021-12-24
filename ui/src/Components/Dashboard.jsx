@@ -15,6 +15,7 @@ export default function DashBoard() {
         sx={{ padding: 3 }}
         spacing={2}
         justifyContent='space-evenly'
+        height='95vh'
       >
         <SubmitTask />
         <InProgress />
