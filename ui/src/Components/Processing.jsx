@@ -24,7 +24,7 @@ import { useMutation } from '@apollo/client';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
-  const [isClicked, setIsClicked] = useState(true);
+  const [isClicked, setIsClicked] = useState(null);
   const [processDuration, setPocessDuration] = useState(0);
   // const [onPlayButtonId, setOnPlayButtonId] = useState(0);
   const [tickInc, setTickInc] = useState(0);
@@ -46,8 +46,24 @@ export default function processing(params) {
     data ? setTaches(data.listFiches) : setTaches([]);
   }, [data]);
 
-  const processingState = userLogedTask.map((fiche) => fiche.processing);
-  // console.debug(processingState);
+  // get the processing task status
+  const processingValue = {};
+  const processingState = userLogedTask.map((fiche) => {
+    processingValue.state = fiche.processing;
+  });
+
+  // get the current processing state true or fals to handle refresh button persistant
+  useEffect(() => {
+    // increment.current = setInterval(() => tick(), 1000);
+    // return () => clearInterval(increment.current);
+    if (processingValue.state === 'isPlay') {
+      setIsClicked(false);
+    }
+    if (processingValue.state === 'isPause') {
+      setIsClicked(true);
+    }
+    console.debug(processingValue.state);
+  }, [processingState]);
 
   // get the current task in processing play
   const currentPlay = taches.filter((fiche) => fiche.processing === 'isPlay');
@@ -131,12 +147,6 @@ export default function processing(params) {
   const tick = async () => {
     setTickInc((prev) => prev + 1);
   };
-
-  // get the processing state
-  useEffect(() => {
-    // increment.current = setInterval(() => tick(), 1000);
-    // return () => clearInterval(increment.current);
-  }, []);
 
   // on click Pause Button
   const handleClickPause = async (e) => {
