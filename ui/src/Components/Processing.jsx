@@ -64,7 +64,9 @@ export default function processing(params) {
   }, [processingState]);
 
   // get the current task in processing play
-  const currentPlay = taches.filter((fiche) => fiche.processing === 'isPlay');
+  const currentPlay = taches.filter(
+    (fiche) => fiche.processing === 'isPlay' || fiche.processing === 'isPause'
+  );
   const currentTypeTrav = currentPlay.map((fiche) => fiche.typeTrav);
   const getLastUpdate = currentPlay.map((fiche) => fiche.lastUpdate);
   const lastUpDate = new Date(getLastUpdate.toLocaleString());
