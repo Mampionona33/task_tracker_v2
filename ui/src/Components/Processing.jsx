@@ -70,13 +70,15 @@ export default function processing(params) {
   const currentTypeTrav = currentPlay.map((fiche) => fiche.typeTrav);
   const getLastUpdate = currentPlay.map((fiche) => fiche.lastUpdate);
   const lastUpDate = new Date(getLastUpdate.toLocaleString());
-  const prevLastUpDate = currentPlay.filter((fiche) => fiche.duree);
   let arrayId = {};
   const objectTaskId = currentPlay.map((fiche) => {
     arrayId.id = fiche.id;
   });
   const taskId = arrayId.id;
   // console.debug('array id:', arrayId.id);
+
+  // get last Duration
+  const prevLastUpDate = currentPlay.filter((fiche) => fiche.duree);
 
   // get the current time
   const currentTime = new Date();
@@ -217,7 +219,7 @@ export default function processing(params) {
                 <Typography>Work Type : {currentTypeTrav}</Typography>
               </ListItem>
               <ListItem>
-                <Typography>Time Elapsed : {initialDuration} </Typography>
+                <Typography>Time Elapsed : {tickInc} </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Time Left :</Typography>
