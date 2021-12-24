@@ -29,7 +29,7 @@ export default function processing(params) {
   // const [onPlayButtonId, setOnPlayButtonId] = useState(0);
   const [tickInc, setTickInc] = useState(0);
   const increment = useRef(null);
-
+  const [initialTic, setInitialTic] = useState(0);
   // get user authentified
   const { loginWithRedirect, user, isLoading } = useAuth0();
   let currentUser = '';
@@ -54,8 +54,6 @@ export default function processing(params) {
 
   // get the current processing state true or fals to handle refresh button persistant
   useEffect(() => {
-    // increment.current = setInterval(() => tick(), 1000);
-    // return () => clearInterval(increment.current);
     if (processingValue.state === 'isPlay') {
       setIsClicked(false);
     }
@@ -78,14 +76,17 @@ export default function processing(params) {
   // console.debug('array id:', arrayId.id);
 
   // get last Duration
-  const prevLastUpDate = currentPlay.filter((fiche) => fiche.duree);
+  const preDuration = {};
+  const prevLastUpDate = currentPlay.filter((fiche) => {
+    preDuration.value = fiche.duree;
+  });
 
   // get the current time
   const currentTime = new Date();
   // get difference between the last update and now, type int
   let diffDate = currentTime.getTime() - lastUpDate.getTime();
 
-  const processingHours = Math.floor(diffDate / 3600000);
+  const processingHours = Math.floor((diffDate / 3600000) % 24);
 
   let day = Math.floor(diffDate / 86400000);
   let hours = Math.floor((diffDate / 3600000) % 24);
@@ -219,7 +220,7 @@ export default function processing(params) {
                 <Typography>Work Type : {currentTypeTrav}</Typography>
               </ListItem>
               <ListItem>
-                <Typography>Time Elapsed : {tickInc} </Typography>
+                <Typography>Time Elapsed : {initialDuration} </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Time Left :</Typography>
