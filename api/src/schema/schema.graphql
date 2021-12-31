@@ -42,6 +42,7 @@ input SearchFichesInputs {
   numFiche: String
   typeTrav: String
   submiteState: Boolean
+  processing: String
 }
 ##Inputs Fiches --------
 input FichesInputs {

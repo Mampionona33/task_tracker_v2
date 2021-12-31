@@ -18,7 +18,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
 
 import { useQuery, gql, refetchQueries } from '@apollo/client';
-import { LOAD_DATA, SEARCH_FICHE_BY_ID } from '../GraphQL/Queries';
+import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
 import { GetStartDateTime } from '../Features/time';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -106,8 +106,8 @@ export default function DialogAddNewTask({ open, onClose }) {
     refetchQueries: [LOAD_DATA],
   });
 
-  // function to execute the update
-  const setPrevProcessIdFalse = async () => {
+  // function to execute the update to set processing : 'isOff'
+  const setPrevProcessIsOff = async () => {
     await addFiche();
     fichesUpdate({
       variables: {
@@ -145,7 +145,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [data]);
 
   async function handleReset(e) {
-    await setPrevProcessIdFalse();
+    await setPrevProcessIsOff();
     setNumFiche('');
     setCat('');
     setStatuCom('');

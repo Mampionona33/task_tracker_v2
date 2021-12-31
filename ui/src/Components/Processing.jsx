@@ -26,10 +26,12 @@ export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const [isClicked, setIsClicked] = useState(null);
   const [processDuration, setPocessDuration] = useState(0);
+
   // const [onPlayButtonId, setOnPlayButtonId] = useState(0);
   const [tickInc, setTickInc] = useState(0);
   const increment = useRef(null);
   const [initialTic, setInitialTic] = useState(0);
+
   // get user authentified
   const { loginWithRedirect, user, isLoading } = useAuth0();
   let currentUser = '';
@@ -60,7 +62,7 @@ export default function processing(params) {
     if (processingValue.state === 'isPause') {
       setIsClicked(true);
     }
-    console.debug(processingValue.state);
+    // console.debug(processingValue.state);
   }, [processingState]);
 
   // get the current task in processing play

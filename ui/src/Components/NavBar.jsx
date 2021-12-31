@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,17 +11,23 @@ import List from '@mui/material/List';
 import Tooltip from '@mui/material/Tooltip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { useState } from 'react';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 import DialogAddNewTask from './DialogAddNewTask.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
+import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
+import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 
 export default function Navbar() {
+  const [currentFiche, setCurrentFiche] = useState([]);
+  // const [currentId,setCurrentId]= useState(0)
+
   // animation key for loading icons
   const rotateIcon = keyframes`
   100%{transform: rotate(360deg)}
@@ -51,8 +56,49 @@ export default function Navbar() {
     setDialIsOpen(false);
   };
 
-  const handelClickLoghout = () => {
-    console.log('logout');
+  // Get the current task id
+  const { error, loading, data } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        processing: 'isPlay',
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setCurrentFiche(data.searchFiches);
+    }
+  }, [data]);
+  const currentIdArray = currentFiche.map((fiche) => fiche.id);
+
+  let prevProcessId = currentIdArray[0];
+
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
+  // function to execute the update to set processing : 'isOff'
+  const setPrevProcessIsOff = async () => {
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: prevProcessId,
+        },
+        update: {
+          processing: 'isOff',
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
+
+  const handelClickLoghout = async () => {
+    await setPrevProcessIsOff();
+    logout();
+    console.log(prevProcessId);
   };
 
   // creat custom drawer with custom paper
@@ -123,7 +169,8 @@ export default function Navbar() {
                           color: 'inherit',
                           backgroundColor: 'primary.dark',
                         }}
-                        onClick={() => logout()}
+                        // onClick={() => logout()}
+                        onClick={() => handelClickLoghout()}
                       >
                         <Box
                           display='flex'
