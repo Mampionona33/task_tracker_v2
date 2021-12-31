@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AddIcon from '@mui/icons-material/Add';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
@@ -169,7 +168,6 @@ export default function Navbar() {
                           color: 'inherit',
                           backgroundColor: 'primary.dark',
                         }}
-                        // onClick={() => logout()}
                         onClick={() => handelClickLoghout()}
                       >
                         <Box
