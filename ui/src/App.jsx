@@ -18,6 +18,7 @@ import Page from './Page.jsx';
 
 import Auth0ProviderWithHistory from './auth0Provider';
 
+
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
     graphqlErrors.map(({ message, location, path }) => {
