@@ -9,9 +9,9 @@ const Auth0ProviderWithHistory = ({ children }) => {
   const onRedirectCallback = (appState) => {
     return <useNavigate to={appState?.returnTo || window.location.pathname} />;
   };
-    // const onRedirectCallback = (appState) => {
-    //   history.push(appState?.returnTo || window.location.pathname);
-    // };
+  // const onRedirectCallback = (appState) => {
+  //   history.push(appState?.returnTo || window.location.pathname);
+  // };
 
   return (
     <Auth0Provider
@@ -19,8 +19,8 @@ const Auth0ProviderWithHistory = ({ children }) => {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-      useRefreshTokens={true}
-      cacheLocation='localstorage'
+      // useRefreshTokens={true}
+      // cacheLocation='localstorage'
     >
       {children}
     </Auth0Provider>

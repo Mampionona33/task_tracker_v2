@@ -1,9 +1,10 @@
 import React from 'react';
+import TaskTable from './TaskTable';
 
 const TaskList = () => {
   return (
     <React.Fragment>
-      <h1>Placeholder Tasklist test</h1>
+      <TaskTable/>
     </React.Fragment>
   );
 };

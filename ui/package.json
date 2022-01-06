@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
     "@mui/styles": "^5.2.0",
+    "@mui/x-data-grid": "^5.2.1",
     "axios": "^0.24.0",
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.20.0",
