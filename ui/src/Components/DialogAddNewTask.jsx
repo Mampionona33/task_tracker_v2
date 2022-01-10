@@ -55,7 +55,17 @@ export default function DialogAddNewTask({ open, onClose }) {
     fichesAdd({
       variables: {
         fiche: {
-          user: user.name,
+          user: {
+            name: user.name,
+            email: user.email,
+            given_name: user.given_name,
+            username: user.username,
+            picture: user.picture,
+            family_name: user.family_name,
+            locale: user.locale,
+            phone_number: user.phone_number,
+            profile: user.profile,
+          },
           numFiche: numFiche,
           cat: cat,
           typeTrav: typeTrav,
@@ -85,8 +95,9 @@ export default function DialogAddNewTask({ open, onClose }) {
   let prevProcessId = [];
   let updateId = 0;
   if (user) {
-    userTasks = listFicheFromData.filter((fiche) => fiche.user === user.name);
-    // console.log('user task', userTasks);
+    userTasks = listFicheFromData.filter(
+      (fiche) => fiche.user.email === user.email
+    );
   }
   if (userTasks) {
     // Get the prev task in process by filter processing = isTrue
