@@ -42,7 +42,15 @@ async function resetMongo() {
     ];
     const initialFiches = [
       {
-        user: 'Mino Aurelie Ravolarimanasoa',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 1,
         typeTrav: 'Contenu',
         numFiche: '15454',
@@ -61,7 +69,15 @@ async function resetMongo() {
       },
 
       {
-        user: 'Mino Aurelie Ravolarimanasoa',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 2,
         typeTrav: 'MAJPrio',
         numFiche: '4545',
@@ -79,7 +95,15 @@ async function resetMongo() {
         processing: 'isOff',
       },
       {
-        user: 'Mampionona RAMAHAZOMANANA',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 3,
         typeTrav: 'AUTOVALIDCREAPrio',
         numFiche: '188595',
@@ -98,7 +122,15 @@ async function resetMongo() {
         lastUpdate: new Date('2021-12-18'),
       },
       {
-        user: 'Mino Aurelie Ravolarimanasoa',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 4,
         typeTrav: 'AUTOVALIDCREAPrio',
         numFiche: '126963',
@@ -117,7 +149,15 @@ async function resetMongo() {
         lastUpdate: new Date('2021-12-18'),
       },
       {
-        user: 'Mampionona RAMAHAZOMANANA',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 5,
         typeTrav: 'CréaPrio',
         numFiche: '239657',
@@ -135,7 +175,15 @@ async function resetMongo() {
         processing: 'isOff',
       },
       {
-        user: 'Mampionona RAMAHAZOMANANA',
+        user: {
+          name: 'Mampionona RAMAHAZOMANANA',
+          given_name: 'Mampionona',
+          family_name: 'RAMAHAZOMANANA',
+          nickname: 'ramamps33',
+          picture:
+            'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
+          sub: 'google-oauth2|100620047698438001642',
+        },
         id: 6,
         typeTrav: 'MAJPrio',
         numFiche: '14922',

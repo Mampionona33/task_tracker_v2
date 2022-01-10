@@ -12,7 +12,7 @@ enum ProcessingType {
 #Fiches ---------
 type Fiches {
   _id: String!
-  user: String!
+  user: User!
   id: Int
   typeTrav: String
   cat: String
@@ -35,7 +35,7 @@ type Fiches {
 ##Filtre Fiches -------
 input SearchFichesInputs {
   id: Int
-  user: String
+  user: UserInput
   cat: String
   statuCom: String
   statuIvpn: String
@@ -46,7 +46,7 @@ input SearchFichesInputs {
 }
 ##Inputs Fiches --------
 input FichesInputs {
-  user: String!
+  user: UserInput!
   typeTrav: String = "Empty Type"
   cat: String
   numFiche: String
@@ -68,7 +68,7 @@ input FichesInputs {
 input UpdateFiches {
   _id: String
   id: Int
-  user: String
+  user: UserInput
   typeTrav: String
   cat: String
   numFiche: String
@@ -106,6 +106,53 @@ type StatCom {
   _id: String!
   id: Int!
   name: String!
+}
+##User Type---------
+type User {
+  name: String!
+  given_name: String
+  username: String
+  family_name: String
+  nickname: String
+  picture: String
+  locale: String
+  sub: String
+  phone_number: String
+  phone_number_verified: String
+  preferred_username: String
+  profile: String
+  update_at: GraphQLDate
+  website: String
+  zoneinfo: String
+  created_at: GraphQLDate
+  email: String
+  email_verified: Boolean
+  last_password_reset: GraphQLDate
+  user_id: String
+}
+
+##User Input-------
+input UserInput {
+  name: String!
+  given_name: String
+  username: String
+  family_name: String
+  nickname: String
+  picture: String
+  locale: String
+  phone_number: String
+  phone_number_verified: String
+  preferred_username: String
+  profile: String
+  sub: String
+  update_at: GraphQLDate
+  website: String
+  zoneinfo: String
+  created_at: GraphQLDate
+  email: String
+  email_verified: Boolean
+  last_password_reset: GraphQLDate
+  user_id: String
 }
 
 input StatComInput {
