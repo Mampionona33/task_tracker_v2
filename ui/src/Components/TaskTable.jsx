@@ -21,14 +21,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const columns = [
-  { field: 'numFiche', headerName: 'Num', minWidth: 100, flex: 1 },
+  { field: 'numFiche', headerName: 'Num', flex: 1 },
   { field: 'typeTrav', headerName: ' Task Type', flex: 1 },
-  { field: 'statusCom', headerName: 'Status Com', minWidth: 70, flex: 1 },
-  { field: 'state', headerName: 'State', minWidth: 100, flex: 1 },
+  { field: 'statusCom', headerName: 'Status Com', flex: 1 },
+  { field: 'state', headerName: 'State', flex: 1 },
+  {
+    field: 'productivity',
+    headerName: 'Productivity',
+    flex: 1,
+    type: 'text',
+    align: 'center',
+  },
   {
     field: 'link',
     headerName: 'Link',
-    minWidth: 100,
     type: 'link',
     align: 'center',
     flex: 1,
@@ -41,7 +47,6 @@ const columns = [
   {
     field: 'actions',
     headerName: 'Action',
-    minWidth: 100,
     align: 'center',
     type: 'link',
     justifyContent: 'space-between',
@@ -75,6 +80,7 @@ const rows = [
     statusCom: 'Degradée',
     state: 'Normal',
     link: 'test',
+    productivity: '75%',
     actions: '#/dashboard',
   },
   {
@@ -165,6 +171,9 @@ const handleClickPause = () => {
 
 export default function TaskTable() {
   const [pageSize, setPageSize] = React.useState(9);
+  const [sortModel, setSortModel] = React.useState([
+    { field: 'state', sort: 'desc' },
+  ]);
   return (
     <React.Fragment>
       <DataGrid
@@ -175,15 +184,18 @@ export default function TaskTable() {
         sx={{ maxHeight: '90vh' }}
         justifyContent='space-between'
         flexWrap
+        // default sorting to show sby on top of list
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
         // default filtering table to show normal state only
         initialState={{
           filter: {
             filterModel: {
               items: [
                 {
-                  columnField: 'state',
-                  operatorValue: 'equals',
-                  value: 'Normal',
+                  // columnField: 'state',
+                  // operatorValue: 'equals',
+                  // value: 'Normal',
                 },
               ],
             },
