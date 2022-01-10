@@ -177,33 +177,24 @@ export default function TaskTable() {
   const dataUnsubmited = loadUnsubmitedTask();
 
   const userData = userLoggedData();
+  const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+  const taskPause = userData.filter((task) => task.processing === 'isPause');
 
   // loading data on component mount
   useEffect(() => {
     if (userData.length > 0) {
       setList(userData);
-      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
       if (taskPlay.length > 0) {
-        setPrevFiche(dataPlay);
-        setPrevFicheId((prev) => dataPlay[0].id);
-        setPrevFicheLastUpdate((perv) => dataPlay[0].lastUpdate);
+        setPrevFiche(taskPlay);
+        setPrevFicheId((prev) => taskPlay[0].id);
+        setPrevFicheLastUpdate((perv) => taskPlay[0].lastUpdate);
       }
-      const taskPause = userData.filter(
-        (task) => task.processing === 'isPause'
-      );
       if (taskPause.length > 0) {
-        setPrevFiche(dataPause);
-        setPrevFicheId((prev) => dataPause[0].id);
+        setPrevFiche(taskPause);
+        setPrevFicheId((prev) => taskPause[0].id);
       }
     }
-  }, [
-    prevFiche,
-    dataPlay,
-    dataPause,
-    dataUnsubmited,
-    prevFicheLastUpdate,
-    userData,
-  ]);
+  }, [userData, taskPlay, taskPause]);
 
   let rows = [];
   let arrayRows = {};
