@@ -3,7 +3,28 @@ import { gql } from '@apollo/client';
 export const LOAD_DATA = gql`
   query Query {
     listFiches {
-      user
+      user {
+        name
+        given_name
+        username
+        family_name
+        nickname
+        picture
+        locale
+        phone_number
+        phone_number_verified
+        preferred_username
+        profile
+        sub
+        update_at
+        website
+        zoneinfo
+        created_at
+        email
+        email_verified
+        last_password_reset
+        user_id
+      }
       id
       typeTrav
       cat
@@ -46,7 +67,28 @@ export const LOAD_DATA = gql`
 export const FILTRED_FICHE = gql`
   query SearchFiches($input: SearchFichesInputs) {
     searchFiches(input: $input) {
-      user
+      user {
+        name
+        given_name
+        username
+        family_name
+        nickname
+        picture
+        locale
+        phone_number
+        phone_number_verified
+        preferred_username
+        profile
+        sub
+        update_at
+        website
+        zoneinfo
+        created_at
+        email
+        email_verified
+        last_password_reset
+        user_id
+      }
       typeTrav
       cat
       numFiche

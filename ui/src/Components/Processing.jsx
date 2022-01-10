@@ -35,13 +35,15 @@ export default function processing(params) {
   // get user authentified
   const { loginWithRedirect, user, isLoading } = useAuth0();
   let currentUser = '';
-  user ? (currentUser = user.name) : (currentUser = '');
+  user ? (currentUser = user.email) : (currentUser = '');
 
   // querying data from mongodb
   const { error, loading, data } = useQuery(LOAD_DATA);
 
   // get tasks for the current user loged
-  const userLogedTask = taches.filter((fiche) => fiche.user === currentUser);
+  const userLogedTask = taches.filter(
+    (fiche) => fiche.user.email === currentUser
+  );
 
   // if data load, then asign data to taches on components mount
   useEffect(() => {

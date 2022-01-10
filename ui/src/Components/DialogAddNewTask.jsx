@@ -86,7 +86,6 @@ export default function DialogAddNewTask({ open, onClose }) {
   let updateId = 0;
   if (user) {
     userTasks = listFicheFromData.filter((fiche) => fiche.user === user.name);
-    console.log('user name :', user);
     // console.log('user task', userTasks);
   }
   if (userTasks) {

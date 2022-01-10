@@ -50,6 +50,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 1,
         typeTrav: 'Contenu',
@@ -77,6 +78,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 2,
         typeTrav: 'MAJPrio',
@@ -103,6 +105,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 3,
         typeTrav: 'AUTOVALIDCREAPrio',
@@ -130,6 +133,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 4,
         typeTrav: 'AUTOVALIDCREAPrio',
@@ -157,6 +161,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 5,
         typeTrav: 'CréaPrio',
@@ -183,6 +188,7 @@ async function resetMongo() {
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
+          email: 'ramamps33@gmail.com',
         },
         id: 6,
         typeTrav: 'MAJPrio',
