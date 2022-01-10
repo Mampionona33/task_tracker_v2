@@ -165,6 +165,20 @@ export default function TaskTable() {
         sx={{ maxHeight: '90vh' }}
         justifyContent='space-between'
         flexWrap
+        // default filtering table to show normal state only
+        initialState={{
+          filter: {
+            filterModel: {
+              items: [
+                {
+                  columnField: 'state',
+                  operatorValue: 'equals',
+                  value: 'Normal',
+                },
+              ],
+            },
+          },
+        }}
       />
     </React.Fragment>
   );
