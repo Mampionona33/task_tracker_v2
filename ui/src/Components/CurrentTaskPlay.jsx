@@ -4,26 +4,31 @@ import { makeStyles } from '@mui/styles';
 import { userLoggedData, loadUnsubmitedTask } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export default function CurrentTaskPlay(props) {
-  const userData = loadUnsubmitedTask();
+export default function CurrentTaskPlay() {
   const [currentFiche, setCurrentFiche] = useState([]);
   const { user } = useAuth0();
-  const taskPlay = userData.filter(
-    (task) => task.processing === 'isPlay' && task.user.email === user.email
-  );
-  const taskPause = userData.filter((task) => task.processing === 'isPause');
 
   // fetching data on component mount
+  const userData = loadUnsubmitedTask();
   useEffect(() => {
-    if (userData.length > 0 && user) {
-      if (taskPlay.length > 0 && user) {
+    if (userData.length > 0) {
+      const taskPlay = userData.filter(
+        (task) => task.processing === 'isPlay' && task.user.email === user.email
+      );
+      const taskPause = userData.filter(
+        (task) =>
+          task.processing === 'isPause' && task.user.email === user.email
+      );
+
+      if (taskPlay.length > 0) {
         setCurrentFiche((prev) => taskPlay);
       }
+
       if (taskPause.length > 0) {
         setCurrentFiche((prev) => taskPause);
       }
     }
-  }, [userData, user, taskPlay, taskPause]);
+  }, [userData]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({

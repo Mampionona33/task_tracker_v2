@@ -152,6 +152,8 @@ export default function TaskTable() {
       FILTRED_FICHE,
       { variables: { input: { submiteState: 'isSubmited' } } },
     ],
+     // to execute refetch
+    awaitRefetchQueries: true,
   });
 
   const handleClickPlay = async (param, event) => {
