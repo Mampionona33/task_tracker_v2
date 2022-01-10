@@ -23,16 +23,43 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries } from '@apollo/client';
 
 const columns = [
-  { field: 'numFiche', headerName: 'Num', flex: 1 },
-  { field: 'typeTrav', headerName: ' Task Type', flex: 1 },
-  { field: 'statusCom', headerName: 'Status Com', flex: 1 },
-  { field: 'state', headerName: 'State', flex: 1 },
+  {
+    field: 'numFiche',
+    headerName: 'Num',
+    flex: 1,
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+    fontWeight: '900',
+  },
+  {
+    field: 'typeTrav',
+    headerName: ' Task Type',
+    flex: 1,
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+  },
+  {
+    field: 'statusCom',
+    headerName: 'Status Com',
+    flex: 1,
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+  },
+  {
+    field: 'state',
+    headerName: 'State',
+    flex: 1,
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+  },
   {
     field: 'productivity',
     headerName: 'Productivity',
     flex: 1,
     type: 'text',
     align: 'center',
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: 'link',
@@ -40,6 +67,8 @@ const columns = [
     type: 'link',
     align: 'center',
     flex: 1,
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
     renderCell: (params) => (
       <Link href={params.value} target='_blank'>
         <LinkIcon />
@@ -53,7 +82,9 @@ const columns = [
     type: 'link',
     justifyContent: 'space-between',
     flex: 1,
+    headerAlign: 'center',
     flexWrap: 'wrap',
+    headerClassName: 'super-app-theme--header',
     renderCell: (params) => (
       <React.Fragment>
         <IconButton
@@ -109,7 +140,14 @@ export default function TaskTable() {
   });
 
   return (
-    <React.Fragment>
+    <Box
+      sx={{
+        height: '90vh',
+        '& .super-app-theme--header': {
+          fontWeight: '900',
+        },
+      }}
+    >
       <DataGrid
         columns={columns}
         pageSize={9}
@@ -117,7 +155,6 @@ export default function TaskTable() {
         pagination
         sx={{ maxHeight: '90vh' }}
         justifyContent='space-between'
-        flexWrap
         // default sorting to show sby on top of list
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
@@ -136,6 +173,6 @@ export default function TaskTable() {
           },
         }}
       />
-    </React.Fragment>
+    </Box>
   );
 }
