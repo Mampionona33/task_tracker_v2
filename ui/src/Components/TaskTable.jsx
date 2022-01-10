@@ -41,7 +41,7 @@ const columns = [
     align: 'center',
     flex: 1,
     renderCell: (params) => (
-      <Link href={params.value}>
+      <Link href={params.value} target='_blank'>
         <LinkIcon />
       </Link>
     ),
@@ -53,8 +53,9 @@ const columns = [
     type: 'link',
     justifyContent: 'space-between',
     flex: 1,
+    flexWrap: 'wrap',
     renderCell: (params) => (
-      <Box display='flex' sx={{ gap: '1.5rem' }}>
+      <React.Fragment>
         <IconButton
           color='primary'
           component='span'
@@ -69,7 +70,7 @@ const columns = [
         <IconButton color='primary' component='span' arial-label='Pause button'>
           <DeleteIcon />
         </IconButton>
-      </Box>
+      </React.Fragment>
     ),
   },
 ];
@@ -101,6 +102,7 @@ export default function TaskTable() {
       typeTrav: item.typeTrav,
       statusCom: item.statusCom,
       state: item.state,
+      link: item.url,
     };
 
     rows.push(arrayRows);
@@ -125,9 +127,9 @@ export default function TaskTable() {
             filterModel: {
               items: [
                 {
-                  // columnField: 'state',
-                  // operatorValue: 'equals',
-                  // value: 'Normal',
+                  columnField: 'state',
+                  operatorValue: 'equals',
+                  value: 'Normal',
                 },
               ],
             },

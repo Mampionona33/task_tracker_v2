@@ -174,6 +174,7 @@ export default function Navbar() {
                           display='flex'
                           justifyContent='space-between'
                           columnGap='0.5rem'
+                          flexWrap='wrap'
                         >
                           <Avatar
                             alt={user.name}
