@@ -13,6 +13,7 @@ import {
   Paper,
   keyframes,
   Link,
+  IconButton,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -21,7 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const columns = [
   { field: 'numFiche', headerName: 'Num', minWidth: 100, flex: 1 },
-  { field: 'typeTrav', headerName: 'Type Travail', flex: 1 },
+  { field: 'typeTrav', headerName: ' Task Type', flex: 1 },
   { field: 'statusCom', headerName: 'Status Com', minWidth: 70, flex: 1 },
   { field: 'state', headerName: 'State', minWidth: 100, flex: 1 },
   {
@@ -47,15 +48,20 @@ const columns = [
     flex: 1,
     renderCell: (params) => (
       <Box display='flex' sx={{ gap: '1.5rem' }}>
-        <Link href={params.value}>
+        <IconButton
+          color='primary'
+          component='span'
+          arial-label='Pause button'
+          onClick={handleClickPause}
+        >
           <PlayCircleIcon />
-        </Link>
-        <Link href={params.value}>
+        </IconButton>
+        <IconButton color='primary' component='span' arial-label='Pause button'>
           <EditIcon />
-        </Link>
-        <Link href={params.value}>
+        </IconButton>
+        <IconButton color='primary' component='span' arial-label='Pause button'>
           <DeleteIcon />
-        </Link>
+        </IconButton>
       </Box>
     ),
   },
@@ -69,7 +75,7 @@ const rows = [
     statusCom: 'Degradée',
     state: 'Normal',
     link: 'test',
-    actions: 'idOfFiche',
+    actions: '#/dashboard',
   },
   {
     id: 2,
@@ -152,6 +158,10 @@ const rows = [
     link: '#',
   },
 ];
+
+const handleClickPause = () => {
+  window.location.href = '#/dashboard';
+};
 
 export default function TaskTable() {
   const [pageSize, setPageSize] = React.useState(9);
