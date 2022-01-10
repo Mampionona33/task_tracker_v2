@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {
   Badge,
@@ -19,6 +19,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
+import { useQuery, gql, refetchQueries } from '@apollo/client';
 
 const columns = [
   { field: 'numFiche', headerName: 'Num', flex: 1 },
@@ -71,114 +73,44 @@ const columns = [
     ),
   },
 ];
-
-const rows = [
-  {
-    id: 1,
-    numFiche: '1500',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: 'test',
-    productivity: '75%',
-    actions: '#/dashboard',
-  },
-  {
-    id: 2,
-    numFiche: '145',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 3,
-    numFiche: '4654',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 4,
-    numFiche: '354',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 5,
-    numFiche: '1500',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Sby',
-    link: '#',
-  },
-  {
-    id: 6,
-    numFiche: '1345',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 7,
-    numFiche: '987',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 8,
-    numFiche: '4646',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 9,
-    numFiche: '3485',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 10,
-    numFiche: '9765',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Normal',
-    link: '#',
-  },
-  {
-    id: 11,
-    numFiche: '4528',
-    typeTrav: 'MajPrio',
-    statusCom: 'Degradée',
-    state: 'Sby',
-    link: '#',
-  },
-];
-
 const handleClickPause = () => {
   window.location.href = '#/dashboard';
 };
-
 export default function TaskTable() {
-  const [pageSize, setPageSize] = React.useState(9);
-  const [sortModel, setSortModel] = React.useState([
+  const [sortModel, setSortModel] = useState([
     { field: 'state', sort: 'desc' },
   ]);
+  const [list, setList] = useState([]);
+  // Loading data from data base
+  const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+
+  // loading data on component mount
+  useEffect(() => {
+    if (data) {
+      setList(data.listFiches);
+    }
+  });
+
+  let rows = [];
+  let arrayRows = {};
+
+  const listRows = list.map((item) => {
+    arrayRows = {
+      id: item.id,
+      numFiche: item.numFiche,
+      typeTrav: item.typeTrav,
+      statusCom: item.statusCom,
+      state: item.state,
+    };
+
+    rows.push(arrayRows);
+  });
+
   return (
     <React.Fragment>
       <DataGrid
         columns={columns}
-        pageSize={pageSize}
+        pageSize={9}
         rows={rows}
         pagination
         sx={{ maxHeight: '90vh' }}
