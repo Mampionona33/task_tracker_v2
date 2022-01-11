@@ -6,13 +6,16 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
-import { useQuery, gql, refetchQueries } from '@apollo/client';
+import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
 
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
+
+  const [prevFicheId, setPrevFicheId] = useState(0);
 
   const columns = [
     {
@@ -115,9 +118,14 @@ export default function TaskTable() {
     },
   ];
 
-  const handleClickPlay = (param, event) => {
-    console.log('param:', param);
-    console.log('event:', event);
+  const handleClickPlay = async (param, event) => {
+    // console.log('param:', param);
+    // console.log('event:', event);
+    console.log('id:', event.id);
+
+    let currentId = event.id;
+    await setPrevProcessIsOff();
+    await setCurrentProcessIsPlay(currentId);
     window.location.href = '#/dashboard';
   };
 
@@ -134,10 +142,74 @@ export default function TaskTable() {
     },
   });
 
+  // get the current task played
+  const {
+    data: playedData,
+    error: playedError,
+    loading: playedLoading,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        processing: 'isPlay',
+      },
+    },
+  });
+
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
+  });
+
+  // function to execute the update to set prev processing : 'isOff'
+  const setPrevProcessIsOff = async () => {
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: prevFicheId,
+        },
+        update: {
+          processing: 'isOff',
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
+
+  // function to execute the update to set prev processing : 'isOff'
+  const setCurrentProcessIsPlay = async (currentId) => {
+    fichesUpdate({
+      variables: {
+        filter: {
+          id: currentId,
+        },
+        update: {
+          processing: 'isPlay',
+        },
+      },
+    });
+    if (erroUpDate) {
+      console.log(erroUpDate);
+    }
+  };
+
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited) {
       setList(dataUnsubmited.searchFiches);
+    }
+    if (playedData) {
+      setPrevFicheId(playedData.searchFiches[0].id);
+      console.log('prevFicheId :', prevFicheId);
     }
   });
 
@@ -145,7 +217,6 @@ export default function TaskTable() {
   let arrayRows = {};
 
   const listRows = list.map((item) => {
-    console.log('url', item.url);
     arrayRows = {
       id: item.id,
       numFiche: item.numFiche,
