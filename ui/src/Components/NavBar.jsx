@@ -55,8 +55,12 @@ export default function Navbar() {
     setDialIsOpen(false);
   };
 
-  // Get the current task id
-  const { error, loading, data } = useQuery(FILTRED_FICHE, {
+  // Get the current task id paused fiche
+  const {
+    error: errorPause,
+    loading: loadingPause,
+    data: dataPause,
+  } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
         processing: 'isPlay',
@@ -64,11 +68,27 @@ export default function Navbar() {
     },
   });
 
+  // Get the current task id paused fiche
+  const {
+    error: errorPlay,
+    loading: loadingPlay,
+    data: dataPlay,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        processing: 'isPause',
+      },
+    },
+  });
+
   useEffect(() => {
-    if (data) {
-      setCurrentFiche(data.searchFiches);
+    if (dataPause) {
+      setCurrentFiche(dataPause.searchFiches);
     }
-  }, [data]);
+    if (dataPlay) {
+      setCurrentFiche(dataPlay.searchFiches);
+    }
+  }, [dataPause, dataPlay]);
   const currentIdArray = currentFiche.map((fiche) => fiche.id);
 
   let prevProcessId = currentIdArray[0];
