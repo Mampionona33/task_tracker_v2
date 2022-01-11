@@ -29,7 +29,6 @@ const columns = [
     flex: 1,
     headerAlign: 'center',
     headerClassName: 'super-app-theme--header',
-    fontWeight: '900',
   },
   {
     field: 'typeTrav',
@@ -51,6 +50,16 @@ const columns = [
     flex: 1,
     headerAlign: 'center',
     headerClassName: 'super-app-theme--header',
+  },
+  {
+    field: 'lastUpdate',
+    headerName: 'Last Update',
+    flex: 1,
+    type: 'date',
+    align: 'center',
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+    hide: 'true',
   },
   {
     field: 'productivity',
@@ -110,16 +119,28 @@ const handleClickPause = () => {
 };
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
-    { field: 'state', sort: 'desc' },
+    { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
   // Loading data from data base
-  const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+  const { data: dataLoad, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+  // Loading unsubmited fiches
+  const {
+    error: errorUnsubmited,
+    loading: loadingUnsumbited,
+    data: dataUnsubmited,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        submiteState: 'isUnsubmited',
+      },
+    },
+  });
 
   // loading data on component mount
   useEffect(() => {
-    if (data) {
-      setList(data.listFiches);
+    if (dataUnsubmited) {
+      setList(dataUnsubmited.searchFiches);
     }
   });
 
@@ -132,6 +153,7 @@ export default function TaskTable() {
       numFiche: item.numFiche,
       typeTrav: item.typeTrav,
       statusCom: item.statusCom,
+      lastUpdate: item.lastUpdate,
       state: item.state,
       link: item.url,
     };
@@ -143,17 +165,21 @@ export default function TaskTable() {
     <Box
       sx={{
         height: '90vh',
-        '& .super-app-theme--header': {
-          fontWeight: '900',
-        },
+        '& .super-app-theme--header': {},
       }}
     >
       <DataGrid
         columns={columns}
-        pageSize={9}
+        pageSize={7}
         rows={rows}
         pagination
-        sx={{ maxHeight: '90vh' }}
+        sx={{
+          maxHeight: '80vh',
+          margin: '1rem 5rem',
+          color: 'contrastText',
+          backgroundColor: '#fff',
+          boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
+        }}
         justifyContent='space-between'
         // default sorting to show sby on top of list
         sortModel={sortModel}
@@ -164,9 +190,9 @@ export default function TaskTable() {
             filterModel: {
               items: [
                 {
-                  columnField: 'state',
-                  operatorValue: 'equals',
-                  value: 'Normal',
+                  // columnField: 'state',
+                  // operatorValue: 'equals',
+                  // value: 'Normal',
                 },
               ],
             },

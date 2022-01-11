@@ -62,7 +62,7 @@ async function search(
     filter.cat = { $regex: statuCom, $options: 'i' };
   }
   if (statuIvpn) {
-    filter.cat = { $regex: statuIvpn, $options: 'i' };
+    filter.statuIvpn = { $regex: statuIvpn, $options: 'i' };
   }
   if (submiteState) {
     filter.submiteState = submiteState;

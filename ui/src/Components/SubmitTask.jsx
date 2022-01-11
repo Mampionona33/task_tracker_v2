@@ -35,7 +35,9 @@ export default function SubmitTask() {
   let submitedFiche = [];
   // if user is connected then show the data for the user
   user
-    ? (submitedFiche = loggedUser.filter((item) => item.submiteState === true))
+    ? (submitedFiche = loggedUser.filter(
+        (item) => item.submiteState === 'isSubmited'
+      ))
     : (submitedFiche = []);
 
   const typeTravSub = submitedFiche.map((fiche) => fiche.typeTrav);

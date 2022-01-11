@@ -9,6 +9,10 @@ enum ProcessingType {
   isPause
   isPlay
 }
+enum SubmitType {
+  isSubmited
+  isUnsubmited
+}
 #Fiches ---------
 type Fiches {
   _id: String!
@@ -21,7 +25,7 @@ type Fiches {
   statuIvpn: String
   url: String
   state: StateType
-  submiteState: Boolean
+  submiteState: SubmitType
   nbBefor: Int
   nbAft: Int
   startDate: GraphQLDate
@@ -41,7 +45,7 @@ input SearchFichesInputs {
   statuIvpn: String
   numFiche: String
   typeTrav: String
-  submiteState: Boolean
+  submiteState: SubmitType
   processing: String
 }
 ##Inputs Fiches --------
@@ -58,7 +62,7 @@ input FichesInputs {
   nbAft: Int = 0
   startDate: GraphQLDate
   validDate: GraphQLDate
-  submiteState: Boolean = false
+  submiteState: SubmitType = isUnsubmited
   comment: String
   processing: ProcessingType = isOff
   duree: Int = 0
@@ -76,7 +80,7 @@ input UpdateFiches {
   statuIvpn: String
   url: String
   state: StateType
-  submiteState: Boolean
+  submiteState: SubmitType
   nbBefor: Int
   nbAft: Int
   startDate: GraphQLDate

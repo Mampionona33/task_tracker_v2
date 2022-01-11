@@ -40,7 +40,7 @@ function InProgress() {
     dataByUser = tache.filter((fiche) => fiche.user.email === user.email);
   }
 
-  const inProgress = dataByUser.filter((fiche) => fiche.submiteState === false);
+  const inProgress = dataByUser.filter((fiche) => fiche.submiteState === 'isUnsubmited');
 
   const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav);
 
