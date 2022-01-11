@@ -16,6 +16,12 @@ export default function TaskTable() {
 
   const columns = [
     {
+      field: 'id',
+      headerName: 'Id',
+      flex: 1,
+      headerAlign: 'center',
+    },
+    {
       field: 'numFiche',
       headerName: 'Num',
       flex: 1,
@@ -79,13 +85,14 @@ export default function TaskTable() {
       flex: 1,
       headerAlign: 'center',
       flexWrap: 'wrap',
-      renderCell: (params) => (
+      renderCell: (param) => (
         <React.Fragment>
           <IconButton
             color='primary'
             component='span'
             arial-label='Pause button'
-            onClick={handleClickPause}
+            // using param and event to get id of the actual fiche
+            onClick={(event) => handleClickPlay(event, param)}
           >
             <PlayCircleIcon />
           </IconButton>
@@ -108,7 +115,9 @@ export default function TaskTable() {
     },
   ];
 
-  const handleClickPause = () => {
+  const handleClickPlay = (param, event) => {
+    console.log('param:', param);
+    console.log('event:', event);
     window.location.href = '#/dashboard';
   };
 
