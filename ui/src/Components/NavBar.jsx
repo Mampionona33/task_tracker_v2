@@ -231,6 +231,12 @@ export default function Navbar() {
                 itemText='Task list'
                 href='#/tasklist'
               />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<DashboardIcon />}
+                itemText='Submited Task'
+                href='#/submitedList'
+              />
             </List>
           </CustomDrawer>
         </Box>

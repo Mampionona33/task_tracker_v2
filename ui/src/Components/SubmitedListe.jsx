@@ -114,10 +114,13 @@ const columns = [
     ),
   },
 ];
+
 const handleClickPause = () => {
   window.location.href = '#/dashboard';
 };
-export default function TaskTable() {
+
+// --------------------------------------
+export default function SubmitedListe() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
@@ -131,7 +134,7 @@ export default function TaskTable() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        submiteState: 'isUnsubmited',
+        submiteState: 'isSubmited',
       },
     },
   });
