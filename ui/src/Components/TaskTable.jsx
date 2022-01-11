@@ -26,6 +26,7 @@ export default function TaskTable() {
       headerName: ' Task Type',
       flex: 1,
       headerAlign: 'center',
+      valueFormatter: ({ value }) => `${value}`,
     },
     {
       field: 'statusCom',
@@ -153,6 +154,14 @@ export default function TaskTable() {
     <Box
       sx={{
         height: '90vh',
+        '& .emptyType': {
+          backgroundColor: 'warning.light',
+          color: 'warning.contrastText',
+        },
+        '& .sby': {
+          backgroundColor: 'error.main',
+          color: 'error.contrastText',
+        },
       }}
     >
       <Card
@@ -176,6 +185,15 @@ export default function TaskTable() {
           color: 'contrastText',
           backgroundColor: '#fff',
           boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
+        }}
+        // Styling cell depanding on it's value
+        getCellClassName={(params) => {
+          if (params.value === 'Empty Type') {
+            return 'emptyType';
+          }
+          if (params.value === 'Sby') {
+            return 'sby';
+          }
         }}
         justifyContent='space-between'
         // default sorting to show sby on top of list
