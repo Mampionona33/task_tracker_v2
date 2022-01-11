@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import {
-  Badge,
-  Box,
-  Card,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Grid,
-  Paper,
-  keyframes,
-  Link,
-  IconButton,
-} from '@mui/material';
+import { Box, Link, IconButton } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -22,106 +8,108 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries } from '@apollo/client';
 
-const columns = [
-  {
-    field: 'numFiche',
-    headerName: 'Num',
-    flex: 1,
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-  },
-  {
-    field: 'typeTrav',
-    headerName: ' Task Type',
-    flex: 1,
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-  },
-  {
-    field: 'statusCom',
-    headerName: 'Status Com',
-    flex: 1,
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-  },
-  {
-    field: 'state',
-    headerName: 'State',
-    flex: 1,
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-  },
-  {
-    field: 'lastUpdate',
-    headerName: 'Last Update',
-    flex: 1,
-    type: 'date',
-    align: 'center',
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-    hide: 'true',
-  },
-  {
-    field: 'productivity',
-    headerName: 'Productivity',
-    flex: 1,
-    type: 'text',
-    align: 'center',
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-  },
-  {
-    field: 'link',
-    headerName: 'Link',
-    type: 'link',
-    align: 'center',
-    flex: 1,
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-    renderCell: (params) => (
-      <Link href={params.value} target='_blank'>
-        <LinkIcon />
-      </Link>
-    ),
-  },
-  {
-    field: 'actions',
-    headerName: 'Action',
-    align: 'center',
-    type: 'link',
-    justifyContent: 'space-between',
-    flex: 1,
-    headerAlign: 'center',
-    flexWrap: 'wrap',
-    headerClassName: 'super-app-theme--header',
-    renderCell: (params) => (
-      <React.Fragment>
-        <IconButton
-          color='primary'
-          component='span'
-          arial-label='Pause button'
-          onClick={handleClickPause}
-        >
-          <PlayCircleIcon />
-        </IconButton>
-        <IconButton color='primary' component='span' arial-label='Pause button'>
-          <EditIcon />
-        </IconButton>
-        <IconButton color='primary' component='span' arial-label='Pause button'>
-          <DeleteIcon />
-        </IconButton>
-      </React.Fragment>
-    ),
-  },
-];
-const handleClickPause = () => {
-  window.location.href = '#/dashboard';
-};
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
+
+  const columns = [
+    {
+      field: 'numFiche',
+      headerName: 'Num',
+      flex: 1,
+      headerAlign: 'center',
+    },
+    {
+      field: 'typeTrav',
+      headerName: ' Task Type',
+      flex: 1,
+      headerAlign: 'center',
+    },
+    {
+      field: 'statusCom',
+      headerName: 'Status Com',
+      flex: 1,
+      headerAlign: 'center',
+    },
+    {
+      field: 'state',
+      headerName: 'State',
+      flex: 1,
+      headerAlign: 'center',
+    },
+    {
+      field: 'lastUpdate',
+      headerName: 'Last Update',
+      flex: 1,
+      type: 'date',
+      align: 'center',
+      headerAlign: 'center',
+      hide: 'true',
+    },
+    {
+      field: 'productivity',
+      headerName: 'Productivity',
+      flex: 1,
+      type: 'text',
+      align: 'center',
+      headerAlign: 'center',
+    },
+    {
+      field: 'link',
+      headerName: 'Link',
+      type: 'link',
+      align: 'center',
+      flex: 1,
+      headerAlign: 'center',
+      renderCell: (params) => (
+        <Link href={params.value} target='_blank'>
+          <LinkIcon />
+        </Link>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Action',
+      align: 'center',
+      type: 'link',
+      justifyContent: 'space-between',
+      flex: 1,
+      headerAlign: 'center',
+      flexWrap: 'wrap',
+      renderCell: (params) => (
+        <React.Fragment>
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Pause button'
+            onClick={handleClickPause}
+          >
+            <PlayCircleIcon />
+          </IconButton>
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Pause button'
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Pause button'
+          >
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ),
+    },
+  ];
+
+  const handleClickPause = () => {
+    window.location.href = '#/dashboard';
+  };
 
   // Loading unsubmited fiches
   const {
@@ -147,6 +135,7 @@ export default function TaskTable() {
   let arrayRows = {};
 
   const listRows = list.map((item) => {
+    console.log('url', item.url);
     arrayRows = {
       id: item.id,
       numFiche: item.numFiche,
@@ -154,7 +143,7 @@ export default function TaskTable() {
       statusCom: item.statusCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
-      link: item.url,
+      link: item.url != '' ? item.url : 'https://www.google.mg/',
     };
 
     rows.push(arrayRows);
@@ -164,7 +153,6 @@ export default function TaskTable() {
     <Box
       sx={{
         height: '90vh',
-        '& .super-app-theme--header': {},
       }}
     >
       <DataGrid

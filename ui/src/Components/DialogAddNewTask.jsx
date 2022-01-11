@@ -46,9 +46,17 @@ export default function DialogAddNewTask({ open, onClose }) {
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
 
-  // execute mutation ficheAdd
+  // execute mutation ficheAdd and refetch query to load changes
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
-    refetchQueries: [LOAD_DATA],
+    refetchQueries: [{ query: LOAD_DATA }],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
   });
   // Function to add new task in data base
   const addFiche = () => {

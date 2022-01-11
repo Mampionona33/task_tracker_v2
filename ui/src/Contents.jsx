@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import { Typography, Box } from '@mui/material';
 
 // import components
 import TaskList from './Components/TaskList.jsx';
@@ -8,7 +9,11 @@ import SubmitedTable from './Components/SubmitedTable.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NotFound = () => {
-  return <h1>Page Not Found</h1>;
+  return (
+    <Box display='flex' justifyContent='center' sx={{ margin: '35vh 0' }}>
+      <Typography variant='h1'>Page Not Found</Typography>
+    </Box>
+  );
 };
 
 export default function Contents() {
