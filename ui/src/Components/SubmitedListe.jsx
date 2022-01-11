@@ -170,6 +170,16 @@ export default function SubmitedListe() {
         '& .super-app-theme--header': {},
       }}
     >
+      <Card
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          backgroundColor: '#FDAD0C',
+          color: '#fff',
+        }}
+      >
+        <Typography variant='h4'>Submited Tasks</Typography>
+      </Card>
       <DataGrid
         columns={columns}
         pageSize={7}

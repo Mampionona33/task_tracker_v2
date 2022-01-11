@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Link, IconButton } from '@mui/material';
+import { Box, Link, IconButton, Card, Typography } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -155,6 +155,16 @@ export default function TaskTable() {
         height: '90vh',
       }}
     >
+      <Card
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          backgroundColor: '#28B463',
+          color: '#fff',
+        }}
+      >
+        <Typography variant='h4'>Tasks List</Typography>
+      </Card>
       <DataGrid
         columns={columns}
         pageSize={7}
