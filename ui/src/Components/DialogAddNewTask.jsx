@@ -30,6 +30,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [listFicheFromData, setListFichesFromData] = useState([]);
   const [idCounter, setIdCounter] = useState([]);
   const [prevProcessId, setPrevProcessId] = useState(0);
+  const [currentTask, setCurrentTask] = useState([]);
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
@@ -120,7 +121,6 @@ export default function DialogAddNewTask({ open, onClose }) {
       };
       return prevProcessData;
     });
-    // prevProcessId = prevProcessData.id;
   }
 
   // fetch the current booth played
@@ -177,7 +177,7 @@ export default function DialogAddNewTask({ open, onClose }) {
       setIdCounter(data.idCounter);
     }
     if (playedData) {
-      setPrevProcessId(playedData.searchFiches[0].id);
+      setCurrentTask(playedData);
     }
   }, [data, playedData]);
 

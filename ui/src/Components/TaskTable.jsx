@@ -15,6 +15,7 @@ export default function TaskTable() {
   ]);
   const [list, setList] = useState([]);
 
+  const [prevFiche, setPrevFiche] = useState([]);
   const [prevFicheId, setPrevFicheId] = useState(0);
 
   const columns = [
@@ -124,8 +125,10 @@ export default function TaskTable() {
     console.log('id:', event.id);
     let currentId = event.id;
     // await setPrevProcessIsOff();
-    await setPrevProcessIsOff().then(setCurrentProcessIsPlay(currentId));
-    window.location.href = '#/dashboard';
+    await setPrevProcessIsOff()
+      .then(setCurrentProcessIsPlay(currentId))
+      .then(refetch())
+      .then((window.location.href = '#/dashboard'));
   };
 
   // Loading unsubmited fiches
@@ -146,6 +149,7 @@ export default function TaskTable() {
     data: playedData,
     error: playedError,
     loading: playedLoading,
+    refetch,
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
@@ -207,10 +211,14 @@ export default function TaskTable() {
       setList(dataUnsubmited.searchFiches);
     }
     if (playedData) {
-      setPrevFicheId(playedData.searchFiches[0].id);
-      console.log(playedData.searchFiches[0].id);
+      setPrevFiche(playedData.searchFiches);
     }
-  });
+    if (prevFiche) {
+      setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
+    }
+  }, [prevFiche, playedData, prevFicheId]);
+
+  console.log('prevFicheId', prevFicheId);
 
   let rows = [];
   let arrayRows = {};

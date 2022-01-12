@@ -84,6 +84,7 @@ export default function Navbar() {
     data: allData,
     loading: allDataLoading,
     error: errorLoadData,
+    refetch,
   } = useQuery(LOAD_DATA);
 
   useEffect(() => {
@@ -93,25 +94,24 @@ export default function Navbar() {
     if (dataPlay) {
       setCurrentFiche(dataPlay.searchFiches);
     }
-    if (currentFiche.length !== 0) {
+    if (currentFiche) {
       const currentIdArray = currentFiche.map((fiche) => fiche.id);
-      setPrevProcessId((prev) => currentIdArray[0]);
+      // setPrevProcessId(prev=>currentIdArray[0])
+      console.log('currentFiche', currentFiche);
     }
   }, [allData, dataPause, dataPlay]);
-
-  let currentIdArray = [];
-  // let prevProcessId = 0;
-
-  // if (currentFiche.length !== 0) {
-  //   const currentIdArray = currentFiche.map((fiche) => fiche.id);
-  //   prevProcessId = currentIdArray[0];
-  // }
-  console.log('currentFiche', currentFiche);
-  console.log('prevProcessId', prevProcessId);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
   });
   // function to execute the update to set processing : 'isOff'
   const setPrevProcessIsOff = async () => {
@@ -131,8 +131,8 @@ export default function Navbar() {
   };
 
   const handelClickLoghout = async () => {
-    await setPrevProcessIsOff().then(logout());
-    alert(prevProcessId);
+    // await setPrevProcessIsOff().then(logout());
+    await refetch().then(alert(currentFiche));
   };
 
   // creat custom drawer with custom paper
