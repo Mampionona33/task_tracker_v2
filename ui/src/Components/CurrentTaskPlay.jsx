@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
-import { FILTRED_FICHE } from '../GraphQL/Queries';
+import { FILTRED_FICHE, LOAD_DATA } from '../GraphQL/Queries';
 import { useQuery, gql } from '@apollo/client';
 import { makeStyles } from '@mui/styles';
 
 export default function CurrentTaskPlay(props) {
   const [currentFiche, setCurrentFiche] = useState([]);
+  // fetch all data
+  const {
+    data: allData,
+    loading: allDataLoading,
+    error: allDataError,
+  } = useQuery(LOAD_DATA);
 
   // fetch the current booth played
   const {
@@ -33,14 +39,14 @@ export default function CurrentTaskPlay(props) {
     },
   });
 
+  // fetching data on component mount
   useEffect(() => {
     if (playedData) {
       setCurrentFiche(playedData.searchFiches);
-    }
-    if (pauseData) {
+    } else if (pauseData) {
       setCurrentFiche(pauseData.searchFiches);
     }
-  });
+  }, [playedData, pauseData, allData]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({

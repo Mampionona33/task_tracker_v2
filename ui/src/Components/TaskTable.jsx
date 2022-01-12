@@ -122,10 +122,9 @@ export default function TaskTable() {
     // console.log('param:', param);
     // console.log('event:', event);
     console.log('id:', event.id);
-
     let currentId = event.id;
-    await setPrevProcessIsOff();
-    await setCurrentProcessIsPlay(currentId);
+    // await setPrevProcessIsOff();
+    await setPrevProcessIsOff().then(setCurrentProcessIsPlay(currentId));
     window.location.href = '#/dashboard';
   };
 
@@ -209,7 +208,7 @@ export default function TaskTable() {
     }
     if (playedData) {
       setPrevFicheId(playedData.searchFiches[0].id);
-      console.log('prevFicheId :', prevFicheId);
+      console.log(playedData.searchFiches[0].id);
     }
   });
 
