@@ -57,52 +57,55 @@ export default function CurrentTaskPlay(props) {
   //   import the created classe here
   const classes = useStyles();
 
-  const output = currentFiche.map((item) => {
-    return (
-      <React.Fragment>
-        <Box className={classes.processingBox}>
-          <Typography className={classes.processingTypography}>
-            Task Type:
-          </Typography>
-          <Typography>{item.typeTrav}</Typography>
-        </Box>
-        <Typography></Typography>
-        <Divider />
+  // use this use object.map() inside of React.Children.toArray to avoid warning key unique
+  const output = React.Children.toArray(
+    currentFiche.map((item, index) => {
+      return (
+        <React.Fragment>
+          <Box className={classes.processingBox}>
+            <Typography className={classes.processingTypography}>
+              Task Type:
+            </Typography>
+            <Typography>{item.typeTrav}</Typography>
+          </Box>
+          <Typography></Typography>
+          <Divider />
 
-        <Box className={classes.processingBox}>
-          <Typography className={classes.processingTypography}>
-            Num Fiche:
-          </Typography>
-          <Typography>{item.numFiche}</Typography>
-        </Box>
-        <Divider />
+          <Box className={classes.processingBox}>
+            <Typography className={classes.processingTypography}>
+              Num Fiche:
+            </Typography>
+            <Typography>{item.numFiche}</Typography>
+          </Box>
+          <Divider />
 
-        <Box className={classes.processingBox}>
-          <Typography className={classes.processingTypography}>
-            Status Com:
-          </Typography>
-          <Typography>{item.statuCom}</Typography>
-        </Box>
-        <Divider />
+          <Box className={classes.processingBox}>
+            <Typography className={classes.processingTypography}>
+              Status Com:
+            </Typography>
+            <Typography>{item.statuCom}</Typography>
+          </Box>
+          <Divider />
 
-        <Box className={classes.processingBox}>
-          <Typography className={classes.processingTypography}>
-            NB Prod Before:
-          </Typography>
-          <Typography>{item.nbBefor}</Typography>
-        </Box>
-        <Divider />
+          <Box className={classes.processingBox}>
+            <Typography className={classes.processingTypography}>
+              NB Prod Before:
+            </Typography>
+            <Typography>{item.nbBefor}</Typography>
+          </Box>
+          <Divider />
 
-        <Box className={classes.processingBox}>
-          <Typography className={classes.processingTypography}>
-            NB Prod After:
-          </Typography>
-          <Typography>{item.nbAft}</Typography>
-        </Box>
-        <Divider />
-      </React.Fragment>
-    );
-  });
+          <Box className={classes.processingBox}>
+            <Typography className={classes.processingTypography}>
+              NB Prod After:
+            </Typography>
+            <Typography>{item.nbAft}</Typography>
+          </Box>
+          <Divider />
+        </React.Fragment>
+      );
+    })
+  );
 
   return (
     <Box display='flex' flexDirection='column' margin='1em'>
