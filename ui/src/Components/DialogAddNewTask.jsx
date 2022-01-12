@@ -29,6 +29,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [comboStatCom, setComboStatCom] = useState([]);
   const [listFicheFromData, setListFichesFromData] = useState([]);
   const [idCounter, setIdCounter] = useState([]);
+  const [prevProcessId, setPrevProcessId] = useState(0);
 
   const [numFiche, setNumFiche] = useState('');
   const [cat, setCat] = useState('');
@@ -59,7 +60,8 @@ export default function DialogAddNewTask({ open, onClose }) {
     ],
   });
   // Function to add new task in data base
-  const addFiche = () => {
+  const addFiche = async () => {
+    await setPrevProcessIsOff();
     fichesAdd({
       variables: {
         fiche: {
@@ -96,11 +98,12 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   // Loadin data from data base
   const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
+
   // Get task for the loged user
   let userTasks = [];
   let prevProcess = [];
   let prevProcessData = {};
-  let prevProcessId = [];
+  // let prevProcessId = [];
   let updateId = 0;
   if (user) {
     userTasks = listFicheFromData.filter(
@@ -117,8 +120,21 @@ export default function DialogAddNewTask({ open, onClose }) {
       };
       return prevProcessData;
     });
-    prevProcessId = prevProcessData.id;
+    // prevProcessId = prevProcessData.id;
   }
+
+  // fetch the current booth played
+  const {
+    data: playedData,
+    error: playedError,
+    loading: playedLoading,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        processing: 'isPlay',
+      },
+    },
+  });
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -126,8 +142,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   });
 
   // function to execute the update to set processing : 'isOff'
-  const setPrevProcessIsOff = async () => {
-    await addFiche();
+  const setPrevProcessIsOff = () => {
     fichesUpdate({
       variables: {
         filter: {
@@ -161,10 +176,13 @@ export default function DialogAddNewTask({ open, onClose }) {
       setListFichesFromData(data.listFiches);
       setIdCounter(data.idCounter);
     }
-  }, [data]);
+    if (playedData) {
+      setPrevProcessId(playedData.searchFiches[0].id);
+    }
+  }, [data, playedData]);
 
   async function handleReset(e) {
-    await setPrevProcessIsOff();
+    await addFiche();
     setNumFiche('');
     setCat('');
     setStatuCom('');

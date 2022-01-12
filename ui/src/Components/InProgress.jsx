@@ -14,7 +14,7 @@ import {
   keyframes,
 } from '@mui/material';
 import { useQuery, gql } from '@apollo/client';
-import { LOAD_DATA } from '../GraphQL/Queries';
+import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useAuth0 } from '@auth0/auth0-react';
 
 // keyframe for animating text if type = 'Empty Type'
@@ -26,21 +26,39 @@ to{color : white;}
 function InProgress() {
   const [tache, setTache] = useState([]);
 
+  // fetch all data
   const { error, loading, data } = useQuery(LOAD_DATA);
+
+  // Loading unsubmited fiches
+  const {
+    error: errorUnsubmited,
+    loading: loadingUnsumbited,
+    data: dataUnsubmited,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        submiteState: 'isUnsubmited',
+      },
+    },
+  });
+
   useEffect(() => {
-    if (data) {
-      setTache(data.listFiches);
+    if (dataUnsubmited) {
+      setTache(dataUnsubmited.searchFiches);
+      console.log(tache);
     }
-  }, [data]);
+  }, [data, dataUnsubmited]);
 
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   let dataByUser = [];
 
   if (user) {
-    dataByUser = tache.filter((fiche) => fiche.user.email === user.email);
+      dataByUser = tache.filter((fiche) => fiche.user.email === user.email);
   }
 
-  const inProgress = dataByUser.filter((fiche) => fiche.submiteState === 'isUnsubmited');
+  const inProgress = dataByUser.filter(
+    (fiche) => fiche.submiteState === 'isUnsubmited'
+  );
 
   const typeTravInprogress = inProgress.map((fiche) => fiche.typeTrav);
 
