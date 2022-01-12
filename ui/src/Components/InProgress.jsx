@@ -45,7 +45,7 @@ function InProgress() {
   useEffect(() => {
     if (dataUnsubmited) {
       setTache(dataUnsubmited.searchFiches);
-      console.log(tache);
+      // console.log(tache);
     }
   }, [data, dataUnsubmited]);
 
@@ -53,7 +53,7 @@ function InProgress() {
   let dataByUser = [];
 
   if (user) {
-      dataByUser = tache.filter((fiche) => fiche.user.email === user.email);
+    dataByUser = tache.filter((fiche) => fiche.user.email === user.email);
   }
 
   const inProgress = dataByUser.filter(

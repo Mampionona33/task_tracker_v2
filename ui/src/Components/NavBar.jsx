@@ -25,7 +25,6 @@ import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 
 export default function Navbar() {
   const [currentFiche, setCurrentFiche] = useState([]);
-  // const [currentId,setCurrentId]= useState(0)
 
   // animation key for loading icons
   const rotateIcon = keyframes`
@@ -37,7 +36,6 @@ export default function Navbar() {
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
   const [dialOpen, setDialIsOpen] = useState(false);
-
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -47,7 +45,6 @@ export default function Navbar() {
     }
     setIsOpen(open);
   };
-
   const handleClickOpenDialAddNewTask = () => {
     setDialIsOpen(true);
   };
@@ -55,6 +52,7 @@ export default function Navbar() {
     setDialIsOpen(false);
   };
 
+  const [prevProcessId, setPrevProcessId] = useState(0);
   // Get the current task id paused fiche
   const {
     error: errorPause,
@@ -81,6 +79,13 @@ export default function Navbar() {
     },
   });
 
+  // Loadin data from data base
+  const {
+    data: allData,
+    loading: allDataLoading,
+    error: errorLoadData,
+  } = useQuery(LOAD_DATA);
+
   useEffect(() => {
     if (dataPause) {
       setCurrentFiche(dataPause.searchFiches);
@@ -88,10 +93,21 @@ export default function Navbar() {
     if (dataPlay) {
       setCurrentFiche(dataPlay.searchFiches);
     }
-  }, [dataPause, dataPlay]);
-  const currentIdArray = currentFiche.map((fiche) => fiche.id);
+    if (currentFiche.length !== 0) {
+      const currentIdArray = currentFiche.map((fiche) => fiche.id);
+      setPrevProcessId((prev) => currentIdArray[0]);
+    }
+  }, [allData, dataPause, dataPlay]);
 
-  let prevProcessId = currentIdArray[0];
+  let currentIdArray = [];
+  // let prevProcessId = 0;
+
+  // if (currentFiche.length !== 0) {
+  //   const currentIdArray = currentFiche.map((fiche) => fiche.id);
+  //   prevProcessId = currentIdArray[0];
+  // }
+  console.log('currentFiche', currentFiche);
+  console.log('prevProcessId', prevProcessId);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -115,9 +131,8 @@ export default function Navbar() {
   };
 
   const handelClickLoghout = async () => {
-    await setPrevProcessIsOff();
-    logout();
-    console.log(prevProcessId);
+    await setPrevProcessIsOff().then(logout());
+    alert(prevProcessId);
   };
 
   // creat custom drawer with custom paper
