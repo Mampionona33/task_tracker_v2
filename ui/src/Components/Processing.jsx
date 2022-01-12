@@ -15,12 +15,13 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql, setLogVerbosity } from '@apollo/client';
-import { FILTRED_FICHE, LOAD_DATA } from '../GraphQL/Queries';
-import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
+import { LOAD_DATA } from '../GraphQL/Queries';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation } from '@apollo/client';
+import CurrentTaskPlay from './CurrentTaskPlay';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
@@ -215,30 +216,12 @@ export default function processing(params) {
               padding: '0.5em',
             }}
           >
-            <Typography variant='h6'>
-              Processing Booth : {/*numFiche*/}
+            <Typography textAlign='center' variant='h6'>
+              Current Task
             </Typography>
           </Grid>
           <Divider />
-          <Grid>
-            <List>
-              <ListItem>
-                <Typography>Work Type : {currentTypeTrav}</Typography>
-              </ListItem>
-              <ListItem>
-                <Typography>Time Elapsed : {initialDuration} </Typography>
-              </ListItem>
-              <ListItem>
-                <Typography>Time Left :</Typography>
-              </ListItem>
-              <ListItem>
-                <Typography>Productivity</Typography>
-              </ListItem>
-              <ListItem>
-                <Typography>Goal</Typography>
-              </ListItem>
-            </List>
-          </Grid>
+          <CurrentTaskPlay />
           <Grid display='flex' justifyContent='flex-end'>
             <IconButton onClick={handleClickButtonPausePlay}>
               {/* swhitch between buttons */}
