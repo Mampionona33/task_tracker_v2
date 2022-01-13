@@ -14,7 +14,6 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
