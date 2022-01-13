@@ -14,6 +14,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -24,35 +25,6 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 
 export default function Navbar() {
-  const [currentFiche, setCurrentFiche] = useState([]);
-
-  // animation key for loading icons
-  const rotateIcon = keyframes`
-  100%{transform: rotate(360deg)}
-`;
-  // get the loged user
-  const { logout, user, isLoading } = useAuth0();
-
-  // Gestion d'affichage de Drawer
-  const [isOpen, setIsOpen] = useState(false);
-  const [dialOpen, setDialIsOpen] = useState(false);
-  const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-    setIsOpen(open);
-  };
-  const handleClickOpenDialAddNewTask = () => {
-    setDialIsOpen(true);
-  };
-  const handleClickCloseDialAddNewTask = () => {
-    setDialIsOpen(false);
-  };
-
-  const [prevProcessId, setPrevProcessId] = useState(0);
   // Get the current task id paused fiche
   const {
     error: errorPause,
@@ -84,22 +56,49 @@ export default function Navbar() {
     data: allData,
     loading: allDataLoading,
     error: errorLoadData,
-    refetch,
   } = useQuery(LOAD_DATA);
+
+  const [currentFiche, setCurrentFiche] = useState([]);
+
+  // animation key for loading icons
+  const rotateIcon = keyframes`
+  100%{transform: rotate(360deg)}
+`;
+  // get the loged user
+  const { logout, user, isLoading } = useAuth0();
+
+  // Gestion d'affichage de Drawer
+  const [isOpen, setIsOpen] = useState(false);
+  const [dialOpen, setDialIsOpen] = useState(false);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setIsOpen(open);
+  };
+  const handleClickOpenDialAddNewTask = () => {
+    setDialIsOpen(true);
+  };
+  const handleClickCloseDialAddNewTask = () => {
+    setDialIsOpen(false);
+  };
+
+  const [prevProcessId, setPrevProcessId] = useState(0);
 
   useEffect(() => {
     if (dataPause) {
       setCurrentFiche(dataPause.searchFiches);
-    }
-    if (dataPlay) {
+    } else if (dataPlay) {
       setCurrentFiche(dataPlay.searchFiches);
     }
-    if (currentFiche) {
-      const currentIdArray = currentFiche.map((fiche) => fiche.id);
-      // setPrevProcessId(prev=>currentIdArray[0])
-      console.log('currentFiche', currentFiche);
+
+    if (currentFiche.length > 0) {
+      setPrevProcessId(currentFiche[0].id);
     }
-  }, [allData, dataPause, dataPlay]);
+  }, [allData, currentFiche]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -131,8 +130,7 @@ export default function Navbar() {
   };
 
   const handelClickLoghout = async () => {
-    // await setPrevProcessIsOff().then(logout());
-    await refetch().then(alert(currentFiche));
+    await setPrevProcessIsOff().then(logout());
   };
 
   // creat custom drawer with custom paper

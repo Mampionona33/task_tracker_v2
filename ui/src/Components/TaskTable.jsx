@@ -163,11 +163,19 @@ export default function TaskTable() {
     refetchQueries: [LOAD_DATA],
     refetchQueries: [
       FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isUnsubmited' } } },
+      {
+        variables: {
+          input: { submiteState: 'isUnsubmited' },
+        },
+      },
     ],
     refetchQueries: [
       FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isSubmited' } } },
+      {
+        variables: {
+          input: { submiteState: 'isSubmited' },
+        },
+      },
     ],
   });
 
@@ -218,8 +226,6 @@ export default function TaskTable() {
     }
   }, [prevFiche, playedData, prevFicheId]);
 
-  console.log('prevFicheId', prevFicheId);
-
   let rows = [];
   let arrayRows = {};
 
@@ -265,6 +271,7 @@ export default function TaskTable() {
         columns={columns}
         pageSize={7}
         rows={rows}
+        rowsPerPageOptions={[7]}
         pagination
         sx={{
           maxHeight: '80vh',
