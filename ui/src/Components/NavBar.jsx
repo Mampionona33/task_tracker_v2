@@ -14,7 +14,11 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
+import {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+} from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 import DialogAddNewTask from './DialogAddNewTask.jsx';
@@ -25,37 +29,37 @@ import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 
 export default function Navbar() {
   // Get the current task id paused fiche
-  const {
-    error: errorPause,
-    loading: loadingPause,
-    data: dataPause,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPlay',
-      },
-    },
-  });
+  // const {
+  //   error: errorPause,
+  //   loading: loadingPause,
+  //   data: dataPause,
+  // } = useQuery(FILTRED_FICHE, {
+  //   variables: {
+  //     input: {
+  //       processing: 'isPlay',
+  //     },
+  //   },
+  // });
 
   // Get the current task id paused fiche
-  const {
-    error: errorPlay,
-    loading: loadingPlay,
-    data: dataPlay,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPause',
-      },
-    },
-  });
+  // const {
+  //   error: errorPlay,
+  //   loading: loadingPlay,
+  //   data: dataPlay,
+  // } = useQuery(FILTRED_FICHE, {
+  //   variables: {
+  //     input: {
+  //       processing: 'isPause',
+  //     },
+  //   },
+  // });
 
   // Loadin data from data base
-  const {
-    data: allData,
-    loading: allDataLoading,
-    error: errorLoadData,
-  } = useQuery(LOAD_DATA);
+  // const {
+  //   data: allData,
+  //   loading: allDataLoading,
+  //   error: errorLoadData,
+  // } = useQuery(LOAD_DATA);
 
   const [currentFiche, setCurrentFiche] = useState([]);
 
@@ -87,6 +91,10 @@ export default function Navbar() {
 
   const [prevProcessId, setPrevProcessId] = useState(0);
 
+  const allData = loadAllData();
+  const dataPause = loadProcessingPause();
+  const dataPlay= loadProcessingPlay();
+
   useEffect(() => {
     if (dataPause) {
       setCurrentFiche(dataPause.searchFiches);
@@ -111,6 +119,7 @@ export default function Navbar() {
       { variables: { input: { submiteState: 'isSubmited' } } },
     ],
   });
+  
   // function to execute the update to set processing : 'isOff'
   const setPrevProcessIsOff = async () => {
     fichesUpdate({
