@@ -133,22 +133,8 @@ export default function TaskTable() {
     // await setPrevProcessIsOff();
     await setPrevProcessIsOff()
       .then(setCurrentProcessIsPlay(currentId))
-      .then(refetch())
       .then((window.location.href = '#/dashboard'));
   };
-
-  // Loading unsubmited fiches
-  const {
-    error: errorUnsubmited,
-    loading: loadingUnsumbited,
-    data: dataUnsubmited,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        submiteState: 'isUnsubmited',
-      },
-    },
-  });
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -206,15 +192,12 @@ export default function TaskTable() {
   };
 
   // fetching data
-  const allData = loadAllData();
-  const dataPause = loadProcessingPause();
   const dataPlay = loadProcessingPlay();
-  // const dataUnsubmited = loadUnsubmitedTask();
+  const dataUnsubmited = loadUnsubmitedTask();
 
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited) {
-      console.log('dataUnsubmited from taskTable');
       setList(dataUnsubmited.searchFiches);
     }
     if (dataPlay) {
@@ -223,7 +206,7 @@ export default function TaskTable() {
     if (prevFiche) {
       setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
     }
-  }, [prevFiche, dataPlay, prevFicheId, dataUnsubmited]);
+  }, [prevFiche, dataPlay, dataUnsubmited]);
 
   let rows = [];
   let arrayRows = {};

@@ -19,12 +19,12 @@ function loadAllData() {
   }, [allData]);
 }
 
-// Fetch the current paused Task
-function loadProcessingPause() {
+// Fetch the current play Task
+function loadProcessingPlay() {
   const {
     error: errorPause,
     loading: loadingPause,
-    data,
+    data: playdata,
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
@@ -33,14 +33,15 @@ function loadProcessingPause() {
     },
   });
   useEffect(() => {
-    if (data) {
-      return data;
+    if (playdata) {
+      return playdata, console.log(playdata);
     }
-  }, [data]);
+  }, [playdata]);
+  return playdata;
 }
 
 // Fetch the current played Task
-function loadProcessingPlay(params) {
+function loadProcessingPause(params) {
   const {
     error: errorPause,
     loading: loadingPause,
@@ -57,6 +58,7 @@ function loadProcessingPlay(params) {
       return dataPause;
     }
   }, [dataPause]);
+  return dataPause;
 }
 
 // Fetching unsubmited task
@@ -74,13 +76,10 @@ function loadUnsubmitedTask() {
   });
   useEffect(() => {
     if (dataUnsubmited) {
-      // console.log('load unsubmi', dataUnsubmited.searchFiches);
-      return (
-        dataUnsubmited,
-        console.log('load unsubmi', dataUnsubmited)
-      );
+      return dataUnsubmited;
     }
   });
+  return dataUnsubmited;
 }
 
 export {
