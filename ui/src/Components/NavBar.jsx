@@ -25,42 +25,9 @@ import DialogAddNewTask from './DialogAddNewTask.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
-import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 export default function Navbar() {
-  // Get the current task id paused fiche
-  // const {
-  //   error: errorPause,
-  //   loading: loadingPause,
-  //   data: dataPause,
-  // } = useQuery(FILTRED_FICHE, {
-  //   variables: {
-  //     input: {
-  //       processing: 'isPlay',
-  //     },
-  //   },
-  // });
-
-  // Get the current task id paused fiche
-  // const {
-  //   error: errorPlay,
-  //   loading: loadingPlay,
-  //   data: dataPlay,
-  // } = useQuery(FILTRED_FICHE, {
-  //   variables: {
-  //     input: {
-  //       processing: 'isPause',
-  //     },
-  //   },
-  // });
-
-  // Loadin data from data base
-  // const {
-  //   data: allData,
-  //   loading: allDataLoading,
-  //   error: errorLoadData,
-  // } = useQuery(LOAD_DATA);
-
   const [currentFiche, setCurrentFiche] = useState([]);
 
   // animation key for loading icons
@@ -91,9 +58,10 @@ export default function Navbar() {
 
   const [prevProcessId, setPrevProcessId] = useState(0);
 
+  // fetching data
   const allData = loadAllData();
   const dataPause = loadProcessingPause();
-  const dataPlay= loadProcessingPlay();
+  const dataPlay = loadProcessingPlay();
 
   useEffect(() => {
     if (dataPause) {
@@ -101,7 +69,6 @@ export default function Navbar() {
     } else if (dataPlay) {
       setCurrentFiche(dataPlay.searchFiches);
     }
-
     if (currentFiche.length > 0) {
       setPrevProcessId(currentFiche[0].id);
     }
@@ -119,7 +86,7 @@ export default function Navbar() {
       { variables: { input: { submiteState: 'isSubmited' } } },
     ],
   });
-  
+
   // function to execute the update to set processing : 'isOff'
   const setPrevProcessIsOff = async () => {
     fichesUpdate({

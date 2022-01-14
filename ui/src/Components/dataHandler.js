@@ -1,6 +1,9 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { useEffect, useState } from 'react';
+
+// FETHING DATA-----------------------------
 
 // fetch global data
 function loadAllData() {
@@ -31,7 +34,7 @@ function loadProcessingPause() {
   });
   useEffect(() => {
     if (data) {
-      data;
+      return data;
     }
   }, [data]);
 }
@@ -51,9 +54,38 @@ function loadProcessingPlay(params) {
   });
   useEffect(() => {
     if (dataPause) {
-      dataPause;
+      return dataPause;
     }
   }, [dataPause]);
 }
 
-export { loadProcessingPause, loadAllData, loadProcessingPlay };
+// Fetching unsubmited task
+function loadUnsubmitedTask() {
+  const {
+    error: errorUnsubmited,
+    loading: loadingUnsumbited,
+    data: dataUnsubmited,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        submiteState: 'isUnsubmited',
+      },
+    },
+  });
+  useEffect(() => {
+    if (dataUnsubmited) {
+      // console.log('load unsubmi', dataUnsubmited.searchFiches);
+      return (
+        dataUnsubmited,
+        console.log('load unsubmi', dataUnsubmited)
+      );
+    }
+  });
+}
+
+export {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+  loadUnsubmitedTask,
+};

@@ -8,6 +8,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
+import {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+  loadUnsubmitedTask,
+} from './dataHandler';
 
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
@@ -144,20 +150,6 @@ export default function TaskTable() {
     },
   });
 
-  // get the current task played
-  const {
-    data: playedData,
-    error: playedError,
-    loading: playedLoading,
-    refetch,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPlay',
-      },
-    },
-  });
-
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -213,18 +205,25 @@ export default function TaskTable() {
     }
   };
 
+  // fetching data
+  const allData = loadAllData();
+  const dataPause = loadProcessingPause();
+  const dataPlay = loadProcessingPlay();
+  // const dataUnsubmited = loadUnsubmitedTask();
+
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited) {
+      console.log('dataUnsubmited from taskTable');
       setList(dataUnsubmited.searchFiches);
     }
-    if (playedData) {
-      setPrevFiche(playedData.searchFiches);
+    if (dataPlay) {
+      setPrevFiche(dataPlay.searchFiches);
     }
     if (prevFiche) {
       setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
     }
-  }, [prevFiche, playedData, prevFicheId]);
+  }, [prevFiche, dataPlay, prevFicheId, dataUnsubmited]);
 
   let rows = [];
   let arrayRows = {};
