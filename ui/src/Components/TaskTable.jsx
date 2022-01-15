@@ -128,7 +128,7 @@ export default function TaskTable() {
   const handleClickPlay = async (param, event) => {
     // console.log('param:', param);
     // console.log('event:', event);
-    console.log('id:', event.id);
+    // console.log('id:', event.id);
     let currentId = event.id;
     // await setPrevProcessIsOff();
     await setPrevProcessIsOff()
@@ -198,13 +198,13 @@ export default function TaskTable() {
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited) {
-      setList(dataUnsubmited.searchFiches);
+      setList(dataUnsubmited); 
     }
     if (dataPlay) {
-      setPrevFiche(dataPlay.searchFiches);
+      setPrevFiche(dataPlay); 
     }
     if (prevFiche) {
-      setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
+      setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);	 
     }
   }, [prevFiche, dataPlay, dataUnsubmited]);
 

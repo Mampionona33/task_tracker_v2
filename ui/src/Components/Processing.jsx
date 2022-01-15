@@ -22,6 +22,12 @@ import { formatNbr } from '../Features/formatNbr';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation } from '@apollo/client';
 import CurrentTaskPlay from './CurrentTaskPlay';
+import {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+  loadUnsubmitedTask,
+} from './dataHandler';
 
 export default function processing(params) {
   const [taches, setTaches] = useState([]);

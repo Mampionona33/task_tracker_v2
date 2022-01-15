@@ -59,7 +59,6 @@ export default function Navbar() {
   const [prevProcessId, setPrevProcessId] = useState(0);
 
   // fetching data
-  const allData = loadAllData();
   const dataPause = loadProcessingPause();
   const dataPlay = loadProcessingPlay();
 
@@ -67,18 +66,15 @@ export default function Navbar() {
 
   useEffect(() => {
     if (dataPause) {
-      setCurrentFiche(dataPause.searchFiches);
+      setCurrentFiche(dataPause);
     } else if (dataPlay) {
-      setCurrentFiche(dataPlay.searchFiches);
+      setCurrentFiche(dataPlay);
       console.log('play data nav bar', dataPlay);
     }
     if (currentFiche.length > 0) {
       setPrevProcessId(currentFiche[0].id);
-    }
-    if (allData) {
-      console.log('tes');
-    }
-  }, [allData, currentFiche, dataPause, dataPlay]);
+    }   
+  }, [currentFiche, dataPause, dataPlay]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {

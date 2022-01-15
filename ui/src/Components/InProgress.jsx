@@ -16,6 +16,7 @@ import {
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useAuth0 } from '@auth0/auth0-react';
+import { loadUnsubmitedTask} from './dataHandler';
 
 // keyframe for animating text if type = 'Empty Type'
 const blink = keyframes`
@@ -26,28 +27,14 @@ to{color : white;}
 function InProgress() {
   const [tache, setTache] = useState([]);
 
-  // fetch all data
-  const { error, loading, data } = useQuery(LOAD_DATA);
-
-  // Loading unsubmited fiches
-  const {
-    error: errorUnsubmited,
-    loading: loadingUnsumbited,
-    data: dataUnsubmited,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        submiteState: 'isUnsubmited',
-      },
-    },
-  });
-
+ // fetching data
+  const dataUnsubmited = loadUnsubmitedTask(); 
+  
   useEffect(() => {
     if (dataUnsubmited) {
-      setTache(dataUnsubmited.searchFiches);
-      // console.log(tache);
+      setTache(dataUnsubmited);
     }
-  }, [data, dataUnsubmited]);
+  }, [ dataUnsubmited]);
 
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   let dataByUser = [];

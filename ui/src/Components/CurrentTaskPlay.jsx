@@ -3,51 +3,29 @@ import { Box, Typography, Divider } from '@mui/material';
 import { FILTRED_FICHE, LOAD_DATA } from '../GraphQL/Queries';
 import { useQuery, gql } from '@apollo/client';
 import { makeStyles } from '@mui/styles';
+import {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+} from './dataHandler';
 
 export default function CurrentTaskPlay(props) {
   const [currentFiche, setCurrentFiche] = useState([]);
-  // fetch all data
-  const {
-    data: allData,
-    loading: allDataLoading,
-    error: allDataError,
-  } = useQuery(LOAD_DATA);
-
-  // fetch the current booth played
-  const {
-    data: playedData,
-    error: playedError,
-    loading: playedLoading,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPlay',
-      },
-    },
-  });
-
-  // fetch the current booth paused
-  const {
-    data: pauseData,
-    error: pauseError,
-    loading: pauseLoading,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPause',
-      },
-    },
-  });
-
+  
+  // fetching data
+  const dataPause = loadProcessingPause();
+  const dataPlay = loadProcessingPlay(); 
+  
   // fetching data on component mount
   useEffect(() => {
-    if (playedData) {
-      setCurrentFiche(playedData.searchFiches);
-    } else if (pauseData) {
-      setCurrentFiche(pauseData.searchFiches);
+    if (dataPlay) {
+      setCurrentFiche(dataPlay);
+    } else if (dataPause) {
+      setCurrentFiche(dataPause);
     }
-  }, [playedData, pauseData, allData]);
-
+  }, [dataPlay, dataPause]);
+  
+   
   //   create classe for Box and Typography
   const useStyles = makeStyles({
     processingBox: {
