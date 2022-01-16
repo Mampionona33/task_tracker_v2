@@ -18,6 +18,7 @@ import {
   loadProcessingPause,
   loadAllData,
   loadProcessingPlay,
+  makePrevProcessOff
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -61,13 +62,14 @@ export default function Navbar() {
   // fetching data
   const dataPause = loadProcessingPause();
   const dataPlay = loadProcessingPlay();
-
-  loadAllData();
+  
 
   useEffect(() => {
     if (dataPause) {
       setCurrentFiche(dataPause);
-    } else if (dataPlay) {
+      console.log('play data nav bar', dataPause);	  
+    } 
+	if (dataPlay) {
       setCurrentFiche(dataPlay);
       console.log('play data nav bar', dataPlay);
     }
@@ -90,24 +92,27 @@ export default function Navbar() {
   });
 
   // function to execute the update to set processing : 'isOff'
-  const setPrevProcessIsOff = async () => {
-    fichesUpdate({
-      variables: {
-        filter: {
-          id: prevProcessId,
-        },
-        update: {
-          processing: 'isOff',
-        },
-      },
-    });
-    if (erroUpDate) {
-      console.log(erroUpDate);
-    }
-  };
-
-  const handelClickLoghout = async () => {
-    await setPrevProcessIsOff().then(logout());
+  // const setPrevProcessIsOff = async () => {
+    // fichesUpdate({
+      // variables: {
+        // filter: {
+          // id: prevProcessId,
+        // },
+        // update: {
+          // processing: 'isOff',
+        // },
+      // },
+    // });
+    // if (erroUpDate) {
+      // console.log(erroUpDate);
+    // }
+  // };
+	
+	  
+  const handelClickLoghout = async () => {	
+	await makePrevProcessOff(prevProcessId);
+    // await setPrevProcessIsOff().then(logout());
+	// await makePrevProcessOff(prevProcessId).then(logout());
   };
 
   // creat custom drawer with custom paper

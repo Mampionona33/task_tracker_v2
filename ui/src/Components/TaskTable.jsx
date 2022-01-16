@@ -13,6 +13,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   loadUnsubmitedTask,
+  setPrevProcessIsOff
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -135,6 +136,7 @@ export default function TaskTable() {
       .then(setCurrentProcessIsPlay(currentId))
       .then((window.location.href = '#/dashboard'));
   };
+  
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
