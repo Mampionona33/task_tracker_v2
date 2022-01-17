@@ -66,11 +66,9 @@ export default function Navbar() {
   useEffect(() => {
     if (dataPause) {
       setCurrentFiche(dataPause);
-      console.log('play data nav bar', dataPause);
     }
     if (dataPlay) {
       setCurrentFiche(dataPlay);
-      console.log('play data nav bar', dataPlay);
     }
     if (currentFiche.length > 0) {
       setPrevProcessId(currentFiche[0].id);

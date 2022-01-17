@@ -7,16 +7,19 @@ import React, { useEffect, useState } from 'react';
 
 // fetch global data
 function loadAllData() {
+  const [output, setOutpout] = useState([]);
   const {
     data: allData,
     loading: allDataLoading,
     error: errorLoadData,
   } = useQuery(LOAD_DATA);
+
   useEffect(() => {
     if (allData) {
-      return allData;
+      setOutpout(allData);
     }
   }, [allData]);
+  return output;
 }
 
 // Fetch the current play Task
@@ -114,6 +117,7 @@ function loadSubmitedTask() {
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
 const makePrevProcessIsOff = (prevProcessPlayId, fichesUpdate, erroUpDate) => {
+  // console.log('makePrevProcessIsOff', prevProcessPlayId);
   fichesUpdate({
     variables: {
       filter: {

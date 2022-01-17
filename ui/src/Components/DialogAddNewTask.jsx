@@ -22,6 +22,12 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
 import { GetStartDateTime } from '../Features/time';
 import { useAuth0 } from '@auth0/auth0-react';
+import {
+  loadProcessingPause,
+  loadAllData,
+  loadProcessingPlay,
+  makePrevProcessIsOff,
+} from './dataHandler';
 
 export default function DialogAddNewTask({ open, onClose }) {
   const [typeTache, setTypeTache] = useState([]);
@@ -60,9 +66,22 @@ export default function DialogAddNewTask({ open, onClose }) {
       { variables: { input: { submiteState: 'isSubmited' } } },
     ],
   });
+
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
+  });
+
   // Function to add new task in data base
   const addFiche = async () => {
-    await setPrevProcessIsOff();
     fichesAdd({
       variables: {
         fiche: {
@@ -97,92 +116,34 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   };
 
-  // Loadin data from data base
-  const { data, loading, error: errorLoadData } = useQuery(LOAD_DATA);
-
-  // Get task for the loged user
-  let userTasks = [];
-  let prevProcess = [];
-  let prevProcessData = {};
-  // let prevProcessId = [];
-  let updateId = 0;
-  if (user) {
-    userTasks = listFicheFromData.filter(
-      (fiche) => fiche.user.email === user.email
-    );
-  }
-  if (userTasks) {
-    // Get the prev task in process by filter processing = isTrue
-    prevProcess = userTasks.filter((fiche) => fiche.processing === 'isPlay');
-
-    updateId = prevProcess.map((fiche) => {
-      prevProcessData = {
-        id: fiche.id,
-      };
-      return prevProcessData;
-    });
-  }
-
-  // fetch the current booth played
-  const {
-    data: playedData,
-    error: playedError,
-    loading: playedLoading,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        processing: 'isPlay',
-      },
-    },
-  });
-
-  // execute mutation fichesUpdate with useMutation
-  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [LOAD_DATA],
-  });
-
-  // function to execute the update to set processing : 'isOff'
-  const setPrevProcessIsOff = () => {
-    fichesUpdate({
-      variables: {
-        filter: {
-          id: prevProcessId,
-        },
-        update: {
-          processing: 'isOff',
-        },
-      },
-    });
-    if (erroUpDate) {
-      console.log(erroUpDate);
-    }
-  };
-
-  // get the fiche in idCounter
-  const idCounterGetFiche = idCounter.filter((item) => item._id === 'fiches');
-  let currentCounter = {};
-  const arrayIdCounter = idCounterGetFiche.map((item) => {
-    currentCounter = {
-      type: item._id,
-      id: item.current,
-    };
-  });
+  // fetching data
+  const dataPause = loadProcessingPause();
+  const dataPlay = loadProcessingPlay();
+  const allData = loadAllData();
 
   useEffect(() => {
-    if (data) {
-      setTypeTache(data.listTypeTaches);
-      setListStatIvpn(data.listStatIvpn);
-      setComboStatCom(data.listStatCom);
-      setListFichesFromData(data.listFiches);
-      setIdCounter(data.idCounter);
+    if (allData.length != 0) {
+      console.log('allData', allData);
+      setTypeTache(allData.listTypeTaches);
+      setListStatIvpn(allData.listStatIvpn);
+      setComboStatCom(allData.listStatCom);
+      setListFichesFromData(allData.listFiches);
+      setIdCounter(allData.idCounter);
     }
-    if (playedData) {
-      setCurrentTask(playedData);
+    if (dataPlay.length > 0) {
+      setPrevProcessId(dataPlay[0].id);
     }
-  }, [data, playedData]);
+    if (dataPause.length > 0) {
+      setPrevProcessId(dataPause[0].id);
+    }
+  }, [allData, dataPlay, dataPause, currentTask]);
+
+  console.log('prevProcessId', prevProcessId);
 
   async function handleReset(e) {
-    await addFiche();
+    await makePrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
+      addFiche()
+    );
     setNumFiche('');
     setCat('');
     setStatuCom('');
