@@ -142,16 +142,16 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   async function handleReset(e) {
     await makePrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
-      addFiche()
+      addFiche(),
+      setNumFiche(''),
+      setCat(''),
+      setStatuCom(''),
+      setUrl(''),
+      setTypeTrav(undefined),
+      setNbBefor(0),
+      setNbAft(0),
+      setComment('')
     );
-    setNumFiche('');
-    setCat('');
-    setStatuCom('');
-    setUrl('');
-    setTypeTrav(undefined);
-    setNbBefor(0);
-    setNbAft(0);
-    setComment('');
   }
 
   const listTaches = typeTache.map((item) => item.name);
