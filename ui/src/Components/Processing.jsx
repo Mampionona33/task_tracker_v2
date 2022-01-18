@@ -29,6 +29,8 @@ import {
   loadUnsubmitedTask,
 } from './dataHandler';
 
+import Timer from './Timer.jsx'
+
 export default function processing(params) {
   const [taches, setTaches] = useState([]);
   const [isClicked, setIsClicked] = useState(null);
@@ -190,7 +192,7 @@ export default function processing(params) {
       >
         <PlayCircleIcon />
       </IconButton>
-    );
+    );0
   };
 
   const ButtonPause = () => {
@@ -234,6 +236,7 @@ export default function processing(params) {
               {isClicked ? <ButtonPlay taskId={taskId} /> : <ButtonPause />}
             </IconButton>
           </Grid>
+			<Timer/>
         </Card>
       </Grid>
     </React.Fragment>
