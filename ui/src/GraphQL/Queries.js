@@ -38,7 +38,7 @@ export const LOAD_DATA = gql`
       nbAft
       startDate
       validDate
-      duree
+      elapstedTime
       productivity
       comment
       processing
@@ -101,7 +101,7 @@ export const FILTRED_FICHE = gql`
       nbAft
       startDate
       validDate
-      duree
+      elapstedTime
       productivity
       comment
       processing

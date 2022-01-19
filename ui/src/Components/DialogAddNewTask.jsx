@@ -138,17 +138,18 @@ export default function DialogAddNewTask({ open, onClose }) {
   }, [allData, dataPlay, dataPause, currentTask]);
 
   async function handleReset(e) {
-    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
-      addFiche(),
-      setNumFiche(''),
-      setCat(''),
-      setStatuCom(''),
-      setUrl(''),
-      setTypeTrav(undefined),
-      setNbBefor(0),
-      setNbAft(0),
-      setComment('')
-    );
+    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
+      .then(addFiche())
+      .then(
+        setNumFiche(''),
+        setCat(''),
+        setStatuCom(''),
+        setUrl(''),
+        setTypeTrav(undefined),
+        setNbBefor(0),
+        setNbAft(0),
+        setComment('')
+      );
   }
 
   const listTaches = typeTache.map((item) => item.name);

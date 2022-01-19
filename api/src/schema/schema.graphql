@@ -30,7 +30,7 @@ type Fiches {
   nbAft: Int
   startDate: GraphQLDate
   validDate: GraphQLDate
-  duree: Int
+  elapstedTime: Int
   productivity: String
   comment: String
   processing: ProcessingType
@@ -65,7 +65,7 @@ input FichesInputs {
   submiteState: SubmitType = isUnsubmited
   comment: String
   processing: ProcessingType = isOff
-  duree: Int = 0
+  elapstedTime: Int = 0
   lastUpdate: GraphQLDate
 }
 ##Update Fiches --------
@@ -85,7 +85,7 @@ input UpdateFiches {
   nbAft: Int
   startDate: GraphQLDate
   validDate: GraphQLDate
-  duree: Int
+  elapstedTime: Int
   productivity: String
   processing: ProcessingType
   comment: String

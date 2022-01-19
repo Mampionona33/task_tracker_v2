@@ -75,7 +75,7 @@ export const UPDATE_FICHE = gql`
       nbAft
       startDate
       validDate
-      duree
+      elapstedTime
       submiteState
       nbBefor
       state

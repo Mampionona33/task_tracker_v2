@@ -97,7 +97,7 @@ async function update(
       nbAft,
       startDate,
       validDate,
-      duree,
+      elapstedTime,
       productivity,
       processing,
       lastUpdate,
@@ -147,8 +147,8 @@ async function update(
   if (validDate) {
     update[0].$set.validDate = validDate;
   }
-  if (duree) {
-    update[0].$set.duree = duree;
+  if (elapstedTime) {
+    update[0].$set.elapstedTime = elapstedTime;
   }
   if (productivity) {
     update[0].$set.productivity = productivity;
