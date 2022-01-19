@@ -13,7 +13,7 @@ export default function CurrentTaskPlay(props) {
   // fetching data on component mount
   useEffect(() => {
     if (dataPlay.length > 0) {
-      setCurrentFiche(dataPlay);
+      setCurrentFiche(dataPlay);	 
     }
     if (dataPause.length > 0) {
       setCurrentFiche(dataPause);
