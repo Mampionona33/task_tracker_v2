@@ -116,7 +116,11 @@ function loadSubmitedTask() {
 
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
-const makePrevProcessIsOff = (prevProcessPlayId, fichesUpdate, erroUpDate) => {
+const setPrevProcessIsOff = async (
+  prevProcessPlayId,
+  fichesUpdate,
+  erroUpDate
+) => {
   // console.log('makePrevProcessIsOff', prevProcessPlayId);
   fichesUpdate({
     variables: {
@@ -131,7 +135,42 @@ const makePrevProcessIsOff = (prevProcessPlayId, fichesUpdate, erroUpDate) => {
   if (erroUpDate) {
     console.log(erroUpDate);
   }
-  return fichesUpdate;
+  return prevProcessPlayId;
+};
+
+// set prevProcessPlay to pause
+const setProcessToPause = async (prevProcessId, fichesUpdate, errorUpDate) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: prevProcessId,
+      },
+      update: {
+        processing: 'isPause',
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return prevProcessId;
+};
+// set prevProcessPause to Play
+const setProcessToPlay = async (prevProcessId, fichesUpdate, errorUpDate) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: prevProcessId,
+      },
+      update: {
+        processing: 'isPlay',
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return prevProcessId;
 };
 
 export {
@@ -140,5 +179,7 @@ export {
   loadProcessingPlay,
   loadUnsubmitedTask,
   loadSubmitedTask,
-  makePrevProcessIsOff,
+  setPrevProcessIsOff,
+  setProcessToPause,
+  setProcessToPlay,
 };

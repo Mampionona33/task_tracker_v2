@@ -26,7 +26,7 @@ import {
   loadProcessingPause,
   loadAllData,
   loadProcessingPlay,
-  makePrevProcessIsOff,
+  setPrevProcessIsOff,
 } from './dataHandler';
 
 export default function DialogAddNewTask({ open, onClose }) {
@@ -123,7 +123,6 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   useEffect(() => {
     if (allData.length != 0) {
-      console.log('allData', allData);
       setTypeTache(allData.listTypeTaches);
       setListStatIvpn(allData.listStatIvpn);
       setComboStatCom(allData.listStatCom);
@@ -138,10 +137,8 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   }, [allData, dataPlay, dataPause, currentTask]);
 
-  console.log('prevProcessId', prevProcessId);
-
   async function handleReset(e) {
-    await makePrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
+    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
       addFiche(),
       setNumFiche(''),
       setCat(''),

@@ -18,7 +18,7 @@ import {
   loadProcessingPause,
   loadAllData,
   loadProcessingPlay,
-  makePrevProcessIsOff,
+  setPrevProcessIsOff,
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -89,7 +89,7 @@ export default function Navbar() {
   });
 
   const handelClickLoghout = async () => {
-    await makePrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
+    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
       logout()
     );
   };

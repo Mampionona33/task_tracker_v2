@@ -10,10 +10,10 @@ import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import {
   loadProcessingPause,
-  loadAllData,
   loadProcessingPlay,
   loadUnsubmitedTask,
-  setPrevProcessIsOff
+  setPrevProcessIsOff,
+  setProcessToPlay,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -126,89 +126,88 @@ export default function TaskTable() {
     },
   ];
 
-  const handleClickPlay = async (param, event) => {
-    // console.log('param:', param);
-    // console.log('event:', event);
-    // console.log('id:', event.id);
-    let currentId = event.id;
-    // await setPrevProcessIsOff();
-    await setPrevProcessIsOff()
-      .then(setCurrentProcessIsPlay(currentId))
-      .then((window.location.href = '#/dashboard'));
-  };
-  
-
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
     refetchQueries: [
       FILTRED_FICHE,
-      {
-        variables: {
-          input: { submiteState: 'isUnsubmited' },
-        },
-      },
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
     ],
     refetchQueries: [
       FILTRED_FICHE,
-      {
-        variables: {
-          input: { submiteState: 'isSubmited' },
-        },
-      },
+      { variables: { input: { submiteState: 'isSubmited' } } },
     ],
   });
 
-  // function to execute the update to set prev processing : 'isOff'
-  const setPrevProcessIsOff = async () => {
-    fichesUpdate({
-      variables: {
-        filter: {
-          id: prevFicheId,
-        },
-        update: {
-          processing: 'isOff',
-        },
-      },
-    });
-    if (erroUpDate) {
-      console.log(erroUpDate);
-    }
+  const handleClickPlay = async (param, event) => {
+    // console.log('param:', param);
+    // console.log('event:', event);
+    // console.log('id:', event.id);
+    let currentId = event.id;
+
+    await setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate)
+      .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+      .then((window.location.href = '#/dashboard'));
   };
 
   // function to execute the update to set prev processing : 'isOff'
-  const setCurrentProcessIsPlay = async (currentId) => {
-    fichesUpdate({
-      variables: {
-        filter: {
-          id: currentId,
-        },
-        update: {
-          processing: 'isPlay',
-        },
-      },
-    });
-    if (erroUpDate) {
-      console.log(erroUpDate);
-    }
-  };
+  // const setPrevProcessIsOff = async () => {
+  //   fichesUpdate({
+  //     variables: {
+  //       filter: {
+  //         id: prevFicheId,
+  //       },
+  //       update: {
+  //         processing: 'isOff',
+  //       },
+  //     },
+  //   });
+  //   if (erroUpDate) {
+  //     console.log(erroUpDate);
+  //   }
+  // };
+
+  // function to execute the update to set prev processing : 'isOff'
+  // const setCurrentProcessIsPlay = async (currentId) => {
+  //   fichesUpdate({
+  //     variables: {
+  //       filter: {
+  //         id: currentId,
+  //       },
+  //       update: {
+  //         processing: 'isPlay',
+  //       },
+  //     },
+  //   });
+  //   if (erroUpDate) {
+  //     console.log(erroUpDate);
+  //   }
+  // };
 
   // fetching data
   const dataPlay = loadProcessingPlay();
+  const dataPause = loadProcessingPause();
   const dataUnsubmited = loadUnsubmitedTask();
 
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited) {
-      setList(dataUnsubmited); 
+      setList(dataUnsubmited);
     }
-    if (dataPlay) {
-      setPrevFiche(dataPlay); 
+    if (dataPlay.length > 0) {
+      setPrevFiche(dataPlay);
+      setPrevFicheId((prev) => dataPlay[0].id);
+      console.log('dataPlay', dataPlay);
     }
-    if (prevFiche) {
-      setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);	 
+    if (dataPause.length > 0) {
+      setPrevFiche(dataPause);
+      setPrevFicheId((prev) => dataPause[0].id);
+      console.log('dataPause', dataPause);
     }
-  }, [prevFiche, dataPlay, dataUnsubmited]);
+    // if (prevFiche) {
+    //   setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
+    // }
+  }, [prevFiche, dataPlay, dataPause, dataUnsubmited]);
 
   let rows = [];
   let arrayRows = {};

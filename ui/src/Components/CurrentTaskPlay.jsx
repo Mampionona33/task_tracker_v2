@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
-import { FILTRED_FICHE, LOAD_DATA } from '../GraphQL/Queries';
-import { useQuery, gql } from '@apollo/client';
 import { makeStyles } from '@mui/styles';
-import {
-  loadProcessingPause,
-  loadAllData,
-  loadProcessingPlay,
-} from './dataHandler';
+import { loadProcessingPause, loadProcessingPlay } from './dataHandler';
 
 export default function CurrentTaskPlay(props) {
   const [currentFiche, setCurrentFiche] = useState([]);
-  
+
   // fetching data
   const dataPause = loadProcessingPause();
-  const dataPlay = loadProcessingPlay(); 
-  
+  const dataPlay = loadProcessingPlay();
+
   // fetching data on component mount
   useEffect(() => {
-    if (dataPlay) {
+    if (dataPlay.length > 0) {
       setCurrentFiche(dataPlay);
-    } else if (dataPause) {
+    }
+    if (dataPause.length > 0) {
       setCurrentFiche(dataPause);
     }
   }, [dataPlay, dataPause]);
-  
-   
+
   //   create classe for Box and Typography
   const useStyles = makeStyles({
     processingBox: {
