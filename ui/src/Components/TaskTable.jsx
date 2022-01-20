@@ -14,6 +14,7 @@ import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
   setProcessToPlay,
+  modifyLastUpdate
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -145,44 +146,15 @@ export default function TaskTable() {
     // console.log('id:', event.id);
     let currentId = event.id;
 
-    await setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate)
-      .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
-      .then((window.location.href = '#/dashboard'));
+	await	modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
+    .then( setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
+	  .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+	  .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+	  .then((window.location.href = '#/dashboard'));
+	  
+	  console.log('prevFicheId',prevFicheId)
   };
-
-  // function to execute the update to set prev processing : 'isOff'
-  // const setPrevProcessIsOff = async () => {
-  //   fichesUpdate({
-  //     variables: {
-  //       filter: {
-  //         id: prevFicheId,
-  //       },
-  //       update: {
-  //         processing: 'isOff',
-  //       },
-  //     },
-  //   });
-  //   if (erroUpDate) {
-  //     console.log(erroUpDate);
-  //   }
-  // };
-
-  // function to execute the update to set prev processing : 'isOff'
-  // const setCurrentProcessIsPlay = async (currentId) => {
-  //   fichesUpdate({
-  //     variables: {
-  //       filter: {
-  //         id: currentId,
-  //       },
-  //       update: {
-  //         processing: 'isPlay',
-  //       },
-  //     },
-  //   });
-  //   if (erroUpDate) {
-  //     console.log(erroUpDate);
-  //   }
-  // };
+  
 
   // fetching data
   const dataPlay = loadProcessingPlay();

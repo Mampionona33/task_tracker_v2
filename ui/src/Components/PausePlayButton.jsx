@@ -40,14 +40,14 @@ const PausePlayButton = () => {
     if (pauseData.length > 0) {
       setCurrentProcess((prev) => pauseData[0].processing);
       setPrevProcessId((prevId) => pauseData[0].id);
-      setLocalElapstedTime((prev) => pauseData[0].elapstedTime);
-      setTimer(pauseData[0].elapstedTime);
+      // setLocalElapstedTime((prev) => pauseData[0].elapstedTime);
+      // setTimer(pauseData[0].elapstedTime);
     }
     if (playData.length > 0) {
       const dateNow = new Date();
       setCurrentProcess((prev) => playData[0].processing);
       setPrevProcessId((prevId) => playData[0].id);
-      setTimer((prev) => playData[0].elapstedTime);
+      // setTimer((prev) => playData[0].elapstedTime);
     }
   }, [pauseData, playData]);
 
@@ -81,18 +81,17 @@ const PausePlayButton = () => {
   // };
 
   const handleClickPlay = async (e) => {
-    // await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate).then(
-    //   tickTimer()
-    // );
+    await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate);
   };
 
   const handleClickPause = async (e) => {
     e.preventDefault();
     console.log('erroUpDate timer', timer);
+     await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate)
+	 .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate));
+	// .then(updateElastedTime(prevProcessId, timer, fichesUpdate, erroUpDate));
     // await stopTickTimer()
-    //   .then(setProcessToPause(prevProcessId, fichesUpdate, erroUpDate))
     //   .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-    //   .then(updateElastedTime(prevProcessId, timer, fichesUpdate, erroUpDate));
   };
 
   const ButtonPlay = () => {
@@ -127,9 +126,7 @@ const PausePlayButton = () => {
 
   return (
     <Box sx={{ margin: 5 }}>
-      {lastUpdate ? <p>Elapsted :{renderDate(timer)}</p> : '...'}
-      {lastUpdate ? <p>last Update:{showDate}</p> : '...'}
-      <Typography>elapsted time: {timer}</Typography>
+           <Typography>elapsted time: {timer}</Typography>
       {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
     </Box>
   );

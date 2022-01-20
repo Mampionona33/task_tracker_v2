@@ -27,6 +27,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   setPrevProcessIsOff,
+  modifyLastUpdate
 } from './dataHandler';
 
 export default function DialogAddNewTask({ open, onClose }) {
@@ -49,7 +50,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [comment, setComment] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [processing, setProcessing] = useState('isPlay');
-  const [lastUpdate, setLastUpdate] = useState(new Date());
+  // const [lastUpdate, setLastUpdate] = useState([]);
 
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -107,7 +108,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           comment: comment,
           startDate: startDate,
           processing: processing,
-          lastUpdate: lastUpdate,
+          lastUpdate: new Date(),
         },
       },
     });
@@ -115,6 +116,7 @@ export default function DialogAddNewTask({ open, onClose }) {
       console.log(errorCreatFiche);
     }
   };
+
 
   // fetching data
   const dataPause = loadProcessingPause();
@@ -137,18 +139,19 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   }, [allData, dataPlay, dataPause, currentTask]);
 
-  async function handleReset(e) {
+  async function handleReset(e) {	  
     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
-      .then(addFiche())
-      .then(
-        setNumFiche(''),
-        setCat(''),
-        setStatuCom(''),
-        setUrl(''),
-        setTypeTrav(undefined),
-        setNbBefor(0),
-        setNbAft(0),
-        setComment('')
+	.then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
+	.then(addFiche())
+	.then(
+		setNumFiche(''),
+		setCat(''),
+		setStatuCom(''),
+		setUrl(''),
+		setTypeTrav(undefined),
+		setNbBefor(0),
+		setNbAft(0),
+		setComment('')
       );
   }
 
