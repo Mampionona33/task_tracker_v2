@@ -115,6 +115,24 @@ function loadSubmitedTask() {
   return outpoutSubmited;
 }
 
+// Fetching elapstedTime
+const loadElapstedTime = () => {
+  const [outpoutElapstedTime, setOutpoutElapstedTime] = useState([]);
+  const playData = loadProcessingPlay();
+  const pauseData = loadProcessingPause();
+
+  useEffect(() => {
+    if (playData.length > 0) {
+      setOutpoutElapstedTime(playData[0].elapstedTime);
+    }
+    if (pauseData.length > 0) {
+      setOutpoutElapstedTime(pauseData[0].elapstedTime);
+    }
+  }, [playData, pauseData]);
+
+  return outpoutElapstedTime;
+};
+
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
 const setPrevProcessIsOff = async (
@@ -192,7 +210,7 @@ const getLastupdate = () => {
 };
 
 const renderDate = (value) => {
-  console.log('value', value);
+  // console.log('value', value);
   let day = Math.floor(value / 86400000);
   let hours = Math.floor((value / 3600000) % 24);
   let min = Math.floor((value / 60000) % 60);
@@ -207,6 +225,48 @@ const renderDate = (value) => {
   return elapstedTime;
 };
 
+const updateElastedTime = async (
+  currentProcessId,
+  elapstedTime,
+  fichesUpdate,
+  errorUpDate
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: currentProcessId,
+      },
+      update: {
+        elapstedTime: elapstedTime,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return currentProcessId;
+};
+
+const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
+  const nowDate = new Date();
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: currentFicheId,
+      },
+      update: {
+        lastUpdate: nowDate.toString(),
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+
+  console.log('nowDate', nowDate, ' / ', currentFicheId);
+  return currentFicheId;
+};
+
 export {
   loadProcessingPause,
   loadAllData,
@@ -218,4 +278,7 @@ export {
   setProcessToPlay,
   getLastupdate,
   renderDate,
+  updateElastedTime,
+  loadElapstedTime,
+  modifyLastUpdate,
 };
