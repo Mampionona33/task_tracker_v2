@@ -41,46 +41,34 @@ const PausePlayButton = () => {
       setCurrentProcess((prev) => pauseData[0].processing);
       setPrevProcessId((prevId) => pauseData[0].id);
       setLocalElapstedTime((prev) => pauseData[0].elapstedTime);
+      setTimer(pauseData[0].elapstedTime);
     }
     if (playData.length > 0) {
+      const dateNow = new Date();
       setCurrentProcess((prev) => playData[0].processing);
       setPrevProcessId((prevId) => playData[0].id);
-      setLocalElapstedTime((prev) => playData[0].elapstedTime);
+      setTimer((prev) => playData[0].elapstedTime);
     }
-    if (lastUpdate) {
-      const dateNow = new Date();
-      if (currentProcess === 'isPlay') {
-        setTimer(dateNow.getTime() - lastUpdate + elapstedTime);
-        tickTimer();
-      }
-      if (currentProcess === 'isPause') {
-        stopTickTimer();
-        setTimer(dateNow.getTime() - lastUpdate + elapstedTime);
-      }
-    }
-  }, [pauseData, playData, lastUpdate, currentProcess]);
+  }, [pauseData, playData]);
 
-  // console.log('elapstedTime', elapstedTime);
+  // const tickTimer = () => {
+  //   timerCount.current = setInterval(() => {
+  //     const dateNow = new Date();
+  //     const diffDate = dateNow.getTime() - lastUpdate;
+  //     setTimer(diffDate);
+  //   }, 1000);
+  // };
 
-  const tickTimer = () => {
-    timerCount.current = setInterval(() => {
-      const dateNow = new Date();
-      const diffDate = dateNow.getTime() - lastUpdate;
-      // console.log('diffDate', diffDate);
-      setTimer(diffDate + elapstedTime);
-    }, 1000);
-  };
+  // const pauseTimer = () => {
+  //   const dateNowPause = new Date();
+  //   const diffDatePause = dateNowPause.getTime() - lastUpdate;
+  //   setTimer(diffDatePause);
+  // };
 
-  const pauseTimer = () => {
-    const dateNowPause = new Date();
-    const diffDatePause = dateNowPause.getTime() - lastUpdate;
-    setTimer(diffDatePause);
-  };
-
-  const stopTickTimer = async () => {
-    clearInterval(timerCount.current);
-    return timerCount.current;
-  };
+  // const stopTickTimer = async () => {
+  //   clearInterval(timerCount.current);
+  //   return timerCount.current;
+  // };
 
   // const tick = async () => {
   //   count.current = setInterval(() => {
@@ -93,20 +81,16 @@ const PausePlayButton = () => {
   // };
 
   const handleClickPlay = async (e) => {
-    await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate).then(
-      tickTimer()
-    );
+    // await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate).then(
+    //   tickTimer()
+    // );
   };
 
   const handleClickPause = async (e) => {
     e.preventDefault();
     console.log('erroUpDate timer', timer);
-    await stopTickTimer()
-      .then(setProcessToPause(prevProcessId, fichesUpdate, erroUpDate))
-      .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-      .then(updateElastedTime(prevProcessId, timer, fichesUpdate, erroUpDate));
-    // await
-    //   .then(stopTickTimer())
+    // await stopTickTimer()
+    //   .then(setProcessToPause(prevProcessId, fichesUpdate, erroUpDate))
     //   .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
     //   .then(updateElastedTime(prevProcessId, timer, fichesUpdate, erroUpDate));
   };
@@ -136,11 +120,16 @@ const PausePlayButton = () => {
       </IconButton>
     );
   };
+  const lastUpdates = new Date(lastUpdate);
+  const showDate = ` ${lastUpdates.getDay()} / ${lastUpdates.getUTCMonth()} / ${lastUpdates.getFullYear()}`;
+
+  console.log(lastUpdates);
 
   return (
     <Box sx={{ margin: 5 }}>
-      {lastUpdate ? <p>last Update:{renderDate(timer)}</p> : '...'}
-      <Typography>elapsted time: {localElapstedTime}</Typography>
+      {lastUpdate ? <p>Elapsted :{renderDate(timer)}</p> : '...'}
+      {lastUpdate ? <p>last Update:{showDate}</p> : '...'}
+      <Typography>elapsted time: {timer}</Typography>
       {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
     </Box>
   );
