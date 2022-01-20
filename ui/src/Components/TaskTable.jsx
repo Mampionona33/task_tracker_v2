@@ -14,7 +14,7 @@ import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
   setProcessToPlay,
-  modifyLastUpdate
+  modifyLastUpdate,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -146,15 +146,14 @@ export default function TaskTable() {
     // console.log('id:', event.id);
     let currentId = event.id;
 
-	await	modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
-    .then( setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
-	  .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
-	  .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-	  .then((window.location.href = '#/dashboard'));
-	  
-	  console.log('prevFicheId',prevFicheId)
+    await modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
+      .then(setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
+      .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+      .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+      .then((window.location.href = '#/dashboard'));
+
+    console.log('prevFicheId', prevFicheId);
   };
-  
 
   // fetching data
   const dataPlay = loadProcessingPlay();

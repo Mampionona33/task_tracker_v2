@@ -21,7 +21,10 @@ const PausePlayButton = () => {
   const [currentProcess, setCurrentProcess] = useState('');
   const [prevProcessId, setPrevProcessId] = useState(0);
   const [localElapstedTime, setLocalElapstedTime] = useState(0);
-  const [timer, setTimer] = useState([]);
+  const [timer, setTimer] = useState(0);
+  const [initialTimer, setInitialTimer] = useState([]);
+  const [tickInc,setTickInc] = useState(0);
+
   let count = useRef(null);
   let timerCount = useRef(null);
 
@@ -29,7 +32,7 @@ const PausePlayButton = () => {
   const pauseData = loadProcessingPause();
   const playData = loadProcessingPlay();
   const lastUpdate = getLastupdate();
-  const elapstedTime = loadElapstedTime();
+  // const elapstedTime = loadElapstedTime();
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -40,6 +43,7 @@ const PausePlayButton = () => {
     if (pauseData.length > 0) {
       setCurrentProcess((prev) => pauseData[0].processing);
       setPrevProcessId((prevId) => pauseData[0].id);
+      setTickInc((prev) => pauseData[0].elapstedTime);
       // setLocalElapstedTime((prev) => pauseData[0].elapstedTime);
       // setTimer(pauseData[0].elapstedTime);
     }
@@ -47,38 +51,26 @@ const PausePlayButton = () => {
       const dateNow = new Date();
       setCurrentProcess((prev) => playData[0].processing);
       setPrevProcessId((prevId) => playData[0].id);
-      // setTimer((prev) => playData[0].elapstedTime);
+      setTickInc((prev) => playData[0].elapstedTime);
     }
-  }, [pauseData, playData]);
-
-  // const tickTimer = () => {
-  //   timerCount.current = setInterval(() => {
-  //     const dateNow = new Date();
-  //     const diffDate = dateNow.getTime() - lastUpdate;
-  //     setTimer(diffDate);
-  //   }, 1000);
-  // };
-
-  // const pauseTimer = () => {
-  //   const dateNowPause = new Date();
-  //   const diffDatePause = dateNowPause.getTime() - lastUpdate;
-  //   setTimer(diffDatePause);
-  // };
-
-  // const stopTickTimer = async () => {
-  //   clearInterval(timerCount.current);
-  //   return timerCount.current;
-  // };
-
-  // const tick = async () => {
-  //   count.current = setInterval(() => {
-  //     setLocalElapstedTime((prev) => prev + 1);
-  //   }, 1000);
-  // };
-
-  // const stopTick = () => {
-  //   clearInterval(count.current);
-  // };
+	
+	if(currentProcess === 'isPlay'){
+		timerCount.current = setInterval(() => tick(), 1000)
+	}
+	
+	if(currentProcess === 'isPause'){
+		clearInterval(timerCount.current);
+	}
+	
+		
+  }, [pauseData, playData,currentProcess]);
+  
+  console.log(tickInc);
+  
+	const tick = () => {
+    setTickInc((prev) => prev + 1);
+  };
+	 
 
   const handleClickPlay = async (e) => {
     await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate);
@@ -86,10 +78,12 @@ const PausePlayButton = () => {
 
   const handleClickPause = async (e) => {
     e.preventDefault();
-    console.log('erroUpDate timer', timer);
-     await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate)
-	 .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate));
-	// .then(updateElastedTime(prevProcessId, timer, fichesUpdate, erroUpDate));
+    console.log('updateElastedTime : ', tickInc );
+	 clearInterval(timerCount.current);
+    await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate).then(
+      modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate)
+    )
+    .then(updateElastedTime(prevProcessId, tickInc, fichesUpdate, erroUpDate));
     // await stopTickTimer()
     //   .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
   };
@@ -119,14 +113,10 @@ const PausePlayButton = () => {
       </IconButton>
     );
   };
-  const lastUpdates = new Date(lastUpdate);
-  const showDate = ` ${lastUpdates.getDay()} / ${lastUpdates.getUTCMonth()} / ${lastUpdates.getFullYear()}`;
-
-  console.log(lastUpdates);
 
   return (
     <Box sx={{ margin: 5 }}>
-           <Typography>elapsted time: {timer}</Typography>
+      <Typography>elapsted time: {timer}</Typography>
       {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
     </Box>
   );

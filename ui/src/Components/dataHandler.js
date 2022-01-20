@@ -247,7 +247,6 @@ const updateElastedTime = async (
   return currentProcessId;
 };
 
-
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   const nowDate = new Date();
