@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import {
   Grid,
   Card,
@@ -11,23 +11,12 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 import { useQuery, gql, setLogVerbosity } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
-
-import { useAuth0 } from '@auth0/auth0-react';
-import { useMutation } from '@apollo/client';
 import CurrentTaskPlay from './CurrentTaskPlay';
-import {
-  loadProcessingPause,
-  loadAllData,
-  loadProcessingPlay,
-  loadUnsubmitedTask,
-} from './dataHandler';
 
 import PausePlayButton from './PausePlayButton.jsx';
 

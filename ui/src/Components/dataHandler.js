@@ -1,7 +1,8 @@
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { formatNbr } from '../Features/formatNbr';
 
 // FETHING DATA-----------------------------
 
@@ -173,6 +174,39 @@ const setProcessToPlay = async (prevProcessId, fichesUpdate, errorUpDate) => {
   return prevProcessId;
 };
 
+const getLastupdate = () => {
+  const playProcess = loadProcessingPlay();
+  const pauseProcess = loadProcessingPause();
+  const [lastUpdate, setLastUpdate] = useState([]);
+
+  useEffect(() => {
+    if (playProcess.length > 0) {
+      setLastUpdate(playProcess[0].lastUpdate);
+    }
+    if (pauseProcess.length > 0) {
+      setLastUpdate(pauseProcess[0].lastUpdate);
+    }
+  }, [playProcess, pauseProcess, lastUpdate]);
+
+  return Date.parse(lastUpdate);
+};
+
+const renderDate = (value) => {
+  console.log('value', value);
+  let day = Math.floor(value / 86400000);
+  let hours = Math.floor((value / 3600000) % 24);
+  let min = Math.floor((value / 60000) % 60);
+  let sec = Math.floor((value / 1000) % 60);
+  let milSec = Math.floor(value % 1000);
+  const outpout = Math.floor((value / 3600000) % 24);
+
+  let elapstedTime = `${day}:${formatNbr(hours)}:${formatNbr(min)}:${formatNbr(
+    sec
+  )}`;
+
+  return elapstedTime;
+};
+
 export {
   loadProcessingPause,
   loadAllData,
@@ -182,4 +216,6 @@ export {
   setPrevProcessIsOff,
   setProcessToPause,
   setProcessToPlay,
+  getLastupdate,
+  renderDate,
 };
