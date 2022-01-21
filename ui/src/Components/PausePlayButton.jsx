@@ -21,6 +21,7 @@ const PausePlayButton = () => {
   const [currentProcess, setCurrentProcess] = useState('');
   const [prevProcessId, setPrevProcessId] = useState(0);
   const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
+  const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
 
   const [tickInc, setTickInc] = useState(0);
 
@@ -41,13 +42,16 @@ const PausePlayButton = () => {
     if (pauseData.length > 0) {
       setCurrentProcess((prev) => pauseData[0].processing);
       setPrevProcessId((prevId) => pauseData[0].id);
-      setTickInc((prev) => pauseData[0].elapstedTime);
+      // setTickInc((prev) => pauseData[0].elapstedTime);
+      setPrevFicheLastUpdate((prev) => pauseData[0].lastUpdate);
+      setPrevFicheElapstedTime((prev) => pauseData[0].elapstedTime);
     }
     if (playData.length > 0) {
       setCurrentProcess((prev) => playData[0].processing);
       setPrevProcessId((prevId) => playData[0].id);
       // setTickInc((prev) => playData[0].elapstedTime);
       setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
+      setPrevFicheElapstedTime((prev) => playData[0].elapstedTime);
     }
 
     if (currentProcess === 'isPlay') {
@@ -55,17 +59,44 @@ const PausePlayButton = () => {
     }
 
     if (currentProcess === 'isPause') {
-      clearInterval(timerCount.current);
+      // clearInterval(timerCount.current);
     }
 
     if (prevFicheLastUpdate) {
       const dateNow = new Date();
-      let diffDate = dateNow.getTime() - Date.parse(prevFicheLastUpdate);
+
+      const utcDateNow = new Date(
+        dateNow.getTime() - dateNow.getTimezoneOffset() * 60000
+      ).toISOString();
+
+      let diffDate =
+        Date.parse(utcDateNow) -
+        Date.parse(prevFicheLastUpdate) +
+        prevFicheElapstedTime;
+
       setTickInc((prev) => diffDate);
+
+      // const test = (diffDate) => {
+      //   const day = Math.floor((diffDate % 86400) / 36000)
+      //     .toString()
+      //     .padStart(2, '0');
+      //   const hours = Math.floor((diffDate % 86400) / 3600)
+      //     .toString()
+      //     .padStart(2, '0');
+      //   const min = Math.floor((diffDate % 3600) / 60)
+      //     .toString()
+      //     .padStart(2, '0');
+      //   const sec = Math.floor(diffDate % 60)
+      //     .toString()
+      //     .padStart(2, '0');
+      //   return `${day}:${hours}:${min}:${sec}`;
+      // };
+
+      // console.log(test(diffDate));
     }
   }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
 
-  console.log('prevFicheLastUpdate', prevFicheLastUpdate);
+  // console.log('prevFicheLastUpdate', prevFicheLastUpdate);
 
   // const tick = () => {
   //   setTickInc((prev) => prev + 1);
@@ -75,11 +106,21 @@ const PausePlayButton = () => {
     await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate);
   };
 
-  const handleClickPause = async (e) => {
-    clearInterval(timerCount.current);
+  const handleClickPause = async (e) => {  
+
+    const elapstedTime =
+      Date.parse(utcDateNow) -
+      Date.parse(prevFicheLastUpdate) +
+      prevFicheElapstedTime;
+
+    console.log('elapstedTime', elapstedTime);
+    console.log('prevProcessId', prevProcessId);
     await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate).then(
-      modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate)
+      modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate).then(
+        updateElastedTime(prevProcessId, elapstedTime, fichesUpdate, erroUpDate)
+      )
     );
+    // clearInterval(timerCount.current);
   };
 
   const ButtonPlay = () => {

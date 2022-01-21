@@ -27,7 +27,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   setPrevProcessIsOff,
-  modifyLastUpdate
+  modifyLastUpdate,
 } from './dataHandler';
 
 export default function DialogAddNewTask({ open, onClose }) {
@@ -83,6 +83,12 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   // Function to add new task in data base
   const addFiche = async () => {
+    const dateNow = new Date();
+
+    const utcDateNow = new Date(
+      dateNow.getTime() - dateNow.getTimezoneOffset() * 60000
+    ).toISOString();
+
     fichesAdd({
       variables: {
         fiche: {
@@ -108,7 +114,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           comment: comment,
           startDate: startDate,
           processing: processing,
-          lastUpdate: new Date(),
+          lastUpdate: utcDateNow,
         },
       },
     });
@@ -116,7 +122,6 @@ export default function DialogAddNewTask({ open, onClose }) {
       console.log(errorCreatFiche);
     }
   };
-
 
   // fetching data
   const dataPause = loadProcessingPause();
@@ -139,19 +144,19 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   }, [allData, dataPlay, dataPause, currentTask]);
 
-  async function handleReset(e) {	  
+  async function handleReset(e) {
     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
-	.then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-	.then(addFiche())
-	.then(
-		setNumFiche(''),
-		setCat(''),
-		setStatuCom(''),
-		setUrl(''),
-		setTypeTrav(undefined),
-		setNbBefor(0),
-		setNbAft(0),
-		setComment('')
+      .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
+      .then(addFiche())
+      .then(
+        setNumFiche(''),
+        setCat(''),
+        setStatuCom(''),
+        setUrl(''),
+        setTypeTrav(undefined),
+        setNbBefor(0),
+        setNbAft(0),
+        setComment('')
       );
   }
 

@@ -268,22 +268,31 @@ const updateElastedTime = async (
 };
 
 // set the current time the last update
-const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
-  const nowDate = new Date();
+const modifyLastUpdate = async (
+  currentFicheId,
+  fichesUpdate,
+  errorUpDate
+) => {
+  const dateNow = new Date();
+
+  const utcDateNow = new Date(
+    dateNow.getTime() - dateNow.getTimezoneOffset() * 60000
+  ).toISOString();
+
   fichesUpdate({
     variables: {
       filter: {
         id: currentFicheId,
       },
       update: {
-        lastUpdate: nowDate.toString(),
+        lastUpdate: utcDateNow,
       },
     },
   });
   if (errorUpDate) {
     console.log(errorUpDate);
   }
-  return currentFicheId;
+  return date;
 };
 
 export {
