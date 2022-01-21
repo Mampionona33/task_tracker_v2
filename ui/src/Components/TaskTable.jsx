@@ -15,6 +15,7 @@ import {
   setPrevProcessIsOff,
   setProcessToPlay,
   modifyLastUpdate,
+  updateElastedTime,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -25,6 +26,8 @@ export default function TaskTable() {
 
   const [prevFiche, setPrevFiche] = useState([]);
   const [prevFicheId, setPrevFicheId] = useState(0);
+  const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
+  const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
 
   const columns = [
     {
@@ -141,13 +144,17 @@ export default function TaskTable() {
   });
 
   const handleClickPlay = async (param, event) => {
-    // console.log('param:', param);
-    // console.log('event:', event);
-    // console.log('id:', event.id);
     let currentId = event.id;
+    const dateNow = new Date();
+    let diffDate = dateNow.getTime() - Date.parse(prevFicheLastUpdate);
+
+    console.log('diffDate', diffDate);
+    console.log('prevFicheLastUpdate', Date.parse(prevFicheLastUpdate));
+    console.log('dateNow', dateNow.getTime());
 
     await modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
+      .then(updateElastedTime(prevFicheId, diffDate, fichesUpdate, erroUpDate))
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
       .then((window.location.href = '#/dashboard'));
@@ -168,6 +175,7 @@ export default function TaskTable() {
     if (dataPlay.length > 0) {
       setPrevFiche(dataPlay);
       setPrevFicheId((prev) => dataPlay[0].id);
+      setPrevFicheLastUpdate((perv) => dataPlay[0].lastUpdate);
       console.log('dataPlay', dataPlay);
     }
     if (dataPause.length > 0) {
@@ -175,10 +183,9 @@ export default function TaskTable() {
       setPrevFicheId((prev) => dataPause[0].id);
       console.log('dataPause', dataPause);
     }
-    // if (prevFiche) {
-    //   setPrevFicheId((prev) => prevFiche.map((item) => item.id)[0]);
-    // }
-  }, [prevFiche, dataPlay, dataPause, dataUnsubmited]);
+  }, [prevFiche, dataPlay, dataPause, dataUnsubmited, prevFicheLastUpdate]);
+
+  console.log('prevFicheLastUpdate', prevFicheLastUpdate);
 
   let rows = [];
   let arrayRows = {};

@@ -20,10 +20,9 @@ import { IconButton, Typography, Box } from '@mui/material';
 const PausePlayButton = () => {
   const [currentProcess, setCurrentProcess] = useState('');
   const [prevProcessId, setPrevProcessId] = useState(0);
-  const [localElapstedTime, setLocalElapstedTime] = useState(0);
-  const [timer, setTimer] = useState(0);
-  const [initialTimer, setInitialTimer] = useState([]);
-  const [tickInc,setTickInc] = useState(0);
+  const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
+
+  const [tickInc, setTickInc] = useState(0);
 
   let count = useRef(null);
   let timerCount = useRef(null);
@@ -32,7 +31,6 @@ const PausePlayButton = () => {
   const pauseData = loadProcessingPause();
   const playData = loadProcessingPlay();
   const lastUpdate = getLastupdate();
-  // const elapstedTime = loadElapstedTime();
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -44,48 +42,44 @@ const PausePlayButton = () => {
       setCurrentProcess((prev) => pauseData[0].processing);
       setPrevProcessId((prevId) => pauseData[0].id);
       setTickInc((prev) => pauseData[0].elapstedTime);
-      // setLocalElapstedTime((prev) => pauseData[0].elapstedTime);
-      // setTimer(pauseData[0].elapstedTime);
     }
     if (playData.length > 0) {
-      const dateNow = new Date();
       setCurrentProcess((prev) => playData[0].processing);
       setPrevProcessId((prevId) => playData[0].id);
-      setTickInc((prev) => playData[0].elapstedTime);
+      // setTickInc((prev) => playData[0].elapstedTime);
+      setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
     }
-	
-	if(currentProcess === 'isPlay'){
-		timerCount.current = setInterval(() => tick(), 1000)
-	}
-	
-	if(currentProcess === 'isPause'){
-		clearInterval(timerCount.current);
-	}
-	
-		
-  }, [pauseData, playData,currentProcess]);
-  
-  console.log(tickInc);
-  
-	const tick = () => {
-    setTickInc((prev) => prev + 1);
-  };
-	 
+
+    if (currentProcess === 'isPlay') {
+      // timerCount.current = setInterval(() => tick(), 1000);
+    }
+
+    if (currentProcess === 'isPause') {
+      clearInterval(timerCount.current);
+    }
+
+    if (prevFicheLastUpdate) {
+      const dateNow = new Date();
+      let diffDate = dateNow.getTime() - Date.parse(prevFicheLastUpdate);
+      setTickInc((prev) => diffDate);
+    }
+  }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
+
+  console.log('prevFicheLastUpdate', prevFicheLastUpdate);
+
+  // const tick = () => {
+  //   setTickInc((prev) => prev + 1);
+  // };
 
   const handleClickPlay = async (e) => {
     await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate);
   };
 
   const handleClickPause = async (e) => {
-    e.preventDefault();
-    console.log('updateElastedTime : ', tickInc );
-	 clearInterval(timerCount.current);
+    clearInterval(timerCount.current);
     await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate).then(
       modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate)
-    )
-    .then(updateElastedTime(prevProcessId, tickInc, fichesUpdate, erroUpDate));
-    // await stopTickTimer()
-    //   .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
+    );
   };
 
   const ButtonPlay = () => {
@@ -116,7 +110,7 @@ const PausePlayButton = () => {
 
   return (
     <Box sx={{ margin: 5 }}>
-      <Typography>elapsted time: {timer}</Typography>
+      <Typography>elapsted time: {renderDate(tickInc)}</Typography>
       {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
     </Box>
   );

@@ -140,7 +140,6 @@ const setPrevProcessIsOff = async (
   fichesUpdate,
   erroUpDate
 ) => {
-  // console.log('makePrevProcessIsOff', prevProcessPlayId);
   fichesUpdate({
     variables: {
       filter: {
@@ -209,20 +208,41 @@ const getLastupdate = () => {
   return Date.parse(lastUpdate);
 };
 
+// use do render date frome string to clock
 const renderDate = (value) => {
-  // console.log('value', value);
-  let day = Math.floor(value / 86400000);
-  let hours = Math.floor((value / 3600000) % 24);
-  let min = Math.floor((value / 60000) % 60);
-  let sec = Math.floor((value / 1000) % 60);
-  let milSec = Math.floor(value % 1000);
-  const outpout = Math.floor((value / 3600000) % 24);
+  console.log(value);
+  const [outPut, setOutput] = useState(``);
+  const [day, setDay] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
+  const [milSec, setMilSec] = useState(0);
 
-  let elapstedTime = `${day}:${formatNbr(hours)}:${formatNbr(min)}:${formatNbr(
-    sec
-  )}`;
-
-  return elapstedTime;
+  useEffect(() => {
+    if (value) {
+      setDay((prev) =>
+        Math.floor((value % 86400) / 36000)
+          .toString()
+          .padStart(2, '0')
+      );
+      setHours((prev) =>
+        Math.floor((value % 86400) / 3600)
+          .toString()
+          .padStart(2, '0')
+      );
+      setMin((prev) =>
+        Math.floor((value % 3600) / 60)
+          .toString()
+          .padStart(2, '0')
+      );
+      setSec((prev) =>
+        Math.floor(value % 60)
+          .toString()
+          .padStart(2, '0')
+      );
+    }
+  }, [value]);
+  return `${day}:${hours}:${min}:${sec}`;
 };
 
 const updateElastedTime = async (
@@ -263,8 +283,6 @@ const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   if (errorUpDate) {
     console.log(errorUpDate);
   }
-
-  console.log('nowDate', nowDate, ' / ', currentFicheId);
   return currentFicheId;
 };
 
