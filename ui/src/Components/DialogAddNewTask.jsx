@@ -29,6 +29,10 @@ import {
   setPrevProcessIsOff,
   modifyLastUpdate,
 } from './dataHandler';
+import {
+    getUtcDateNow
+}
+from '../Features/getUtcDateNow';
 
 export default function DialogAddNewTask({ open, onClose }) {
   const [typeTache, setTypeTache] = useState([]);
@@ -81,14 +85,11 @@ export default function DialogAddNewTask({ open, onClose }) {
     ],
   });
 
+const dateNow = getUtcDateNow();
+
   // Function to add new task in data base
-  const addFiche = async () => {
-    const dateNow = new Date();
-
-    const utcDateNow = new Date(
-      dateNow.getTime() - dateNow.getTimezoneOffset() * 60000
-    ).toISOString();
-
+  const addFiche = async () => { 
+  
     fichesAdd({
       variables: {
         fiche: {
@@ -114,7 +115,7 @@ export default function DialogAddNewTask({ open, onClose }) {
           comment: comment,
           startDate: startDate,
           processing: processing,
-          lastUpdate: utcDateNow,
+          lastUpdate: new Date().toUTCString(),
         },
       },
     });
