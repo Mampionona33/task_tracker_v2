@@ -97,6 +97,7 @@ const PausePlayButton = () => {
     await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate).then(
       modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate)
     );
+    setUiTimer((prev) => prevFicheElapstedTime);
   };
 
   const handleClickPause = async (e) => {
@@ -106,6 +107,8 @@ const PausePlayButton = () => {
 
     console.log('elapstedTime', elapstedTime);
     console.log('prevProcessId', prevProcessId);
+
+    setUiTimer((prev) => elapstedTime);
 
     await updateElastedTime(
       prevProcessId,
