@@ -24,9 +24,7 @@ const PausePlayButton = () => {
   const [prevProcessId, setPrevProcessId] = useState(0);
   const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
   const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
-  const [localTimer, setLocalTimer] = useState(0);
   const [uiTimer, setUiTimer] = useState(0);
-  const [timeInFromLocalStorage, setTimeInFromLocalStorage] = useState(0);
 
   const [tickInc, setTickInc] = useState(0);
 
@@ -85,9 +83,6 @@ const PausePlayButton = () => {
     });
   }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
 
-  //   console.log('prevElapstime', prevFicheElapstedTime);
-  //   console.log('playData', prevFicheLastUpdate);
-
   // const tick = () => {
   // setTickInc((prev) => prev + 1);
   // };
@@ -112,8 +107,6 @@ const PausePlayButton = () => {
     console.log('elapstedTime', elapstedTime);
     console.log('prevProcessId', prevProcessId);
 
-    // await setProcessToPause(prevProcessId, fichesUpdate, erroUpDate).then(
-    //   modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate).then(
     await updateElastedTime(
       prevProcessId,
       Math.floor(elapstedTime),
@@ -158,7 +151,8 @@ const PausePlayButton = () => {
         margin: 5,
       }}
     >
-      <Typography> elapsted time: {intToTimer(uiTimer)}</Typography>{' '}
+      <Typography> elapsted time: {intToTimer(uiTimer)}</Typography>
+      <Typography> local Timer: {intToTimer(uiTimer)}</Typography>
       {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
     </Box>
   );
