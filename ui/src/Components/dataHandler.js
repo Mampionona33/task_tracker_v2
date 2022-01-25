@@ -287,9 +287,6 @@ const updateElastedTime = async (
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   const dateNow = new Date();
-  //   const utcDateNow = new Date(
-  //     dateNow.getTime() - dateNow.getTimezoneOffset() * 60000
-  //   ).toISOString();
 
   fichesUpdate({
     variables: {
