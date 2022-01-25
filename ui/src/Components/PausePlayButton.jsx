@@ -63,6 +63,7 @@ const PausePlayButton = () => {
     }
 
     if (currentProcess === 'isPause') {
+      setUiTimer((prev) => prevFicheElapstedTime);
       stopTick();
     }
   }, [...pauseData, ...playData, currentProcess, prevFicheLastUpdate]);
@@ -77,8 +78,7 @@ const PausePlayButton = () => {
 
   const stopTick = async () => {
     clearInterval(timerCount.current);
-    setUiTimer((prev) => prevFicheElapstedTime);
-    return timerCount.current;
+    return (timerCount.current = 0);
   };
 
   const handleClickPlay = async (e) => {
