@@ -48,11 +48,6 @@ const PausePlayButton = () => {
       setCurrentProcess((prev) => playData[0].processing);
       setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
       setPrevFicheElapstedTime((prev) => playData[0].elapstedTime);
-      // setUiTimer(
-      //   (prev) =>
-      //     (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
-      //     prevFicheElapstedTime
-      // );
     }
 
     if (pauseData.length > 0) {
@@ -67,17 +62,14 @@ const PausePlayButton = () => {
     }
 
     if (currentProcess === 'isPause') {
-      clearInterval(timerCount.current);
-      setUiTimer((prev) => prevFicheElapstedTime);
+      // clearInterval(timerCount.current);
+      // setUiTimer((prev) => prevFicheElapstedTime);
+      stopTick();
     }
   }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
 
   console.log('timerCount.current', timerCount.current);
   console.log('uitimer', uiTimer);
-
-  // const tick = () => {
-  // setTickInc((prev) => prev + 1);
-  // };
 
   const tick = () => {
     setUiTimer(
@@ -89,6 +81,7 @@ const PausePlayButton = () => {
 
   const stopTick = async () => {
     clearInterval(timerCount.current);
+    setUiTimer((prev) => prevFicheElapstedTime);
     return timerCount.current;
   };
 
