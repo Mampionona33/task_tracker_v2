@@ -145,16 +145,18 @@ export default function TaskTable() {
 
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-    const dateNow = new Date();
-    let diffDate = dateNow.getTime() - Date.parse(prevFicheLastUpdate);
+   
+    const elapstedTime =
+      (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
+      prevFicheElapstedTime;
 
-    console.log('diffDate', diffDate);
     console.log('prevFicheLastUpdate', Date.parse(prevFicheLastUpdate));
-    console.log('dateNow', dateNow.getTime());
 
     await modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
-      .then(updateElastedTime(prevFicheId, diffDate, fichesUpdate, erroUpDate))
+      .then(
+        updateElastedTime(prevFicheId, elapstedTime, fichesUpdate, erroUpDate)
+      )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
       .then((window.location.href = '#/dashboard'));

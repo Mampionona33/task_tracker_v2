@@ -263,7 +263,7 @@ const intToTimer = (value) => {
 };
 
 const updateElastedTime = async (
-  currentProcessId,
+  ficheId,
   elapstedTime,
   fichesUpdate,
   errorUpDate
@@ -271,7 +271,7 @@ const updateElastedTime = async (
   fichesUpdate({
     variables: {
       filter: {
-        id: currentProcessId,
+        id: ficheId,
       },
       update: {
         elapstedTime: elapstedTime,
@@ -281,7 +281,7 @@ const updateElastedTime = async (
   if (errorUpDate) {
     console.log(errorUpDate);
   }
-  return currentProcessId;
+  return ficheId;
 };
 
 // set the current time the last update

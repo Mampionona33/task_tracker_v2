@@ -68,8 +68,8 @@ const PausePlayButton = () => {
     }
   }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
 
-  console.log('timerCount.current', timerCount.current);
-  console.log('uitimer', uiTimer);
+  // console.log('timerCount.current', timerCount.current);
+  // console.log('uitimer', uiTimer);
 
   const tick = () => {
     setUiTimer(
