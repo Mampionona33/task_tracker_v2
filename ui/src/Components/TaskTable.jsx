@@ -143,14 +143,22 @@ export default function TaskTable() {
     ],
   });
 
+  // const timerReducer = (state, action) => {
+  //   switch (action.type) {
+  //     case value:
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-   
+
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
       prevFicheElapstedTime;
-
-    console.log('prevFicheLastUpdate', Date.parse(prevFicheLastUpdate));
 
     await modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
@@ -159,9 +167,7 @@ export default function TaskTable() {
       )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then((window.location.href = '#/dashboard'));
-
-    console.log('prevFicheId', prevFicheId);
+      .then((window.location.href = '#/dashboard')).the;
   };
 
   // fetching data

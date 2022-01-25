@@ -10,9 +10,7 @@ import {
   setProcessToPause,
   setProcessToPlay,
   getLastupdate,
-  renderDate,
   updateElastedTime,
-  loadElapstedTime,
   modifyLastUpdate,
   intToTimer,
 } from './dataHandler';
@@ -25,8 +23,6 @@ const PausePlayButton = () => {
   const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
   const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
   const [uiTimer, setUiTimer] = useState(0);
-
-  const [tickInc, setTickInc] = useState(0);
 
   let count = useRef(null);
   let timerCount = useRef(null);
@@ -59,17 +55,17 @@ const PausePlayButton = () => {
 
     if (currentProcess === 'isPlay') {
       timerCount.current = setInterval(() => tick(), 1000);
+      // tsy azoko le logic fa nataoko teo de mande
+      return () => {
+        clearInterval(timerCount.current);
+        timerCount.current = 0;
+      };
     }
 
     if (currentProcess === 'isPause') {
-      // clearInterval(timerCount.current);
-      // setUiTimer((prev) => prevFicheElapstedTime);
       stopTick();
     }
-  }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
-
-  // console.log('timerCount.current', timerCount.current);
-  // console.log('uitimer', uiTimer);
+  }, [...pauseData, ...playData, currentProcess, prevFicheLastUpdate]);
 
   const tick = () => {
     setUiTimer(
@@ -95,9 +91,6 @@ const PausePlayButton = () => {
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
       prevFicheElapstedTime;
-
-    console.log('elapstedTime', elapstedTime);
-    console.log('prevProcessId', prevProcessId);
 
     await stopTick()
       .then(
