@@ -143,7 +143,7 @@ const Timer = () => {
         label='Pause button'
         onClick={handleClickPause}
       >
-        <PauseCircleIcon />
+        <PauseCircleIcon sx={{ fontSize: '30px' }} />
       </IconButton>
     );
   };

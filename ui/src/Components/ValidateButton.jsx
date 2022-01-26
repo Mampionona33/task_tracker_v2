@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 const ValidateButton = () => {
   return (
     <IconButton color='primary' component='span' label='Pause button'>
-      <CheckCircleIcon />
+      <CheckCircleIcon sx={{ fontSize: '30px' }} />
     </IconButton>
   );
 };
