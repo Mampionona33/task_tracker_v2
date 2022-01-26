@@ -1,18 +1,6 @@
 import React from 'react';
-import {
-  Grid,
-  Card,
-  Box,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  Button,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+import { Grid, Card, Typography, Divider } from '@mui/material';
 
-import { useQuery, gql, setLogVerbosity } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';

@@ -155,6 +155,8 @@ const Timer = () => {
           display: 'flex',
           justifyContent: 'space-between',
           margin: '0 1rem',
+          columnGap: '1rem',
+          alignItems: 'center',
         }}
       >
         <Typography className={classes.processingTypography}>
