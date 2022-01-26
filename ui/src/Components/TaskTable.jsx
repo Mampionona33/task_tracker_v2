@@ -143,15 +143,7 @@ export default function TaskTable() {
     ],
   });
 
-  // const timerReducer = (state, action) => {
-  //   switch (action.type) {
-  //     case value:
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // };
+  
 
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;

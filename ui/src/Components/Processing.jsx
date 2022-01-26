@@ -18,47 +18,9 @@ import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 import CurrentTaskPlay from './CurrentTaskPlay';
 
-import PausePlayButton from './PausePlayButton.jsx';
+import Timer from './Timer.jsx';
 
 export default function processing(params) {
-  // get the current time
-  // const currentTime = new Date();
-  // get difference between the last update and now, type int
-  // let diffDate = currentTime.getTime() - lastUpDate.getTime();
-
-  // const processingHours = Math.floor((diffDate / 3600000) % 24);
-
-  // let day = Math.floor(diffDate / 86400000);
-  // let hours = Math.floor((diffDate / 3600000) % 24);
-  // let min = Math.floor((diffDate / 60000) % 60);
-  // let sec = Math.floor((diffDate / 1000) % 60);
-  // let milSec = Math.floor(diffDate % 1000);
-
-  // let initialDuration = ``;
-
-  // if (day && hours && min && sec) {
-  //   initialDuration = `${day}:${hours}:${min}:${sec}`;
-  // }
-
-  // const tick = async () => {
-  //   setTickInc((prev) => prev + 1);
-  // };
-
-  // on click Pause Button
-  // const handleClickPause = async (e) => {
-  //   e.preventDefault();
-  //   setProcessingPause();
-  //   // stop counter
-  //   clearInterval(increment.current);
-  // };
-  // activer l'incrementation par la click sur le button play
-  // const handleClickPlay = async (e) => {
-  //   e.preventDefault();
-  //   setProcessingPlay();
-  //   // increment counter
-  //   increment.current = setInterval(() => tick(), 1000);
-  // };
-
   return (
     <React.Fragment>
       <Grid item>
@@ -76,9 +38,7 @@ export default function processing(params) {
           </Grid>
           <Divider />
           <CurrentTaskPlay />
-          <Grid display='flex' justifyContent='flex-end'>
-            <PausePlayButton />
-          </Grid>
+          <Timer />
         </Card>
       </Grid>
     </React.Fragment>
