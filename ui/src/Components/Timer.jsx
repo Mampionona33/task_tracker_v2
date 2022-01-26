@@ -130,7 +130,7 @@ const Timer = () => {
         label='Play button'
         onClick={handleClickPlay}
       >
-        <PlayCircleIcon />
+        <PlayCircleIcon sx={{ fontSize: '30px', color: '#A52A2A' }} />
       </IconButton>
     );
   };
