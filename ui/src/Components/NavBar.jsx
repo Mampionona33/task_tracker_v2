@@ -100,6 +100,7 @@ export default function Navbar() {
       backgroundColor: theme.palette.primary.main,
     },
   }));
+
   return (
     <React.Fragment>
       {/* Navbar */}
@@ -119,6 +120,7 @@ export default function Navbar() {
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 Task Tracker
               </Typography>
+
               <Button
                 variant='outlined'
                 sx={{
@@ -131,6 +133,7 @@ export default function Navbar() {
                 <AddIcon />
                 Add New Task
               </Button>
+
               <React.Fragment>
                 {!isLoading && !user && (
                   <Box
@@ -215,6 +218,8 @@ export default function Navbar() {
           </CustomDrawer>
         </Box>
       </React.Fragment>
+
+      {/* DialogAddNew */}
       <React.Fragment>
         <DialogAddNewTask
           open={dialOpen}

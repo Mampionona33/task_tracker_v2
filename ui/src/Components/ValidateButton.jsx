@@ -1,24 +1,42 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Tooltip, IconButton, Typography, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import DialogSubmits from './DialogSubmit';
 
 const ValidateButton = () => {
-  const handleClick = (e) => {
-    e.preventDefault;
-    alert('validate button clicked');
+  const [dialConfirmOpen, setDialConfirmOpen] = useState(false);
+
+  const handleClickOpenDialConfirmation = () => {
+    setDialConfirmOpen(true);
+  };
+
+  const handleClickCloseDialConfirmation = () => {
+    setDialConfirmOpen(false);
   };
 
   return (
-    <Tooltip title='Submit Task' arrow>
-      <IconButton
-        color='primary'
-        component='span'
-        label='Pause button'
-        onClick={handleClick}
-      >
-        <CheckCircleIcon sx={{ fontSize: '30px' }} />
-      </IconButton>
-    </Tooltip>
+    <React.Fragment>
+      <React.Fragment>
+        <Tooltip title='Submit Task' arrow>
+          <IconButton
+            color='primary'
+            component='span'
+            label='Pause button'
+            onClick={handleClickOpenDialConfirmation}
+          >
+            <CheckCircleIcon sx={{ fontSize: '30px' }} />
+          </IconButton>
+        </Tooltip>
+      </React.Fragment>
+
+      {/* DialogSubmit confirmation */}
+      <React.Fragment>
+        <DialogSubmits
+          open={dialConfirmOpen}
+          onClose={handleClickCloseDialConfirmation}
+        />
+      </React.Fragment>
+    </React.Fragment>
   );
 };
 

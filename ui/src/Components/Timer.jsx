@@ -72,6 +72,7 @@ const Timer = () => {
     }
 
     if (currentProcess === 'isPlay') {
+      timerCount.current = 0;
       timerCount.current = setInterval(() => tick(), 1000);
       // tsy azoko le logic fa nataoko teo de mande
       return () => {
@@ -84,7 +85,7 @@ const Timer = () => {
       setUiTimer((prev) => prevFicheElapstedTime);
       stopTick();
     }
-  }, [pauseData, playData, currentProcess, prevFicheLastUpdate]);
+  }, [pauseData, playData, prevFicheLastUpdate]);
 
   const tick = () => {
     setUiTimer(

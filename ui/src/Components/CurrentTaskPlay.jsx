@@ -2,18 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { loadProcessingPause, loadProcessingPlay } from './dataHandler';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay(props) {
   const [currentFiche, setCurrentFiche] = useState([]);
 
-  // fetching data
-  const dataPause = loadProcessingPause();
-  const dataPlay = loadProcessingPlay();
+  // get connected user
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+  let dataPause;
+  let dataPlay;
+
+  if (user) {
+    // fetching data
+    dataPause = loadProcessingPause();
+    dataPlay = loadProcessingPlay();
+  }
 
   // fetching data on component mount
   useEffect(() => {
     if (dataPlay.length > 0) {
-      setCurrentFiche(dataPlay);	 
+      setCurrentFiche(dataPlay);
     }
     if (dataPause.length > 0) {
       setCurrentFiche(dataPause);
