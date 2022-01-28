@@ -33,38 +33,37 @@ export default function TaskTable() {
     {
       field: 'id',
       headerName: 'Id',
-      flex: 1,
       headerAlign: 'center',
+      flex:1,
     },
     {
       field: 'numFiche',
       headerName: 'Num',
-      flex: 1,
       headerAlign: 'center',
+      flex:1,
+      minWidth:150,
     },
     {
       field: 'typeTrav',
       headerName: ' Task Type',
-      flex: 1,
       headerAlign: 'center',
       valueFormatter: ({ value }) => `${value}`,
     },
     {
       field: 'statusCom',
       headerName: 'Status Com',
-      flex: 1,
       headerAlign: 'center',
+      flex:1,
+      minWidth:150
     },
     {
       field: 'state',
       headerName: 'State',
-      flex: 1,
       headerAlign: 'center',
     },
     {
       field: 'lastUpdate',
       headerName: 'Last Update',
-      flex: 1,
       type: 'date',
       align: 'center',
       headerAlign: 'center',
@@ -73,18 +72,28 @@ export default function TaskTable() {
     {
       field: 'productivity',
       headerName: 'Productivity',
-      flex: 1,
       type: 'text',
       align: 'center',
       headerAlign: 'center',
+      flex:1,
+      minWidth:150,
+    }, 
+    {
+      field: 'elapstedTime',
+      headerName: 'elapstedTime',
+      type: 'text',
+      align: 'center',
+      headerAlign: 'center',
+      flex:1,
+      minWidth:150,
     },
     {
       field: 'link',
       headerName: 'Link',
       type: 'link',
       align: 'center',
-      flex: 1,
       headerAlign: 'center',
+      flex:1,
       renderCell: (params) => (
         <Link href={params.value} target='_blank'>
           <LinkIcon />
@@ -97,9 +106,10 @@ export default function TaskTable() {
       align: 'center',
       type: 'link',
       justifyContent: 'space-between',
-      flex: 1,
       headerAlign: 'center',
       flexWrap: 'wrap',
+      flex: 1,
+      minWidth:200,
       renderCell: (param) => (
         <React.Fragment>
           <IconButton
@@ -207,6 +217,7 @@ export default function TaskTable() {
   return (
     <Box
       sx={{
+      width:'100%',
         height: '90vh',
         '& .emptyType': {
           backgroundColor: 'warning.light',
@@ -228,7 +239,9 @@ export default function TaskTable() {
       >
         <Typography variant='h4'>Tasks List</Typography>
       </Card>
+      <Box sx={{width:'100%', height:'100%'}}>
       <DataGrid
+
         columns={columns}
         pageSize={7}
         rows={rows}
@@ -269,6 +282,7 @@ export default function TaskTable() {
           },
         }}
       />
+      </Box>
     </Box>
   );
 }
