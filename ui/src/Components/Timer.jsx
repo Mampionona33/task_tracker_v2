@@ -14,7 +14,7 @@ import {
   modifyLastUpdate,
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
-import { IconButton, Typography, Box } from '@mui/material';
+import { Tooltip, IconButton, Typography, Box } from '@mui/material';
 import TimerDisplay from './TimerDisplay';
 import { makeStyles } from '@mui/styles';
 import ValidateButton from './ValidateButton.jsx';
@@ -125,27 +125,31 @@ const Timer = () => {
 
   const ButtonPlay = () => {
     return (
-      <IconButton
-        color='primary'
-        component='span'
-        label='Play button'
-        onClick={handleClickPlay}
-      >
-        <PlayCircleIcon sx={{ fontSize: '30px', color: '#A52A2A' }} />
-      </IconButton>
+      <Tooltip title='Set Timer Play' arrow>
+        <IconButton
+          color='primary'
+          component='span'
+          label='Play button'
+          onClick={handleClickPlay}
+        >
+          <PlayCircleIcon sx={{ fontSize: '30px', color: '#A52A2A' }} />
+        </IconButton>
+      </Tooltip>
     );
   };
 
   const ButtonPause = () => {
     return (
-      <IconButton
-        color='primary'
-        component='span'
-        label='Pause button'
-        onClick={handleClickPause}
-      >
-        <PauseCircleIcon sx={{ fontSize: '30px' }} />
-      </IconButton>
+      <Tooltip title='Set Timer Pause' arrow>
+        <IconButton
+          color='primary'
+          component='span'
+          label='Pause button'
+          onClick={handleClickPause}
+        >
+          <PauseCircleIcon sx={{ fontSize: '30px' }} />
+        </IconButton>
+      </Tooltip>
     );
   };
 

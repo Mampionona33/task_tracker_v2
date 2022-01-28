@@ -63,10 +63,7 @@ const TimerDisplay = ({ value }) => {
         </Box>
         <Box>
           <Card className={classes.timerCard}>
-            <Typography className={classes.timerTypography}>
-              {' '}
-              {hours}{' '}
-            </Typography>
+            <Typography className={classes.timerTypography}>{hours}</Typography>
           </Card>
         </Box>
         <Box component='span' className={classes.timerSeparator}>
