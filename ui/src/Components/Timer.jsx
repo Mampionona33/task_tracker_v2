@@ -50,6 +50,7 @@ const Timer = () => {
     },
     processingTypography: {
       fontWeight: '700',
+      marginTop: '5px',
     },
   });
   //   import the created classe here
@@ -156,7 +157,6 @@ const Timer = () => {
           justifyContent: 'space-between',
           margin: '0 1rem',
           columnGap: '1rem',
-          alignItems: 'center',
         }}
       >
         <Typography className={classes.processingTypography}>

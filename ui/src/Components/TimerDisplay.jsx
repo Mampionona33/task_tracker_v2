@@ -17,23 +17,35 @@ const TimerDisplay = ({ value }) => {
     .padStart(2, '0');
 
   //   create classe for Box and Typography
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
+    indicationCard: {
+      margin: '0 0.5rem',
+    },
+    indicationContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      color: '#008B8B',
+    },
     timerCard: {
       backgroundColor: '#008B8B',
-      padding: '0.2em',
       color: 'white',
       width: '1.5rem',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '0 0.5rem',
     },
     timerTypography: {
-      margin: '0 0.2rem',
+      textAlign: 'left',
       letterSpacing: '2.5px',
-      fontFamily: 'fantasy',
+      fontFamily: 'Digital Numbers Regular',
     },
     timerSeparator: {
-      fontFamily: 'fantasy',
-      margin: '0 0.2rem',
+      fontFamily: 'Digital Numbers Regular',
       color: '#008B8B',
       fontSize: '1.5rem',
+      alignItems: 'center',
+      margin: '0.2rem 0 0 0',
     },
   }));
 
@@ -41,22 +53,50 @@ const TimerDisplay = ({ value }) => {
   const classes = useStyles();
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Card className={classes.timerCard}>
-        <Typography className={classes.timerTypography}> {day} </Typography>
-      </Card>
-      <Typography className={classes.timerSeparator}>:</Typography>
-      <Card className={classes.timerCard}>
-        <Typography className={classes.timerTypography}> {hours} </Typography>
-      </Card>
-      <Typography className={classes.timerSeparator}>:</Typography>
-      <Card className={classes.timerCard}>
-        <Typography className={classes.timerTypography}> {min} </Typography>
-      </Card>
-      <Typography className={classes.timerSeparator}>:</Typography>
-      <Card className={classes.timerCard}>
-        <Typography className={classes.timerTypography}> {sec} </Typography>
-      </Card>
+    <Box>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Card className={classes.timerCard}>
+          <Typography className={classes.timerTypography}> {day} </Typography>
+        </Card>
+        <Box component='span' className={classes.timerSeparator}>
+          :
+        </Box>
+        <Box>
+          <Card className={classes.timerCard}>
+            <Typography className={classes.timerTypography}>
+              {' '}
+              {hours}{' '}
+            </Typography>
+          </Card>
+        </Box>
+        <Box component='span' className={classes.timerSeparator}>
+          :
+        </Box>
+        <Card className={classes.timerCard}>
+          <Typography className={classes.timerTypography}> {min} </Typography>
+        </Card>
+        <Box component='span' className={classes.timerSeparator}>
+          :
+        </Box>
+        <Card className={classes.timerCard}>
+          <Typography className={classes.timerTypography}> {sec} </Typography>
+        </Card>
+      </Box>
+
+      <Box className={classes.indicationContainer}>
+        <Box className={classes.indicationCard}>
+          <Typography>Day</Typography>
+        </Box>
+        <Box className={classes.indicationCard}>
+          <Typography>Hrs</Typography>
+        </Box>
+        <Box className={classes.indicationCard}>
+          <Typography>Min</Typography>
+        </Box>
+        <Box className={classes.indicationCard}>
+          <Typography>Sec</Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };
