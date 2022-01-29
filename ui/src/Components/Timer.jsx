@@ -176,7 +176,7 @@ const Timer = () => {
           margin: '0 1rem',
         }}
       >
-        <ValidateButton />
+        <ValidateButton prevTaskId={prevProcessId} />
         {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
       </Box>
     </Box>

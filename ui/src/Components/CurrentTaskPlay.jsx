@@ -9,8 +9,8 @@ export default function CurrentTaskPlay(props) {
 
   // get connected user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-  let dataPause;
-  let dataPlay;
+  let dataPause = [];
+  let dataPlay = [];
 
   if (user) {
     // fetching data

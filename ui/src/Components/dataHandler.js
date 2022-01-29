@@ -287,6 +287,24 @@ const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   return dateNow;
 };
 
+// Set current task submiteState to submited
+const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        submiteState: 'isSubmited',
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
 export {
   loadProcessingPause,
   loadAllData,
@@ -301,4 +319,5 @@ export {
   updateElastedTime,
   loadElapstedTime,
   modifyLastUpdate,
+  submitecurrentTask,
 };
