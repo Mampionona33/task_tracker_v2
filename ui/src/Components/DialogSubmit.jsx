@@ -11,7 +11,7 @@ import {
 
 import MuiAlert from '@mui/material/Alert';
 
-import { submitecurrentTask, setPrevProcessIsOff } from './dataHandler';
+import { submitecurrentTask, setPrevProcessIsOff,loadAllData } from './dataHandler';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
@@ -21,7 +21,7 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [LOAD_DATA],
+    refetchQueries: [{ query: LOAD_DATA }],
     refetchQueries: [
       FILTRED_FICHE,
       { variables: { input: { processing: 'isPlay' } } },
@@ -36,7 +36,7 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
     await submitecurrentTask(prevTaskId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevTaskId, fichesUpdate, erroUpDate))
       .then(console.log('taskId', prevTaskId))
-      .then(onClose());
+      .then(onClose()).then(loadAllData());
   };
 
   const handleClose = () => {

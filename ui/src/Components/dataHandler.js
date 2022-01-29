@@ -13,6 +13,7 @@ function loadAllData() {
     data: allData,
     loading: allDataLoading,
     error: errorLoadData,
+    refetch,
   } = useQuery(LOAD_DATA);
 
   useEffect(() => {
