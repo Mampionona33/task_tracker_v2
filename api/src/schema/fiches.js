@@ -26,8 +26,7 @@ async function search(
   _,
   {
     input: {
-      lastUpdate,
-      user,
+      lastUpdate,      
       id,
       numFiche,
       typeTrav,
@@ -36,19 +35,30 @@ async function search(
       statuCom,
       statuIvpn,
       processing,
+      user,
     },
   }
 ) {
   const db = getDb();
   // create filter
-  const filter = {};
+  const filter = { };
+  const filterUser = {
+    user:{
+      name:{},
+    }
+  }
+  
   if (id) {
     filter.id = id;
   }
   if (user) {
-    // filter.user = { $regex: user, $options: 'i' };
-    filter.user = user;
+    // filter.user = { $regex: user, $options: 'i' };    
+    console.log(user);
+    if(user.name){
+      filterUser.user.name.eq = user.name;    
+    }  
   }
+  
   if (numFiche) {
     filter.numFiche = { $regex: numFiche, $options: 'i' };
   }
@@ -73,8 +83,15 @@ async function search(
   if (lastUpdate) {
     filter.processing = lastUpdate;
   }
+  
+  console.log('filter',filterUser);
+  console.log('typeof filter', typeof filter);
 
   const filtredFiche = await db.collection('fiches').find(filter).toArray();
+  
+  if (user){
+    const filtredFiche = await db.collection('fiches').find(filterUser).toArray();
+  }
 
   return filtredFiche;
 }

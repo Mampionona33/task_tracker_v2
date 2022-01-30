@@ -21,22 +21,14 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [{ query: LOAD_DATA }],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { processing: 'isPlay' } } },
-    ],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { processing: 'isPause' } } },
-    ],
+    refetchQueries: [{ query: LOAD_DATA }],   
   });
 
   const onClickAgree = async () => {
     await submitecurrentTask(prevTaskId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevTaskId, fichesUpdate, erroUpDate))
       .then(console.log('taskId', prevTaskId))
-      .then(onClose()).then(loadAllData());
+      .then(onClose());
   };
 
   const handleClose = () => {

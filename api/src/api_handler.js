@@ -18,6 +18,7 @@ const resolvers = {
     about: about.getMessage,
 
     listFiches: fiches.list,
+    
     searchFiches: fiches.search,
 
     listTypeTaches: typeTache.list,

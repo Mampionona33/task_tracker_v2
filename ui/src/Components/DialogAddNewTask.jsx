@@ -31,7 +31,7 @@ import {
 } from './dataHandler';
 import {
     getUtcDateNow
-}
+    }
 from '../Features/getUtcDateNow';
 
 export default function DialogAddNewTask({ open, onClose }) {

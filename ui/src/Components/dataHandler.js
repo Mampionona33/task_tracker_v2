@@ -3,6 +3,7 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import React, { useEffect, useState, useRef } from 'react';
 import { formatNbr } from '../Features/formatNbr';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // FETHING DATA-----------------------------
 
@@ -27,7 +28,13 @@ function loadAllData() {
 // Fetch the current play Task
 function loadProcessingPlay() {
   const [outputPlay, setOuputPlay] = useState([]);
-
+  
+  // Get current User
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+  if(user){
+    
+  }
+  
   const {
     error: errorPause,
     loading: loadingPause,
@@ -36,13 +43,19 @@ function loadProcessingPlay() {
     variables: {
       input: {
         processing: 'isPlay',
+        submiteState:'isUnsubmited',
       },
     },
   });
+  
   useEffect(() => {
-    if (playdata) {
-      setOuputPlay(playdata.searchFiches);
-      // console.log(playdata.searchFiches);
+    if (playdata ) {
+      // if(user.email ===  playdata.searchFiches[0].user.email){
+        // console.log('playdata',playdata.searchFiches[0].user.email); 
+        // console.log('auth0 : user', user.email);
+        // setOuputPlay(playdata.searchFiches);
+      // }
+      console.log(playdata.searchFiches);
     }
   }, [playdata]);
   return outputPlay;
@@ -60,6 +73,7 @@ function loadProcessingPause(params) {
     variables: {
       input: {
         processing: 'isPause',
+        submiteState:'isUnsubmited',
       },
     },
   });
