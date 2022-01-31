@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { loadProcessingPause, loadProcessingPlay } from './dataHandler';
+import {
+  loadProcessingPause,
+  loadProcessingPlay,
+  userLoggedData,
+} from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay(props) {
   const [currentFiche, setCurrentFiche] = useState([]);
+  const [currentTaskPlay, setCurrentTaskPlay] = useState([]);
 
   // get connected user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-  
-  let dataPause = [];
-  let dataPlay = [];
 
+  let userData = [];
   if (user) {
     // fetching data
-    dataPause = loadProcessingPause();
-    dataPlay = loadProcessingPlay();
+    userData = userLoggedData();
   }
 
   // fetching data on component mount
   useEffect(() => {
-    if (dataPlay.length > 0) {
-      setCurrentFiche(dataPlay);
+    if (userData) {
+      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+      if (taskPlay.length > 0) {
+        setCurrentFiche((prev) => taskPlay);
+        console.log('taskPlay', taskPlay);
+      }
+      const taskPause = userData.filter(
+        (task) => task.processing === 'isPause'
+      );
+      if (taskPause.length > 0) {
+        setCurrentFiche((prev) => taskPause);
+        console.log('taskPause', taskPause);
+      }
     }
-    if (dataPause.length > 0) {
-      setCurrentFiche(dataPause);
-    }
-  }, [dataPlay, dataPause]);
+  }, [userData]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({

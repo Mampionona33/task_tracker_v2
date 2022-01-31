@@ -6,10 +6,47 @@ import { formatNbr } from '../Features/formatNbr';
 import { useAuth0 } from '@auth0/auth0-react';
 
 // FETHING DATA-----------------------------
+// Get user logged data
+function userLoggedData() {
+  const [userTask, setUserTask] = useState([]);
+  // Get current User
+  const { user, isLoading } = useAuth0();
+  const [userEmail, setUserEmail] = useState(``);
+
+  const {
+    error: errorPause,
+    loading: loadingPause,
+    data: fetchedData,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        user: {
+          email: userEmail,
+        },
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (user) {
+      setUserEmail((prev) => user.email);
+      console.log('user email', user.email);
+    }
+    if (fetchedData) {
+      setUserTask((prev) => fetchedData.searchFiches);
+      console.log('fetchedData', fetchedData.searchFiches);
+    }
+  }, [user, fetchedData]);
+
+  console.log('user Tasks', userTask);
+
+  return userTask;
+};
 
 // fetch global data
 function loadAllData() {
   const [output, setOutpout] = useState([]);
+
   const {
     data: allData,
     loading: allDataLoading,
@@ -76,7 +113,7 @@ function loadProcessingPause() {
         processing: 'isPause',
         submiteState: 'isUnsubmited',
         user: {
-          email: 'userEmail',
+          email: userEmail,
         },
       },
     },
@@ -87,7 +124,6 @@ function loadProcessingPause() {
     }
     if (dataPause) {
       setOuputPause(dataPause.searchFiches);
-      console.log('dataPause', dataPause);
     }
   }, [dataPause, user]);
   return outputPause;
@@ -96,6 +132,9 @@ function loadProcessingPause() {
 // Fetching unsubmited task
 function loadUnsubmitedTask() {
   const [outpoutUnsubmited, setOutpoutUnsubmited] = useState([]);
+  const [userEmail, setUserEmail] = useState(``);
+  const { user, isLoading } = useAuth0();
+
   const {
     error: errorUnsubmited,
     loading: loadingUnsumbited,
@@ -104,14 +143,25 @@ function loadUnsubmitedTask() {
     variables: {
       input: {
         submiteState: 'isUnsubmited',
+        user: {
+          email: userEmail,
+        },
       },
     },
   });
   useEffect(() => {
+    if (user) {
+      if (user.email) {
+        setUserEmail((prev) => user.email);
+        // console.log('user', user);
+      }
+    }
     if (dataUnsubmited) {
       setOutpoutUnsubmited(dataUnsubmited.searchFiches);
+      // console.log('dataUnsubmited', dataUnsubmited);
     }
-  });
+  }, [user, dataUnsubmited]);
+  // console.log('dataUnsubmited email', userEmail);
   return outpoutUnsubmited;
 }
 
@@ -342,4 +392,5 @@ export {
   loadElapstedTime,
   modifyLastUpdate,
   submitecurrentTask,
+  userLoggedData,
 };

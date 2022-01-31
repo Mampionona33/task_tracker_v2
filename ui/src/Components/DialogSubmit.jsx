@@ -11,7 +11,11 @@ import {
 
 import MuiAlert from '@mui/material/Alert';
 
-import { submitecurrentTask, setPrevProcessIsOff,loadAllData } from './dataHandler';
+import {
+  submitecurrentTask,
+  setPrevProcessIsOff,
+  loadProcessingPlay,
+} from './dataHandler';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
@@ -21,13 +25,16 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [{ query: LOAD_DATA }],   
+    refetchQueries: [{ query: LOAD_DATA }],
   });
+
+  const dataPlay = loadProcessingPlay();
 
   const onClickAgree = async () => {
     await submitecurrentTask(prevTaskId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevTaskId, fichesUpdate, erroUpDate))
       .then(console.log('taskId', prevTaskId))
+      .then(dataPlay)
       .then(onClose());
   };
 
