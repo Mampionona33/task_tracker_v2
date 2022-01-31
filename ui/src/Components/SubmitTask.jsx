@@ -15,16 +15,15 @@ import {
 } from '@mui/material';
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA } from '../GraphQL/Queries';
-import {loadSubmitedTask} from './dataHandler';
+import { loadSubmitedTask } from './dataHandler';
 
 // destructuration de props => on utilise {data}
 export default function SubmitTask() {
-	
   const [tache, setTache] = useState([]);
-  
-   // fetching data
-  const dataSubmited = loadSubmitedTask();   
-  
+
+  // fetching data
+  const dataSubmited = loadSubmitedTask();
+
   useEffect(() => {
     if (dataSubmited) {
       setTache(dataSubmited);
@@ -34,10 +33,12 @@ export default function SubmitTask() {
   // get connected user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   let loggedUser = [];
+
   user
     ? (loggedUser = tache.filter((fiche) => fiche.user.email === user.email))
     : (loggedUser = []);
   let submitedFiche = [];
+
   // if user is connected then show the data for the user
   user
     ? (submitedFiche = loggedUser.filter(

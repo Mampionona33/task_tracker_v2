@@ -131,8 +131,11 @@ function loadProcessingPause() {
 // Fetching unsubmited task
 function loadUnsubmitedTask() {
   const [outpoutUnsubmited, setOutpoutUnsubmited] = useState([]);
-  const [userEmail, setUserEmail] = useState(``);
   const { user, isLoading } = useAuth0();
+  let userEmail = ``;
+  if (user) {
+    userEmail = user.email;
+  }
 
   const {
     error: errorUnsubmited,
@@ -149,24 +152,22 @@ function loadUnsubmitedTask() {
     },
   });
   useEffect(() => {
-    if (user) {
-      if (user.email) {
-        setUserEmail((prev) => user.email);
-        // console.log('user', user);
-      }
-    }
     if (dataUnsubmited) {
       setOutpoutUnsubmited(dataUnsubmited.searchFiches);
-      // console.log('dataUnsubmited', dataUnsubmited);
     }
-  }, [user, dataUnsubmited]);
-  // console.log('dataUnsubmited email', userEmail);
+  }, [dataUnsubmited]);
+
   return outpoutUnsubmited;
 }
 
 // Fetching submited task
 function loadSubmitedTask() {
   const [outpoutSubmited, setOutpoutSubmited] = useState([]);
+  const { user, isLoading } = useAuth0();
+  let userEmail = ``;
+  if (user) {
+    userEmail = user.email;
+  }
   const {
     error: errorUnsubmited,
     loading: loadingUnsumbited,
@@ -175,6 +176,9 @@ function loadSubmitedTask() {
     variables: {
       input: {
         submiteState: 'isSubmited',
+        user: {
+          email: userEmail,
+        },
       },
     },
   });

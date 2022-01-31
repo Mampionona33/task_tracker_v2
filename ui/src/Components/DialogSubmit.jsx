@@ -17,16 +17,35 @@ import {
   loadProcessingPlay,
   userLoggedData,
 } from './dataHandler';
-import { useMutation } from '@apollo/client';
+import { resetCaches, useMutation, useQuery } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
 const DialogSubmit = ({ open, onClose, prevTaskId }) => {
   const [alertOpen, setAlertOpen] = useState(false);
 
+  // const { data, error, loading, refetch } = useQuery(LOAD_DATA);
+
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [{ query: LOAD_DATA }],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { processing: 'isPlay' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { processing: 'isPause' } } },
+    ],
+    // to execute refetch
+    awaitRefetchQueries: true,
   });
 
   const refechData = userLoggedData();
