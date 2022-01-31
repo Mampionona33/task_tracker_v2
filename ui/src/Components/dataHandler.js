@@ -28,13 +28,11 @@ function loadAllData() {
 // Fetch the current play Task
 function loadProcessingPlay() {
   const [outputPlay, setOuputPlay] = useState([]);
-  
+  const [userEmail, setUserEmail] = useState(``);
+
   // Get current User
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-  if(user){
-    
-  }
-  
+  const { user, isLoading } = useAuth0();
+
   const {
     error: errorPause,
     loading: loadingPause,
@@ -43,27 +41,30 @@ function loadProcessingPlay() {
     variables: {
       input: {
         processing: 'isPlay',
-        submiteState:'isUnsubmited',
+        submiteState: 'isUnsubmited',
+        user: {
+          email: userEmail,
+        },
       },
     },
   });
-  
+
   useEffect(() => {
-    if (playdata ) {
-      // if(user.email ===  playdata.searchFiches[0].user.email){
-        // console.log('playdata',playdata.searchFiches[0].user.email); 
-        // console.log('auth0 : user', user.email);
-        // setOuputPlay(playdata.searchFiches);
-      // }
-      console.log(playdata.searchFiches);
+    if (user) {
+      setUserEmail((prev) => user.email);
     }
-  }, [playdata]);
+    if (playdata) {
+      setOuputPlay(playdata.searchFiches);
+    }
+  }, [playdata, user]);
   return outputPlay;
 }
 
 // Fetch the current played Task
-function loadProcessingPause(params) {
+function loadProcessingPause() {
   const [outputPause, setOuputPause] = useState([]);
+  const [userEmail, setUserEmail] = useState(``);
+  const { user, isLoading } = useAuth0();
 
   const {
     error: errorPause,
@@ -73,16 +74,22 @@ function loadProcessingPause(params) {
     variables: {
       input: {
         processing: 'isPause',
-        submiteState:'isUnsubmited',
+        submiteState: 'isUnsubmited',
+        user: {
+          email: 'userEmail',
+        },
       },
     },
   });
   useEffect(() => {
+    if (user) {
+      setUserEmail((prev) => user.email);
+    }
     if (dataPause) {
       setOuputPause(dataPause.searchFiches);
-      // console.log('dataPause',dataPause);
+      console.log('dataPause', dataPause);
     }
-  }, [dataPause]);
+  }, [dataPause, user]);
   return outputPause;
 }
 
