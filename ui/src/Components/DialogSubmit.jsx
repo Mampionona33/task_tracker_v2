@@ -15,6 +15,7 @@ import {
   submitecurrentTask,
   setPrevProcessIsOff,
   loadProcessingPlay,
+  userLoggedData,
 } from './dataHandler';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -29,12 +30,13 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
   });
 
   const dataPlay = loadProcessingPlay();
+  const refechData = userLoggedData();
 
   const onClickAgree = async () => {
     await submitecurrentTask(prevTaskId, fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevTaskId, fichesUpdate, erroUpDate))
       .then(console.log('taskId', prevTaskId))
-      .then(dataPlay)
+      .then(console.log('refechData', refechData))
       .then(onClose());
   };
 

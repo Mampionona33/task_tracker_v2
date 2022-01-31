@@ -65,24 +65,23 @@ const Timer = () => {
   }
 
   useEffect(() => {
-    
     if (userData.length > 0) {
       const taskPlay = userData.filter((task) => task.processing === 'isPlay');
       if (taskPlay.length > 0) {
-        setPrevProcessId((prevId) => playData[0].id);
-        setCurrentProcess((prev) => playData[0].processing);
-        setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
-        setPrevFicheElapstedTime((prev) => playData[0].elapstedTime);
+        setPrevProcessId((prevId) => taskPlay[0].id);
+        setCurrentProcess((prev) => taskPlay[0].processing);
+        setPrevFicheLastUpdate((prev) => taskPlay[0].lastUpdate);
+        setPrevFicheElapstedTime((prev) => taskPlay[0].elapstedTime);
       }
 
       const taskPause = userData.filter(
         (task) => task.processing === 'isPause'
       );
       if (taskPause.length > 0) {
-        setCurrentProcess((prev) => pauseData[0].processing);
-        setPrevProcessId((prevId) => pauseData[0].id);
-        setPrevFicheLastUpdate((prev) => pauseData[0].lastUpdate);
-        setPrevFicheElapstedTime((prev) => pauseData[0].elapstedTime);
+        setCurrentProcess((prev) => taskPause[0].processing);
+        setPrevProcessId((prevId) => taskPause[0].id);
+        setPrevFicheLastUpdate((prev) => taskPause[0].lastUpdate);
+        setPrevFicheElapstedTime((prev) => taskPause[0].elapstedTime);
       }
     }
 
