@@ -63,24 +63,22 @@ export default function Navbar() {
 
   // fetching data
   const userData = userLoggedData();
+  const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+  const taskPause = userData.filter((task) => task.processing === 'isPause');
 
   useEffect(() => {
-    if (userData) {
-      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+    if (userData.length > 0) {
       if (taskPlay.length > 0) {
-        setCurrentFiche(taskPlay);
+        setCurrentFiche((prev) => taskPlay);
       }
-      const taskPause = userData.filter(
-        (task) => task.processing === 'isPause'
-      );
       if (taskPause.length > 0) {
-        setCurrentFiche(taskPause);
+        setCurrentFiche((prev) => taskPause);
       }
     }
     if (currentFiche.length > 0) {
-      setPrevProcessId(currentFiche[0].id);
+      setPrevProcessId((prev) => currentFiche[0].id);
     }
-  }, [currentFiche, userData]);
+  }, [currentFiche]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {

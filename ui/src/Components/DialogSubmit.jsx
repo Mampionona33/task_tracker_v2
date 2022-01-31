@@ -29,7 +29,6 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
     refetchQueries: [{ query: LOAD_DATA }],
   });
 
-  const dataPlay = loadProcessingPlay();
   const refechData = userLoggedData();
 
   const onClickAgree = async () => {

@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { userLoggedData } from './dataHandler';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay(props) {
   const userData = userLoggedData();
   const [currentFiche, setCurrentFiche] = useState([]);
+  const { user } = useAuth0();
 
   // fetching data on component mount
   useEffect(() => {
-    if (userData.length > 0) {
-      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
-      if (taskPlay.length > 0) {
-        setCurrentFiche((prev) => taskPlay);
+    if (userData.length > 0 && user) {
+      const taskPlay = userData.filter(
+        (task) => task.processing === 'isPlay' && task.user.email === user.email
+      );
+      if (taskPlay.length > 0 && user) {
+        setCurrentFiche((prev) => taskPlay && task.user.email === user.email);
       }
       const taskPause = userData.filter(
         (task) => task.processing === 'isPause'
@@ -21,7 +25,7 @@ export default function CurrentTaskPlay(props) {
         setCurrentFiche((prev) => taskPause);
       }
     }
-  }, [userData]);
+  }, [userData, user]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
