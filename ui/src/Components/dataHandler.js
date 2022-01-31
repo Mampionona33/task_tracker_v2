@@ -10,8 +10,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 function userLoggedData() {
   const [userTask, setUserTask] = useState([]);
   // Get current User
-  const { user, isLoading } = useAuth0();
-  const [userEmail, setUserEmail] = useState(``);
+  const { user } = useAuth0();
+
+  let userLoggedEmail = '';
+
+  if (user) {
+    userLoggedEmail = user.email;
+  }
 
   const {
     error: errorPause,
@@ -20,28 +25,22 @@ function userLoggedData() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
+        submiteState: 'isUnsubmited',
         user: {
-          email: userEmail,
+          email: userLoggedEmail,
         },
       },
     },
   });
 
   useEffect(() => {
-    if (user) {
-      setUserEmail((prev) => user.email);
-      console.log('user email', user.email);
-    }
     if (fetchedData) {
       setUserTask((prev) => fetchedData.searchFiches);
-      console.log('fetchedData', fetchedData.searchFiches);
     }
-  }, [user, fetchedData]);
-
-  console.log('user Tasks', userTask);
+  }, [fetchedData]);
 
   return userTask;
-};
+}
 
 // fetch global data
 function loadAllData() {

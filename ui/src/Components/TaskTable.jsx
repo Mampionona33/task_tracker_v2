@@ -16,6 +16,7 @@ import {
   setProcessToPlay,
   modifyLastUpdate,
   updateElastedTime,
+  userLoggedData,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -34,14 +35,14 @@ export default function TaskTable() {
       field: 'id',
       headerName: 'Id',
       headerAlign: 'center',
-      flex:1,
+      flex: 1,
     },
     {
       field: 'numFiche',
       headerName: 'Num',
       headerAlign: 'center',
-      flex:1,
-      minWidth:150,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: 'typeTrav',
@@ -53,8 +54,8 @@ export default function TaskTable() {
       field: 'statusCom',
       headerName: 'Status Com',
       headerAlign: 'center',
-      flex:1,
-      minWidth:150
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: 'state',
@@ -75,17 +76,17 @@ export default function TaskTable() {
       type: 'text',
       align: 'center',
       headerAlign: 'center',
-      flex:1,
-      minWidth:150,
-    }, 
+      flex: 1,
+      minWidth: 150,
+    },
     {
       field: 'elapstedTime',
       headerName: 'elapstedTime',
       type: 'text',
       align: 'center',
       headerAlign: 'center',
-      flex:1,
-      minWidth:150,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: 'link',
@@ -93,7 +94,7 @@ export default function TaskTable() {
       type: 'link',
       align: 'center',
       headerAlign: 'center',
-      flex:1,
+      flex: 1,
       renderCell: (params) => (
         <Link href={params.value} target='_blank'>
           <LinkIcon />
@@ -109,7 +110,7 @@ export default function TaskTable() {
       headerAlign: 'center',
       flexWrap: 'wrap',
       flex: 1,
-      minWidth:200,
+      minWidth: 200,
       renderCell: (param) => (
         <React.Fragment>
           <IconButton
@@ -153,8 +154,6 @@ export default function TaskTable() {
     ],
   });
 
-  
-
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
 
@@ -177,25 +176,34 @@ export default function TaskTable() {
   const dataPause = loadProcessingPause();
   const dataUnsubmited = loadUnsubmitedTask();
 
+  const userData = userLoggedData();
+
   // loading data on component mount
   useEffect(() => {
-    if (dataUnsubmited) {
-      setList(dataUnsubmited);
+    if (userData.length > 0) {
+      setList(userData);
+      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+      if (taskPlay.length > 0) {
+        setPrevFiche(dataPlay);
+        setPrevFicheId((prev) => dataPlay[0].id);
+        setPrevFicheLastUpdate((perv) => dataPlay[0].lastUpdate);
+      }
+      const taskPause = userData.filter(
+        (task) => task.processing === 'isPause'
+      );
+      if (taskPause.length > 0) {
+        setPrevFiche(dataPause);
+        setPrevFicheId((prev) => dataPause[0].id);
+      }
     }
-    if (dataPlay.length > 0) {
-      setPrevFiche(dataPlay);
-      setPrevFicheId((prev) => dataPlay[0].id);
-      setPrevFicheLastUpdate((perv) => dataPlay[0].lastUpdate);
-      console.log('dataPlay', dataPlay);
-    }
-    if (dataPause.length > 0) {
-      setPrevFiche(dataPause);
-      setPrevFicheId((prev) => dataPause[0].id);
-      console.log('dataPause', dataPause);
-    }
-  }, [prevFiche, dataPlay, dataPause, dataUnsubmited, prevFicheLastUpdate]);
-
-  console.log('prevFicheLastUpdate', prevFicheLastUpdate);
+  }, [
+    prevFiche,
+    dataPlay,
+    dataPause,
+    dataUnsubmited,
+    prevFicheLastUpdate,
+    userData,
+  ]);
 
   let rows = [];
   let arrayRows = {};
@@ -217,7 +225,7 @@ export default function TaskTable() {
   return (
     <Box
       sx={{
-      width:'100%',
+        width: '100%',
         height: '90vh',
         '& .emptyType': {
           backgroundColor: 'warning.light',
@@ -239,49 +247,48 @@ export default function TaskTable() {
       >
         <Typography variant='h4'>Tasks List</Typography>
       </Card>
-      <Box sx={{width:'100%', height:'100%'}}>
-      <DataGrid
-
-        columns={columns}
-        pageSize={7}
-        rows={rows}
-        rowsPerPageOptions={[7]}
-        pagination
-        sx={{
-          maxHeight: '80vh',
-          margin: '1rem 5rem',
-          color: 'contrastText',
-          backgroundColor: '#fff',
-          boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
-        }}
-        // Styling cell depanding on it's value
-        getCellClassName={(params) => {
-          if (params.value === 'Empty Type') {
-            return 'emptyType';
-          }
-          if (params.value === 'Sby') {
-            return 'sby';
-          }
-        }}
-        justifyContent='space-between'
-        // default sorting to show sby on top of list
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        // default filtering table to show normal state only
-        initialState={{
-          filter: {
-            filterModel: {
-              items: [
-                {
-                  // columnField: 'state',
-                  // operatorValue: 'equals',
-                  // value: 'Normal',
-                },
-              ],
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <DataGrid
+          columns={columns}
+          pageSize={7}
+          rows={rows}
+          rowsPerPageOptions={[7]}
+          pagination
+          sx={{
+            maxHeight: '80vh',
+            margin: '1rem 5rem',
+            color: 'contrastText',
+            backgroundColor: '#fff',
+            boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
+          }}
+          // Styling cell depanding on it's value
+          getCellClassName={(params) => {
+            if (params.value === 'Empty Type') {
+              return 'emptyType';
+            }
+            if (params.value === 'Sby') {
+              return 'sby';
+            }
+          }}
+          justifyContent='space-between'
+          // default sorting to show sby on top of list
+          sortModel={sortModel}
+          onSortModelChange={(model) => setSortModel(model)}
+          // default filtering table to show normal state only
+          initialState={{
+            filter: {
+              filterModel: {
+                items: [
+                  {
+                    // columnField: 'state',
+                    // operatorValue: 'equals',
+                    // value: 'Normal',
+                  },
+                ],
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
       </Box>
     </Box>
   );

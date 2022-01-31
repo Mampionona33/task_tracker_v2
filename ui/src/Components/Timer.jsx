@@ -12,12 +12,14 @@ import {
   getLastupdate,
   updateElastedTime,
   modifyLastUpdate,
+  userLoggedData,
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
 import { Tooltip, IconButton, Typography, Box } from '@mui/material';
 import TimerDisplay from './TimerDisplay';
 import { makeStyles } from '@mui/styles';
 import ValidateButton from './ValidateButton.jsx';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Timer = () => {
   const [currentProcess, setCurrentProcess] = useState('');
@@ -32,8 +34,6 @@ const Timer = () => {
   // load processing task status
   const pauseData = loadProcessingPause();
   const playData = loadProcessingPlay();
-  const lastUpdate = getLastupdate();
-  const dateNow = getUtcDateNow();
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -56,19 +56,34 @@ const Timer = () => {
   //   import the created classe here
   const classes = useStyles();
 
-  useEffect(() => {
-    if (playData.length > 0) {
-      setPrevProcessId((prevId) => playData[0].id);
-      setCurrentProcess((prev) => playData[0].processing);
-      setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
-      setPrevFicheElapstedTime((prev) => playData[0].elapstedTime);
-    }
+  // get connected user
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+  let userData = [];
 
-    if (pauseData.length > 0) {
-      setCurrentProcess((prev) => pauseData[0].processing);
-      setPrevProcessId((prevId) => pauseData[0].id);
-      setPrevFicheLastUpdate((prev) => pauseData[0].lastUpdate);
-      setPrevFicheElapstedTime((prev) => pauseData[0].elapstedTime);
+  if (user) {
+    userData = userLoggedData();
+  }
+
+  useEffect(() => {
+    
+    if (userData.length > 0) {
+      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+      if (taskPlay.length > 0) {
+        setPrevProcessId((prevId) => playData[0].id);
+        setCurrentProcess((prev) => playData[0].processing);
+        setPrevFicheLastUpdate((prev) => playData[0].lastUpdate);
+        setPrevFicheElapstedTime((prev) => playData[0].elapstedTime);
+      }
+
+      const taskPause = userData.filter(
+        (task) => task.processing === 'isPause'
+      );
+      if (taskPause.length > 0) {
+        setCurrentProcess((prev) => pauseData[0].processing);
+        setPrevProcessId((prevId) => pauseData[0].id);
+        setPrevFicheLastUpdate((prev) => pauseData[0].lastUpdate);
+        setPrevFicheElapstedTime((prev) => pauseData[0].elapstedTime);
+      }
     }
 
     if (currentProcess === 'isPlay') {
@@ -85,7 +100,7 @@ const Timer = () => {
       setUiTimer((prev) => prevFicheElapstedTime);
       stopTick();
     }
-  }, [pauseData, playData, prevFicheLastUpdate]);
+  }, [pauseData, playData, prevFicheLastUpdate, userData]);
 
   const tick = () => {
     setUiTimer(

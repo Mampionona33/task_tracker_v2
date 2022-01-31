@@ -19,6 +19,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   setPrevProcessIsOff,
+  userLoggedData,
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -35,6 +36,7 @@ export default function Navbar() {
   const rotateIcon = keyframes`
   100%{transform: rotate(360deg)}
 `;
+
   // get the loged user
   const { logout, user, isLoading } = useAuth0();
 
@@ -60,32 +62,29 @@ export default function Navbar() {
   const [prevProcessId, setPrevProcessId] = useState(0);
 
   // fetching data
-  const dataPause = loadProcessingPause();
-  const dataPlay = loadProcessingPlay();
+  const userData = userLoggedData();
 
   useEffect(() => {
-    if (dataPause) {
-      setCurrentFiche(dataPause);
-    }
-    if (dataPlay) {
-      setCurrentFiche(dataPlay);
+    if (userData) {
+      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+      if (taskPlay.length > 0) {
+        setCurrentFiche(taskPlay);
+      }
+      const taskPause = userData.filter(
+        (task) => task.processing === 'isPause'
+      );
+      if (taskPause.length > 0) {
+        setCurrentFiche(taskPause);
+      }
     }
     if (currentFiche.length > 0) {
       setPrevProcessId(currentFiche[0].id);
     }
-  }, [currentFiche, dataPause, dataPlay]);
+  }, [currentFiche, userData]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isUnsubmited' } } },
-    ],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isSubmited' } } },
-    ],
   });
 
   const handelClickLoghout = async () => {
