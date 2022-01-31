@@ -16,7 +16,7 @@ export default function CurrentTaskPlay(props) {
         (task) => task.processing === 'isPlay' && task.user.email === user.email
       );
       if (taskPlay.length > 0 && user) {
-        setCurrentFiche((prev) => taskPlay && task.user.email === user.email);
+        setCurrentFiche((prev) => taskPlay);
       }
       const taskPause = userData.filter(
         (task) => task.processing === 'isPause'
