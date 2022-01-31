@@ -26,7 +26,7 @@ async function search(
   _,
   {
     input: {
-      lastUpdate,      
+      lastUpdate,
       id,
       numFiche,
       typeTrav,
@@ -41,24 +41,28 @@ async function search(
 ) {
   const db = getDb();
   // create filter
-  const filter = { };
-  const filterUser = {
-    user:{
-      name:{},
-    }
-  }
-  
+  let filter = {};
+
   if (id) {
     filter.id = id;
   }
+
   if (user) {
-    // filter.user = { $regex: user, $options: 'i' };    
-    console.log(user);
-    if(user.name){
-      filterUser.user.name.eq = user.name;    
-    }  
+    if (user.name) {
+      filter = {
+        ...filter,
+        'user.name': user.name,
+      };
+    }
+    if (user.email) {
+      console.log('user.email:', user.email);
+      filter = {
+        ...filter,
+        'user.email': user.email,
+      };
+    }
   }
-  
+
   if (numFiche) {
     filter.numFiche = { $regex: numFiche, $options: 'i' };
   }
@@ -83,15 +87,24 @@ async function search(
   if (lastUpdate) {
     filter.processing = lastUpdate;
   }
-  
-  console.log('filter',filterUser);
-  console.log('typeof filter', typeof filter);
+
+  console.log('filter', filter);
+  // console.log(
+  //   'DATA',
+  //   await db
+  //     .collection('fiches')
+  //     .find({ 'user.email': 'ramamps33@gmail.com' })
+  //     .toArray()
+  // );
 
   const filtredFiche = await db.collection('fiches').find(filter).toArray();
-  
-  if (user){
-    const filtredFiche = await db.collection('fiches').find(filterUser).toArray();
-  }
+
+  // if (user) {
+  //   const filtredFiche = await db
+  //     .collection('fiches')
+  //     .find(filterUser)
+  //     .toArray();
+  // }
 
   return filtredFiche;
 }

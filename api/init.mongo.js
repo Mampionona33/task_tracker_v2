@@ -183,14 +183,14 @@ async function resetMongo() {
       },
       {
         user: {
-          name: 'Mampionona RAMAHAZOMANANA',
-          given_name: 'Mampionona',
-          family_name: 'RAMAHAZOMANANA',
-          nickname: 'ramamps33',
+          name: 'Mino Aurélie RAVOLARIMANASOA',
+          given_name: 'Mino Aurélie',
+          family_name: 'RAVOLARIMANASOA',
+          nickname: 'ravolami',
           picture:
             'https://lh3.googleusercontent.com/a-/AOh14GhNIqDekuddjj1nn6MOLV2bx9TzVTbalcolSsL6wg=s96-c',
           sub: 'google-oauth2|100620047698438001642',
-          email: 'ramamps33@gmail.com',
+          email: 'ravolami@gmail.com',
         },
         id: 6,
         typeTrav: 'MAJPrio',
