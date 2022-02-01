@@ -6,61 +6,47 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
   const [currentFiche, setCurrentFiche] = useState([]);
-  const [taskList, setTaskList] = useState([]);
-  const [userTask, setUserTask] = useState([]);
-  const [currentTaskPlay, setCurrentTaskPlay] = useState([]);
+  const [taskList, setTaskList] = useState([]);  
 
   const { user } = useAuth0();
 
-  // fetching data on component mount
-  const userData = loadUnsubmitedTask();
+  // fetching data on component mount  
   const loadData_ = loadAllData();
-
-  useEffect(() => {
-    if (userData.length > 0) {
-      // const taskPlay = userData.filter(
-      //   (task) => task.processing === 'isPlay' && task.user.email === user.email
-      // );
-      const taskPause = userData.filter(
-        (task) =>
-          task.processing === 'isPause' && task.user.email === user.email
-      );
-
-      // if (taskPlay.length > 0) {
-      //   setCurrentFiche((prev) => taskPlay);
-      // }
-
-      if (taskPause.length > 0) {
-        setCurrentFiche((prev) => taskPause);
-      }
-    }
-    // fetch all data
+//Riley Reyes
+  useEffect(() => {  
     if (loadData_ !== undefined) {
       setTaskList((prev) => loadData_.listFiches);
-    }
-    // fet all data for the current user
-    if (taskList !== undefined) {
-      setUserTask((prev) =>
-        taskList.filter((task) => task.user.email === user.email)
-      );
-    }
+    }  
+  }, [ loadData_]); 
+  
+  
+  let userTask = [];
+  if(taskList !== undefined){
+    userTask = taskList.filter(task => task.user.email === user.email);
+  }  
+  console.log('user Task', userTask);
+  
+  let taskPlay  = [];
+  let taskPause = [];
+  if(userTask.length >0 ){
+    taskPlay = userTask.filter(task => task.processing === 'isPlay');
+    taskPause = userTask.filter(task => task.processing === 'isPause');
+  }
+  console.log(' Task Play', taskPlay);
+  
+  let currentTasks = [];
+  
+  if(taskPlay .length > 0){
+     currentTasks = taskPlay;
+  }
+  
+  if(taskPause .length > 0){
+     currentTasks = taskPause;
+  }
+  
+  console.log(' current Task', currentTasks);
 
-    if (userTask.length > 0) {
-      // fetch the current task play
-      setCurrentTaskPlay((prev) =>
-        userTask.filter((task) => task.processing === 'isPlay')
-      );
-    }
-
-    // if (currentTaskPlay.length > 0) {
-    //   setCurrentFiche((prev) => currentTaskPlay);
-    // }
-  }, [userData, loadData_, taskList, currentTaskPlay]);
-
-  console.log('list fiche', taskList);
-  console.log('user list fiche', userTask);
-  console.log('Current task ', currentTaskPlay);
-
+  
   //   create classe for Box and Typography
   const useStyles = makeStyles({
     processingBox: {
@@ -126,8 +112,6 @@ export default function CurrentTaskPlay() {
   // })
   // );
 
-  console.log('data', currentFiche);
-
   let arrayTask = {};
   const currentTask = currentFiche.map((task) => {
     arrayTask = {
@@ -140,8 +124,6 @@ export default function CurrentTaskPlay() {
     };
     return arrayTask;
   });
-
-  console.log(arrayTask.taskType);
 
   return (
     <Box display='flex' flexDirection='column' margin='1em'>
