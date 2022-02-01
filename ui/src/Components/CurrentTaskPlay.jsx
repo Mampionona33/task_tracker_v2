@@ -1,34 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { userLoggedData, loadUnsubmitedTask } from './dataHandler';
+import { userLoggedData, loadUnsubmitedTask, loadAllData } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
   const [currentFiche, setCurrentFiche] = useState([]);
+  const [taskList, setTaskList] = useState([]);
+  const [userTask, setUserTask] = useState([]);
+  const [currentTaskPlay, setCurrentTaskPlay] = useState([]);
+
   const { user } = useAuth0();
 
   // fetching data on component mount
   const userData = loadUnsubmitedTask();
+  const loadData_ = loadAllData();
+
   useEffect(() => {
     if (userData.length > 0) {
-      const taskPlay = userData.filter(
-        (task) => task.processing === 'isPlay' && task.user.email === user.email
-      );
+      // const taskPlay = userData.filter(
+      //   (task) => task.processing === 'isPlay' && task.user.email === user.email
+      // );
       const taskPause = userData.filter(
         (task) =>
           task.processing === 'isPause' && task.user.email === user.email
       );
 
-      if (taskPlay.length > 0) {
-        setCurrentFiche((prev) => taskPlay);
-      }
+      // if (taskPlay.length > 0) {
+      //   setCurrentFiche((prev) => taskPlay);
+      // }
 
       if (taskPause.length > 0) {
         setCurrentFiche((prev) => taskPause);
       }
     }
-  }, [userData]);
+    // fetch all data
+    if (loadData_ !== undefined) {
+      setTaskList((prev) => loadData_.listFiches);
+    }
+    // fet all data for the current user
+    if (taskList !== undefined) {
+      setUserTask((prev) =>
+        taskList.filter((task) => task.user.email === user.email)
+      );
+    }
+
+    if (userTask.length > 0) {
+      // fetch the current task play
+      setCurrentTaskPlay((prev) =>
+        userTask.filter((task) => task.processing === 'isPlay')
+      );
+    }
+
+    // if (currentTaskPlay.length > 0) {
+    //   setCurrentFiche((prev) => currentTaskPlay);
+    // }
+  }, [userData, loadData_, taskList, currentTaskPlay]);
+
+  console.log('list fiche', taskList);
+  console.log('user list fiche', userTask);
+  console.log('Current task ', currentTaskPlay);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
