@@ -3,7 +3,7 @@ import { Tooltip, IconButton, Typography, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import DialogSubmits from './DialogSubmit';
 
-const ValidateButton = ({ prevTaskId }) => {
+const ValidateButton = ({ prevTaskId, resetTimer }) => {
   const [dialConfirmOpen, setDialConfirmOpen] = useState(false);
 
   const handleClickOpenDialConfirmation = () => {
@@ -35,6 +35,7 @@ const ValidateButton = ({ prevTaskId }) => {
           open={dialConfirmOpen}
           onClose={handleClickCloseDialConfirmation}
           prevTaskId={prevTaskId}
+          resetTimer={resetTimer}
         />
       </React.Fragment>
     </React.Fragment>

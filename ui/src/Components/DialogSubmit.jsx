@@ -21,7 +21,7 @@ import { resetCaches, useMutation, useQuery } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
-const DialogSubmit = ({ open, onClose, prevTaskId }) => {
+const DialogSubmit = ({ open, onClose, prevTaskId, resetTimer }) => {
   const [alertOpen, setAlertOpen] = useState(false);
 
   // const { data, error, loading, refetch } = useQuery(LOAD_DATA);
@@ -55,7 +55,8 @@ const DialogSubmit = ({ open, onClose, prevTaskId }) => {
       .then(setPrevProcessIsOff(prevTaskId, fichesUpdate, erroUpDate))
       .then(console.log('taskId', prevTaskId))
       .then(console.log('refechData', refechData))
-      .then(onClose());
+      .then(onClose())
+      .then(resetTimer([]));
   };
 
   const handleClose = () => {

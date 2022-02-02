@@ -13,6 +13,7 @@ import {
   updateElastedTime,
   modifyLastUpdate,
   userLoggedData,
+  loadAllData,
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
 import { Tooltip, IconButton, Typography, Box } from '@mui/material';
@@ -22,18 +23,12 @@ import ValidateButton from './ValidateButton.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Timer = () => {
-  const [currentProcess, setCurrentProcess] = useState('');
-  const [prevProcessId, setPrevProcessId] = useState(0);
-  const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
-  const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
+  const [taskList, setTaskList] = useState([]);
   const [uiTimer, setUiTimer] = useState(0);
-
-  let count = useRef(null);
   let timerCount = useRef(null);
 
   // load processing task status
-  const pauseData = loadProcessingPause();
-  const playData = loadProcessingPlay();
+  const loadAllDataTimer = loadAllData();
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -58,34 +53,48 @@ const Timer = () => {
 
   // get connected user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
-  let userData = [];
 
-  if (user) {
-    userData = userLoggedData();
+  let userTaskList = [];
+  if (taskList !== undefined) {
+    userTaskList = taskList.filter((task) => task.user.email === user.email);
   }
 
+  let userTaskPlay = [];
+  let userTaskPause = [];
+
+  if (userTaskList.length > 0) {
+    userTaskPlay = userTaskList.filter((task) => task.processing === 'isPlay');
+    userTaskPause = userTaskList.filter(
+      (task) => task.processing === 'isPause'
+    );
+  }
+
+  let currentTask = [];
+
+  if (userTaskPlay.length > 0) {
+    currentTask = userTaskPlay;
+  }
+
+  if (userTaskPause.length > 0) {
+    currentTask = userTaskPause;
+  }
+
+  let currentTaskDataArray = {};
+  const currentTaskData = currentTask.map((task) => {
+    currentTaskDataArray = {
+      processing: task.processing,
+      id: task.id,
+      lastUpdate: task.lastUpdate,
+      elapstedTime: task.elapstedTime,
+    };
+    return currentTaskDataArray;
+  });
+
   useEffect(() => {
-    if (userData.length > 0) {
-      const taskPlay = userData.filter((task) => task.processing === 'isPlay');
-      if (taskPlay.length > 0) {
-        setPrevProcessId((prevId) => taskPlay[0].id);
-        setCurrentProcess((prev) => taskPlay[0].processing);
-        setPrevFicheLastUpdate((prev) => taskPlay[0].lastUpdate);
-        setPrevFicheElapstedTime((prev) => taskPlay[0].elapstedTime);
-      }
-
-      const taskPause = userData.filter(
-        (task) => task.processing === 'isPause'
-      );
-      if (taskPause.length > 0) {
-        setCurrentProcess((prev) => taskPause[0].processing);
-        setPrevProcessId((prevId) => taskPause[0].id);
-        setPrevFicheLastUpdate((prev) => taskPause[0].lastUpdate);
-        setPrevFicheElapstedTime((prev) => taskPause[0].elapstedTime);
-      }
+    if (loadAllDataTimer !== undefined) {
+      setTaskList((prev) => loadAllDataTimer.listFiches);
     }
-
-    if (currentProcess === 'isPlay') {
+    if (currentTaskDataArray.processing === 'isPlay') {
       timerCount.current = 0;
       timerCount.current = setInterval(() => tick(), 1000);
       // tsy azoko le logic fa nataoko teo de mande
@@ -94,18 +103,18 @@ const Timer = () => {
         timerCount.current = 0;
       };
     }
-
-    if (currentProcess === 'isPause') {
-      setUiTimer((prev) => prevFicheElapstedTime);
+    if (currentTaskDataArray.processing === 'isPause') {
+      setUiTimer((prev) => currentTaskDataArray.elapstedTime);
       stopTick();
     }
-  }, [pauseData, playData, prevFicheLastUpdate, userData]);
+  }, [loadAllDataTimer, currentTaskDataArray.processing]);
 
   const tick = () => {
     setUiTimer(
       (prev) =>
-        (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
-        prevFicheElapstedTime
+        (Date.parse(new Date()) - Date.parse(currentTaskDataArray.lastUpdate)) /
+          1000 +
+        currentTaskDataArray.elapstedTime
     );
   };
 
@@ -115,27 +124,34 @@ const Timer = () => {
   };
 
   const handleClickPlay = async (e) => {
-    await setProcessToPlay(prevProcessId, fichesUpdate, erroUpDate).then(
-      modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate)
-    );
+    await setProcessToPlay(
+      currentTaskDataArray.id,
+      fichesUpdate,
+      erroUpDate
+    ).then(modifyLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate));
   };
 
   const handleClickPause = async (e) => {
     const elapstedTime =
-      (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
-      prevFicheElapstedTime;
+      (Date.parse(new Date()) - Date.parse(currentTaskDataArray.lastUpdate)) /
+        1000 +
+      currentTaskData.elapstedTime;
 
     await stopTick()
       .then(
         updateElastedTime(
-          prevProcessId,
+          currentTaskDataArray.id,
           Math.floor(elapstedTime),
           fichesUpdate,
           erroUpDate
         )
       )
-      .then(setProcessToPause(prevProcessId, fichesUpdate, erroUpDate))
-      .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate));
+      .then(
+        setProcessToPause(currentTaskDataArray.id, fichesUpdate, erroUpDate)
+      )
+      .then(
+        modifyLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate)
+      );
   };
 
   const ButtonPlay = () => {
@@ -190,8 +206,15 @@ const Timer = () => {
           margin: '0 1rem',
         }}
       >
-        <ValidateButton prevTaskId={prevProcessId} />
-        {currentProcess === 'isPlay' ? <ButtonPause /> : <ButtonPlay />}
+        <ValidateButton
+          prevTaskId={currentTaskDataArray.id}
+          resetTimer={setUiTimer}
+        />
+        {currentTaskDataArray.processing === 'isPlay' ? (
+          <ButtonPause />
+        ) : (
+          <ButtonPlay />
+        )}
       </Box>
     </Box>
   );

@@ -1,52 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { userLoggedData, loadUnsubmitedTask, loadAllData } from './dataHandler';
+import { loadAllData } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
   const [currentFiche, setCurrentFiche] = useState([]);
-  const [taskList, setTaskList] = useState([]);  
+  const [taskList, setTaskList] = useState([]);
 
   const { user } = useAuth0();
 
-  // fetching data on component mount  
+  // fetching data on component mount
   const loadData_ = loadAllData();
-//Riley Reyes
-  useEffect(() => {  
+
+  //Riley Reyes
+  useEffect(() => {
     if (loadData_ !== undefined) {
       setTaskList((prev) => loadData_.listFiches);
-    }  
-  }, [ loadData_]); 
-  
-  
-  let userTask = [];
-  if(taskList !== undefined){
-    userTask = taskList.filter(task => task.user.email === user.email);
-  }  
-  console.log('user Task', userTask);
-  
-  let taskPlay  = [];
-  let taskPause = [];
-  if(userTask.length >0 ){
-    taskPlay = userTask.filter(task => task.processing === 'isPlay');
-    taskPause = userTask.filter(task => task.processing === 'isPause');
-  }
-  console.log(' Task Play', taskPlay);
-  
-  let currentTasks = [];
-  
-  if(taskPlay .length > 0){
-     currentTasks = taskPlay;
-  }
-  
-  if(taskPause .length > 0){
-     currentTasks = taskPause;
-  }
-  
-  console.log(' current Task', currentTasks);
+    }
+  }, [loadData_]);
 
-  
+  let userTask = [];
+  if (taskList !== undefined) {
+    userTask = taskList.filter((task) => task.user.email === user.email);
+  }
+
+  let taskPlay = [];
+  let taskPause = [];
+  if (userTask.length > 0) {
+    taskPlay = userTask.filter((task) => task.processing === 'isPlay');
+    taskPause = userTask.filter((task) => task.processing === 'isPause');
+  }
+
+  let currentTasks = [];
+
+  if (taskPlay.length > 0) {
+    currentTasks = taskPlay;
+  }
+
+  if (taskPause.length > 0) {
+    currentTasks = taskPause;
+  }
+
   //   create classe for Box and Typography
   const useStyles = makeStyles({
     processingBox: {
