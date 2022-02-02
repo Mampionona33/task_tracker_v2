@@ -5,15 +5,12 @@ import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA } from '../GraphQL/Queries';
 import {
-  loadProcessingPause,
-  loadProcessingPlay,
   setProcessToPause,
   setProcessToPlay,
-  getLastupdate,
   updateElastedTime,
   modifyLastUpdate,
-  userLoggedData,
   loadAllData,
+  loadUnsubmitedTask,
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
 import { Tooltip, IconButton, Typography, Box } from '@mui/material';
@@ -29,6 +26,7 @@ const Timer = () => {
 
   // load processing task status
   const loadAllDataTimer = loadAllData();
+  const dataUnsubmited = loadUnsubmitedTask();
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -91,8 +89,8 @@ const Timer = () => {
   });
 
   useEffect(() => {
-    if (loadAllDataTimer !== undefined) {
-      setTaskList((prev) => loadAllDataTimer.listFiches);
+    if (dataUnsubmited !== undefined) {
+      setTaskList((prev) => dataUnsubmited);
     }
     if (currentTaskDataArray.processing === 'isPlay') {
       timerCount.current = 0;
@@ -107,7 +105,7 @@ const Timer = () => {
       setUiTimer((prev) => currentTaskDataArray.elapstedTime);
       stopTick();
     }
-  }, [loadAllDataTimer, currentTaskDataArray.processing]);
+  }, [loadAllDataTimer, currentTaskDataArray.processing, dataUnsubmited]);
 
   const tick = () => {
     setUiTimer(

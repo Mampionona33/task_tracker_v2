@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { loadAllData } from './dataHandler';
+import {  loadUnsubmitedTask } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
-  const [currentFiche, setCurrentFiche] = useState([]);
   const [taskList, setTaskList] = useState([]);
 
   const { user } = useAuth0();
 
   // fetching data on component mount
-  const loadData_ = loadAllData();
+  const dataUnsubmited = loadUnsubmitedTask();
 
   //Riley Reyes
   useEffect(() => {
-    if (loadData_ !== undefined) {
-      setTaskList((prev) => loadData_.listFiches);
+    // if (loadData_ !== undefined) {
+    //   setTaskList((prev) => loadData_.listFiches);
+    // }
+    if (dataUnsubmited) {
+      setTaskList((prev) => dataUnsubmited);
     }
-  }, [loadData_]);
+  }, [dataUnsubmited]);
 
   let userTask = [];
   if (taskList !== undefined) {
