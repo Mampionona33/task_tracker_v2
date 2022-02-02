@@ -57,7 +57,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   // const [lastUpdate, setLastUpdate] = useState([]);
 
   // get the user
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();  
 
   // execute mutation ficheAdd and refetch query to load changes
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {

@@ -23,13 +23,8 @@ export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState([]);  
   
-  // const [prevFiche, setPrevFiche] = useState([]);
-  // const [prevFicheId, setPrevFicheId] = useState(0);
-  // const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
-  // const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
-
   const columns = [
     {
       field: 'id',
@@ -163,41 +158,48 @@ export default function TaskTable() {
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
       arrayRows.elapstedTime;            
 
-    await modifyLastUpdate(arrayRows.id, fichesUpdate, erroUpDate)
-      .then(setPrevProcessIsOff(arrayRows.id, fichesUpdate, erroUpDate))
+    await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
+      .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
       .then(
-        updateElastedTime(arrayRows.id, elapstedTime, fichesUpdate, erroUpDate)
+        updateElastedTime(prevTaskId[0], elapstedTime, fichesUpdate, erroUpDate)
       )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then((window.location.href = '#/dashboard')).the;
+      .then((window.location.href = '#/dashboard'));
   };
 
-  // fetching data
-  // const dataPlay = loadProcessingPlay();
-  // const dataPause = loadProcessingPause();
-  const dataUnsubmited = loadUnsubmitedTask(); 
-  // const userData = userLoggedData();
-  // const taskPlay = userData.filter((task) => task.processing === 'isPlay');
-  // const taskPause = userData.filter((task) => task.processing === 'isPause');
-
+  // fetching data 
+  const dataUnsubmited = loadUnsubmitedTask();  
+    
+  let taskPlay = [];
+  let taskPause = [];  
+  let prevTask = [];
+  
+  if(list.length > 0){
+  console.log('test',list);
+    taskPlay = list.filter((task )=> task.processing === 'isPlay');
+    taskPause = list.filter((task) => task.processing === 'isPause');       
+  }
+  
+  if(taskPlay.length > 0){
+    prevTask = taskPlay;
+  }
+  if(taskPause.length > 0){
+    prevTask = taskPause;
+  }
+    console.log('prevTask',prevTask);  
+    
+    const prevTaskId = prevTask.map((task) => {
+    return task.id
+    });
+    console.log('prevTaskId',prevTaskId[0]);
+    
+  
   // loading data on component mount
   useEffect(() => {
   if(loadUnsubmitedTask !== undefined){
     setList(dataUnsubmited);
-  }
-    // if (userData.length > 0) {
-      // setList(userData);
-      // if (taskPlay.length > 0) {
-        // setPrevFiche(taskPlay);
-        // setPrevFicheId((prev) => taskPlay[0].id);
-        // setPrevFicheLastUpdate((perv) => taskPlay[0].lastUpdate);
-      // }
-      // if (taskPause.length > 0) {
-        // setPrevFiche(taskPause);
-        // setPrevFicheId((prev) => taskPause[0].id);
-      // }
-    // }
+  }   
   }, [dataUnsubmited]);
 
   let rows = [];
