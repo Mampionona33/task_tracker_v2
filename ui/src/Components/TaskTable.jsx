@@ -24,11 +24,11 @@ export default function TaskTable() {
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
-
-  const [prevFiche, setPrevFiche] = useState([]);
-  const [prevFicheId, setPrevFicheId] = useState(0);
-  const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
-  const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
+  
+  // const [prevFiche, setPrevFiche] = useState([]);
+  // const [prevFicheId, setPrevFicheId] = useState(0);
+  // const [prevFicheLastUpdate, setPrevFicheLastUpdate] = useState([]);
+  // const [prevFicheElapstedTime, setPrevFicheElapstedTime] = useState(0);
 
   const columns = [
     {
@@ -160,13 +160,13 @@ export default function TaskTable() {
     let currentId = event.id;
 
     const elapstedTime =
-      (Date.parse(new Date()) - Date.parse(prevFicheLastUpdate)) / 1000 +
-      prevFicheElapstedTime;
+      (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
+      arrayRows.elapstedTime;            
 
-    await modifyLastUpdate(prevFicheId, fichesUpdate, erroUpDate)
-      .then(setPrevProcessIsOff(prevFicheId, fichesUpdate, erroUpDate))
+    await modifyLastUpdate(arrayRows.id, fichesUpdate, erroUpDate)
+      .then(setPrevProcessIsOff(arrayRows.id, fichesUpdate, erroUpDate))
       .then(
-        updateElastedTime(prevFicheId, elapstedTime, fichesUpdate, erroUpDate)
+        updateElastedTime(arrayRows.id, elapstedTime, fichesUpdate, erroUpDate)
       )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
@@ -174,29 +174,31 @@ export default function TaskTable() {
   };
 
   // fetching data
-  const dataPlay = loadProcessingPlay();
-  const dataPause = loadProcessingPause();
-  const dataUnsubmited = loadUnsubmitedTask();
-
-  const userData = userLoggedData();
-  const taskPlay = userData.filter((task) => task.processing === 'isPlay');
-  const taskPause = userData.filter((task) => task.processing === 'isPause');
+  // const dataPlay = loadProcessingPlay();
+  // const dataPause = loadProcessingPause();
+  const dataUnsubmited = loadUnsubmitedTask(); 
+  // const userData = userLoggedData();
+  // const taskPlay = userData.filter((task) => task.processing === 'isPlay');
+  // const taskPause = userData.filter((task) => task.processing === 'isPause');
 
   // loading data on component mount
   useEffect(() => {
-    if (userData.length > 0) {
-      setList(userData);
-      if (taskPlay.length > 0) {
-        setPrevFiche(taskPlay);
-        setPrevFicheId((prev) => taskPlay[0].id);
-        setPrevFicheLastUpdate((perv) => taskPlay[0].lastUpdate);
-      }
-      if (taskPause.length > 0) {
-        setPrevFiche(taskPause);
-        setPrevFicheId((prev) => taskPause[0].id);
-      }
-    }
-  }, [userData, taskPlay, taskPause]);
+  if(loadUnsubmitedTask !== undefined){
+    setList(dataUnsubmited);
+  }
+    // if (userData.length > 0) {
+      // setList(userData);
+      // if (taskPlay.length > 0) {
+        // setPrevFiche(taskPlay);
+        // setPrevFicheId((prev) => taskPlay[0].id);
+        // setPrevFicheLastUpdate((perv) => taskPlay[0].lastUpdate);
+      // }
+      // if (taskPause.length > 0) {
+        // setPrevFiche(taskPause);
+        // setPrevFicheId((prev) => taskPause[0].id);
+      // }
+    // }
+  }, [dataUnsubmited]);
 
   let rows = [];
   let arrayRows = {};
@@ -209,6 +211,7 @@ export default function TaskTable() {
       statusCom: item.statusCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
+      elapstedTime : item.elapstedTime,
       link: item.url != '' ? item.url : 'https://www.google.mg/',
     };
 

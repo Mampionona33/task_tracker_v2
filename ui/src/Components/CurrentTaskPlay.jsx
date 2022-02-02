@@ -13,10 +13,7 @@ export default function CurrentTaskPlay() {
   const dataUnsubmited = loadUnsubmitedTask();
 
   //Riley Reyes
-  useEffect(() => {
-    // if (loadData_ !== undefined) {
-    //   setTaskList((prev) => loadData_.listFiches);
-    // }
+  useEffect(() => { 
     if (dataUnsubmited) {
       setTaskList((prev) => dataUnsubmited);
     }

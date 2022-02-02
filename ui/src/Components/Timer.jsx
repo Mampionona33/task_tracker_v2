@@ -133,7 +133,7 @@ const Timer = () => {
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(currentTaskDataArray.lastUpdate)) /
         1000 +
-      currentTaskData.elapstedTime;
+      currentTaskDataArray.elapstedTime;
 
     await stopTick()
       .then(
@@ -177,7 +177,7 @@ const Timer = () => {
           onClick={handleClickPause}
         >
           <PauseCircleIcon sx={{ fontSize: '30px' }} />
-        </IconButton>
+          </IconButton>
       </Tooltip>
     );
   };

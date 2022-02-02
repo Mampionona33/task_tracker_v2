@@ -55,7 +55,6 @@ async function search(
       };
     }
     if (user.email) {
-      console.log('user.email:', user.email);
       filter = {
         ...filter,
         'user.email': user.email,
@@ -87,25 +86,9 @@ async function search(
   if (lastUpdate) {
     filter.processing = lastUpdate;
   }
-
-  console.log('filter', filter);
-  // console.log(
-  //   'DATA',
-  //   await db
-  //     .collection('fiches')
-  //     .find({ 'user.email': 'ramamps33@gmail.com' })
-  //     .toArray()
-  // );
-
+  
   const filtredFiche = await db.collection('fiches').find(filter).toArray();
-
-  // if (user) {
-  //   const filtredFiche = await db
-  //     .collection('fiches')
-  //     .find(filterUser)
-  //     .toArray();
-  // }
-
+  
   return filtredFiche;
 }
 

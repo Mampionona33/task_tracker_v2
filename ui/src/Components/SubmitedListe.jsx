@@ -166,7 +166,7 @@ export default function SubmitedListe() {
   return (
     <Box
       sx={{
-        height: '90vh',
+        height: '85vh',
         '& .super-app-theme--header': {},
       }}
     >
