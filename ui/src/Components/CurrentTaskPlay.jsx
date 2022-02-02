@@ -113,7 +113,7 @@ export default function CurrentTaskPlay() {
   // );
 
   let arrayTask = {};
-  const currentTask = currentFiche.map((task) => {
+  const currentTask = currentTasks.map((task) => {
     arrayTask = {
       taskType: task.typeTrav,
       numFiche: task.numFiche,
