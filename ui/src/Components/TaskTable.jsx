@@ -30,6 +30,7 @@ export default function TaskTable() {
       headerName: 'Id',
       headerAlign: 'center',
       flex: 1,
+      hide: true,
     },
     {
       field: 'numFiche',
@@ -43,6 +44,8 @@ export default function TaskTable() {
       headerName: ' Task Type',
       headerAlign: 'center',
       valueFormatter: ({ value }) => `${value}`,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: 'statusCom',
@@ -234,7 +237,7 @@ export default function TaskTable() {
     <Box
       sx={{
         width: '100%',
-        height: '90vh',
+        height: '85vh',
         '& .emptyType': {
           backgroundColor: 'warning.light',
           color: 'warning.contrastText',
