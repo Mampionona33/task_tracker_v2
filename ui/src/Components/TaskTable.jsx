@@ -77,7 +77,7 @@ export default function TaskTable() {
       minWidth: 150,
     },
     {
-      field: 'elapstedTime',
+      field: 'elapstedTimeRender',
       headerName: 'elapstedTime',
       type: 'text',
       align: 'center',
@@ -226,11 +226,13 @@ export default function TaskTable() {
       statusCom: item.statusCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
-      elapstedTime: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
+      elapstedTime: item.elapstedTime,
+      elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
       link: item.url != '' ? item.url : 'https://www.google.mg/',
     };
 
     rows.push(arrayRows);
+    return arrayRows;
   });
 
   return (

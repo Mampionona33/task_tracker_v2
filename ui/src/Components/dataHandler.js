@@ -326,13 +326,14 @@ const updateElastedTime = async (
   fichesUpdate,
   errorUpDate
 ) => {
+  console.log('elapstedTime', elapstedTime);
   fichesUpdate({
     variables: {
       filter: {
         id: ficheId,
       },
       update: {
-        elapstedTime: elapstedTime,
+        elapstedTime: Math.floor(elapstedTime),
       },
     },
   });
