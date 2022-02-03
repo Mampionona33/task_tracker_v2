@@ -9,22 +9,21 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import {
-  loadProcessingPause,
-  loadProcessingPlay,
   loadUnsubmitedTask,
   setPrevProcessIsOff,
   setProcessToPlay,
   modifyLastUpdate,
   updateElastedTime,
-  userLoggedData,
+  dateFormater,
 } from './dataHandler';
 
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
-  const [list, setList] = useState([]);  
-  
+  const [list, setList] = useState([]);
+
+  // columns to use inside table
   const columns = [
     {
       field: 'id',
@@ -147,7 +146,7 @@ export default function TaskTable() {
       FILTRED_FICHE,
       { variables: { input: { submiteState: 'isSubmited' } } },
     ],
-     // to execute refetch
+    // to execute refetch
     awaitRefetchQueries: true,
   });
 
@@ -156,7 +155,7 @@ export default function TaskTable() {
 
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
-      arrayRows.elapstedTime;            
+      arrayRows.elapstedTime;
 
     await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
       .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
@@ -168,44 +167,55 @@ export default function TaskTable() {
       .then((window.location.href = '#/dashboard'));
   };
 
-  // fetching data 
-  const dataUnsubmited = loadUnsubmitedTask();  
-    
+  // fetching data
+  const dataUnsubmited = loadUnsubmitedTask();
+
   let taskPlay = [];
-  let taskPause = [];  
+  let taskPause = [];
   let prevTask = [];
-  
-  if(list.length > 0){
-  console.log('test',list);
-    taskPlay = list.filter((task )=> task.processing === 'isPlay');
-    taskPause = list.filter((task) => task.processing === 'isPause');       
+
+  if (list.length > 0) {
+    console.log('test', list);
+    taskPlay = list.filter((task) => task.processing === 'isPlay');
+    taskPause = list.filter((task) => task.processing === 'isPause');
   }
-  
-  if(taskPlay.length > 0){
+
+  if (taskPlay.length > 0) {
     prevTask = taskPlay;
   }
-  if(taskPause.length > 0){
+  if (taskPause.length > 0) {
     prevTask = taskPause;
   }
-    console.log('prevTask',prevTask);  
-    
-    const prevTaskId = prevTask.map((task) => {
-    return task.id
-    });
-    console.log('prevTaskId',prevTaskId[0]);
-    
-  
+  const prevTaskId = prevTask.map((task) => {
+    return task.id;
+  });
+
   // loading data on component mount
   useEffect(() => {
-  if(loadUnsubmitedTask !== undefined){
-    setList(dataUnsubmited);
-  }   
+    if (loadUnsubmitedTask !== undefined) {
+      setList(dataUnsubmited);
+    }
   }, [dataUnsubmited]);
 
   let rows = [];
   let arrayRows = {};
 
   const listRows = list.map((item) => {
+    // format date before showing in table
+    const elapstedTaskPlay =
+      (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
+      item.elapstedTime;
+    const elapstedTaskPause = item.elapstedTime;
+
+    let formatDate;
+    if (item.processing === 'isPlay') {
+      formatDate = dateFormater(elapstedTaskPlay);
+    }
+
+    if (item.processing === 'isPause' || item.processing === 'isOff') {
+      formatDate = dateFormater(elapstedTaskPause);
+    }
+
     arrayRows = {
       id: item.id,
       numFiche: item.numFiche,
@@ -213,7 +223,7 @@ export default function TaskTable() {
       statusCom: item.statusCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
-      elapstedTime : item.elapstedTime,
+      elapstedTime: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
       link: item.url != '' ? item.url : 'https://www.google.mg/',
     };
 

@@ -317,7 +317,7 @@ const renderDate = (value) => {
       );
     }
   }, [value]);
-  return `${day}:${hours}:${min}:${sec}`;
+  return { day, hours, min, sec };
 };
 
 const updateElastedTime = async (
@@ -380,6 +380,23 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
   return taskId;
 };
 
+const dateFormater = (value) => {
+  let day = Math.floor((value % 86400) / 36000)
+    .toString()
+    .padStart(2, '0');
+  let hours = Math.floor((value % 86400) / 3600)
+    .toString()
+    .padStart(2, '0');
+  let min = Math.floor((value % 3600) / 60)
+    .toString()
+    .padStart(2, '0');
+  let sec = Math.floor(value % 60)
+    .toString()
+    .padStart(2, '0');
+
+  return { day, hours, min, sec };
+};
+
 export {
   loadProcessingPause,
   loadAllData,
@@ -396,4 +413,5 @@ export {
   modifyLastUpdate,
   submitecurrentTask,
   userLoggedData,
+  dateFormater,
 };
