@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import {  loadUnsubmitedTask } from './dataHandler';
+import {  loadUnsubmitedTask,productivity,fetchTaskType } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
@@ -39,6 +39,24 @@ export default function CurrentTaskPlay() {
 
   if (taskPause.length > 0) {
     currentTasks = taskPause;
+  }
+  
+  let typeTrav = [];
+  if(currentTasks.length >0){
+  typeTrav = currentTasks[0].typeTrav;
+  }
+  
+  const allTaskType = fetchTaskType();
+  
+  // Productivity
+  if(typeTrav.length > 0 && allTaskType !== undefined){
+  console.log('allTaskType',allTaskType);
+  console.log('typeTrav',typeTrav);
+  
+  const filtredAllTask = allTaskType.filter(item => item.name === typeTrav);
+  console.log('filtredAllTask',filtredAllTask);
+    const prod = productivity(typeTrav,10,10);
+    console.log('prod', prod);
   }
 
   //   create classe for Box and Typography

@@ -208,6 +208,19 @@ const loadElapstedTime = () => {
   return outpoutElapstedTime;
 };
 
+// Fetching listTypeTaches
+const fetchTaskType =() => {
+  const [output, setOutpout] = useState([]);
+  const allData = loadAllData();
+  useEffect(()=>{
+    if(allData !== undefined){
+      setOutpout((prev)=>allData.listTypeTaches)
+    }
+  },[allData])
+  return output;  
+}
+
+
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
 const setPrevProcessIsOff = async (
@@ -398,6 +411,11 @@ const dateFormater = (value) => {
   return { day, hours, min, sec };
 };
 
+const productivity =  (currentTaskType, currentProdBefore, currentProdAfter) => {
+  // const taskToCalculate = taskTypes.filter((item)  => item.name === currentTaskType);
+  return currentTaskType;
+}
+
 export {
   loadProcessingPause,
   loadAllData,
@@ -415,4 +433,6 @@ export {
   submitecurrentTask,
   userLoggedData,
   dateFormater,
+  productivity,
+  fetchTaskType,
 };
