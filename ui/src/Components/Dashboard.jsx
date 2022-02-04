@@ -18,7 +18,7 @@ export default function DashBoard() {
       >
         <DashboardSubmitTask />
         <DashboardInProgress />
-        <Processing />
+        <DashboardProcessing />
       </Grid>
     </React.Fragment>
   );
