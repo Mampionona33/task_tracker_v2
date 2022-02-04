@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Box, Card } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const TimerDisplay = ({ value }) => {
+const CurrentTaskTimerDisplay = ({ value }) => {
   let day = Math.floor((value % 86400) / 36000)
     .toString()
     .padStart(2, '0');
@@ -98,4 +98,4 @@ const TimerDisplay = ({ value }) => {
   );
 };
 
-export default TimerDisplay;
+export default CurrentTaskTimerDisplay;

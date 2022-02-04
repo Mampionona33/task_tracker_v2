@@ -5,8 +5,7 @@ import { LOAD_DATA } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 import CurrentTaskPlay from './CurrentTaskPlay';
-
-import Timer from './Timer.jsx';
+import CurrentTaskTimer from './CurrentTaskTimer.jsx';
 
 export default function DashboardProcessing(params) {
   return (
@@ -26,7 +25,7 @@ export default function DashboardProcessing(params) {
           </Grid>
           <Divider />
           <CurrentTaskPlay />
-          <Timer />
+          <CurrentTaskTimer />
         </Card>
       </Grid>
     </React.Fragment>

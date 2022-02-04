@@ -14,12 +14,12 @@ import {
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
 import { Tooltip, IconButton, Typography, Box } from '@mui/material';
-import TimerDisplay from './TimerDisplay';
+import CurrentTaskTimerDisplay from './CurrentTaskTimerDisplay';
 import { makeStyles } from '@mui/styles';
 import ValidateButton from './ValidateButton.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const Timer = () => {
+const CurrentTaskTimer = () => {
   const [taskList, setTaskList] = useState([]);
   const [uiTimer, setUiTimer] = useState(0);
   let timerCount = useRef(null);
@@ -195,7 +195,7 @@ const Timer = () => {
         <Typography className={classes.processingTypography}>
           Elapsted time:
         </Typography>
-        <TimerDisplay value={uiTimer} />
+        <CurrentTaskTimerDisplay value={uiTimer} />
       </Box>
       <Box
         sx={{
@@ -218,4 +218,4 @@ const Timer = () => {
   );
 };
 
-export default Timer;
+export default CurrentTaskTimer;
