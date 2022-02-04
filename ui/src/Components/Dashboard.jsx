@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import graphQLFetch from './graphQLFetch.jsx';
 import { Grid } from "@mui/material";
 
 // impot components

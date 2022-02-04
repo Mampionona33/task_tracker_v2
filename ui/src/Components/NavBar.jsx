@@ -14,6 +14,9 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { styled, withStyles } from '@mui/material/styles';
 import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+
 import {
   loadProcessingPause,
   loadAllData,
@@ -201,13 +204,13 @@ export default function Navbar() {
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<DashboardIcon />}
+                icon={<FormatListBulletedIcon />}
                 itemText='Task list'
                 href='#/tasklist'
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<DashboardIcon />}
+                icon={<PlaylistAddCheckIcon />}
                 itemText='Submited Task'
                 href='#/submitedList'
               />
