@@ -24,7 +24,7 @@ from{color: red;}
 to{color : white;}
 `;
 
-function InProgress() {
+function DashboardInProgress() {
   const [tache, setTache] = useState([]);
 
  // fetching data
@@ -190,4 +190,4 @@ function InProgress() {
   );
 }
 
-export default InProgress;
+export default DashboardInProgress;

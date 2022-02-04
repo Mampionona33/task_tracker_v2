@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 
 // impot components
-import InProgress from "./InProgress.jsx";
-import SubmitTask from "./SubmitTask.jsx";
-import Processing from "./Processing.jsx";
+import DashboardInProgress from "./DashboardInProgress.jsx";
+import DashboardSubmitTask from "./DashboardSubmitTask.jsx";
+import DashboardProcessing from "./DashboardProcessing.jsx";
 
 export default function DashBoard() {
   return (
@@ -16,8 +16,8 @@ export default function DashBoard() {
         justifyContent="space-evenly"
         height='90vh'
       >
-        <SubmitTask />
-        <InProgress />
+        <DashboardSubmitTask />
+        <DashboardInProgress />
         <Processing />
       </Grid>
     </React.Fragment>

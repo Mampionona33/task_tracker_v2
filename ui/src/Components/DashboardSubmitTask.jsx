@@ -18,7 +18,7 @@ import { LOAD_DATA } from '../GraphQL/Queries';
 import { loadSubmitedTask } from './dataHandler';
 
 // destructuration de props => on utilise {data}
-export default function SubmitTask() {
+export default function DashboardSubmitTask() {
   const [tache, setTache] = useState([]);
 
   // fetching data

@@ -16,7 +16,7 @@ export default function CurrentTaskPlay() {
   useEffect(() => { 
     if (dataUnsubmited) {
       setTaskList((prev) => dataUnsubmited);
-    }
+      }
   }, [dataUnsubmited]);
 
   let userTask = [];
