@@ -42,8 +42,8 @@ export default function CurrentTaskPlay() {
   }
   
   let typeTrav = [];
-  if(currentTasks.length >0){
-  typeTrav = currentTasks[0].typeTrav;
+    if(currentTasks.length >0){
+    typeTrav = currentTasks[0].typeTrav;
   }
   
   const allTaskType = fetchTaskType();
@@ -53,8 +53,12 @@ export default function CurrentTaskPlay() {
   console.log('allTaskType',allTaskType);
   console.log('typeTrav',typeTrav);
   
-  const filtredAllTask = allTaskType.filter(item => item.name === typeTrav);
-  console.log('filtredAllTask',filtredAllTask);
+  const typeTaskRef = allTaskType.filter(item => item.name === typeTrav);
+  console.log('typeTaskRef',typeTaskRef);
+  
+  const typeTaskRefObjectif = typeTaskRef[0].objectif;
+  console.log('typeTaskRefObjectif',typeTaskRefObjectif);
+  
     const prod = productivity(typeTrav,10,10);
     console.log('prod', prod);
   }

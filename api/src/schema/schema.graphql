@@ -31,7 +31,7 @@ type Fiches {
   startDate: GraphQLDate
   validDate: GraphQLDate
   elapstedTime: Int
-  productivity: String
+  productivity: Float
   comment: String
   processing: ProcessingType
   lastUpdate: GraphQLDate
@@ -86,7 +86,7 @@ input UpdateFiches {
   startDate: GraphQLDate
   validDate: GraphQLDate
   elapstedTime: Int
-  productivity: String
+  productivity: Float
   processing: ProcessingType
   comment: String
   lastUpdate: GraphQLDate
