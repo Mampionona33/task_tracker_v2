@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
@@ -101,38 +102,42 @@ export default function TaskTable() {
     {
       field: 'actions',
       headerName: 'Action',
-      align: 'center',
-      type: 'link',
+      align: 'center',      
       justifyContent: 'space-between',
       headerAlign: 'center',
       flexWrap: 'wrap',
       flex: 1,
-      minWidth: 200,
+      minWidth: 200,      
       renderCell: (param) => (
         <React.Fragment>
           <IconButton
             color='primary'
             component='span'
-            arial-label='Pause button'
+            arial-label='Play button'
             // using param and event to get id of the actual fiche
             onClick={(event) => handleClickPlay(event, param)}
+            // conditionnal disabling button play on action column
+          disabled={param.row.processing === 'isPlay'}
           >
-            <PlayCircleIcon />
+            <PlayCircleIcon/>
           </IconButton>
+          
           <IconButton
             color='primary'
             component='span'
-            arial-label='Pause button'
+            arial-label='Play button'
           >
             <EditIcon />
           </IconButton>
+          
           <IconButton
             color='primary'
             component='span'
-            arial-label='Pause button'
+            arial-label='Edit button'
           >
             <DeleteIcon />
           </IconButton>
+          
         </React.Fragment>
       ),
     },
@@ -167,7 +172,15 @@ export default function TaskTable() {
       )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then((window.location.href = '#/dashboard'));
+      .then( () => {
+        if(event.row.processing === 'isPlay'){
+          return 
+        }
+        if(event.row.processing === 'isOff'){
+        (window.location.href = '#/dashboard');          
+        }
+      }       
+      );
   };
 
   // fetching data
@@ -178,7 +191,6 @@ export default function TaskTable() {
   let prevTask = [];
 
   if (list.length > 0) {
-    console.log('test', list);
     taskPlay = list.filter((task) => task.processing === 'isPlay');
     taskPause = list.filter((task) => task.processing === 'isPause');
   }
@@ -229,6 +241,7 @@ export default function TaskTable() {
       elapstedTime: item.elapstedTime,
       elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
       link: item.url != '' ? item.url : 'https://www.google.mg/',
+      processing: item.processing,
     };
 
     rows.push(arrayRows);

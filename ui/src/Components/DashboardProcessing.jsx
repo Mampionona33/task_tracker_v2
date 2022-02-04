@@ -8,7 +8,7 @@ import CurrentTaskPlay from './CurrentTaskPlay';
 
 import Timer from './Timer.jsx';
 
-export default function processing(params) {
+export default function DashboardProcessing(params) {
   return (
     <React.Fragment>
       <Grid item>
