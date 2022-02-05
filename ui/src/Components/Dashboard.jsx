@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 // impot components
 import DashboardInProgress from "./DashboardInProgress.jsx";
 import DashboardSubmitTask from "./DashboardSubmitTask.jsx";
-import DashboardProcessing from "./DashboardProcessing.jsx";
+import DashboardCurrentTask from "./DashboardCurrentTask.jsx";
 
 export default function DashBoard() {
   return (
@@ -18,7 +18,7 @@ export default function DashBoard() {
       >
         <DashboardSubmitTask />
         <DashboardInProgress />
-        <DashboardProcessing />
+        <DashboardCurrentTask />
       </Grid>
     </React.Fragment>
   );

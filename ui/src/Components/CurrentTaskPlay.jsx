@@ -43,32 +43,32 @@ export default function CurrentTaskPlay() {
   
   
   // Productivity
-  let typeTrav = [];
-  let nbrAfter = [];
-  let nbrBefore = [];  
-    if(currentTasks.length >0){
-    typeTrav = currentTasks[0].typeTrav;
-    nbrAfter = currentTasks[0].nbAft;
-    nbrBefore = currentTasks[0].currentTasks;
-  }  
-    console.log('currentTasks',currentTasks);
+  // let typeTrav = [];
+  // let nbrAfter = [];
+  // let nbrBefore = [];  
+    // if(currentTasks.length >0){
+    // typeTrav = currentTasks[0].typeTrav;
+    // nbrAfter = currentTasks[0].nbAft;
+    // nbrBefore = currentTasks[0].currentTasks;
+  // }  
+    // console.log('currentTasks',currentTasks);
     
-  const allTaskType = fetchTaskType();
+  // const allTaskType = fetchTaskType();
   
-  if(typeTrav.length > 0 && allTaskType !== undefined  ){
-  console.log('allTaskType',allTaskType);
-  console.log('typeTrav',typeTrav);
+  // if(typeTrav.length > 0 && allTaskType !== undefined  ){
+  // console.log('allTaskType',allTaskType);
+  // console.log('typeTrav',typeTrav);
   
-  const typeTaskRef = allTaskType.filter(item => item.name === typeTrav && nbrAfter !== undefined);
-  console.log('typeTaskRef',typeTaskRef);
+  // const typeTaskRef = allTaskType.filter(item => item.name === typeTrav && nbrAfter !== undefined);
+  // console.log('typeTaskRef',typeTaskRef);
   
-  const typeTaskRefObjectif = typeTaskRef[0].objectif;
-  console.log('typeTaskRefObjectif',typeTaskRefObjectif);  
-  console.log('nbrAfter',nbrAfter);  
+  // const typeTaskRefObjectif = typeTaskRef[0].objectif;
+  // console.log('typeTaskRefObjectif',typeTaskRefObjectif);  
+  // console.log('nbrAfter',nbrAfter);  
   
-  const prod = productivity(typeTrav,10,10);
-  console.log('prod', prod);
-  }
+  // const prod = productivity(typeTrav,10,10);
+  // console.log('prod', prod);
+  // }
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({

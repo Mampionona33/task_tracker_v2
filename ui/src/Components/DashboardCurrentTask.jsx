@@ -7,7 +7,7 @@ import { formatNbr } from '../Features/formatNbr';
 import CurrentTaskPlay from './CurrentTaskPlay';
 import CurrentTaskTimer from './CurrentTaskTimer.jsx';
 
-export default function DashboardProcessing(params) {
+export default function DashboardCurrentTask(params) {
   return (
     <React.Fragment>
       <Grid item>
