@@ -6,6 +6,7 @@ import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { formatNbr } from '../Features/formatNbr';
 import CurrentTaskPlay from './CurrentTaskPlay';
 import CurrentTaskTimer from './CurrentTaskTimer.jsx';
+import CurrentTaskProductivity from './CurrentTaskProductivity.jsx';
 
 export default function DashboardCurrentTask(params) {
   return (
@@ -25,6 +26,7 @@ export default function DashboardCurrentTask(params) {
           </Grid>
           <Divider />
           <CurrentTaskPlay />
+          <CurrentTaskProductivity/>
           <CurrentTaskTimer />
         </Card>
       </Grid>
