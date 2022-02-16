@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import {  loadUnsubmitedTask,productivity,fetchTaskType } from './dataHandler';
+import { loadUnsubmitedTask } from './dataHandler';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function CurrentTaskPlay() {
@@ -13,10 +13,10 @@ export default function CurrentTaskPlay() {
   const dataUnsubmited = loadUnsubmitedTask();
 
   //Riley Reyes
-  useEffect(() => { 
+  useEffect(() => {
     if (dataUnsubmited) {
       setTaskList((prev) => dataUnsubmited);
-      }
+    }
   }, [dataUnsubmited]);
 
   let userTask = [];
@@ -40,35 +40,6 @@ export default function CurrentTaskPlay() {
   if (taskPause.length > 0) {
     currentTasks = taskPause;
   }
-  
-  
-  // Productivity
-  // let typeTrav = [];
-  // let nbrAfter = [];
-  // let nbrBefore = [];  
-    // if(currentTasks.length >0){
-    // typeTrav = currentTasks[0].typeTrav;
-    // nbrAfter = currentTasks[0].nbAft;
-    // nbrBefore = currentTasks[0].currentTasks;
-  // }  
-    // console.log('currentTasks',currentTasks);
-    
-  // const allTaskType = fetchTaskType();
-  
-  // if(typeTrav.length > 0 && allTaskType !== undefined  ){
-  // console.log('allTaskType',allTaskType);
-  // console.log('typeTrav',typeTrav);
-  
-  // const typeTaskRef = allTaskType.filter(item => item.name === typeTrav && nbrAfter !== undefined);
-  // console.log('typeTaskRef',typeTaskRef);
-  
-  // const typeTaskRefObjectif = typeTaskRef[0].objectif;
-  // console.log('typeTaskRefObjectif',typeTaskRefObjectif);  
-  // console.log('nbrAfter',nbrAfter);  
-  
-  // const prod = productivity(typeTrav,10,10);
-  // console.log('prod', prod);
-  // }
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
@@ -84,56 +55,6 @@ export default function CurrentTaskPlay() {
 
   //   import the created classe here
   const classes = useStyles();
-
-  // use this use object.map() inside of React.Children.toArray to avoid warning key unique
-  // const output = React.Children.toArray(
-  // currentFiche.map((item, index) => {
-  // return (
-  // <React.Fragment>
-  // <Box className={classes.processingBox}>
-  // <Typography className={classes.processingTypography}>
-  // Task Type:
-  // </Typography>
-  // <Typography>{item.typeTrav}</Typography>
-  // </Box>
-  // <Typography></Typography>
-  // <Divider />
-
-  // <Box className={classes.processingBox}>
-  // <Typography className={classes.processingTypography}>
-  // Num Fiche:
-  // </Typography>
-  // <Typography>{item.numFiche}</Typography>
-  // </Box>
-  // <Divider />
-
-  // <Box className={classes.processingBox}>
-  // <Typography className={classes.processingTypography}>
-  // Status Com:
-  // </Typography>
-  // <Typography>{item.statuCom}</Typography>
-  // </Box>
-  // <Divider />
-
-  // <Box className={classes.processingBox}>
-  // <Typography className={classes.processingTypography}>
-  // NB Prod Before:
-  // </Typography>
-  // <Typography>{item.nbBefor}</Typography>
-  // </Box>
-  // <Divider />
-
-  // <Box className={classes.processingBox}>
-  // <Typography className={classes.processingTypography}>
-  // NB Prod After:
-  // </Typography>
-  // <Typography>{item.nbAft}</Typography>
-  // </Box>
-  // <Divider />
-  // </React.Fragment>
-  // );
-  // })
-  // );
 
   let arrayTask = {};
   const currentTask = currentTasks.map((task) => {
@@ -200,3 +121,53 @@ export default function CurrentTaskPlay() {
     </Box>
   );
 }
+
+// use this use object.map() inside of React.Children.toArray to avoid warning key unique
+// const output = React.Children.toArray(
+// currentFiche.map((item, index) => {
+// return (
+// <React.Fragment>
+// <Box className={classes.processingBox}>
+// <Typography className={classes.processingTypography}>
+// Task Type:
+// </Typography>
+// <Typography>{item.typeTrav}</Typography>
+// </Box>
+// <Typography></Typography>
+// <Divider />
+
+// <Box className={classes.processingBox}>
+// <Typography className={classes.processingTypography}>
+// Num Fiche:
+// </Typography>
+// <Typography>{item.numFiche}</Typography>
+// </Box>
+// <Divider />
+
+// <Box className={classes.processingBox}>
+// <Typography className={classes.processingTypography}>
+// Status Com:
+// </Typography>
+// <Typography>{item.statuCom}</Typography>
+// </Box>
+// <Divider />
+
+// <Box className={classes.processingBox}>
+// <Typography className={classes.processingTypography}>
+// NB Prod Before:
+// </Typography>
+// <Typography>{item.nbBefor}</Typography>
+// </Box>
+// <Divider />
+
+// <Box className={classes.processingBox}>
+// <Typography className={classes.processingTypography}>
+// NB Prod After:
+// </Typography>
+// <Typography>{item.nbAft}</Typography>
+// </Box>
+// <Divider />
+// </React.Fragment>
+// );
+// })
+// );

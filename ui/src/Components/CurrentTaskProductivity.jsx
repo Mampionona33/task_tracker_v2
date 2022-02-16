@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Typography, Divider } from '@mui/material';
 import { fetchTaskType, userLoggedTasks } from './dataHandler';
-import { empty } from '@apollo/client';
+import { makeStyles } from '@mui/styles';
 
 const CurrentTaskProductivity = () => {
   const [userTaskListUnsb, setUserTaskListUnsb] = useState([]);
-  const [goal, setGoal] = useState(0);
-  const [nbAft, setNbAft] = useState(0);
-  const [elapstedTime, setElapstedTime] = useState(0);
-  const [lastUpdate, setLastUpdate] = useState([]);
   const [productivity, setProductivity] = useState(0);
   const count = useRef();
 
@@ -71,16 +66,35 @@ const CurrentTaskProductivity = () => {
         const returnGoalPause = goalPause / 3600;
         const returnPlause = nbAftPause / elapstedTimePause;
         const prod = Math.round((returnPlause / returnGoalPause) * 100);
+        clearInterval(count.current);
         setProductivity((prev) => prod);
       }
     }
   }, [userDataLoged, userTaskListUnsb]);
 
+  //   create classe for Box and Typography
+  const useStyles = makeStyles({
+    processingBox: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      columnGap: '1rem',
+    },
+    processingTypography: {
+      fontWeight: '700',
+    },
+  });
+  //   import the created classe here
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
-      <h1>Productivity : </h1>
-      <p>{productivity}</p>
-    </React.Fragment>
+    <Box sx={{ margin: '0 1rem' }}>
+      <Box className={classes.processingBox}>
+        <Typography className={classes.processingTypography}>
+          Productivity
+        </Typography>
+        <p>{productivity}</p>
+      </Box>
+    </Box>
   );
 };
 
