@@ -28,7 +28,7 @@ const CurrentTaskProductivity = () => {
     }
 
     /* if task user list is note empty. make filter to find 
-		pause and play task and asign it to the current task */
+	pause and play task and asign it to the current task */
 
     if (userTaskListUnsb.length > 0 && allTaskType) {
       // If task processing is play and allTaskType note empty
@@ -71,7 +71,7 @@ const CurrentTaskProductivity = () => {
         setProductivity((prev) => (prod > 100 ? 100 : prod));
       }
     }
-  }, [userDataLoged, userTaskListUnsb]);
+  }, [userDataLoged, userTaskListUnsb, allTaskType]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
