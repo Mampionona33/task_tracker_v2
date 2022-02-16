@@ -66,7 +66,7 @@ export default function DashboardCurrentTask(params) {
             </Paper>
           </Box>
         </Card>
-        {simulateHide === false ? '' : <CurrentTaskSimulator />}
+          <CurrentTaskSimulator />
       </Grid>
     </React.Fragment>
   );
