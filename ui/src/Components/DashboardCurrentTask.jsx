@@ -4,6 +4,7 @@ import { Grid, Card, Typography, Divider } from '@mui/material';
 import CurrentTaskPlay from './CurrentTaskPlay';
 import CurrentTaskTimer from './CurrentTaskTimer.jsx';
 import CurrentTaskProductivity from './CurrentTaskProductivity.jsx';
+import CurrentTaskSimulator from './CurrentTaskSimulator';
 
 export default function DashboardCurrentTask(params) {
   return (
@@ -26,6 +27,7 @@ export default function DashboardCurrentTask(params) {
           <CurrentTaskProductivity />
           <CurrentTaskTimer />
         </Card>
+          <CurrentTaskSimulator />
       </Grid>
     </React.Fragment>
   );
