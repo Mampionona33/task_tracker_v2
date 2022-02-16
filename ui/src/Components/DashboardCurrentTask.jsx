@@ -1,5 +1,15 @@
-import React from 'react';
-import { Grid, Card, Typography, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Grid,
+  Card,
+  Typography,
+  Divider,
+  Switch,
+  FormControlLabel,
+  FormGroup,
+  Box,
+  Paper,
+} from '@mui/material';
 
 import CurrentTaskPlay from './CurrentTaskPlay';
 import CurrentTaskTimer from './CurrentTaskTimer.jsx';
@@ -7,6 +17,13 @@ import CurrentTaskProductivity from './CurrentTaskProductivity.jsx';
 import CurrentTaskSimulator from './CurrentTaskSimulator';
 
 export default function DashboardCurrentTask(params) {
+  const [simulateHide, setsimulateHide] = useState(false);
+
+  const handleSwitchChange = (e) => {
+    console.log(e.target.checked);
+    setsimulateHide((prev) => e.target.checked);
+  };
+
   return (
     <React.Fragment>
       <Grid item>
@@ -26,8 +43,26 @@ export default function DashboardCurrentTask(params) {
           <CurrentTaskPlay />
           <CurrentTaskProductivity />
           <CurrentTaskTimer />
+          <Box sx={{ margin: '0.5rem' }}>
+            <Paper
+              elevation={6}
+              sx={{
+                backgroundColor: 'secondary.light',
+                maxWidth: '50%',
+                borderRadius: 25,
+              }}
+            >
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch onChange={handleSwitchChange} />}
+                  label='Simulate Prod'
+                  sx={{ justifyContent: 'center' }}
+                />
+              </FormGroup>
+            </Paper>
+          </Box>
         </Card>
-          <CurrentTaskSimulator />
+        {simulateHide === false ? '' : <CurrentTaskSimulator />}
       </Grid>
     </React.Fragment>
   );
