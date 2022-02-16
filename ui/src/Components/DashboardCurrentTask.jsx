@@ -43,7 +43,6 @@ export default function DashboardCurrentTask(params) {
           <CurrentTaskPlay />
           <CurrentTaskProductivity />
           <CurrentTaskTimer />
-          <Divider />
           <Box sx={{ margin: '0.5rem' }}>
             <Paper
               elevation={6}
@@ -57,16 +56,13 @@ export default function DashboardCurrentTask(params) {
                 <FormControlLabel
                   control={<Switch onChange={handleSwitchChange} />}
                   label='Simulate Prod'
-                  sx={{
-                    justifyContent: 'center',
-                    color: 'secondary.contrastText',
-                  }}
+                  sx={{ justifyContent: 'center' }}
                 />
               </FormGroup>
             </Paper>
           </Box>
         </Card>
-          <CurrentTaskSimulator />
+        {simulateHide === false ? '' : <CurrentTaskSimulator />}
       </Grid>
     </React.Fragment>
   );
