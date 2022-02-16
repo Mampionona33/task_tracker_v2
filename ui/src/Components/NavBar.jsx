@@ -20,7 +20,6 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import {
   setPrevProcessIsOff,
   userLoggedTasks,
-  updateElastedTime,
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
