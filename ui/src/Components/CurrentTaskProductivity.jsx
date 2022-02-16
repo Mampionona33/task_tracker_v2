@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Typography, Divider } from '@mui/material';
+import { Box, Typography, LinearProgress } from '@mui/material';
+import PropTypes from 'prop-types';
 import { fetchTaskType, userLoggedTasks } from './dataHandler';
 import { makeStyles } from '@mui/styles';
 
@@ -47,7 +48,7 @@ const CurrentTaskProductivity = () => {
           const returnGoal = goalPlay / 3600;
           const return_ = nbAftPlay / elapstedTime_;
           const prod = Math.round((return_ / returnGoal) * 100);
-          setProductivity((prev) => prod);
+          setProductivity((prev) => (prod > 100 ? 100 : prod));
         }, 1000);
         return () => {
           clearInterval(count.current);
@@ -67,7 +68,7 @@ const CurrentTaskProductivity = () => {
         const returnPlause = nbAftPause / elapstedTimePause;
         const prod = Math.round((returnPlause / returnGoalPause) * 100);
         clearInterval(count.current);
-        setProductivity((prev) => prod);
+        setProductivity((prev) => (prod > 100 ? 100 : prod));
       }
     }
   }, [userDataLoged, userTaskListUnsb]);
@@ -86,13 +87,75 @@ const CurrentTaskProductivity = () => {
   //   import the created classe here
   const classes = useStyles();
 
+  const LinearProgressWithLabel = (props) => {
+    return (
+      <Box display='flex' alignItems='center'>
+        <Box width='100%' mr={1}>
+          <LinearProgress
+            variant='determinate'
+            {...props}
+            color={
+              props.value >= 94
+                ? 'success'
+                : props.value > 90
+                ? 'warning'
+                : 'error'
+            }
+          />
+        </Box>
+        <Box minWidth={35}>
+          {props.value >= 94 ? (
+            <Typography
+              variant='body1'
+              color='#388e3c'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          ) : props.value > 90 ? (
+            <Typography
+              variant='body1'
+              color=' #f57c00'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          ) : (
+            <Typography
+              variant='body1'
+              color='#d32f2f'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+  LinearProgressWithLabel.propTypes = {
+    /**
+     * The value of the progress indicator for the determinate and buffer variants.
+     * Value between 0 and 100.
+     */
+    value: PropTypes.number.isRequired,
+  };
+
   return (
     <Box sx={{ margin: '0 1rem' }}>
       <Box className={classes.processingBox}>
         <Typography className={classes.processingTypography}>
           Productivity
         </Typography>
-        <p>{productivity}</p>
+        <Box sx={{ width: '100%' }}>
+          <LinearProgressWithLabel
+            value={productivity}
+            sx={{ height: '0.5rem', borderRadius: '25px' }}
+          />
+        </Box>
       </Box>
     </Box>
   );
