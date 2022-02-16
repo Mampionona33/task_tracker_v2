@@ -17,7 +17,11 @@ import React, { useEffect, useState } from 'react';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 
-import { setPrevProcessIsOff, userLoggedTasks } from './dataHandler';
+import {
+  setPrevProcessIsOff,
+  userLoggedTasks,
+  updateElastedTime,
+} from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 import DialogAddNewTask from './DialogAddNewTask.jsx';
@@ -71,9 +75,9 @@ export default function Navbar() {
         setLastUpdate((prev) => taskPlay[0].lastUpdate);
       }
       if (taskPause.length > 0) {
-        setPrevProcessId((prev) => taskPause[0].id);
-        setElapstedTime((prev) => taskPause[0].elapstedTime);
-        setLastUpdate((prev) => taskPause[0].lastUpdate);
+        setPrevProcessId((prev) => taskPlay[0].id);
+        setElapstedTime((prev) => taskPlay[0].elapstedTime);
+        setLastUpdate((prev) => taskPlay[0].lastUpdate);
       }
     }
   }, [userData]);
