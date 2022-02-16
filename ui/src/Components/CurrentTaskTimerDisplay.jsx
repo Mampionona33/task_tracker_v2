@@ -93,8 +93,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
             className={classes.timerTypography}
             sx={{ color: 'primary.contrastText' }}
           >
-            {' '}
-            {min}{' '}
+            {min}
           </Typography>
         </Card>
         <Box component='span' className={classes.timerSeparator}>
@@ -111,24 +110,23 @@ const CurrentTaskTimerDisplay = ({ value }) => {
             className={classes.timerTypography}
             sx={{ color: 'primary.contrastText' }}
           >
-            {' '}
-            {sec}{' '}
+            {sec}
           </Typography>
         </Card>
       </Box>
 
       <Box className={classes.indicationContainer}>
         <Box className={classes.indicationCard}>
-          <Typography>Day</Typography>
+          <Typography variant='body2'>Day</Typography>
         </Box>
         <Box className={classes.indicationCard}>
-          <Typography>Hrs</Typography>
+          <Typography variant='body2'>Hrs</Typography>
         </Box>
         <Box className={classes.indicationCard}>
-          <Typography>Min</Typography>
+          <Typography variant='body2'>Min</Typography>
         </Box>
         <Box className={classes.indicationCard}>
-          <Typography>Sec</Typography>
+          <Typography variant='body2'>Sec</Typography>
         </Box>
       </Box>
     </Box>
