@@ -7,7 +7,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 // FETHING DATA-----------------------------
 // Get user logged data
-function userLoggedData() {
+function userLoggedTasks() {
   const [userTask, setUserTask] = useState([]);
   // Get current User
   const { user } = useAuth0();
@@ -209,17 +209,16 @@ const loadElapstedTime = () => {
 };
 
 // Fetching listTypeTaches
-const fetchTaskType =() => {
+const fetchTaskType = () => {
   const [output, setOutpout] = useState([]);
   const allData = loadAllData();
-  useEffect(()=>{
-    if(allData !== undefined){
-      setOutpout((prev)=>allData.listTypeTaches)
+  useEffect(() => {
+    if (allData !== undefined) {
+      setOutpout((prev) => allData.listTypeTaches);
     }
-  },[allData])
-  return output;  
-}
-
+  }, [allData]);
+  return output;
+};
 
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
@@ -411,10 +410,10 @@ const dateFormater = (value) => {
   return { day, hours, min, sec };
 };
 
-const productivity =  (currentTaskType, currentProdBefore, currentProdAfter) => {
+const productivity = (currentTaskType, currentProdBefore, currentProdAfter) => {
   // const taskToCalculate = taskTypes.filter((item)  => item.name === currentTaskType);
   return currentTaskType;
-}
+};
 
 export {
   loadProcessingPause,
@@ -431,7 +430,7 @@ export {
   loadElapstedTime,
   modifyLastUpdate,
   submitecurrentTask,
-  userLoggedData,
+  userLoggedTasks,
   dateFormater,
   productivity,
   fetchTaskType,

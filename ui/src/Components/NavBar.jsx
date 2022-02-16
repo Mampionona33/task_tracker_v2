@@ -22,7 +22,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   setPrevProcessIsOff,
-  userLoggedData,
+  userLoggedTasks,
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -65,7 +65,7 @@ export default function Navbar() {
   const [prevProcessId, setPrevProcessId] = useState(0);
 
   // fetching data
-  const userData = userLoggedData();
+  const userData = userLoggedTasks();
   const taskPlay = userData.filter((task) => task.processing === 'isPlay');
   const taskPause = userData.filter((task) => task.processing === 'isPause');
 
