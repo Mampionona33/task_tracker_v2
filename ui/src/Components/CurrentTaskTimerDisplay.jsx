@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Card } from '@mui/material';
+import { Typography, Box, Card, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const CurrentTaskTimerDisplay = ({ value }) => {
@@ -28,8 +28,6 @@ const CurrentTaskTimerDisplay = ({ value }) => {
       color: '#008B8B',
     },
     timerCard: {
-      backgroundColor: '#008B8B',
-      color: 'white',
       width: '1.5rem',
       display: 'flex',
       justifyContent: 'center',
@@ -39,6 +37,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
       textAlign: 'left',
       letterSpacing: '2.5px',
       fontFamily: 'Digital Numbers Regular',
+      fontWeight: '500',
     },
     timerSeparator: {
       fontFamily: 'Digital Numbers Regular',
@@ -55,28 +54,66 @@ const CurrentTaskTimerDisplay = ({ value }) => {
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Card className={classes.timerCard}>
-          <Typography className={classes.timerTypography}> {day} </Typography>
+        <Card
+          className={classes.timerCard}
+          sx={{ backgroundColor: 'primary.light' }}
+        >
+          <Typography
+            className={classes.timerTypography}
+            sx={{ color: 'primary.contrastText' }}
+          >
+            {' '}
+            {day}{' '}
+          </Typography>
         </Card>
         <Box component='span' className={classes.timerSeparator}>
           :
         </Box>
         <Box>
-          <Card className={classes.timerCard}>
-            <Typography className={classes.timerTypography}>{hours}</Typography>
+          <Card
+            className={classes.timerCard}
+            sx={{ backgroundColor: 'primary.light' }}
+          >
+            <Typography
+              className={classes.timerTypography}
+              sx={{ color: 'primary.contrastText' }}
+            >
+              {hours}
+            </Typography>
           </Card>
         </Box>
         <Box component='span' className={classes.timerSeparator}>
           :
         </Box>
-        <Card className={classes.timerCard}>
-          <Typography className={classes.timerTypography}> {min} </Typography>
+        <Card
+          className={classes.timerCard}
+          sx={{ backgroundColor: 'primary.light' }}
+        >
+          <Typography
+            className={classes.timerTypography}
+            sx={{ color: 'primary.contrastText' }}
+          >
+            {' '}
+            {min}{' '}
+          </Typography>
         </Card>
         <Box component='span' className={classes.timerSeparator}>
           :
         </Box>
-        <Card className={classes.timerCard}>
-          <Typography className={classes.timerTypography}> {sec} </Typography>
+        <Card
+          className={classes.timerCard}
+          sx={{
+            backgroundColor: 'primary.light',
+            color: 'primary.contrastText',
+          }}
+        >
+          <Typography
+            className={classes.timerTypography}
+            sx={{ color: 'primary.contrastText' }}
+          >
+            {' '}
+            {sec}{' '}
+          </Typography>
         </Card>
       </Box>
 
