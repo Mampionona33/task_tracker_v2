@@ -75,9 +75,9 @@ export default function Navbar() {
         setLastUpdate((prev) => taskPlay[0].lastUpdate);
       }
       if (taskPause.length > 0) {
-        setPrevProcessId((prev) => taskPlay[0].id);
-        setElapstedTime((prev) => taskPlay[0].elapstedTime);
-        setLastUpdate((prev) => taskPlay[0].lastUpdate);
+        setPrevProcessId((prev) => taskPause[0].id);
+        setElapstedTime((prev) => taskPause[0].elapstedTime);
+        setLastUpdate((prev) => taskPause[0].lastUpdate);
       }
     }
   }, [userData]);
