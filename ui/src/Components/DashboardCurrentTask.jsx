@@ -56,7 +56,10 @@ export default function DashboardCurrentTask(params) {
                 <FormControlLabel
                   control={<Switch onChange={handleSwitchChange} />}
                   label='Simulate Prod'
-                  sx={{ justifyContent: 'center' }}
+                  sx={{
+                    justifyContent: 'center',
+                    color: 'secondary.contrastText',
+                  }}
                 />
               </FormGroup>
             </Paper>
