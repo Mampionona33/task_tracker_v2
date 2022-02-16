@@ -43,6 +43,7 @@ export default function DashboardCurrentTask(params) {
           <CurrentTaskPlay />
           <CurrentTaskProductivity />
           <CurrentTaskTimer />
+          <Divider />
           <Box sx={{ margin: '0.5rem' }}>
             <Paper
               elevation={6}
