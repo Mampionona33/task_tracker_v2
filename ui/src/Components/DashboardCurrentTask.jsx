@@ -1,9 +1,6 @@
 import React from 'react';
 import { Grid, Card, Typography, Divider } from '@mui/material';
 
-import { LOAD_DATA } from '../GraphQL/Queries';
-import { UPDATE_FICHE } from '../GraphQL/Mutation';
-import { formatNbr } from '../Features/formatNbr';
 import CurrentTaskPlay from './CurrentTaskPlay';
 import CurrentTaskTimer from './CurrentTaskTimer.jsx';
 import CurrentTaskProductivity from './CurrentTaskProductivity.jsx';
@@ -26,7 +23,7 @@ export default function DashboardCurrentTask(params) {
           </Grid>
           <Divider />
           <CurrentTaskPlay />
-          <CurrentTaskProductivity/>
+          <CurrentTaskProductivity />
           <CurrentTaskTimer />
         </Card>
       </Grid>

@@ -240,6 +240,7 @@ const setPrevProcessIsOff = async (
   if (erroUpDate) {
     console.log(erroUpDate);
   }
+  console.log('prevProcessPlayId', prevProcessPlayId);
   return prevProcessPlayId;
 };
 
@@ -338,7 +339,6 @@ const updateElastedTime = async (
   fichesUpdate,
   errorUpDate
 ) => {
-  console.log('elapstedTime', elapstedTime);
   fichesUpdate({
     variables: {
       filter: {

@@ -18,11 +18,9 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 
 import {
-  loadProcessingPause,
-  loadAllData,
-  loadProcessingPlay,
   setPrevProcessIsOff,
   userLoggedTasks,
+  updateElastedTime,
 } from './dataHandler';
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
@@ -33,8 +31,6 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useMutation } from '@apollo/client';
 
 export default function Navbar() {
-  const [currentFiche, setCurrentFiche] = useState([]);
-
   // animation key for loading icons
   const rotateIcon = keyframes`
   100%{transform: rotate(360deg)}
@@ -63,6 +59,8 @@ export default function Navbar() {
   };
 
   const [prevProcessId, setPrevProcessId] = useState(0);
+  const [elapstedTime, setElapstedTime] = useState(0);
+  const [lastUpdate, setLastUpdate] = useState([]);
 
   // fetching data
   const userData = userLoggedTasks();
@@ -72,16 +70,17 @@ export default function Navbar() {
   useEffect(() => {
     if (userData.length > 0) {
       if (taskPlay.length > 0) {
-        setCurrentFiche((prev) => taskPlay);
+        setPrevProcessId((prev) => taskPlay[0].id);
+        setElapstedTime((prev) => taskPlay[0].elapstedTime);
+        setLastUpdate((prev) => taskPlay[0].lastUpdate);
       }
       if (taskPause.length > 0) {
-        setCurrentFiche((prev) => taskPause);
+        setPrevProcessId((prev) => taskPlay[0].id);
+        setElapstedTime((prev) => taskPlay[0].elapstedTime);
+        setLastUpdate((prev) => taskPlay[0].lastUpdate);
       }
     }
-    if (currentFiche.length > 0) {
-      setPrevProcessId((prev) => currentFiche[0].id);
-    }
-  }, [currentFiche]);
+  }, [userData]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -89,9 +88,28 @@ export default function Navbar() {
   });
 
   const handelClickLoghout = async () => {
-    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate).then(
-      logout()
+    const elapstedTimeToData = Math.round(
+      (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elapstedTime
     );
+    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
+      .then(
+        updateElastedTime(
+          prevProcessId,
+          elapstedTimeToData,
+          fichesUpdate,
+          erroUpDate
+        )
+      )
+      .then(
+        console.log(
+          'prevProcessId',
+          prevProcessId,
+          ' / ',
+          'elapstedTimeToData: ',
+          elapstedTimeToData
+        )
+      )
+      .then(logout());
   };
 
   // creat custom drawer with custom paper
