@@ -70,12 +70,8 @@ const CurrentTaskProductivity = () => {
 
         const returnGoalPause = goalPause / 3600;
         const returnPlause = nbAftPause / elapstedTimePause;
-        const prod = Math.round((returnPlause / returnGoalPause) * 1000);
-
-        console.log('goalPause', goalPause);
-        console.log('nbAftPause', nbAftPause);
-        console.log('elapstedTimePause', elapstedTimePause);
-        console.log('prod pause', prod);
+        const prod = Math.round((returnPlause / returnGoalPause) * 100);
+        setProductivity((prev) => prod);
       }
     }
   }, [userDataLoged, userTaskListUnsb]);
