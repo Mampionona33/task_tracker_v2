@@ -38,6 +38,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
       letterSpacing: '2.5px',
       fontFamily: 'Digital Numbers Regular',
       fontWeight: '500',
+      margin: '0.2rem',
     },
     timerSeparator: {
       fontFamily: 'Digital Numbers Regular',
@@ -60,10 +61,10 @@ const CurrentTaskTimerDisplay = ({ value }) => {
         >
           <Typography
             className={classes.timerTypography}
+            variant='body2'
             sx={{ color: 'primary.contrastText' }}
           >
-            {' '}
-            {day}{' '}
+            {day}
           </Typography>
         </Card>
         <Box component='span' className={classes.timerSeparator}>
@@ -75,6 +76,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
             sx={{ backgroundColor: 'primary.light' }}
           >
             <Typography
+              variant='body2'
               className={classes.timerTypography}
               sx={{ color: 'primary.contrastText' }}
             >
@@ -90,6 +92,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
           sx={{ backgroundColor: 'primary.light' }}
         >
           <Typography
+            variant='body2'
             className={classes.timerTypography}
             sx={{ color: 'primary.contrastText' }}
           >
@@ -107,6 +110,7 @@ const CurrentTaskTimerDisplay = ({ value }) => {
           }}
         >
           <Typography
+            variant='body2'
             className={classes.timerTypography}
             sx={{ color: 'primary.contrastText' }}
           >

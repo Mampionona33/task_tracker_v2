@@ -177,7 +177,7 @@ const CurrentTaskTimer = () => {
           onClick={handleClickPause}
         >
           <PauseCircleIcon sx={{ fontSize: '30px' }} />
-          </IconButton>
+        </IconButton>
       </Tooltip>
     );
   };
@@ -192,7 +192,7 @@ const CurrentTaskTimer = () => {
           columnGap: '1rem',
         }}
       >
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Elapsted time:
         </Typography>
         <CurrentTaskTimerDisplay value={uiTimer} />

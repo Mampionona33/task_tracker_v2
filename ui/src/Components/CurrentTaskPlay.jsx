@@ -72,50 +72,50 @@ export default function CurrentTaskPlay() {
   return (
     <Box display='flex' flexDirection='column' margin='1em'>
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Task Type:
         </Typography>
-        <Typography>{arrayTask.taskType}</Typography>
+        <Typography variant='body2'>{arrayTask.taskType}</Typography>
       </Box>
       <Divider />
 
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Task Number:
         </Typography>
-        <Typography>{arrayTask.numFiche}</Typography>
+        <Typography variant='body2'>{arrayTask.numFiche}</Typography>
       </Box>
       <Divider />
 
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Status Commercial:
         </Typography>
-        <Typography>{arrayTask.statuCom}</Typography>
+        <Typography variant='body2'>{arrayTask.statuCom}</Typography>
       </Box>
       <Divider />
 
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Nbr Product Before:
         </Typography>
-        <Typography>{arrayTask.nbrBefore}</Typography>
+        <Typography variant='body2'>{arrayTask.nbrBefore}</Typography>
       </Box>
       <Divider />
 
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Nbr Product After:
         </Typography>
-        <Typography>{arrayTask.nbrAfter}</Typography>
+        <Typography variant='body2'>{arrayTask.nbrAfter}</Typography>
       </Box>
       <Divider />
 
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Status:
         </Typography>
-        <Typography>{arrayTask.status}</Typography>
+        <Typography variant='body2'>{arrayTask.status}</Typography>
       </Box>
       <Divider />
     </Box>

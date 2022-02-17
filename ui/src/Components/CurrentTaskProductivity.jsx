@@ -106,7 +106,7 @@ const CurrentTaskProductivity = () => {
         <Box minWidth={35}>
           {props.value >= 94 ? (
             <Typography
-              variant='body1'
+              variant='body2'
               color='#388e3c'
               sx={{ fontWeight: '900' }}
             >
@@ -115,7 +115,7 @@ const CurrentTaskProductivity = () => {
             </Typography>
           ) : props.value > 90 ? (
             <Typography
-              variant='body1'
+              variant='body2'
               color=' #f57c00'
               sx={{ fontWeight: '900' }}
             >
@@ -124,7 +124,7 @@ const CurrentTaskProductivity = () => {
             </Typography>
           ) : (
             <Typography
-              variant='body1'
+              variant='body2'
               color='#d32f2f'
               sx={{ fontWeight: '900' }}
             >
@@ -147,7 +147,7 @@ const CurrentTaskProductivity = () => {
   return (
     <Box sx={{ margin: '0 1rem' }}>
       <Box className={classes.processingBox}>
-        <Typography className={classes.processingTypography}>
+        <Typography variant='body2' className={classes.processingTypography}>
           Productivity
         </Typography>
         <Box sx={{ width: '100%' }}>

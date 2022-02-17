@@ -74,7 +74,7 @@ export default function DashboardSubmitTask() {
             primary={
               <Grid container spacing={1}>
                 <Grid item>
-                  <Typography>{type}</Typography>
+                  <Typography variant='body2'>{type}</Typography>
                 </Grid>
                 <Grid item>{formatNbr(nbr)}</Grid>
               </Grid>

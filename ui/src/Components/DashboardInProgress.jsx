@@ -13,10 +13,9 @@ import {
   Paper,
   keyframes,
 } from '@mui/material';
-import { useQuery, gql } from '@apollo/client';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useAuth0 } from '@auth0/auth0-react';
-import { loadUnsubmitedTask} from './dataHandler';
+import { loadUnsubmitedTask } from './dataHandler';
 
 // keyframe for animating text if type = 'Empty Type'
 const blink = keyframes`
@@ -27,14 +26,14 @@ to{color : white;}
 function DashboardInProgress() {
   const [tache, setTache] = useState([]);
 
- // fetching data
-  const dataUnsubmited = loadUnsubmitedTask(); 
-  
+  // fetching data
+  const dataUnsubmited = loadUnsubmitedTask();
+
   useEffect(() => {
     if (dataUnsubmited) {
       setTache(dataUnsubmited);
     }
-  }, [ dataUnsubmited]);
+  }, [dataUnsubmited]);
 
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   let dataByUser = [];
@@ -136,7 +135,7 @@ function DashboardInProgress() {
                 }}
               >
                 <Grid item>
-                  <Typography>{type}</Typography>
+                  <Typography variant='body2'>{type}</Typography>
                 </Grid>
                 <Grid item>{onStdby(type)}</Grid>
                 <Grid item>{formatNbr(nbr)}</Grid>
