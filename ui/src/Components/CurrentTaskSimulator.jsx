@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Box, Typography, TextField } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 
 const CurrentTaskSimulator = (props) => {
-  //   create classe for Box and Typography
-  const useStyles = makeStyles({
-    input1: {
-      height: 10,
-      color: 'red',
-    },
-  });
-
   const TextFieldStyle = {
     padding: 7,
     fontSize: '1rem',
@@ -23,9 +14,6 @@ const CurrentTaskSimulator = (props) => {
     width: 40,
     height: 15,
   };
-
-  //   import the created classe here
-  const classes = useStyles();
 
   const [hrs, setHrs] = useState('');
   const [min, setMin] = useState('');
