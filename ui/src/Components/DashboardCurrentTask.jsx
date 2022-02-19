@@ -19,8 +19,8 @@ import CurrentTaskSimulator from './CurrentTaskSimulator';
 export default function DashboardCurrentTask(params) {
   const [simulateHide, setsimulateHide] = useState(false);
 
+  // listen to the switch state
   const handleSwitchChange = (e) => {
-    console.log(e.target.checked);
     setsimulateHide((prev) => e.target.checked);
   };
 

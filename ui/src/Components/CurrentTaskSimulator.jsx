@@ -1,14 +1,5 @@
-import React from 'react';
-import {
-  Card,
-  Box,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Input,
-  OutlinedInput,
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Card, Box, Typography, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const CurrentTaskSimulator = (props) => {
@@ -36,6 +27,37 @@ const CurrentTaskSimulator = (props) => {
   //   import the created classe here
   const classes = useStyles();
 
+  const [hrs, setHrs] = useState('');
+  const [min, setMin] = useState('');
+  const [sec, setSec] = useState('');
+
+  // fonction to execute when value of Hrs change
+  const handleTimerInputChange = (ev) => {
+    // If id = hrs, then test the value of input
+    if (ev.target.id == 'hrs') {
+      // if input more than 23 or lesse than 0 -> clear input
+      ev.target.value > 23 || ev.target.value < 0
+        ? setHrs((prev) => ' ')
+        : setHrs((prev) => ev.target.value);
+    }
+
+    // If id = min, then test the value of input
+    if (ev.target.id == 'min') {
+      // if input more than 59  or less than 0 -> clear input
+      ev.target.value > 59 || ev.target.value < 0
+        ? setMin((prev) => ' ')
+        : setMin((prev) => ev.target.value);
+    }
+
+    // If id = sec, then test the value of input
+    if (ev.target.id == 'sec') {
+      // if input more than 59  or less than 0 -> clear input
+      ev.target.value > 59 || ev.target.value < 0
+        ? setSec((prev) => ' ')
+        : setSec((prev) => ev.target.value);
+    }
+  };
+
   return (
     <Card elevation={3} sx={{ marginTop: '1rem' }}>
       <Box display='flex' margin='1rem' gap={2} flexDirection='column'>
@@ -51,20 +73,29 @@ const CurrentTaskSimulator = (props) => {
         </Box>
         <Box display='flex' gap={1}>
           <TextField
-            label='Hrs'
+            label='hrs'
             type='number'
+            id='hrs'
+            value={hrs}
+            onChange={handleTimerInputChange}
             inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '23' }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
             label='Min'
             type='number'
+            id='min'
+            value={min}
+            onChange={handleTimerInputChange}
             inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
             InputLabelProps={{ shrink: true }}
           />
           <TextField
             label='Sec'
+            id='sec'
             type='number'
+            value={sec}
+            onChange={handleTimerInputChange}
             inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
             InputLabelProps={{ shrink: true }}
           />
