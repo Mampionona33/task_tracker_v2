@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Box, Typography, TextField, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import {
+  fetchTaskType,
+  loadProcessingPlay,
+  loadProcessingPause,
+} from './dataHandler';
 
 const CurrentTaskSimulator = (props) => {
   //   create classe for Box and Typography
@@ -30,6 +35,7 @@ const CurrentTaskSimulator = (props) => {
   const [hrs, setHrs] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
+  const [currentTask, setCurrentTask] = useState([]);
 
   // fonction to execute when value of Hrs change
   const handleTimerInputChange = (ev) => {
@@ -57,6 +63,24 @@ const CurrentTaskSimulator = (props) => {
         : setSec((prev) => ev.target.value);
     }
   };
+
+  // get all taskType from data
+  const taskTypes = fetchTaskType();
+  // get current task
+  const taskPause = loadProcessingPause();
+  const taskPlay = loadProcessingPlay();
+
+  console.log('currentTask', currentTask);
+
+  useEffect(() => {
+    if (taskPause.length > 0) {
+      setCurrentTask((prev) => taskPause);
+    }
+
+    if (taskPlay.length > 0) {
+      setCurrentTask((prev) => taskPlay);
+    }
+  });
 
   return (
     <Card elevation={3} sx={{ marginTop: '1rem' }}>
