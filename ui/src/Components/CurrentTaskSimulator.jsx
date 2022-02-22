@@ -35,7 +35,7 @@ const CurrentTaskSimulator = (props) => {
   const [hrs, setHrs] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
-  const [currentTask, setCurrentTask] = useState([]);
+  // const [currentTask, setCurrentTask] = useState([]);
 
   // fonction to execute when value of Hrs change
   const handleTimerInputChange = (ev) => {
@@ -69,16 +69,20 @@ const CurrentTaskSimulator = (props) => {
   // get current task
   const taskPause = loadProcessingPause();
   const taskPlay = loadProcessingPlay();
+  let currentTask = [];
+
+  if (taskPlay.length > 0) {
+    currentTask = taskPlay;
+  }
+  if (taskPause.length > 0) {
+    currentTask = taskPause;
+  }
 
   console.log('currentTask', currentTask);
 
   useEffect(() => {
-    if (taskPause.length > 0) {
-      setCurrentTask((prev) => taskPause);
-    }
-
-    if (taskPlay.length > 0) {
-      setCurrentTask((prev) => taskPlay);
+    if (currentTask.length > 0 && taskTypes) {
+      console.log('test', currentTask);
     }
   });
 
