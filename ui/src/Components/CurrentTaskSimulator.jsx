@@ -82,7 +82,12 @@ const CurrentTaskSimulator = (props) => {
 
   useEffect(() => {
     if (currentTask.length > 0 && taskTypes) {
-      console.log('test', currentTask);
+      const tasktype = taskTypes.filter(
+        (item) => item.name === currentTask[0].typeTrav
+      );
+      const goal = tasktype[0].objectif;
+      const nbProdAft = currentTask[0].nbAft;
+      console.log('goal', goal, nbProdAft);
     }
   });
 
