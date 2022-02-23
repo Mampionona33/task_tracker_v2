@@ -65,8 +65,8 @@ const CurrentTaskProductivity = () => {
         const elapstedTimePause = taskPause[0].elapstedTime;
 
         const returnGoalPause = goalPause / 3600;
-        const returnPlause = nbAftPause / elapstedTimePause;
-        const prod = Math.round((returnPlause / returnGoalPause) * 100);
+        const returnPause = nbAftPause / elapstedTimePause;
+        const prod = Math.round((returnPause / returnGoalPause) * 100);
         clearInterval(count.current);
         setProductivity((prev) => (prod > 100 ? 100 : prod));
       }

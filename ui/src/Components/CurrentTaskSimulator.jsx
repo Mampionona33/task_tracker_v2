@@ -35,7 +35,8 @@ const CurrentTaskSimulator = (props) => {
   const [hrs, setHrs] = useState('');
   const [min, setMin] = useState('');
   const [sec, setSec] = useState('');
-  // const [currentTask, setCurrentTask] = useState([]);
+  const [numberAfter, setNumberAfter] = useState('');
+  const [prod, setProd] = useState([]);
 
   // fonction to execute when value of Hrs change
   const handleTimerInputChange = (ev) => {
@@ -62,7 +63,12 @@ const CurrentTaskSimulator = (props) => {
         ? setSec((prev) => ' ')
         : setSec((prev) => ev.target.value);
     }
+    if (ev.target.id == 'numbAft') {
+      setNumberAfter((prev) => ev.target.value);
+    }
   };
+
+  console.log('number', numberAfter);
 
   // get all taskType from data
   const taskTypes = fetchTaskType();
@@ -87,9 +93,30 @@ const CurrentTaskSimulator = (props) => {
       );
       const goal = tasktype[0].objectif;
       const nbProdAft = currentTask[0].nbAft;
-      console.log('goal', goal, nbProdAft);
+      const prevElapsTime = currentTask[0].elapstedTime;
+      const prevLastUpdate = currentTask[0].lastUpdate;
+
+      const currentElapstedTime =
+        prevElapsTime +
+        (Date.parse(prevLastUpdate) - (hrs * 3600 + min * 60 + sec));
+
+      console.log('goal', goal, nbProdAft, prevElapsTime);
+
+      const rendement = goal / 3600;
+      
+      const currentRendement = numberAfter / currentElapstedTime;
+
+      console.log('currentElapstedTime', currentElapstedTime);
+      console.log('rendement', rendement);
+      console.log('currentRendement', currentRendement);
+
+      if (currentElapstedTime > 0) {
+        setProd((prev) => Math.round(currentRendement / rendement));
+      }
     }
-  });
+  }, [numberAfter, hrs, min, sec]);
+
+  console.log(prod);
 
   return (
     <Card elevation={3} sx={{ marginTop: '1rem' }}>
@@ -105,6 +132,9 @@ const CurrentTaskSimulator = (props) => {
               size='small'
               type='number'
               label='Nombre Prod Aft'
+              id='numbAft'
+              value={numberAfter}
+              onChange={handleTimerInputChange}
               inputProps={{ style: TextFieldStyle, min: '1' }}
               InputLabelProps={{ shrink: true }}
               placeholder='Nombre Product After'
@@ -148,7 +178,7 @@ const CurrentTaskSimulator = (props) => {
               backgroundColor: 'primary.light',
             }}
           >
-            <Typography>100%</Typography>
+            <Typography>{prod}</Typography>
           </Paper>
         </Box>
       </Box>
