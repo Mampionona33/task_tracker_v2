@@ -77,8 +77,6 @@ const CurrentTaskSimulator = (props) => {
     calculProd();
   };
 
-  console.log('number', numberAfter);
-
   // get all taskType from data
   const taskTypes = fetchTaskType();
   // get current task
@@ -92,8 +90,6 @@ const CurrentTaskSimulator = (props) => {
   if (taskPause.length > 0) {
     currentTask = taskPause;
   }
-
-  console.log('currentTask', currentTask);
 
   // calucl prod
   const calculProd = () => {
@@ -114,8 +110,6 @@ const CurrentTaskSimulator = (props) => {
 
     setProd((prev) => currentProd);
   };
-
-  console.log('taskGoal', taskGoal);
 
   useEffect(() => {
     if (currentTask.length > 0 && taskTypes) {

@@ -14,6 +14,14 @@ const CurrentTaskProductivity = () => {
   // fetch all unsubmite task
   const userDataLoged = userLoggedTasks();
 
+  // try to refetch data on focus on the app tab
+  document.addEventListener('visibilitychange', (ev) => {
+    if (!document.hidden) {
+      userDataLoged;
+      allTaskType;
+    }
+  });
+
   const taskPlay = userTaskListUnsb.filter(
     (task) => task.processing === 'isPlay'
   );
