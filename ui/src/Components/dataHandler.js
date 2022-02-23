@@ -36,14 +36,11 @@ function userLoggedTasks() {
 
   useEffect(() => {
     // make to refetch data when windows is focused to prevent un updated productivity
-    const refetchQuery = () => refetchData();
-    window.addEventListener('focus', refetchQuery);
     if (fetchedData) {
       setUserTask((prev) => fetchedData.searchFiches);
     }
-    return () => window.removeEventListener('focus', refetchData);
+    
   }, [fetchedData]);
-
   return userTask;
 }
 

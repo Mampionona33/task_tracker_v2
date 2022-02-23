@@ -71,6 +71,9 @@ const CurrentTaskProductivity = () => {
         setProductivity((prev) => (prod > 100 ? 100 : prod));
       }
     }
+    const refetchQuery = () => userLoggedTasks();
+    window.addEventListener('focus', refetchQuery);
+    return () => window.removeEventListener('focus', refetchQuery);
   }, [userDataLoged, userTaskListUnsb, allTaskType]);
 
   //   create classe for Box and Typography
