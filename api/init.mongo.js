@@ -177,7 +177,7 @@ async function resetMongo() {
         nbAft: 11,
         startDate: new Date('2021-12-15'),
         validDate: new Date('2021-12-17'),
-        elapstedTime: 7864,
+        elapstedTime: 3600,
         productivity: 98,
         processing: 'isOff',
       },

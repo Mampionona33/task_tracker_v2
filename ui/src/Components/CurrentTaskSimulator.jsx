@@ -32,11 +32,14 @@ const CurrentTaskSimulator = (props) => {
   //   import the created classe here
   const classes = useStyles();
 
-  const [hrs, setHrs] = useState('');
-  const [min, setMin] = useState('');
-  const [sec, setSec] = useState('');
+  const [hrs, setHrs] = useState(0);
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
   const [numberAfter, setNumberAfter] = useState('');
-  const [prod, setProd] = useState([]);
+  const [prod, setProd] = useState(0);
+  const [taskGoal, setTaskGoal] = useState(1);
+  const [elapstedTime, setElapstedTime] = useState(0);
+  const [lastUpdate, setLastUpdate] = useState([]);
 
   // fonction to execute when value of Hrs change
   const handleTimerInputChange = (ev) => {
@@ -65,7 +68,11 @@ const CurrentTaskSimulator = (props) => {
     }
     if (ev.target.id == 'numbAft') {
       setNumberAfter((prev) => ev.target.value);
+      setHrs((prev) => 0);
+      setMin((prev) => 0);
+      setSec((prev) => 0);
     }
+    calculProd();
   };
 
   console.log('number', numberAfter);
@@ -86,37 +93,38 @@ const CurrentTaskSimulator = (props) => {
 
   console.log('currentTask', currentTask);
 
+  // calucl prod
+  const calculProd = () => {
+    // create new date and set it's hours min and sec to the input value
+    const prodDate = new Date();
+    prodDate.setHours(hrs);
+    prodDate.setMinutes(min);
+    prodDate.setSeconds(sec);
+
+    const currentElapstedTime =
+      elapstedTime + (Date.parse(prodDate) - Date.parse(lastUpdate)) / 1000;
+
+    const typeTaskRendement = taskGoal / 3600;
+    const currentRendement = numberAfter / currentElapstedTime;
+    const currentProd = Math.round(
+      (currentRendement / typeTaskRendement) * 100
+    );
+
+    setProd((prev) => currentProd);
+  };
+
+  console.log('taskGoal', taskGoal);
+
   useEffect(() => {
     if (currentTask.length > 0 && taskTypes) {
       const tasktype = taskTypes.filter(
         (item) => item.name === currentTask[0].typeTrav
       );
-      const goal = tasktype[0].objectif;
-      const nbProdAft = currentTask[0].nbAft;
-      const prevElapsTime = currentTask[0].elapstedTime;
-      const prevLastUpdate = currentTask[0].lastUpdate;
-
-      const currentElapstedTime =
-        prevElapsTime +
-        (Date.parse(prevLastUpdate) - (hrs * 3600 + min * 60 + sec));
-
-      console.log('goal', goal, nbProdAft, prevElapsTime);
-
-      const rendement = goal / 3600;
-      
-      const currentRendement = numberAfter / currentElapstedTime;
-
-      console.log('currentElapstedTime', currentElapstedTime);
-      console.log('rendement', rendement);
-      console.log('currentRendement', currentRendement);
-
-      if (currentElapstedTime > 0) {
-        setProd((prev) => Math.round(currentRendement / rendement));
-      }
+      setTaskGoal((prev) => tasktype[0].objectif);
+      setElapstedTime((prev) => currentTask[0].elapstedTime);
+      setLastUpdate((prev) => currentTask[0].lastUpdate);
     }
-  }, [numberAfter, hrs, min, sec]);
-
-  console.log(prod);
+  }, [currentTask, taskTypes]);
 
   return (
     <Card elevation={3} sx={{ marginTop: '1rem' }}>
@@ -178,7 +186,7 @@ const CurrentTaskSimulator = (props) => {
               backgroundColor: 'primary.light',
             }}
           >
-            <Typography>{prod}</Typography>
+            <Typography>{prod}%</Typography>
           </Paper>
         </Box>
       </Box>
