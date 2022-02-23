@@ -49,6 +49,8 @@ const CurrentTaskSimulator = (props) => {
       ev.target.value > 23 || ev.target.value < 0
         ? setHrs((prev) => ' ')
         : setHrs((prev) => ev.target.value);
+      setMin((prev) => -1);
+      setSec((prev) => -1);
     }
 
     // If id = min, then test the value of input
