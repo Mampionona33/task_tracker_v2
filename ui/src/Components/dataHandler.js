@@ -22,6 +22,7 @@ function userLoggedTasks() {
     error: errorPause,
     loading: loadingPause,
     data: fetchedData,
+    refetch: refetchData,
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
@@ -34,9 +35,13 @@ function userLoggedTasks() {
   });
 
   useEffect(() => {
+    // make to refetch data when windows is focused to prevent un updated productivity
+    const refetchQuery = () => refetchData();
+    window.addEventListener('focus', refetchQuery);
     if (fetchedData) {
       setUserTask((prev) => fetchedData.searchFiches);
     }
+    return () => window.removeEventListener('focus', refetchData);
   }, [fetchedData]);
 
   return userTask;
