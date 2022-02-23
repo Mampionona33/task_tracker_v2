@@ -32,9 +32,9 @@ const CurrentTaskSimulator = (props) => {
   //   import the created classe here
   const classes = useStyles();
 
-  const [hrs, setHrs] = useState(0);
-  const [min, setMin] = useState(0);
-  const [sec, setSec] = useState(0);
+  const [hrs, setHrs] = useState(-1);
+  const [min, setMin] = useState(-1);
+  const [sec, setSec] = useState(-1);
   const [numberAfter, setNumberAfter] = useState('');
   const [prod, setProd] = useState(0);
   const [taskGoal, setTaskGoal] = useState(1);
@@ -68,9 +68,9 @@ const CurrentTaskSimulator = (props) => {
     }
     if (ev.target.id == 'numbAft') {
       setNumberAfter((prev) => ev.target.value);
-      setHrs((prev) => 0);
-      setMin((prev) => 0);
-      setSec((prev) => 0);
+      setHrs((prev) => -1);
+      setMin((prev) => -1);
+      setSec((prev) => -1);
     }
     calculProd();
   };
@@ -153,7 +153,7 @@ const CurrentTaskSimulator = (props) => {
               label='hrs'
               type='number'
               id='hrs'
-              value={hrs}
+              value={hrs >= 0 ? hrs : ''}
               onChange={handleTimerInputChange}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '23' }}
               InputLabelProps={{ shrink: true }}
@@ -162,7 +162,7 @@ const CurrentTaskSimulator = (props) => {
               label='Min'
               type='number'
               id='min'
-              value={min}
+              value={min >= 0 ? min : ''}
               onChange={handleTimerInputChange}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
@@ -171,7 +171,7 @@ const CurrentTaskSimulator = (props) => {
               label='Sec'
               id='sec'
               type='number'
-              value={sec}
+              value={sec >= 0 ? sec : ''}
               onChange={handleTimerInputChange}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
