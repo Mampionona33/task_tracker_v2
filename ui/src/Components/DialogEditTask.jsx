@@ -18,6 +18,7 @@ const DialogEditTask = (props) => {
   return (
     <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>Edit task</DialogTitle>
+      <DialogContent>place holder</DialogContent>
     </Dialog>
   );
 };
