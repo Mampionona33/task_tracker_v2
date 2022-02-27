@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import DialogEditTask from './DialogEditTask.jsx';
 import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
@@ -23,6 +23,9 @@ export default function TaskTable() {
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
+
+  // control DialogEditTask
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
 
   // columns to use inside table
   const columns = [
@@ -102,12 +105,12 @@ export default function TaskTable() {
     {
       field: 'actions',
       headerName: 'Action',
-      align: 'center',      
+      align: 'center',
       justifyContent: 'space-between',
       headerAlign: 'center',
       flexWrap: 'wrap',
       flex: 1,
-      minWidth: 200,      
+      minWidth: 200,
       renderCell: (param) => (
         <React.Fragment>
           <IconButton
@@ -117,19 +120,20 @@ export default function TaskTable() {
             // using param and event to get id of the actual fiche
             onClick={(event) => handleClickPlay(event, param)}
             // conditionnal disabling button play on action column
-          disabled={param.row.processing === 'isPlay'}
+            disabled={param.row.processing === 'isPlay'}
           >
-            <PlayCircleIcon/>
+            <PlayCircleIcon />
           </IconButton>
-          
+
           <IconButton
             color='primary'
             component='span'
             arial-label='Play button'
+            onClick={(event) => handleClickEdit(event, param)}
           >
             <EditIcon />
           </IconButton>
-          
+
           <IconButton
             color='primary'
             component='span'
@@ -137,7 +141,6 @@ export default function TaskTable() {
           >
             <DeleteIcon />
           </IconButton>
-          
         </React.Fragment>
       ),
     },
@@ -158,6 +161,7 @@ export default function TaskTable() {
     awaitRefetchQueries: true,
   });
 
+  // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
 
@@ -172,15 +176,24 @@ export default function TaskTable() {
       )
       .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
       .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then( () => {
-        if(event.row.processing === 'isPlay'){
-          return 
+      .then(() => {
+        if (event.row.processing === 'isPlay') {
+          return;
         }
-        if(event.row.processing === 'isOff'){
-        (window.location.href = '#/dashboard');          
+        if (event.row.processing === 'isOff') {
+          window.location.href = '#/dashboard';
         }
-      }       
-      );
+      });
+  };
+
+  // function to execute on click edit buton
+  const handleClickEdit = async (param, event) => {
+    const id = event.id;
+    setDialogEditOpen(true);
+  };
+  // function to execute to close DialogEditTask
+  const handleClickDialogEditClose = () => {
+    setDialogEditOpen(false);
   };
 
   // fetching data
@@ -316,6 +329,13 @@ export default function TaskTable() {
           }}
         />
       </Box>
+      {/* DialogBox Edit Task */}
+      <React.Fragment>
+        <DialogEditTask
+          open={dialogEditOpen}
+          onClose={handleClickDialogEditClose}
+        />
+      </React.Fragment>
     </Box>
   );
 }
