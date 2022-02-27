@@ -179,10 +179,17 @@ const CurrentTaskSimulator = (props) => {
             sx={{
               margin: '1rem',
               padding: '0.5rem',
-            backgroundColor:(prod >= 100 ) ? 'primary.light' : (prod >= 90 ) ? 'warning.light' : 'error.ligth' ,
+              backgroundColor:
+                prod >= 95
+                  ? 'success.light'
+                  : prod >= 90
+                  ? 'warning.light'
+                  : 'error.light',
             }}
           >
-            <Typography>{prod ? prod : 0}%</Typography>
+            <Typography sx={{ color: 'primary.contrastText' }}>
+              {prod ? prod : 0}%
+            </Typography>
           </Paper>
         </Box>
       </Box>
