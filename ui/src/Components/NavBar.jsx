@@ -91,16 +91,14 @@ export default function Navbar() {
     const elapstedTimeToData = Math.round(
       (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elapstedTime
     );
-    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
-      .then(
-        updateElastedTime(
+    const prevProcessIsOff =     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate);
+    if(prevProcessIsOff){
+    updateElastedTime(
           prevProcessId,
           elapstedTimeToData,
           fichesUpdate,
           erroUpDate
-        )
-      )
-      .then(
+        ).then(
         console.log(
           'prevProcessId',
           prevProcessId,
@@ -110,6 +108,9 @@ export default function Navbar() {
         )
       )
       .then(logout());
+    }
+      
+      
   };
 
   // creat custom drawer with custom paper
