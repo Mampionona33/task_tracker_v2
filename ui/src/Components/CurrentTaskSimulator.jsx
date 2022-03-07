@@ -6,6 +6,7 @@ import {
   loadProcessingPlay,
   loadProcessingPause,
 } from './dataHandler';
+import { formatNbr, formatTimer } from '../Features/formatNbr';
 
 const CurrentTaskSimulator = (props) => {
   //   create classe for Box and Typography
@@ -47,17 +48,15 @@ const CurrentTaskSimulator = (props) => {
     if (ev.target.id == 'hrs') {
       // if input more than 23 or lesse than 0 -> clear input
       ev.target.value > 23 || ev.target.value < 0
-        ? setHrs((prev) => ' ')
+        ? setHrs((prev) => parseInt(prev.toString().substring(0, 1)))
         : setHrs((prev) => ev.target.value);
-      setMin((prev) => -1);
-      setSec((prev) => -1);
     }
 
     // If id = min, then test the value of input
     if (ev.target.id == 'min') {
       // if input more than 59  or less than 0 -> clear input
       ev.target.value > 59 || ev.target.value < 0
-        ? setMin((prev) => ' ')
+        ? setMin((prev) => parseInt(prev.toString().substring(0, 1)))
         : setMin((prev) => ev.target.value);
     }
 
@@ -65,16 +64,14 @@ const CurrentTaskSimulator = (props) => {
     if (ev.target.id == 'sec') {
       // if input more than 59  or less than 0 -> clear input
       ev.target.value > 59 || ev.target.value < 0
-        ? setSec((prev) => ' ')
+        ? setSec((prev) => parseInt(prev.toString().substring(0, 1)))
         : setSec((prev) => ev.target.value);
     }
     if (ev.target.id == 'numbAft') {
       setNumberAfter((prev) => ev.target.value);
-      setHrs((prev) => -1);
-      setMin((prev) => -1);
-      setSec((prev) => -1);
     }
     calculProd();
+    console.log(hrs, min, sec, numberAfter);
   };
 
   // get all taskType from data
@@ -95,6 +92,7 @@ const CurrentTaskSimulator = (props) => {
   const calculProd = () => {
     // create new date and set it's hours min and sec to the input value
     const prodDate = new Date();
+
     prodDate.setHours(hrs);
     prodDate.setMinutes(min);
     prodDate.setSeconds(sec);
@@ -151,6 +149,7 @@ const CurrentTaskSimulator = (props) => {
               id='hrs'
               value={hrs >= 0 ? hrs : ''}
               onChange={handleTimerInputChange}
+              onBlur={() => setHrs((prev) => formatTimer(prev))}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '23' }}
               InputLabelProps={{ shrink: true }}
             />
@@ -160,6 +159,7 @@ const CurrentTaskSimulator = (props) => {
               id='min'
               value={min >= 0 ? min : ''}
               onChange={handleTimerInputChange}
+              onBlur={() => setMin((prev) => formatTimer(prev))}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
             />
@@ -168,6 +168,7 @@ const CurrentTaskSimulator = (props) => {
               id='sec'
               type='number'
               value={sec >= 0 ? sec : ''}
+              onBlur={() => setSec((prev) => formatTimer(prev))}
               onChange={handleTimerInputChange}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
