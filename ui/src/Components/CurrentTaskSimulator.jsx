@@ -70,7 +70,6 @@ const CurrentTaskSimulator = (props) => {
     if (ev.target.id == 'numbAft') {
       setNumberAfter((prev) => ev.target.value);
     }
-    console.log(hrs, min, sec, numberAfter);
   };
 
   // fonction to execute onBlure in input
