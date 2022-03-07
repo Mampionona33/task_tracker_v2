@@ -70,8 +70,28 @@ const CurrentTaskSimulator = (props) => {
     if (ev.target.id == 'numbAft') {
       setNumberAfter((prev) => ev.target.value);
     }
-    calculProd();
     console.log(hrs, min, sec, numberAfter);
+  };
+
+  // fonction to execute onBlure in input
+  const handleOnBlure = (ev) => {
+    // if (ev.target.id === 'hrs') {
+    //   setHrs((prev) => formatTimer(prev));
+    // }
+    switch (ev.target.id) {
+      case 'hrs':
+        setHrs((prev) => formatTimer(prev));
+        break;
+      case 'min':
+        setMin((prev) => formatTimer(prev));
+        break;
+      case 'sec':
+        setSec((prev) => formatTimer(prev));
+        break;
+      default:
+        break;
+    }
+    calculProd();
   };
 
   // get all taskType from data
@@ -136,6 +156,7 @@ const CurrentTaskSimulator = (props) => {
               label='Nombre Prod Aft'
               id='numbAft'
               value={numberAfter}
+              onBlur={handleOnBlure}
               onChange={handleTimerInputChange}
               inputProps={{ style: TextFieldStyle, min: '1' }}
               InputLabelProps={{ shrink: true }}
@@ -149,7 +170,8 @@ const CurrentTaskSimulator = (props) => {
               id='hrs'
               value={hrs >= 0 ? hrs : ''}
               onChange={handleTimerInputChange}
-              onBlur={() => setHrs((prev) => formatTimer(prev))}
+              // onBlur={() => setHrs((prev) => formatTimer(prev))}
+              onBlur={handleOnBlure}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '23' }}
               InputLabelProps={{ shrink: true }}
             />
@@ -159,7 +181,7 @@ const CurrentTaskSimulator = (props) => {
               id='min'
               value={min >= 0 ? min : ''}
               onChange={handleTimerInputChange}
-              onBlur={() => setMin((prev) => formatTimer(prev))}
+              onBlur={handleOnBlure}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
             />
@@ -168,7 +190,7 @@ const CurrentTaskSimulator = (props) => {
               id='sec'
               type='number'
               value={sec >= 0 ? sec : ''}
-              onBlur={() => setSec((prev) => formatTimer(prev))}
+              onBlur={handleOnBlure}
               onChange={handleTimerInputChange}
               inputProps={{ style: TimerTextFieldeStyle, min: '0', max: '59' }}
               InputLabelProps={{ shrink: true }}
