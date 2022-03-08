@@ -14,7 +14,11 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
-const DialogEditTask = ({ taskId, open, onClose }) => {
+const DialogEditTask = (props) => {
+  const open = props.open;
+  const onClose = props.onClose;
+  const taskId = props.taskId;
+
   // input styles
   const textFieldInputStyle = {
     padding: 7,
