@@ -11,6 +11,7 @@ import {
   Typography,
   TextareaAutosize,
   Link,
+  Divider,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
@@ -29,10 +30,7 @@ import {
   setPrevProcessIsOff,
   modifyLastUpdate,
 } from './dataHandler';
-import {
-    getUtcDateNow
-    }
-from '../Features/getUtcDateNow';
+import { getUtcDateNow } from '../Features/getUtcDateNow';
 
 export default function DialogAddNewTask({ open, onClose }) {
   const [typeTache, setTypeTache] = useState([]);
@@ -57,7 +55,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   // const [lastUpdate, setLastUpdate] = useState([]);
 
   // get the user
-  const { loginWithRedirect, logout, user, isLoading } = useAuth0();  
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
 
   // execute mutation ficheAdd and refetch query to load changes
   const [fichesAdd, { error: errorCreatFiche }] = useMutation(ADD_FICHE, {
@@ -85,11 +83,10 @@ export default function DialogAddNewTask({ open, onClose }) {
     ],
   });
 
-const dateNow = getUtcDateNow();
+  const dateNow = getUtcDateNow();
 
   // Function to add new task in data base
-  const addFiche = async () => { 
-  
+  const addFiche = async () => {
     fichesAdd({
       variables: {
         fiche: {
@@ -175,7 +172,8 @@ const dateNow = getUtcDateNow();
         PaperProps={{ sx: { height: '80vh' } }}
         fullWidth
       >
-        <DialogTitle id='alert-dialog-title'>{'Add New Task'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>Add New Task</DialogTitle>
+        <Divider />
 
         <DialogContent>
           <Box
