@@ -10,13 +10,11 @@ import {
   Paper,
   Typography,
   TextareaAutosize,
-  Link,
-  Grid,
   Divider,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
-const DialogEditTask = (props) => {
+const DialogEditTask = ({ taskId, open, onClose }) => {
   // input styles
   const textFieldInputStyle = {
     padding: 7,
@@ -30,10 +28,12 @@ const DialogEditTask = (props) => {
     height: 15,
   };
 
+  console.log(taskId);
+
   return (
     <Dialog
-      open={props.open}
-      onClose={props.onClose}
+      open={open}
+      onClose={onClose}
       aria-labelledby='alert-dialog-edit-task'
       aria-describedby='alert-dialog-describ-edit-task'
       fullWidth
@@ -211,7 +211,7 @@ const DialogEditTask = (props) => {
       {/* Button */}
       <DialogActions>
         <Button>Save</Button>
-        <Button onClick={props.onClose}>Cancel</Button>
+        <Button onClick={onClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
