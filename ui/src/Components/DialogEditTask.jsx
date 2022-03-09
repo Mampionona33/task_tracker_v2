@@ -18,6 +18,8 @@ const DialogEditTask = (props) => {
   const open = props.open;
   const onClose = props.onClose;
   const taskId = props.taskId;
+  const dataToEdit = props.dataToEdit;
+  console.log(dataToEdit);
 
   // input styles
   const textFieldInputStyle = {
