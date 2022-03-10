@@ -34,7 +34,7 @@ const DialogEditTask = (props) => {
     height: 15,
   };
 
-  console.log(taskId);
+  console.log(dataToEdit);
 
   return (
     <Dialog
