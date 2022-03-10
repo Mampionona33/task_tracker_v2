@@ -32,7 +32,11 @@ const CurrentTaskProductivity = () => {
 
     if (userTaskListUnsb.length > 0 && allTaskType) {
       // If task processing is play and allTaskType note empty
-      if (taskPlay.length > 0 && allTaskType) {
+      if (
+        taskPlay.length > 0 &&
+        allTaskType &&
+        taskPlay[0].typeTrav != 'Empty Type'
+      ) {
         const getGoalPlay = allTaskType.filter(
           (taskType) => taskType.name === taskPlay[0].typeTrav
         );

@@ -129,7 +129,12 @@ const CurrentTaskSimulator = (props) => {
   };
 
   useEffect(() => {
-    if (currentTask.length > 0 && taskTypes) {
+    if (
+      currentTask.length > 0 &&
+      taskTypes &&
+      currentTask[0].typeTrav != 'Empty Type'
+    ) {
+      console.log('currentTask', currentTask);
       const tasktype = taskTypes.filter(
         (item) => item.name === currentTask[0].typeTrav
       );
