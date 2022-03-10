@@ -18,8 +18,8 @@ const DialogEditTask = (props) => {
   const open = props.open;
   const onClose = props.onClose;
   const taskId = props.taskId;
-  const dataToEdit = props.dataToEdit;
-  console.log(dataToEdit);
+  const selectedRowData = props.selectedRowData;
+  console.log(selectedRowData);
 
   // input styles
   const textFieldInputStyle = {
@@ -33,8 +33,6 @@ const DialogEditTask = (props) => {
     width: 40,
     height: 15,
   };
-
-  console.log(dataToEdit);
 
   return (
     <Dialog

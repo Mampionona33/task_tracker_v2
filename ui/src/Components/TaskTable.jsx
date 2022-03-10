@@ -188,10 +188,10 @@ export default function TaskTable() {
 
   // function to execute on click edit buton
   const [taskIdToEdit, setTaskIdToEdit] = useState(0);
-  const [dataToEdit, setDataToEdit]= useState([]);
+  const [selectedRowData, setSelectedRowData] = useState([]);
   const handleClickEdit = async (param, event) => {
     setTaskIdToEdit(event.id);
-    setDataToEdit(event.task);
+    setSelectedRowData(event.row);
     setDialogEditOpen(true);
   };
 
@@ -338,7 +338,7 @@ export default function TaskTable() {
         <DialogEditTask
           taskId={taskIdToEdit}
           open={dialogEditOpen}
-          dataUnsubmited = {dataToEdit}
+          selectedRowData={selectedRowData}
           onClose={handleClickDialogEditClose}
         />
       </React.Fragment>
