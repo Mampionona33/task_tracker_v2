@@ -1,5 +1,10 @@
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
+import {
+  LOAD_DATA,
+  FILTRED_FICHE,
+  LIST_STATUS_IVPN,
+  LIST_STATUS_COMMERCIALE,
+} from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import React, { useEffect, useState, useRef } from 'react';
 import { formatNbr } from '../Features/formatNbr';
@@ -39,7 +44,6 @@ function userLoggedTasks() {
     if (fetchedData) {
       setUserTask((prev) => fetchedData.searchFiches);
     }
-    
   }, [fetchedData]);
   return userTask;
 }
@@ -220,6 +224,40 @@ const fetchTaskType = () => {
     }
   }, [allData]);
   return output;
+};
+
+// Fetching list status IVPN
+const fetchListSatusIvpn = () => {
+  const [out, setOut] = useState([]);
+  const {
+    data: listStatusIvpnData,
+    loading: listStatusIvpnLoading,
+    error: listStatusIvpnError,
+    refetch,
+  } = useQuery(LIST_STATUS_IVPN);
+  useEffect(() => {
+    if (listStatusIvpnData != null) {
+      setOut((prev) => listStatusIvpnData);
+    }
+  }, [listStatusIvpnData]);
+  return out;
+};
+
+// Fechting List status commercial
+const fetchingStatusCom = () => {
+  const [out, setOut] = useState([]);
+  const {
+    data: listStatusComData,
+    loading: listSatusComLoading,
+    error: listStatusComError,
+  } = useQuery(LIST_STATUS_COMMERCIALE);
+
+  useEffect(() => {
+    if (listStatusComData != null) {
+      setOut((prev) => listStatusComData);
+    }
+  }, [listStatusComData]);
+  return out;
 };
 
 // MUTATE DATA-----------------------------
@@ -436,4 +474,6 @@ export {
   dateFormater,
   productivity,
   fetchTaskType,
+  fetchListSatusIvpn,
+  fetchingStatusCom,
 };

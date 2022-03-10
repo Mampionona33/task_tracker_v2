@@ -110,3 +110,21 @@ export const FILTRED_FICHE = gql`
     }
   }
 `;
+
+export const LIST_STATUS_IVPN = gql`
+  query ListStatIvpn {
+    listStatIvpn {
+      id
+      name
+    }
+  }
+`;
+
+export const LIST_STATUS_COMMERCIALE = gql`
+  query ListStatCom {
+    listStatCom {
+      id
+      name
+    }
+  }
+`;
