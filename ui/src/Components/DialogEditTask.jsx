@@ -13,7 +13,11 @@ import {
   Divider,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { fetchListSatusIvpn, fetchingStatusCom } from './dataHandler';
+import {
+  fetchListSatusIvpn,
+  fetchingStatusCom,
+  fetchingListTaskType,
+} from './dataHandler';
 
 const DialogEditTask = (props) => {
   const open = props.open;
@@ -22,8 +26,9 @@ const DialogEditTask = (props) => {
 
   const listStatIvpn = fetchListSatusIvpn();
   const listStatusCom = fetchingStatusCom();
+  const listTaskType = fetchingListTaskType();
 
-  console.log(selectedRowData, listStatIvpn, listStatusCom);
+  console.log(selectedRowData, listStatIvpn, listStatusCom, listTaskType);
 
   // input styles
   const textFieldInputStyle = {

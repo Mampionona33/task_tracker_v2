@@ -128,3 +128,13 @@ export const LIST_STATUS_COMMERCIALE = gql`
     }
   }
 `;
+
+export const LIST_TASK_TYPE = gql`
+  query ListTypeTaches {
+    listTypeTaches {
+      name
+      objectif
+      id
+    }
+  }
+`;
