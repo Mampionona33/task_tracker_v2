@@ -26,19 +26,24 @@ const DialogEditTask = (props) => {
 
   // fetching data from database
   const fetchingListStatIvpn = fetchListSatusIvpn();
-  const listStatusCom = fetchingStatusCom();
-  const listTaskType = fetchingListTaskType();
+  const listStatusComs = fetchingStatusCom();
+  const listTaskTypes = fetchingListTaskType();
 
   // Get status IVPN from fetchingListStatIvpn
   const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
+  const listTaskType = listTaskTypes.listTypeTaches;
 
   const [autoCompletIvpn, setAutocompletIvpn] = useState([]);
+  const [autoCompletTypeTask, setAutocompletTypeTask] = useState([]);
 
   useEffect(() => {
     if (listStatIvpn) {
       setAutocompletIvpn((prev) => listStatIvpn.map((item) => item.name));
     }
-  }, [listStatIvpn]);
+    if (listTaskType) {
+      setAutocompletTypeTask((prev) => listTaskType.map((item) => item.name));
+    }
+  }, [listStatIvpn, listTaskTypes]);
 
   // input styles
   const textFieldInputStyle = {
@@ -123,12 +128,13 @@ const DialogEditTask = (props) => {
               disablePortal
               id='typeTask'
               size='small'
-              options={[
-                'Contenue',
-                'AutoValidMajPrio',
-                'AutoValidCréaPrio',
-                'REASSO',
-              ]}
+              // options={[
+              //   'Contenue',
+              //   'AutoValidMajPrio',
+              //   'AutoValidCréaPrio',
+              //   'REASSO',
+              // ]}
+              options={autoCompletTypeTask}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
