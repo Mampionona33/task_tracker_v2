@@ -32,9 +32,13 @@ const DialogEditTask = (props) => {
   // Get status IVPN from fetchingListStatIvpn
   const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
   const listTaskType = listTaskTypes.listTypeTaches;
+  const listStatCom = listStatusComs.listStatCom;
 
   const [autoCompletIvpn, setAutocompletIvpn] = useState([]);
   const [autoCompletTypeTask, setAutocompletTypeTask] = useState([]);
+  const [autoCompletStatuCom, setAutocompletStatCom] = useState([]);
+
+  console.log(listStatusComs);
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -43,7 +47,10 @@ const DialogEditTask = (props) => {
     if (listTaskType) {
       setAutocompletTypeTask((prev) => listTaskType.map((item) => item.name));
     }
-  }, [listStatIvpn, listTaskTypes]);
+    if (listStatCom) {
+      setAutocompletStatCom((prev) => listStatCom.map((item) => item.name));
+    }
+  }, [listStatIvpn, listTaskTypes, listStatCom]);
 
   // input styles
   const textFieldInputStyle = {
@@ -98,7 +105,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='comboBoxStateCom'
               size='small'
-              options={['abonnée', 'dégradée', 'Essai']}
+              options={autoCompletStatuCom}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
