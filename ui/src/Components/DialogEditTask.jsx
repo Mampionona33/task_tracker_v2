@@ -24,11 +24,21 @@ const DialogEditTask = (props) => {
   const onClose = props.onClose;
   const selectedRowData = props.selectedRowData;
 
-  const listStatIvpn = fetchListSatusIvpn();
+  // fetching data from database
+  const fetchingListStatIvpn = fetchListSatusIvpn();
   const listStatusCom = fetchingStatusCom();
   const listTaskType = fetchingListTaskType();
 
-  console.log(selectedRowData, listStatIvpn, listStatusCom, listTaskType);
+  // Get status IVPN from fetchingListStatIvpn
+  const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
+
+  const [autoCompletIvpn, setAutocompletIvpn] = useState([]);
+
+  useEffect(() => {
+    if (listStatIvpn) {
+      setAutocompletIvpn((prev) => listStatIvpn.map((item) => item.name));
+    }
+  }, [listStatIvpn]);
 
   // input styles
   const textFieldInputStyle = {
@@ -98,7 +108,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='comboBoxStatIvpn'
               size='small'
-              options={['I', 'V', 'P', 'N']}
+              options={autoCompletIvpn}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
