@@ -42,6 +42,9 @@ const DialogEditTask = (props) => {
   const [autoCompletStatuCom, setAutocompletStatCom] = useState([]);
   const [autoCompletTaskCase, setAutocompletTaskCase] = useState([]);
 
+  // inputs variables
+  const [numFiche, setNumFiche] = useState(selectedRowData.numFiche);
+
   useEffect(() => {
     if (listStatIvpn) {
       setAutocompletIvpn((prev) => listStatIvpn.map((item) => item.name));
@@ -55,7 +58,12 @@ const DialogEditTask = (props) => {
     if (listTaskCase) {
       setAutocompletTaskCase((prev) => listTaskCase.map((item) => item.state));
     }
-  }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase]);
+
+    // if data from selected row is ready
+    if (selectedRowData) {
+      setNumFiche((prev) => selectedRowData.numFiche);
+    }
+  }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
   // input styles
   const textFieldInputStyle = {
@@ -94,6 +102,8 @@ const DialogEditTask = (props) => {
               label="numFiche"
               fullWidth
               inputProps={{ style: textFieldInputStyle }}
+              value={numFiche}
+              onChange={(e) => setNumFiche(e.target.value)}
             />
           </Box>
 
