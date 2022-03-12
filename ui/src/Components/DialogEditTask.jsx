@@ -1,8 +1,8 @@
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import {
   TextField,
   Autocomplete,
@@ -11,14 +11,14 @@ import {
   Typography,
   TextareaAutosize,
   Divider,
-} from '@mui/material';
-import React, { useState, useEffect } from 'react';
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import {
   fetchListSatusIvpn,
   fetchingStatusCom,
   fetchingListTaskType,
   fetchingListTaskCase,
-} from './dataHandler';
+} from "./dataHandler";
 
 const DialogEditTask = (props) => {
   const open = props.open;
@@ -30,8 +30,6 @@ const DialogEditTask = (props) => {
   const listStatusComs = fetchingStatusCom();
   const listTaskTypes = fetchingListTaskType();
   const listTaskCases = fetchingListTaskCase();
-
-  console.log(listTaskCases);
 
   // Get status IVPN from fetchingListStatIvpn
   const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
@@ -62,12 +60,12 @@ const DialogEditTask = (props) => {
   // input styles
   const textFieldInputStyle = {
     padding: 7,
-    fontSize: '1rem',
+    fontSize: "1rem",
     height: 15,
   };
   const TimerTextFieldeStyle = {
     padding: 7,
-    fontSize: '1rem',
+    fontSize: "1rem",
     width: 40,
     height: 15,
   };
@@ -76,48 +74,48 @@ const DialogEditTask = (props) => {
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby='alert-dialog-edit-task'
-      aria-describedby='alert-dialog-describ-edit-task'
+      aria-labelledby="alert-dialog-edit-task"
+      aria-describedby="alert-dialog-describ-edit-task"
       fullWidth
     >
-      <DialogTitle id='alert-dialog-edit-task'>Edit task</DialogTitle>
+      <DialogTitle id="alert-dialog-edit-task">Edit task</DialogTitle>
       <Divider />
       <DialogContent>
         <Box
           rowGap={1}
           columnGap={2}
-          marginBottom='1rem'
-          sx={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)' }}
+          marginBottom="1rem"
+          sx={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}
         >
           <Box>
             <TextField
-              id='numFiche'
-              variant='standard'
-              label='numFiche'
+              id="numFiche"
+              variant="standard"
+              label="numFiche"
               fullWidth
               inputProps={{ style: textFieldInputStyle }}
             />
           </Box>
 
           <Box>
-            <TextField id='cat' variant='standard' label='cat' fullWidth />
+            <TextField id="cat" variant="standard" label="cat" fullWidth />
           </Box>
 
           <Box>
-            <TextField id='url' variant='standard' label='url' />
+            <TextField id="url" variant="standard" label="url" />
           </Box>
 
           <Box>
             <Autocomplete
               disablePortal
-              id='comboBoxStateCom'
-              size='small'
+              id="comboBoxStateCom"
+              size="small"
               options={autoCompletStatuCom}
               PaperComponent={({ children }) => (
-                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+                <Paper sx={{ typography: "body2" }}>{children}</Paper>
               )}
               renderInput={(params) => (
-                <TextField {...params} label='Commercial Status' fullWidth />
+                <TextField {...params} label="Commercial Status" fullWidth />
               )}
             />
           </Box>
@@ -125,14 +123,14 @@ const DialogEditTask = (props) => {
           <Box>
             <Autocomplete
               disablePortal
-              id='comboBoxStatIvpn'
-              size='small'
+              id="comboBoxStatIvpn"
+              size="small"
               options={autoCompletIvpn}
               PaperComponent={({ children }) => (
-                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+                <Paper sx={{ typography: "body2" }}>{children}</Paper>
               )}
               renderInput={(params) => (
-                <TextField {...params} label='IVPN Status' fullWidth />
+                <TextField {...params} label="IVPN Status" fullWidth />
               )}
             />
           </Box>
@@ -140,14 +138,14 @@ const DialogEditTask = (props) => {
           <Box>
             <Autocomplete
               disablePortal
-              id='typeTask'
-              size='small'
+              id="typeTask"
+              size="small"
               options={autoCompletTypeTask}
               PaperComponent={({ children }) => (
-                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+                <Paper sx={{ typography: "body2" }}>{children}</Paper>
               )}
               renderInput={(params) => (
-                <TextField {...params} label='Task Type' />
+                <TextField {...params} label="Task Type" />
               )}
             />
           </Box>
@@ -155,59 +153,59 @@ const DialogEditTask = (props) => {
           <Box>
             <Autocomplete
               disablePortal
-              id='taskCase'
-              size='small'
+              id="taskCase"
+              size="small"
               // options={['Normal', 'Sby', 'Paf']}
               options={autoCompletTaskCase}
               PaperComponent={({ children }) => (
-                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+                <Paper sx={{ typography: "body2" }}>{children}</Paper>
               )}
               renderInput={(params) => (
-                <TextField {...params} label='Task Case' />
+                <TextField {...params} label="Task Case" />
               )}
             />
           </Box>
 
-          <Box display='flex' justifyContent='space-between' gap={0.5}>
-            <Box display='flex' flexDirection='column-reverse'>
+          <Box display="flex" justifyContent="space-between" gap={0.5}>
+            <Box display="flex" flexDirection="column-reverse">
               <Typography
-                sx={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.9rem' }}
+                sx={{ color: "rgba(0, 0, 0, 0.6)", fontSize: "0.9rem" }}
               >
                 Elaptsed Time
               </Typography>
             </Box>
-            <Box display='flex'>
+            <Box display="flex">
               <TextField
-                id='hrs'
-                variant='standard'
-                label='Hrs'
-                type='number'
+                id="hrs"
+                variant="standard"
+                label="Hrs"
+                type="number"
                 inputProps={{
                   style: TimerTextFieldeStyle,
-                  min: '0',
-                  max: '23',
+                  min: "0",
+                  max: "23",
                 }}
               />
               <TextField
-                type='number'
-                id='min'
-                variant='standard'
-                label='min'
+                type="number"
+                id="min"
+                variant="standard"
+                label="min"
                 inputProps={{
                   style: TimerTextFieldeStyle,
-                  min: '0',
-                  max: '23',
+                  min: "0",
+                  max: "23",
                 }}
               />
               <TextField
-                type='number'
-                id='sec'
-                variant='standard'
-                label='sec'
+                type="number"
+                id="sec"
+                variant="standard"
+                label="sec"
                 inputProps={{
                   style: TimerTextFieldeStyle,
-                  min: '0',
-                  max: '23',
+                  min: "0",
+                  max: "23",
                 }}
               />
             </Box>
@@ -215,18 +213,18 @@ const DialogEditTask = (props) => {
 
           <Box>
             <TextField
-              id='nbBefor'
-              variant='standard'
-              label='Numer Prod Before'
+              id="nbBefor"
+              variant="standard"
+              label="Numer Prod Before"
               fullWidth
             />
           </Box>
 
           <Box>
             <TextField
-              id='nbAft'
-              variant='standard'
-              label='Numer Prod After'
+              id="nbAft"
+              variant="standard"
+              label="Numer Prod After"
               fullWidth
             />
           </Box>
@@ -234,15 +232,15 @@ const DialogEditTask = (props) => {
         <Divider />
         <Box>
           <Typography
-            fontFamily='sans-serif'
-            color='GrayText'
-            sx={{ margin: '0.5rem' }}
+            fontFamily="sans-serif"
+            color="GrayText"
+            sx={{ margin: "0.5rem" }}
           >
             COMMENT
           </Typography>
           <TextareaAutosize
-            id='comment'
-            style={{ width: '100%', minHeight: '4rem' }}
+            id="comment"
+            style={{ width: "100%", minHeight: "4rem" }}
           />
         </Box>
       </DialogContent>
