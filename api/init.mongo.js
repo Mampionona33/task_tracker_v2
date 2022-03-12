@@ -21,6 +21,7 @@ async function resetMongo() {
     const collectionTypeTaches = db.collection('typeTache');
     const collectionStatCom = db.collection('statCom');
     const collectionStatIvpn = db.collection('statIvpn');
+    const collectionTaskCase = db.collection('taskCase');
 
     const initialCounter = [
       {
@@ -38,6 +39,10 @@ async function resetMongo() {
       {
         _id: 'statIvpn',
         current: 5,
+      },
+      {
+        _id: 'taskCase',
+        current: 3,
       },
     ];
     const initialFiches = [
@@ -493,6 +498,12 @@ async function resetMongo() {
       { id: 4, name: 'N' },
     ];
 
+    const initialTaskCase = [
+      { id: 1, state: 'Normal' },
+      { id: 2, state: 'Sby' },
+      { id: 3, state: 'Paf' },
+    ];
+
     // Delete and re insert new collections
     await collectionFiches.deleteMany({});
     await collectionFiches.insertMany(initialFiches);
@@ -509,11 +520,15 @@ async function resetMongo() {
     await collectionStatIvpn.deleteMany({});
     await collectionStatIvpn.insertMany(initialStatIvpn);
 
+    await collectionTaskCase.deleteMany({});
+    await collectionTaskCase.insertMany(initialTaskCase);
+
     const resultFiches = await collectionFiches.find({}).toArray();
     const resultCounter = await collectionCounter.find({}).toArray();
     const resultTypeTaches = await collectionTypeTaches.find({}).toArray();
     const resultStatCom = await collectionStatCom.find({}).toArray();
     const resultStatIvpn = await collectionStatIvpn.find({}).toArray();
+    const resultTaskCase = await collectionTaskCase.find({}).toArray();
     console.log(
       'Result of insert: \n',
       resultFiches,
@@ -524,7 +539,9 @@ async function resetMongo() {
       '----- \n',
       resultStatCom,
       '----- \n',
-      resultStatIvpn
+      resultStatIvpn,
+      '----- \n',
+      resultTaskCase
     );
   } catch (err) {
     console.log(err);

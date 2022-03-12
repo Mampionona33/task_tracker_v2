@@ -193,6 +193,11 @@ type IdCounter {
   current: Int
 }
 
+type TaskCase {
+  id: Int
+  state: StateType!
+}
+
 #### top level declarations
 type Query {
   about: String!
@@ -200,6 +205,7 @@ type Query {
   listTypeTaches: [TypeTache!]!
   listStatCom: [StatCom!]!
   listStatIvpn: [StatIvpn!]!
+  listTaskCase: [TaskCase!]
   searchFiches(input: SearchFichesInputs): [Fiches]
   idCounter: [IdCounter]
 }

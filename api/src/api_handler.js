@@ -12,13 +12,14 @@ const statCom = require('./schema/statusCom');
 const statIvpn = require('./schema/statIvpn');
 const idCounter = require('./schema/idCounter');
 const GraphQLDate = require('./schema/graphql_date');
+const taskCase = require('./schema/taskCase');
 
 const resolvers = {
   Query: {
     about: about.getMessage,
 
     listFiches: fiches.list,
-    
+
     searchFiches: fiches.search,
 
     listTypeTaches: typeTache.list,
@@ -26,6 +27,8 @@ const resolvers = {
     listStatCom: statCom.list,
 
     listStatIvpn: statIvpn.list,
+
+    listTaskCase: taskCase.list,
 
     idCounter: idCounter.list,
   },
