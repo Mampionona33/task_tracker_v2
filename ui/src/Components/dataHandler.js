@@ -5,6 +5,7 @@ import {
   LIST_STATUS_IVPN,
   LIST_STATUS_COMMERCIALE,
   LIST_TASK_TYPE,
+  LILST_TASK_CASE,
 } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import React, { useEffect, useState, useRef } from 'react';
@@ -277,6 +278,22 @@ const fetchingListTaskType = () => {
   return out;
 };
 
+// Fetching list task Case
+const fetchingListTaskCase = () => {
+  const [out, setOut] = useState([]);
+  const {
+    data: listTaskCaseData,
+    loading: listTaskCaseLoading,
+    error: listTaskCaseError,
+  } = useQuery(LILST_TASK_CASE);
+  useEffect(() => {
+    if (listTaskCaseData != null) {
+      setOut((prev) => listTaskCaseData);
+    }
+  }, [listTaskCaseData]);
+  return out;
+};
+
 // MUTATE DATA-----------------------------
 // set prevProcessPlay to off
 const setPrevProcessIsOff = async (
@@ -494,4 +511,5 @@ export {
   fetchListSatusIvpn,
   fetchingStatusCom,
   fetchingListTaskType,
+  fetchingListTaskCase,
 };

@@ -17,6 +17,7 @@ import {
   fetchListSatusIvpn,
   fetchingStatusCom,
   fetchingListTaskType,
+  fetchingListTaskCase,
 } from './dataHandler';
 
 const DialogEditTask = (props) => {
@@ -28,18 +29,20 @@ const DialogEditTask = (props) => {
   const fetchingListStatIvpn = fetchListSatusIvpn();
   const listStatusComs = fetchingStatusCom();
   const listTaskTypes = fetchingListTaskType();
+  const listTaskCases = fetchingListTaskCase();
+
+  console.log(listTaskCases);
 
   // Get status IVPN from fetchingListStatIvpn
   const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
   const listTaskType = listTaskTypes.listTypeTaches;
   const listStatCom = listStatusComs.listStatCom;
-  // const taskCase =
+  const listTaskCase = listTaskCases.listTaskCase;
 
   const [autoCompletIvpn, setAutocompletIvpn] = useState([]);
   const [autoCompletTypeTask, setAutocompletTypeTask] = useState([]);
   const [autoCompletStatuCom, setAutocompletStatCom] = useState([]);
-
-  console.log(listStatusComs);
+  const [autoCompletTaskCase, setAutocompletTaskCase] = useState([]);
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -51,7 +54,10 @@ const DialogEditTask = (props) => {
     if (listStatCom) {
       setAutocompletStatCom((prev) => listStatCom.map((item) => item.name));
     }
-  }, [listStatIvpn, listTaskTypes, listStatCom]);
+    if (listTaskCase) {
+      setAutocompletTaskCase((prev) => listTaskCase.map((item) => item.state));
+    }
+  }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase]);
 
   // input styles
   const textFieldInputStyle = {
@@ -136,12 +142,6 @@ const DialogEditTask = (props) => {
               disablePortal
               id='typeTask'
               size='small'
-              // options={[
-              //   'Contenue',
-              //   'AutoValidMajPrio',
-              //   'AutoValidCréaPrio',
-              //   'REASSO',
-              // ]}
               options={autoCompletTypeTask}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
@@ -157,7 +157,8 @@ const DialogEditTask = (props) => {
               disablePortal
               id='taskCase'
               size='small'
-              options={['Normal', 'Sby', 'Paf']}
+              // options={['Normal', 'Sby', 'Paf']}
+              options={autoCompletTaskCase}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}

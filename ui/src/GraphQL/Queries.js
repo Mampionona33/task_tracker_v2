@@ -138,3 +138,12 @@ export const LIST_TASK_TYPE = gql`
     }
   }
 `;
+
+export const LILST_TASK_CASE = gql`
+  query ListTaskCase {
+    listTaskCase {
+      state
+      id
+    }
+  }
+`;
