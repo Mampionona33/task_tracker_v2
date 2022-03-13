@@ -50,6 +50,8 @@ const DialogEditTask = (props) => {
   const [cat, setCat] = useState("");
   const [statuIvpn, setStatIvpn] = useState("");
   const [taskCase, setTaskCase] = useState("");
+  const [numberBefore, setNumberBefore] = useState(0);
+  const [numberAfter, setNumberAfter] = useState(0);
 
   console.log(selectedRowData);
 
@@ -76,6 +78,8 @@ const DialogEditTask = (props) => {
       setCat((prev) => selectedRowData.cat);
       setStatIvpn((prev) => selectedRowData.statIvpn);
       setTaskCase((prev) => selectedRowData.state);
+      setNumberBefore((prev) => selectedRowData.nbBefor);
+      setNumberAfter((prev) => selectedRowData.nbAft);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -257,6 +261,8 @@ const DialogEditTask = (props) => {
               variant="standard"
               label="Numer Prod Before"
               fullWidth
+              value={numberBefore}
+              onChange={(e) => setNumberBefore(e.target.value)}
             />
           </Box>
 
@@ -266,6 +272,8 @@ const DialogEditTask = (props) => {
               variant="standard"
               label="Numer Prod After"
               fullWidth
+              value={numberAfter}
+              onChange={(e) => setNumberBefore(e.target.value)}
             />
           </Box>
         </Box>
