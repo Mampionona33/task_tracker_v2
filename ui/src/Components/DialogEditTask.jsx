@@ -46,6 +46,7 @@ const DialogEditTask = (props) => {
   const [numFiche, setNumFiche] = useState("");
   const [defaultTaskType, setDefaultTaskType] = useState("");
   const [defaultStatCom, setDefaultStatCom] = useState("");
+  const [defaultUrl, setDefaultUrl] = useState("");
 
   console.log(selectedRowData);
 
@@ -68,6 +69,7 @@ const DialogEditTask = (props) => {
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
       setDefaultStatCom((prev) => selectedRowData.statusCom);
+      setDefaultUrl((prev) => selectedRowData.link);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -118,7 +120,13 @@ const DialogEditTask = (props) => {
           </Box>
 
           <Box>
-            <TextField id="url" variant="standard" label="url" />
+            <TextField
+              id="url"
+              variant="standard"
+              label="url"
+              value={defaultUrl}
+              onChange={(e) => setDefaultUrl(e.target.value)}
+            />
           </Box>
 
           <Box>
