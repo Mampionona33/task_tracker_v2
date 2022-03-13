@@ -45,8 +45,9 @@ const DialogEditTask = (props) => {
   // inputs variables
   const [numFiche, setNumFiche] = useState("");
   const [defaultTaskType, setDefaultTaskType] = useState("");
+  const [defaultStatCom, setDefaultStatCom] = useState("");
 
-  // console.log(selectedRowData.typeTrav);
+  console.log(selectedRowData);
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -66,6 +67,7 @@ const DialogEditTask = (props) => {
     if (selectedRowData) {
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
+      setDefaultStatCom((prev) => selectedRowData.statusCom);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -124,6 +126,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id="comboBoxStateCom"
               size="small"
+              defaultValue={defaultStatCom}
               options={autoCompletStatuCom}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: "body2" }}>{children}</Paper>

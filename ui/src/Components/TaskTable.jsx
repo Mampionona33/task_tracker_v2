@@ -252,7 +252,7 @@ export default function TaskTable() {
       id: item.id,
       numFiche: item.numFiche,
       typeTrav: item.typeTrav,
-      statusCom: item.statusCom,
+      statusCom: item.statuCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
       elapstedTime: item.elapstedTime,
