@@ -53,8 +53,12 @@ const DialogEditTask = (props) => {
   const [numberBefore, setNumberBefore] = useState(0);
   const [numberAfter, setNumberAfter] = useState(0);
   const [comment, setComment] = useState("");
+  const [day, setDay] = useState(0);
+  const [hrs, setHrs] = useState(0);
 
-  console.log(selectedRowData);
+  if (selectedRowData.elapstedTimeRender != undefined) {
+    console.log(selectedRowData.elapstedTimeRender.slice(3, 2));
+  }
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -82,6 +86,7 @@ const DialogEditTask = (props) => {
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
       setComment((prev) => selectedRowData.comment);
+      // setHrs((prev) => selectedRowData.elapstedTimeRender.slice(3, 2));
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -212,7 +217,7 @@ const DialogEditTask = (props) => {
             />
           </Box>
 
-          <Box display="flex" justifyContent="space-between" gap={0.5}>
+          <Box display="flex" justifyContent="space-between" columnGap={1}>
             <Box display="flex" flexDirection="column-reverse">
               <Typography
                 sx={{ color: "rgba(0, 0, 0, 0.6)", fontSize: "0.9rem" }}
@@ -220,7 +225,18 @@ const DialogEditTask = (props) => {
                 Elaptsed Time
               </Typography>
             </Box>
-            <Box display="flex">
+            <Box display="flex" columnGap={1}>
+              <TextField
+                id="day"
+                variant="standard"
+                label="Day"
+                type="number"
+                inputProps={{
+                  style: TimerTextFieldeStyle,
+                  min: "0",
+                  max: "365",
+                }}
+              />
               <TextField
                 id="hrs"
                 variant="standard"
