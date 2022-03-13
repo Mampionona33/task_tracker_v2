@@ -49,6 +49,7 @@ const DialogEditTask = (props) => {
   const [defaultUrl, setDefaultUrl] = useState("");
   const [cat, setCat] = useState("");
   const [statuIvpn, setStatIvpn] = useState("");
+  const [taskCase, setTaskCase] = useState("");
 
   console.log(selectedRowData);
 
@@ -74,6 +75,7 @@ const DialogEditTask = (props) => {
       setDefaultUrl((prev) => selectedRowData.link);
       setCat((prev) => selectedRowData.cat);
       setStatIvpn((prev) => selectedRowData.statIvpn);
+      setTaskCase((prev) => selectedRowData.state);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -193,7 +195,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id="taskCase"
               size="small"
-              // options={['Normal', 'Sby', 'Paf']}
+              defaultValue={taskCase}
               options={autoCompletTaskCase}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: "body2" }}>{children}</Paper>
