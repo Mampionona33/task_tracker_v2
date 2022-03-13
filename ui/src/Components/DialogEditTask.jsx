@@ -47,6 +47,7 @@ const DialogEditTask = (props) => {
   const [defaultTaskType, setDefaultTaskType] = useState("");
   const [defaultStatCom, setDefaultStatCom] = useState("");
   const [defaultUrl, setDefaultUrl] = useState("");
+  const [cat, setCat] = useState("");
 
   console.log(selectedRowData);
 
@@ -70,6 +71,7 @@ const DialogEditTask = (props) => {
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
       setDefaultStatCom((prev) => selectedRowData.statusCom);
       setDefaultUrl((prev) => selectedRowData.link);
+      setCat((prev) => selectedRowData.cat);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -116,7 +118,14 @@ const DialogEditTask = (props) => {
           </Box>
 
           <Box>
-            <TextField id="cat" variant="standard" label="cat" fullWidth />
+            <TextField
+              id="cat"
+              variant="standard"
+              label="cat"
+              fullWidth
+              value={cat}
+              onChange={(e) => setCat(e.target.value)}
+            />
           </Box>
 
           <Box>
