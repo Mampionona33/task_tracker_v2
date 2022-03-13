@@ -52,6 +52,7 @@ const DialogEditTask = (props) => {
   const [taskCase, setTaskCase] = useState("");
   const [numberBefore, setNumberBefore] = useState(0);
   const [numberAfter, setNumberAfter] = useState(0);
+  const [comment, setComment] = useState("");
 
   console.log(selectedRowData);
 
@@ -80,6 +81,7 @@ const DialogEditTask = (props) => {
       setTaskCase((prev) => selectedRowData.state);
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
+      setComment((prev) => selectedRowData.comment);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -288,6 +290,8 @@ const DialogEditTask = (props) => {
           </Typography>
           <TextareaAutosize
             id="comment"
+            value={comment}
+            onChange={(e) => setComment((prev) => e.target.value)}
             style={{ width: "100%", minHeight: "4rem" }}
           />
         </Box>

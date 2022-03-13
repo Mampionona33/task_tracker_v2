@@ -73,6 +73,7 @@ async function resetMongo() {
         elapstedTime: 35645,
         productivity: 100,
         processing: 'isOff',
+        comment : 'Faire valider par Yann',
         lastUpdate: new Date('2021-03-18'),
       },
 
@@ -103,6 +104,7 @@ async function resetMongo() {
         elapstedTime: 87551,
         productivity: 102,
         processing: 'isOff',
+        comment : 'Ne pas ajouter gamme out',
         lastUpdate: new Date('2021-12-17'),
       },
       {
@@ -132,6 +134,7 @@ async function resetMongo() {
         elapstedTime: 6584,
         productivity: 103,
         processing: 'isOff',
+        comment : 'Voir avec Jhone',
         lastUpdate: new Date('2021-12-18'),
       },
       {
@@ -161,6 +164,7 @@ async function resetMongo() {
         elapstedTime: 977541,
         productivity: 100,
         processing: 'isOff',
+        comment : 'Cette fiche est sous consigne avec Jhon',
         lastUpdate: new Date('2021-12-18'),
       },
       {
@@ -188,6 +192,7 @@ async function resetMongo() {
         startDate: new Date('2021-12-15'),
         validDate: new Date('2021-12-17'),
         elapstedTime: 3600,
+        comment : 'Cette fiche est sous consigne',
         productivity: 98,
         processing: 'isOff',
       },
@@ -217,6 +222,7 @@ async function resetMongo() {
         validDate: new Date('2000-03-04'),
         elapstedTime: 32545,
         productivity: 100,
+        comment : 'test ...',
         processing: 'isPlay',
         lastUpdate: new Date('Mon Dec 20 2021 13:05:33 GMT+0300'),
       },

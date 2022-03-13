@@ -44,6 +44,13 @@ export default function TaskTable() {
       hide: true,
     },
     {
+      field: "comment",
+      headerName: "comment",
+      headerAlign: "center",
+      flex: 1,
+      hide: true,
+    },
+    {
       field: "nbBefor",
       headerName: "Number Before",
       headerAlign: "center",
@@ -291,6 +298,7 @@ export default function TaskTable() {
       nbBefor: item.nbBefor,
       state: item.state,
       nbAft: item.nbAft,
+      comment: item.comment,
       elapstedTime: item.elapstedTime,
       elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
       link: item.url != "" ? item.url : "https://www.google.mg/",
