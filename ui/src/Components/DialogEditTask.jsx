@@ -43,7 +43,10 @@ const DialogEditTask = (props) => {
   const [autoCompletTaskCase, setAutocompletTaskCase] = useState([]);
 
   // inputs variables
-  const [numFiche, setNumFiche] = useState(selectedRowData.numFiche);
+  const [numFiche, setNumFiche] = useState("");
+  const [defaultTaskType, setDefaultTaskType] = useState("");
+
+  // console.log(selectedRowData.typeTrav);
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -62,6 +65,7 @@ const DialogEditTask = (props) => {
     // if data from selected row is ready
     if (selectedRowData) {
       setNumFiche((prev) => selectedRowData.numFiche);
+      setDefaultTaskType((prev) => selectedRowData.typeTrav);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -151,6 +155,7 @@ const DialogEditTask = (props) => {
               id="typeTask"
               size="small"
               options={autoCompletTypeTask}
+              defaultValue={defaultTaskType}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: "body2" }}>{children}</Paper>
               )}
