@@ -48,6 +48,7 @@ const DialogEditTask = (props) => {
   const [defaultStatCom, setDefaultStatCom] = useState("");
   const [defaultUrl, setDefaultUrl] = useState("");
   const [cat, setCat] = useState("");
+  const [statuIvpn, setStatIvpn] = useState("");
 
   console.log(selectedRowData);
 
@@ -72,6 +73,7 @@ const DialogEditTask = (props) => {
       setDefaultStatCom((prev) => selectedRowData.statusCom);
       setDefaultUrl((prev) => selectedRowData.link);
       setCat((prev) => selectedRowData.cat);
+      setStatIvpn((prev) => selectedRowData.statIvpn);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -121,7 +123,7 @@ const DialogEditTask = (props) => {
             <TextField
               id="cat"
               variant="standard"
-              label="cat"
+              label="Categorie"
               fullWidth
               value={cat}
               onChange={(e) => setCat(e.target.value)}
@@ -159,6 +161,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id="comboBoxStatIvpn"
               size="small"
+              defaultValue={statuIvpn}
               options={autoCompletIvpn}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: "body2" }}>{children}</Paper>

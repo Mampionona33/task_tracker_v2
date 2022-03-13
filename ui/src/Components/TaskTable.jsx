@@ -37,6 +37,13 @@ export default function TaskTable() {
       hide: true,
     },
     {
+      field: "statIvpn",
+      headerName: "Status IVPN",
+      headerAlign: "center",
+      flex: 1,
+      hide: true,
+    },
+    {
       field: "numFiche",
       headerName: "Num",
       headerAlign: "center",
@@ -264,6 +271,7 @@ export default function TaskTable() {
       numFiche: item.numFiche,
       typeTrav: item.typeTrav,
       cat: item.cat,
+      statIvpn : item.statuIvpn,
       statusCom: item.statuCom,
       lastUpdate: item.lastUpdate,
       state: item.state,
