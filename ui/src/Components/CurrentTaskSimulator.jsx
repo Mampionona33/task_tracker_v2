@@ -42,7 +42,7 @@ const CurrentTaskSimulator = (props) => {
   const [elapstedTime, setElapstedTime] = useState(0);
   const [lastUpdate, setLastUpdate] = useState([]);
 
-  // fonction to execute when value of Hrs change
+  // function to limit digit in timer
   const handleTimerInputChange = (ev) => {
     // If id = hrs, then test the value of input
     if (ev.target.id == "hrs") {

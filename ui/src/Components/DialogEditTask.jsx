@@ -20,6 +20,7 @@ import {
   fetchingListTaskCase,
   dateFormater,
 } from "./dataHandler";
+import { formatTimer } from "../Features/formatNbr";
 
 const DialogEditTask = (props) => {
   const open = props.open;
@@ -57,7 +58,49 @@ const DialogEditTask = (props) => {
   const [day, setDay] = useState(0);
   const [hrs, setHrs] = useState(0);
   const [minit, setMinit] = useState(0);
-  const [sec, setSec] = useState(0);  
+  const [sec, setSec] = useState(0);
+
+  // function to limit digit in timer
+  const timerDigitHandler = (evenT) => {
+    // auto format hours input
+    if (evenT.target.id == "hrs") {
+      evenT.target.value > 23 || evenT.target.value < 0
+        ? setHrs((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setHrs((prev) => evenT.target.value);
+    }
+    // auto format minit
+    if (evenT.target.id == "min") {
+      evenT.target.value > 59 || evenT.target.value < 0
+        ? setMinit((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setMinit((prev) => evenT.target.value);
+    }
+    // auto format seconds
+    if (evenT.target.id == "sec") {
+      evenT.target.value > 59 || evenT.target.value < 0
+        ? setSec((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setSec((prev) => evenT.target.value);
+    }
+  };
+
+  // function to auto change value of input on loose focus
+  const handleOnblure = (ev) => {
+    switch (ev.target.id) {
+      case "day":
+        setDay((prev) => formatTimer(prev));
+        break;
+      case "hrs":
+        setHrs((prev) => formatTimer(prev));
+        break;
+      case "min":
+        setMinit((prev) => formatTimer(prev));
+        break;
+      case "sec":
+        setSec((prev) => formatTimer(prev));
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -254,6 +297,7 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "365",
                 }}
+                onBlur={handleOnblure}
                 value={day}
                 onChange={(e) => setDay((prev) => e.target.value)}
               />
@@ -267,8 +311,9 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                onBlur={handleOnblure}
                 value={hrs}
-                onChange={(e) => setHrs((prev) => e.target.value)}
+                onChange={timerDigitHandler}
               />
               <TextField
                 type="number"
@@ -280,8 +325,9 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                onBlur={handleOnblure}
                 value={minit}
-                onChange={(e) => setMinit((prev) => e.target.value)}
+                onChange={timerDigitHandler}
               />
               <TextField
                 type="number"
@@ -293,8 +339,9 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                onBlur={handleOnblure}
                 value={sec}
-                onChange={(e) => setSec((prev) => e.target.value)}
+                onChange={timerDigitHandler}
               />
             </Box>
           </Box>
