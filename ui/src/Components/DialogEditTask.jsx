@@ -56,8 +56,9 @@ const DialogEditTask = (props) => {
   const [day, setDay] = useState(0);
   const [hrs, setHrs] = useState(0);
 
-  if (selectedRowData.elapstedTimeRender != undefined) {
-    console.log(selectedRowData.elapstedTimeRender.slice(3, 2));
+  if (selectedRowData.elapstedTimeRender) {
+    console.log(selectedRowData.elapstedTimeRender.slice(0, -9));
+    // console.log(selectedRowData.elapstedTimeRender);
   }
 
   useEffect(() => {
