@@ -131,7 +131,7 @@ async function resetMongo() {
         cat: "production et distribution d'énergie",
         startDate: new Date("2021-01-15"),
         validDate: new Date("2019-01-17"),
-        elapstedTime: 2617920,
+        elapstedTime: 9028800,
         productivity: 103,
         processing: "isOff",
         comment: "Voir avec Jhone",
