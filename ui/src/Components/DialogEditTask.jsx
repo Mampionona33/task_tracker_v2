@@ -18,6 +18,7 @@ import {
   fetchingStatusCom,
   fetchingListTaskType,
   fetchingListTaskCase,
+  dateFormater,
 } from "./dataHandler";
 
 const DialogEditTask = (props) => {
@@ -55,11 +56,8 @@ const DialogEditTask = (props) => {
   const [comment, setComment] = useState("");
   const [day, setDay] = useState(0);
   const [hrs, setHrs] = useState(0);
-
-  if (selectedRowData.elapstedTimeRender) {
-    console.log(selectedRowData.elapstedTimeRender.slice(0, -9));
-    // console.log(selectedRowData.elapstedTimeRender);
-  }
+  const [minit, setMinit] = useState(0);
+  const [sec, setSec] = useState(0);  
 
   useEffect(() => {
     if (listStatIvpn) {
@@ -87,7 +85,26 @@ const DialogEditTask = (props) => {
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
       setComment((prev) => selectedRowData.comment);
-      // setHrs((prev) => selectedRowData.elapstedTimeRender.slice(3, 2));
+      if (selectedRowData.elapstedTimeRender) {
+        setDay((prev) =>
+          selectedRowData.elapstedTimeRender.slice(0, -9).padStart(2, "0")
+        );
+        setHrs((prev) =>
+          selectedRowData.elapstedTimeRender
+            .slice(selectedRowData.elapstedTimeRender.length - 8, -6)
+            .padStart(2, "0")
+        );
+        setMinit((prev) =>
+          selectedRowData.elapstedTimeRender
+            .slice(selectedRowData.elapstedTimeRender.length - 5, -3)
+            .padStart(2, "0")
+        );
+        setSec((prev) =>
+          selectedRowData.elapstedTimeRender
+            .slice(selectedRowData.elapstedTimeRender.length - 2)
+            .padStart(2, "0")
+        );
+      }
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
@@ -237,6 +254,8 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "365",
                 }}
+                value={day}
+                onChange={(e) => setDay((prev) => e.target.value)}
               />
               <TextField
                 id="hrs"
@@ -248,6 +267,8 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                value={hrs}
+                onChange={(e) => setHrs((prev) => e.target.value)}
               />
               <TextField
                 type="number"
@@ -259,6 +280,8 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                value={minit}
+                onChange={(e) => setMinit((prev) => e.target.value)}
               />
               <TextField
                 type="number"
@@ -270,6 +293,8 @@ const DialogEditTask = (props) => {
                   min: "0",
                   max: "23",
                 }}
+                value={sec}
+                onChange={(e) => setSec((prev) => e.target.value)}
               />
             </Box>
           </Box>

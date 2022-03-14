@@ -470,7 +470,7 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
 const dateFormater = (value) => {
   let day = Math.floor(value / 86400)
     .toString()
-    .padStart(3, "0");
+    .padStart(2, "0");
   let hours = Math.floor((value % 86400) / 3600)
     .toString()
     .padStart(2, "0");
@@ -480,8 +480,6 @@ const dateFormater = (value) => {
   let sec = Math.floor(value % 60)
     .toString()
     .padStart(2, "0");
-
-  console.log(day);
 
   return { day, hours, min, sec };
 };
