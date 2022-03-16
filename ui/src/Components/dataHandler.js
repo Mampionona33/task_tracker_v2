@@ -407,6 +407,7 @@ const renderDate = (value) => {
   return { day, hours, min, sec };
 };
 
+// update task info
 const updateElastedTime = async (
   ficheId,
   elapstedTime,
@@ -427,6 +428,28 @@ const updateElastedTime = async (
     console.log(errorUpDate);
   }
   return ficheId;
+};
+
+const updateTaskNumber = async (
+  taskId,
+  fichesUpdate,
+  erroUpDate,
+  taskNumber
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        numFiche: taskNumber,
+      },
+    },
+  });
+  if (erroUpDate) {
+    console.log(erroUpDate);
+  }
+  return taskId;
 };
 
 // set the current time the last update
@@ -512,4 +535,5 @@ export {
   fetchingStatusCom,
   fetchingListTaskType,
   fetchingListTaskCase,
+  updateTaskNumber,
 };

@@ -18,9 +18,12 @@ import {
   fetchingStatusCom,
   fetchingListTaskType,
   fetchingListTaskCase,
-  dateFormater,
+  updateTaskNumber,
 } from "./dataHandler";
 import { formatTimer } from "../Features/formatNbr";
+import { UPDATE_FICHE } from "../GraphQL/Mutation";
+import { useMutation } from "@apollo/client";
+import { FILTRED_FICHE } from "../GraphQL/Queries";
 
 const DialogEditTask = (props) => {
   const open = props.open;
@@ -150,6 +153,29 @@ const DialogEditTask = (props) => {
       }
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
+
+  // function to execute to make data update
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: "isUnsubmited" } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: "isSubmited" } } },
+    ],
+  });
+
+  // function to execute on click in save button
+  const handleClickSave = async () => {
+    console.log(selectedRowData.id);
+    await updateTaskNumber(
+      selectedRowData.id,
+      fichesUpdate,
+      erroUpDate,
+      numFiche
+    ).then(onClose);
+  };
 
   // input styles
   const textFieldInputStyle = {
@@ -387,7 +413,7 @@ const DialogEditTask = (props) => {
       </DialogContent>
       {/* Button */}
       <DialogActions>
-        <Button>Save</Button>
+        <Button onClick={handleClickSave}>Save</Button>
         <Button onClick={onClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
