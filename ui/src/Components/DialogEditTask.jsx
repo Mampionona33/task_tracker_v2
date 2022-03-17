@@ -23,6 +23,7 @@ import {
   updateUrl,
   updateStatCom,
   updateStatuIvpn,
+  updateTaskType,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -52,14 +53,16 @@ const DialogEditTask = (props) => {
   const [autoCompletTaskCase, setAutocompletTaskCase] = useState([]);
 
   // inputs variables
-  const [numFiche, setNumFiche] = useState('');
+  const [defaultUrl, setDefaultUrl] = useState('');
+  const [defaultStatuIvpn, setDefaultStatuIvpn] = useState('');
   const [defaultTaskType, setDefaultTaskType] = useState('');
   const [defaultStatCom, setDefaultStatCom] = useState('');
+
+  const [numFiche, setNumFiche] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
-  const [defaultUrl, setDefaultUrl] = useState('');
   const [cat, setCat] = useState('');
+  const [taskType, setTaskType] = useState('');
   const [statuIvpn, setStatIvpn] = useState('');
-  const [defaultStatuIvpn, setDefaultStatuIvpn] = useState('');
   const [taskCase, setTaskCase] = useState('');
   const [numberBefore, setNumberBefore] = useState(0);
   const [numberAfter, setNumberAfter] = useState(0);
@@ -185,6 +188,9 @@ const DialogEditTask = (props) => {
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
       .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
       .then(
+        updateTaskType(selectedRowData.id, fichesUpdate, erroUpDate, taskType)
+      )
+      .then(
         updateStatuIvpn(selectedRowData.id, fichesUpdate, erroUpDate, statuIvpn)
       )
       .then(
@@ -299,6 +305,9 @@ const DialogEditTask = (props) => {
               size='small'
               options={autoCompletTypeTask}
               defaultValue={defaultTaskType}
+              onChange={(e) => {
+                setTaskType((prev) => e.target.innerText);
+              }}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
