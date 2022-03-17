@@ -509,6 +509,28 @@ const updateStatCom = async (
   return taskId;
 };
 
+const updateStatuIvpn = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  newStatIvpn
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        statuIvpn: newStatIvpn,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   const dateNow = new Date();
@@ -596,4 +618,5 @@ export {
   updateCat,
   updateUrl,
   updateStatCom,
+  updateStatuIvpn,
 };

@@ -22,6 +22,7 @@ import {
   updateCat,
   updateUrl,
   updateStatCom,
+  updateStatuIvpn,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -58,6 +59,7 @@ const DialogEditTask = (props) => {
   const [defaultUrl, setDefaultUrl] = useState('');
   const [cat, setCat] = useState('');
   const [statuIvpn, setStatIvpn] = useState('');
+  const [defaultStatuIvpn, setDefaultStatuIvpn] = useState('');
   const [taskCase, setTaskCase] = useState('');
   const [numberBefore, setNumberBefore] = useState(0);
   const [numberAfter, setNumberAfter] = useState(0);
@@ -130,7 +132,7 @@ const DialogEditTask = (props) => {
       setDefaultStatCom((prev) => selectedRowData.statusCom);
       setDefaultUrl((prev) => selectedRowData.link);
       setCat((prev) => selectedRowData.cat);
-      setStatIvpn((prev) => selectedRowData.statIvpn);
+      setDefaultStatuIvpn((prev) => selectedRowData.statIvpn);
       setTaskCase((prev) => selectedRowData.state);
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
@@ -182,6 +184,9 @@ const DialogEditTask = (props) => {
     )
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
       .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateStatuIvpn(selectedRowData.id, fichesUpdate, erroUpDate, statuIvpn)
+      )
       .then(
         updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
       )
@@ -273,8 +278,11 @@ const DialogEditTask = (props) => {
               disablePortal
               id='comboBoxStatIvpn'
               size='small'
-              defaultValue={statuIvpn}
+              defaultValue={defaultStatuIvpn}
               options={autoCompletIvpn}
+              onChange={(e) => {
+                setStatIvpn(e.target.innerText);
+              }}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
