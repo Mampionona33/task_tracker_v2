@@ -26,6 +26,7 @@ import {
   updateTaskType,
   updateTaskCase,
   updateNumberBefore,
+  updateNumberAfter,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -196,6 +197,14 @@ const DialogEditTask = (props) => {
           fichesUpdate,
           erroUpDate,
           numberBefore
+        )
+      )
+      .then(
+        updateNumberAfter(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          numberAfter
         )
       )
       .then(
@@ -436,7 +445,7 @@ const DialogEditTask = (props) => {
               label='Numer Prod After'
               fullWidth
               value={numberAfter}
-              onChange={(e) => setNumberBefore(e.target.value)}
+              onChange={(e) => setNumberAfter(e.target.value)}
             />
           </Box>
         </Box>

@@ -597,6 +597,28 @@ const updateNumberBefore = async (
   return taskId;
 };
 
+const updateNumberAfter = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  newNumberAfterValue
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        nbAft: parseInt(newNumberAfterValue),
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   const dateNow = new Date();
@@ -688,4 +710,5 @@ export {
   updateTaskType,
   updateTaskCase,
   updateNumberBefore,
+  updateNumberAfter,
 };
