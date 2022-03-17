@@ -575,6 +575,28 @@ const updateTaskCase = async (
   return taskId;
 };
 
+const updateNumberBefore = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  newNumberBeforeValue
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        nbBefor: parseInt(newNumberBeforeValue),
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
   const dateNow = new Date();
@@ -665,4 +687,5 @@ export {
   updateStatuIvpn,
   updateTaskType,
   updateTaskCase,
+  updateNumberBefore,
 };

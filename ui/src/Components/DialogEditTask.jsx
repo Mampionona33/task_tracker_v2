@@ -25,6 +25,7 @@ import {
   updateStatuIvpn,
   updateTaskType,
   updateTaskCase,
+  updateNumberBefore,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -189,6 +190,14 @@ const DialogEditTask = (props) => {
     )
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
       .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateNumberBefore(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          numberBefore
+        )
+      )
       .then(
         updateTaskCase(selectedRowData.id, fichesUpdate, erroUpDate, taskCase)
       )
