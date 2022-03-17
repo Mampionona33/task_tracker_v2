@@ -20,6 +20,7 @@ import {
   fetchingListTaskCase,
   updateTaskNumber,
   updateCat,
+  updateUrl,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -177,6 +178,7 @@ const DialogEditTask = (props) => {
       numFiche
     )
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
+      .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
       .then(onClose);
   };
 

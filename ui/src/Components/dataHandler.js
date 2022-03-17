@@ -469,6 +469,22 @@ const updateCat = async (taskId, fichesUpdate, errorUpDate, newCatValue) => {
   }
   return taskId;
 };
+const updateUrl = async (taskId, fichesUpdate, errorUpDate, newUrlValue) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        url: newUrlValue,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
 
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
@@ -555,4 +571,5 @@ export {
   fetchingListTaskCase,
   updateTaskNumber,
   updateCat,
+  updateUrl,
 };
