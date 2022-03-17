@@ -469,6 +469,7 @@ const updateCat = async (taskId, fichesUpdate, errorUpDate, newCatValue) => {
   }
   return taskId;
 };
+
 const updateUrl = async (taskId, fichesUpdate, errorUpDate, newUrlValue) => {
   fichesUpdate({
     variables: {
@@ -477,6 +478,28 @@ const updateUrl = async (taskId, fichesUpdate, errorUpDate, newUrlValue) => {
       },
       update: {
         url: newUrlValue,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
+const updateStatCom = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  newStatcomValue
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        statuCom: newStatcomValue,
       },
     },
   });
@@ -572,4 +595,5 @@ export {
   updateTaskNumber,
   updateCat,
   updateUrl,
+  updateStatCom,
 };

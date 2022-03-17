@@ -21,6 +21,7 @@ import {
   updateTaskNumber,
   updateCat,
   updateUrl,
+  updateStatCom,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -53,6 +54,7 @@ const DialogEditTask = (props) => {
   const [numFiche, setNumFiche] = useState('');
   const [defaultTaskType, setDefaultTaskType] = useState('');
   const [defaultStatCom, setDefaultStatCom] = useState('');
+  const [statuCom, setStatuCom] = useState(' --- ');
   const [defaultUrl, setDefaultUrl] = useState('');
   const [cat, setCat] = useState('');
   const [statuIvpn, setStatIvpn] = useState('');
@@ -170,7 +172,8 @@ const DialogEditTask = (props) => {
 
   // function to execute on click in save button
   const handleClickSave = async () => {
-    console.log(selectedRowData.id);
+    console.log(autoCompletStatuCom);
+    // console.log(selectedRowData.id);
     await updateTaskNumber(
       selectedRowData.id,
       fichesUpdate,
@@ -179,6 +182,9 @@ const DialogEditTask = (props) => {
     )
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
       .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
+      )
       .then(onClose);
   };
 
@@ -252,6 +258,7 @@ const DialogEditTask = (props) => {
               size='small'
               defaultValue={defaultStatCom}
               options={autoCompletStatuCom}
+              onChange={(e) => setStatuCom(e.target.innerText)}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
