@@ -182,6 +182,7 @@ const DialogEditTask = (props) => {
   // function to execute on click in save button
   const handleClickSave = async () => {
     console.log(autoCompletStatuCom);
+    console.log('test')
     // console.log(selectedRowData.id);
     await updateTaskNumber(
       selectedRowData.id,
