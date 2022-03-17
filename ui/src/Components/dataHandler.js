@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from '@apollo/client';
 import {
   LOAD_DATA,
   FILTRED_FICHE,
@@ -6,11 +6,11 @@ import {
   LIST_STATUS_COMMERCIALE,
   LIST_TASK_TYPE,
   LILST_TASK_CASE,
-} from "../GraphQL/Queries";
-import { UPDATE_FICHE } from "../GraphQL/Mutation";
-import React, { useEffect, useState, useRef } from "react";
-import { formatNbr } from "../Features/formatNbr";
-import { useAuth0 } from "@auth0/auth0-react";
+} from '../GraphQL/Queries';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
+import React, { useEffect, useState, useRef } from 'react';
+import { formatNbr } from '../Features/formatNbr';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // FETHING DATA-----------------------------
 // Get user logged data
@@ -19,7 +19,7 @@ function userLoggedTasks() {
   // Get current User
   const { user } = useAuth0();
 
-  let userLoggedEmail = "";
+  let userLoggedEmail = '';
 
   if (user) {
     userLoggedEmail = user.email;
@@ -33,7 +33,7 @@ function userLoggedTasks() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        submiteState: "isUnsubmited",
+        submiteState: 'isUnsubmited',
         user: {
           email: userLoggedEmail,
         },
@@ -84,8 +84,8 @@ function loadProcessingPlay() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        processing: "isPlay",
-        submiteState: "isUnsubmited",
+        processing: 'isPlay',
+        submiteState: 'isUnsubmited',
         user: {
           email: userEmail,
         },
@@ -117,8 +117,8 @@ function loadProcessingPause() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        processing: "isPause",
-        submiteState: "isUnsubmited",
+        processing: 'isPause',
+        submiteState: 'isUnsubmited',
         user: {
           email: userEmail,
         },
@@ -152,7 +152,7 @@ function loadUnsubmitedTask() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        submiteState: "isUnsubmited",
+        submiteState: 'isUnsubmited',
         user: {
           email: userEmail,
         },
@@ -183,7 +183,7 @@ function loadSubmitedTask() {
   } = useQuery(FILTRED_FICHE, {
     variables: {
       input: {
-        submiteState: "isSubmited",
+        submiteState: 'isSubmited',
         user: {
           email: userEmail,
         },
@@ -307,14 +307,14 @@ const setPrevProcessIsOff = async (
         id: prevProcessPlayId,
       },
       update: {
-        processing: "isOff",
+        processing: 'isOff',
       },
     },
   });
   if (erroUpDate) {
     console.log(erroUpDate);
   }
-  console.log("prevProcessPlayId", prevProcessPlayId);
+  console.log('prevProcessPlayId', prevProcessPlayId);
   return prevProcessPlayId;
 };
 
@@ -326,7 +326,7 @@ const setProcessToPause = async (prevProcessId, fichesUpdate, errorUpDate) => {
         id: prevProcessId,
       },
       update: {
-        processing: "isPause",
+        processing: 'isPause',
       },
     },
   });
@@ -343,7 +343,7 @@ const setProcessToPlay = async (prevProcessId, fichesUpdate, errorUpDate) => {
         id: prevProcessId,
       },
       update: {
-        processing: "isPlay",
+        processing: 'isPlay',
       },
     },
   });
@@ -385,22 +385,22 @@ const renderDate = (value) => {
       setDay((prev) =>
         Math.floor((value % 86400) / 36000)
           .toString()
-          .padStart(2, "0")
+          .padStart(2, '0')
       );
       setHours((prev) =>
         Math.floor((value % 86400) / 3600)
           .toString()
-          .padStart(2, "0")
+          .padStart(2, '0')
       );
       setMin((prev) =>
         Math.floor((value % 3600) / 60)
           .toString()
-          .padStart(2, "0")
+          .padStart(2, '0')
       );
       setSec((prev) =>
         Math.floor(value % 60)
           .toString()
-          .padStart(2, "0")
+          .padStart(2, '0')
       );
     }
   }, [value]);
@@ -449,6 +449,24 @@ const updateTaskNumber = async (
   if (erroUpDate) {
     console.log(erroUpDate);
   }
+
+  return taskId;
+};
+
+const updateCat = async (taskId, fichesUpdate, errorUpDate, newCatValue) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        cat: newCatValue,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
   return taskId;
 };
 
@@ -480,7 +498,7 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
         id: taskId,
       },
       update: {
-        submiteState: "isSubmited",
+        submiteState: 'isSubmited',
       },
     },
   });
@@ -493,16 +511,16 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
 const dateFormater = (value) => {
   let day = Math.floor(value / 86400)
     .toString()
-    .padStart(2, "0");
+    .padStart(2, '0');
   let hours = Math.floor((value % 86400) / 3600)
     .toString()
-    .padStart(2, "0");
+    .padStart(2, '0');
   let min = Math.floor((value % 3600) / 60)
     .toString()
-    .padStart(2, "0");
+    .padStart(2, '0');
   let sec = Math.floor(value % 60)
     .toString()
-    .padStart(2, "0");
+    .padStart(2, '0');
 
   return { day, hours, min, sec };
 };
@@ -536,4 +554,5 @@ export {
   fetchingListTaskType,
   fetchingListTaskCase,
   updateTaskNumber,
+  updateCat,
 };
