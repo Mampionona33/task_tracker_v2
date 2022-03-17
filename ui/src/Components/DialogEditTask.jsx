@@ -24,6 +24,7 @@ import {
   updateStatCom,
   updateStatuIvpn,
   updateTaskType,
+  updateTaskCase,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -57,6 +58,7 @@ const DialogEditTask = (props) => {
   const [defaultStatuIvpn, setDefaultStatuIvpn] = useState('');
   const [defaultTaskType, setDefaultTaskType] = useState('');
   const [defaultStatCom, setDefaultStatCom] = useState('');
+  const [defaultTaskCase, setDefaultTaskCase] = useState('');
 
   const [numFiche, setNumFiche] = useState('');
   const [statuCom, setStatuCom] = useState(' --- ');
@@ -136,7 +138,7 @@ const DialogEditTask = (props) => {
       setDefaultUrl((prev) => selectedRowData.link);
       setCat((prev) => selectedRowData.cat);
       setDefaultStatuIvpn((prev) => selectedRowData.statIvpn);
-      setTaskCase((prev) => selectedRowData.state);
+      setDefaultTaskCase((prev) => selectedRowData.state);
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
       setComment((prev) => selectedRowData.comment);
@@ -187,6 +189,9 @@ const DialogEditTask = (props) => {
     )
       .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
       .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateTaskCase(selectedRowData.id, fichesUpdate, erroUpDate, taskCase)
+      )
       .then(
         updateTaskType(selectedRowData.id, fichesUpdate, erroUpDate, taskType)
       )
@@ -322,8 +327,11 @@ const DialogEditTask = (props) => {
               disablePortal
               id='taskCase'
               size='small'
-              defaultValue={taskCase}
+              defaultValue={defaultTaskCase}
               options={autoCompletTaskCase}
+              onChange={(e) => {
+                setTaskCase((perv) => e.target.innerText);
+              }}
               PaperComponent={({ children }) => (
                 <Paper sx={{ typography: 'body2' }}>{children}</Paper>
               )}
