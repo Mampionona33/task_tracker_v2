@@ -307,6 +307,8 @@ export default function TaskTable() {
       formatDate = dateFormater(elapstedTaskPause);
     }
 
+    console.log(item.productivity)
+
     arrayRows = {
       id: item.id,
       numFiche: item.numFiche,
@@ -317,7 +319,7 @@ export default function TaskTable() {
       lastUpdate: item.lastUpdate,
       nbBefor: item.nbBefor,
       state: item.state,
-      Productivity: item.productivity,
+      productivity: item.productivity,
       nbAft: item.nbAft,
       comment: item.comment,
       elapstedTime: item.elapstedTime,

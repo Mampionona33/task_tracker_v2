@@ -67,7 +67,8 @@ const CurrentTaskProductivity = () => {
         }, 1000);
         return () => {
           clearInterval(count.current);
-          count.current = 0;
+          count.current = 0;g
+          
         };
       }
 
