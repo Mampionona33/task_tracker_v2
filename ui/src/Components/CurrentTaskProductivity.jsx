@@ -3,11 +3,21 @@ import { Box, Typography, LinearProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import { fetchTaskType, userLoggedTasks } from './dataHandler';
 import { makeStyles } from '@mui/styles';
+import { useMutation } from '@apollo/client';
+import { UPDATE_FICHE } from '../GraphQL/Mutation';
+import { LOAD_DATA } from '../GraphQL/Queries';
+import {updateProductivity} from './dataHandler' 
 
 const CurrentTaskProductivity = () => {
   const [userTaskListUnsb, setUserTaskListUnsb] = useState([]);
   const [productivity, setProductivity] = useState(0);
   const count = useRef();
+
+
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+  });
 
   // fetch all task type
   const allTaskType = fetchTaskType();
@@ -53,6 +63,7 @@ const CurrentTaskProductivity = () => {
           const return_ = nbAftPlay / elapstedTime_;
           const prod = Math.round((return_ / returnGoal) * 100);
           setProductivity((prev) => (prod > 100 ? 100 : prod));
+          // updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
         }, 1000);
         return () => {
           clearInterval(count.current);
@@ -61,6 +72,7 @@ const CurrentTaskProductivity = () => {
       }
 
       if (taskPause.length > 0) {
+        // console.log(taskPause[0])
         const getGoalPause = allTaskType.filter(
           (taskType) => taskType.name === taskPause[0].typeTrav
         );
@@ -73,6 +85,7 @@ const CurrentTaskProductivity = () => {
         const prod = Math.round((returnPause / returnGoalPause) * 100);
         clearInterval(count.current);
         setProductivity((prev) => (prod > 100 ? 100 : prod));
+        updateProductivity(taskPause[0].id,fichesUpdate,erroUpDate,prod)
       }
     }
     const refetchQuery = () => userLoggedTasks();

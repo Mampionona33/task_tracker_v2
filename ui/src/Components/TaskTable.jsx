@@ -317,6 +317,7 @@ export default function TaskTable() {
       lastUpdate: item.lastUpdate,
       nbBefor: item.nbBefor,
       state: item.state,
+      Productivity: item.productivity,
       nbAft: item.nbAft,
       comment: item.comment,
       elapstedTime: item.elapstedTime,
