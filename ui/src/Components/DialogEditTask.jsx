@@ -27,6 +27,7 @@ import {
   updateTaskCase,
   updateNumberBefore,
   updateNumberAfter,
+  updateElastedTime,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -63,7 +64,7 @@ const DialogEditTask = (props) => {
   const [defaultTaskCase, setDefaultTaskCase] = useState('');
 
   const [numFiche, setNumFiche] = useState('');
-  const [statuCom, setStatuCom] = useState(' --- ');
+  const [statuCom, setStatuCom] = useState('');
   const [cat, setCat] = useState('');
   const [taskType, setTaskType] = useState('');
   const [statuIvpn, setStatIvpn] = useState('');
@@ -81,20 +82,20 @@ const DialogEditTask = (props) => {
     // auto format hours input
     if (evenT.target.id == 'hrs') {
       evenT.target.value > 23 || evenT.target.value < 0
-      ? setHrs((prev) => parseInt(prev.toString().substring(0, 1)))
-      : setHrs((prev) => evenT.target.value);
+        ? setHrs((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setHrs((prev) => evenT.target.value);
     }
     // auto format minit
     if (evenT.target.id == 'min') {
       evenT.target.value > 59 || evenT.target.value < 0
-      ? setMinit((prev) => parseInt(prev.toString().substring(0, 1)))
-      : setMinit((prev) => evenT.target.value);
+        ? setMinit((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setMinit((prev) => evenT.target.value);
     }
     // auto format seconds
     if (evenT.target.id == 'sec') {
       evenT.target.value > 59 || evenT.target.value < 0
-      ? setSec((prev) => parseInt(prev.toString().substring(0, 1)))
-      : setSec((prev) => evenT.target.value);
+        ? setSec((prev) => parseInt(prev.toString().substring(0, 1)))
+        : setSec((prev) => evenT.target.value);
     }
   };
 
@@ -102,19 +103,19 @@ const DialogEditTask = (props) => {
   const handleOnblure = (ev) => {
     switch (ev.target.id) {
       case 'day':
-      setDay((prev) => formatTimer(prev));
-      break;
+        setDay((prev) => formatTimer(prev));
+        break;
       case 'hrs':
-      setHrs((prev) => formatTimer(prev));
-      break;
+        setHrs((prev) => formatTimer(prev));
+        break;
       case 'min':
-      setMinit((prev) => formatTimer(prev));
-      break;
+        setMinit((prev) => formatTimer(prev));
+        break;
       case 'sec':
-      setSec((prev) => formatTimer(prev));
-      break;
+        setSec((prev) => formatTimer(prev));
+        break;
       default:
-      break;
+        break;
     }
   };
 
@@ -147,22 +148,22 @@ const DialogEditTask = (props) => {
       if (selectedRowData.elapstedTimeRender) {
         setDay((prev) =>
           selectedRowData.elapstedTimeRender.slice(0, -9).padStart(2, '0')
-          );
+        );
         setHrs((prev) =>
           selectedRowData.elapstedTimeRender
-          .slice(selectedRowData.elapstedTimeRender.length - 8, -6)
-          .padStart(2, '0')
-          );
+            .slice(selectedRowData.elapstedTimeRender.length - 8, -6)
+            .padStart(2, '0')
+        );
         setMinit((prev) =>
           selectedRowData.elapstedTimeRender
-          .slice(selectedRowData.elapstedTimeRender.length - 5, -3)
-          .padStart(2, '0')
-          );
+            .slice(selectedRowData.elapstedTimeRender.length - 5, -3)
+            .padStart(2, '0')
+        );
         setSec((prev) =>
           selectedRowData.elapstedTimeRender
-          .slice(selectedRowData.elapstedTimeRender.length - 2)
-          .padStart(2, '0')
-          );
+            .slice(selectedRowData.elapstedTimeRender.length - 2)
+            .padStart(2, '0')
+        );
       }
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
@@ -170,60 +171,70 @@ const DialogEditTask = (props) => {
   // function to execute to make data update
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [
-    FILTRED_FICHE,
-    { variables: { input: { submiteState: 'isUnsubmited' } } },
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
     ],
     refetchQueries: [
-    FILTRED_FICHE,
-    { variables: { input: { submiteState: 'isSubmited' } } },
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
     ],
   });
 
   // function to execute on click in save button
   const handleClickSave = async () => {
-    console.log(autoCompletStatuCom);
-    
-    const elapstedTime = parseInt(day)*86400 + parseInt(hrs)*3600 + parseInt(minit)*60 + parseInt(sec)
+    console.log(selectedRowData);
 
-    console.log(elapstedTime);
-    // console.log(selectedRowData.id);
+    const elapstedTime =
+      parseInt(day) * 86400 +
+      parseInt(hrs) * 3600 +
+      parseInt(minit) * 60 +
+      parseInt(sec);
+
     await updateTaskNumber(
       selectedRowData.id,
       fichesUpdate,
       erroUpDate,
       numFiche
-      )
-    .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
-    .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
-    .then(
-      updateNumberBefore(
-        selectedRowData.id,
-        fichesUpdate,
-        erroUpDate,
-        numberBefore
+    )
+      .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
+      .then(
+        updateElastedTime(
+          selectedRowData.id,
+          elapstedTime,
+          fichesUpdate,
+          erroUpDate
         )
       )
-    .then(
-      updateNumberAfter(
-        selectedRowData.id,
-        fichesUpdate,
-        erroUpDate,
-        numberAfter
+      .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateNumberBefore(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          numberBefore
         )
       )
-    .then(
-      updateTaskCase(selectedRowData.id, fichesUpdate, erroUpDate, taskCase)
+      .then(
+        updateNumberAfter(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          numberAfter
+        )
       )
-    .then(
-      updateTaskType(selectedRowData.id, fichesUpdate, erroUpDate, taskType)
+      .then(
+        updateTaskCase(selectedRowData.id, fichesUpdate, erroUpDate, taskCase)
       )
-    .then(
-      updateStatuIvpn(selectedRowData.id, fichesUpdate, erroUpDate, statuIvpn)
+      .then(
+        updateTaskType(selectedRowData.id, fichesUpdate, erroUpDate, taskType)
       )
-    .then(
-      updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
+      .then(
+        updateStatuIvpn(selectedRowData.id, fichesUpdate, erroUpDate, statuIvpn)
       )
-    .then(onClose);
+      .then(
+        updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
+      )
+      .then(onClose);
   };
 
   // input styles
@@ -241,241 +252,241 @@ const DialogEditTask = (props) => {
 
   return (
     <Dialog
-    open={open}
-    onClose={onClose}
-    aria-labelledby='alert-dialog-edit-task'
-    aria-describedby='alert-dialog-describ-edit-task'
-    fullWidth
+      open={open}
+      onClose={onClose}
+      aria-labelledby='alert-dialog-edit-task'
+      aria-describedby='alert-dialog-describ-edit-task'
+      fullWidth
     >
-    <DialogTitle id='alert-dialog-edit-task'>Edit task</DialogTitle>
-    <Divider />
-    <DialogContent>
-    <Box
-    rowGap={1}
-    columnGap={2}
-    marginBottom='1rem'
-    sx={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)' }}
-    >
-    <Box>
-    <TextField
-    id='numFiche'
-    variant='standard'
-    label='numFiche'
-    fullWidth
-    inputProps={{ style: textFieldInputStyle }}
-    value={numFiche}
-    onChange={(e) => setNumFiche(e.target.value)}
-    />
-    </Box>
+      <DialogTitle id='alert-dialog-edit-task'>Edit task</DialogTitle>
+      <Divider />
+      <DialogContent>
+        <Box
+          rowGap={1}
+          columnGap={2}
+          marginBottom='1rem'
+          sx={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)' }}
+        >
+          <Box>
+            <TextField
+              id='numFiche'
+              variant='standard'
+              label='numFiche'
+              fullWidth
+              inputProps={{ style: textFieldInputStyle }}
+              value={numFiche}
+              onChange={(e) => setNumFiche(e.target.value)}
+            />
+          </Box>
 
-    <Box>
-    <TextField
-    id='cat'
-    variant='standard'
-    label='Categorie'
-    fullWidth
-    value={cat}
-    onChange={(e) => setCat(e.target.value)}
-    />
-    </Box>
+          <Box>
+            <TextField
+              id='cat'
+              variant='standard'
+              label='Categorie'
+              fullWidth
+              value={cat}
+              onChange={(e) => setCat(e.target.value)}
+            />
+          </Box>
 
-    <Box>
-    <TextField
-    id='url'
-    variant='standard'
-    label='url'
-    value={defaultUrl}
-    onChange={(e) => setDefaultUrl(e.target.value)}
-    />
-    </Box>
+          <Box>
+            <TextField
+              id='url'
+              variant='standard'
+              label='url'
+              value={defaultUrl}
+              onChange={(e) => setDefaultUrl(e.target.value)}
+            />
+          </Box>
 
-    <Box>
-    <Autocomplete
-    disablePortal
-    id='comboBoxStateCom'
-    size='small'
-    defaultValue={defaultStatCom}
-    options={autoCompletStatuCom}
-    onChange={(e) => setStatuCom(e.target.innerText)}
-    PaperComponent={({ children }) => (
-      <Paper sx={{ typography: 'body2' }}>{children}</Paper>
-      )}
-    renderInput={(params) => (
-      <TextField {...params} label='Commercial Status' fullWidth />
-      )}
-    />
-    </Box>
+          <Box>
+            <Autocomplete
+              disablePortal
+              id='comboBoxStateCom'
+              size='small'
+              defaultValue={defaultStatCom}
+              options={autoCompletStatuCom}
+              onChange={(e) => setStatuCom(e.target.innerText)}
+              PaperComponent={({ children }) => (
+                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label='Commercial Status' fullWidth />
+              )}
+            />
+          </Box>
 
-    <Box>
-    <Autocomplete
-    disablePortal
-    id='comboBoxStatIvpn'
-    size='small'
-    defaultValue={defaultStatuIvpn}
-    options={autoCompletIvpn}
-    onChange={(e) => {
-      setStatIvpn(e.target.innerText);
-    }}
-    PaperComponent={({ children }) => (
-      <Paper sx={{ typography: 'body2' }}>{children}</Paper>
-      )}
-    renderInput={(params) => (
-      <TextField {...params} label='IVPN Status' fullWidth />
-      )}
-    />
-    </Box>
+          <Box>
+            <Autocomplete
+              disablePortal
+              id='comboBoxStatIvpn'
+              size='small'
+              defaultValue={defaultStatuIvpn}
+              options={autoCompletIvpn}
+              onChange={(e) => {
+                setStatIvpn(e.target.innerText);
+              }}
+              PaperComponent={({ children }) => (
+                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label='IVPN Status' fullWidth />
+              )}
+            />
+          </Box>
 
-    <Box>
-    <Autocomplete
-    disablePortal
-    id='typeTask'
-    size='small'
-    options={autoCompletTypeTask}
-    defaultValue={defaultTaskType}
-    onChange={(e) => {
-      setTaskType((prev) => e.target.innerText);
-    }}
-    PaperComponent={({ children }) => (
-      <Paper sx={{ typography: 'body2' }}>{children}</Paper>
-      )}
-    renderInput={(params) => (
-      <TextField {...params} label='Task Type' />
-      )}
-    />
-    </Box>
+          <Box>
+            <Autocomplete
+              disablePortal
+              id='typeTask'
+              size='small'
+              options={autoCompletTypeTask}
+              defaultValue={defaultTaskType}
+              onChange={(e) => {
+                setTaskType((prev) => e.target.innerText);
+              }}
+              PaperComponent={({ children }) => (
+                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label='Task Type' />
+              )}
+            />
+          </Box>
 
-    <Box>
-    <Autocomplete
-    disablePortal
-    id='taskCase'
-    size='small'
-    defaultValue={defaultTaskCase}
-    options={autoCompletTaskCase}
-    onChange={(e) => {
-      setTaskCase((perv) => e.target.innerText);
-    }}
-    PaperComponent={({ children }) => (
-      <Paper sx={{ typography: 'body2' }}>{children}</Paper>
-      )}
-    renderInput={(params) => (
-      <TextField {...params} label='Task Case' />
-      )}
-    />
-    </Box>
+          <Box>
+            <Autocomplete
+              disablePortal
+              id='taskCase'
+              size='small'
+              defaultValue={defaultTaskCase}
+              options={autoCompletTaskCase}
+              onChange={(e) => {
+                setTaskCase((perv) => e.target.innerText);
+              }}
+              PaperComponent={({ children }) => (
+                <Paper sx={{ typography: 'body2' }}>{children}</Paper>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label='Task Case' />
+              )}
+            />
+          </Box>
 
-    <Box display='flex' justifyContent='space-between' columnGap={1}>
-    <Box display='flex' flexDirection='column-reverse'>
-    <Typography
-    sx={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.9rem' }}
-    >
-    Elaptsed Time
-    </Typography>
-    </Box>
-    <Box display='flex' columnGap={1}>
-    <TextField
-    id='day'
-    variant='standard'
-    label='Day'
-    type='number'
-    inputProps={{
-      style: TimerTextFieldeStyle,
-      min: '0',
-      max: '365',
-    }}
-    onBlur={handleOnblure}
-    value={day}
-    onChange={(e) => setDay((prev) => e.target.value)}
-    />
-    <TextField
-    id='hrs'
-    variant='standard'
-    label='Hrs'
-    type='number'
-    inputProps={{
-      style: TimerTextFieldeStyle,
-      min: '0',
-      max: '23',
-    }}
-    onBlur={handleOnblure}
-    value={hrs}
-    onChange={timerDigitHandler}
-    />
-    <TextField
-    type='number'
-    id='min'
-    variant='standard'
-    label='min'
-    inputProps={{
-      style: TimerTextFieldeStyle,
-      min: '0',
-      max: '23',
-    }}
-    onBlur={handleOnblure}
-    value={minit}
-    onChange={timerDigitHandler}
-    />
-    <TextField
-    type='number'
-    id='sec'
-    variant='standard'
-    label='sec'
-    inputProps={{
-      style: TimerTextFieldeStyle,
-      min: '0',
-      max: '23',
-    }}
-    onBlur={handleOnblure}
-    value={sec}
-    onChange={timerDigitHandler}
-    />
-    </Box>
-    </Box>
+          <Box display='flex' justifyContent='space-between' columnGap={1}>
+            <Box display='flex' flexDirection='column-reverse'>
+              <Typography
+                sx={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '0.9rem' }}
+              >
+                Elaptsed Time
+              </Typography>
+            </Box>
+            <Box display='flex' columnGap={1}>
+              <TextField
+                id='day'
+                variant='standard'
+                label='Day'
+                type='number'
+                inputProps={{
+                  style: TimerTextFieldeStyle,
+                  min: '0',
+                  max: '365',
+                }}
+                onBlur={handleOnblure}
+                value={day}
+                onChange={(e) => setDay((prev) => e.target.value)}
+              />
+              <TextField
+                id='hrs'
+                variant='standard'
+                label='Hrs'
+                type='number'
+                inputProps={{
+                  style: TimerTextFieldeStyle,
+                  min: '0',
+                  max: '23',
+                }}
+                onBlur={handleOnblure}
+                value={hrs}
+                onChange={timerDigitHandler}
+              />
+              <TextField
+                type='number'
+                id='min'
+                variant='standard'
+                label='min'
+                inputProps={{
+                  style: TimerTextFieldeStyle,
+                  min: '0',
+                  max: '23',
+                }}
+                onBlur={handleOnblure}
+                value={minit}
+                onChange={timerDigitHandler}
+              />
+              <TextField
+                type='number'
+                id='sec'
+                variant='standard'
+                label='sec'
+                inputProps={{
+                  style: TimerTextFieldeStyle,
+                  min: '0',
+                  max: '23',
+                }}
+                onBlur={handleOnblure}
+                value={sec}
+                onChange={timerDigitHandler}
+              />
+            </Box>
+          </Box>
 
-    <Box>
-    <TextField
-    id='nbBefor'
-    variant='standard'
-    label='Numer Prod Before'
-    fullWidth
-    value={numberBefore}
-    onChange={(e) => setNumberBefore(e.target.value)}
-    />
-    </Box>
+          <Box>
+            <TextField
+              id='nbBefor'
+              variant='standard'
+              label='Numer Prod Before'
+              fullWidth
+              value={numberBefore}
+              onChange={(e) => setNumberBefore(e.target.value)}
+            />
+          </Box>
 
-    <Box>
-    <TextField
-    id='nbAft'
-    variant='standard'
-    label='Numer Prod After'
-    fullWidth
-    value={numberAfter}
-    onChange={(e) => setNumberAfter(e.target.value)}
-    />
-    </Box>
-    </Box>
-    <Divider />
-    <Box>
-    <Typography
-    fontFamily='sans-serif'
-    color='GrayText'
-    sx={{ margin: '0.5rem' }}
-    >
-    COMMENT
-    </Typography>
-    <TextareaAutosize
-    id='comment'
-    value={comment}
-    onChange={(e) => setComment((prev) => e.target.value)}
-    style={{ width: '100%', minHeight: '4rem' }}
-    />
-    </Box>
-    </DialogContent>
-  {/* Button */}
-  <DialogActions>
-  <Button onClick={handleClickSave}>Save</Button>
-  <Button onClick={onClose}>Cancel</Button>
-  </DialogActions>
-  </Dialog>
+          <Box>
+            <TextField
+              id='nbAft'
+              variant='standard'
+              label='Numer Prod After'
+              fullWidth
+              value={numberAfter}
+              onChange={(e) => setNumberAfter(e.target.value)}
+            />
+          </Box>
+        </Box>
+        <Divider />
+        <Box>
+          <Typography
+            fontFamily='sans-serif'
+            color='GrayText'
+            sx={{ margin: '0.5rem' }}
+          >
+            COMMENT
+          </Typography>
+          <TextareaAutosize
+            id='comment'
+            value={comment}
+            onChange={(e) => setComment((prev) => e.target.value)}
+            style={{ width: '100%', minHeight: '4rem' }}
+          />
+        </Box>
+      </DialogContent>
+      {/* Button */}
+      <DialogActions>
+        <Button onClick={handleClickSave}>Save</Button>
+        <Button onClick={onClose}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 export default DialogEditTask;
