@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, Typography, LinearProgress } from '@mui/material';
 import PropTypes from 'prop-types';
-import { fetchTaskType, userLoggedTasks } from './dataHandler';
+import { fetchTaskType, updateCat, userLoggedTasks } from './dataHandler';
 import { makeStyles } from '@mui/styles';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA } from '../GraphQL/Queries';
-import {updateProductivity} from './dataHandler' 
+import { updateProductivity } from './dataHandler';
 
 const CurrentTaskProductivity = () => {
   const [userTaskListUnsb, setUserTaskListUnsb] = useState([]);
   const [productivity, setProductivity] = useState(0);
-  const count = useRef();
-
+  const [currentTask, setCurrentTask] = useState([]);
+  const [pt, setPt] = useState(0);
+  const count = useRef(null);
+  const refProd = useRef(null);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -26,10 +28,10 @@ const CurrentTaskProductivity = () => {
 
   const taskPlay = userTaskListUnsb.filter(
     (task) => task.processing === 'isPlay'
-    );
+  );
   const taskPause = userTaskListUnsb.filter(
     (task) => task.processing === 'isPause'
-    );
+  );
 
   useEffect(() => {
     // Fetch all task unsubmite for the current user
@@ -37,7 +39,7 @@ const CurrentTaskProductivity = () => {
       setUserTaskListUnsb((prev) => userDataLoged);
     }
 
-    /* if task user list is note empty. make filter to find 
+    /* if task user list is not empty. make filter to find 
     pause and play task and asign it to the current task */
 
     if (userTaskListUnsb.length > 0 && allTaskType) {
@@ -46,45 +48,44 @@ const CurrentTaskProductivity = () => {
         taskPlay.length > 0 &&
         allTaskType &&
         taskPlay[0].typeTrav != 'Empty Type'
-        ) {
+      ) {
+        setCurrentTask((prev) => taskPlay);
+
         const getGoalPlay = allTaskType.filter(
           (taskType) => taskType.name === taskPlay[0].typeTrav
-          );
+        );
 
-      const goalPlay = getGoalPlay[0].objectif;
-      const nbAftPlay = taskPlay[0].nbAft;
-      let elapstedTime_ =
-      (Date.parse(new Date()) - Date.parse(taskPlay[0].lastUpdate)) / 1000 +
-      taskPlay[0].elapstedTime;
+        const goalPlay = getGoalPlay[0].objectif;
+        const nbAftPlay = taskPlay[0].nbAft;
+        let elapstedTime_ =
+          (Date.parse(new Date()) - Date.parse(taskPlay[0].lastUpdate)) / 1000 +
+          taskPlay[0].elapstedTime;
 
-          // let prod = 1;
+        count.current = setInterval(() => {
+          elapstedTime_++;
+          const returnGoal = goalPlay / 3600;
+          const return_ = nbAftPlay / elapstedTime_;
+          const prod = Math.round((return_ / returnGoal) * 100);
+          const prevProd = prod - 1;
+          setProductivity((prev) => (prod > 100 ? 100 : prod));
 
-          count.current = setInterval(() => {
-            elapstedTime_++;
-            const returnGoal = goalPlay / 3600;
-            const return_ = nbAftPlay / elapstedTime_;
-            const prod = Math.round((return_ / returnGoal) * 100);
-            const prevProd = prod - 1;
-            setProductivity((prev) => (prod > 100 ? 100 : prod));
-            
-            // if(prod === prevProd){
-            //   console.log(prod)
-            //   updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
-            // }
+          // if(prod === prevProd){
+          //   console.log(prod)
+          //   updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
+          // }
+        }, 1000);
+        return () => {
+          clearInterval(count.current);
+          count.current = 0;
+        };
+      }
 
-          }, 1000);
-          return () => {
-            clearInterval(count.current);
-            count.current = 0;
-
-          };
-        }
-
-        if (taskPause.length > 0) {
+      if (taskPause.length > 0) {
         // console.log(taskPause[0])
+        setCurrentTask((prev) => taskPause);
         const getGoalPause = allTaskType.filter(
           (taskType) => taskType.name === taskPause[0].typeTrav
-          );
+        );
         const goalPause = getGoalPause[0].objectif;
         const nbAftPause = taskPause[0].nbAft;
         const elapstedTimePause = taskPause[0].elapstedTime;
@@ -94,13 +95,13 @@ const CurrentTaskProductivity = () => {
         const prod = Math.round((returnPause / returnGoalPause) * 100);
         clearInterval(count.current);
         setProductivity((prev) => (prod > 100 ? 100 : prod));
-        updateProductivity(taskPause[0].id,fichesUpdate,erroUpDate,prod)
       }
     }
+
     const refetchQuery = () => userLoggedTasks();
     window.addEventListener('focus', refetchQuery);
     return () => window.removeEventListener('focus', refetchQuery);
-  }, [userDataLoged, userTaskListUnsb, allTaskType]);
+  }, [userDataLoged, userTaskListUnsb, allTaskType, productivity]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
@@ -113,81 +114,97 @@ const CurrentTaskProductivity = () => {
       fontWeight: '700',
     },
   });
+
+  // save productivity on value change
+  const onProdChange = () => {
+    // refProd.current = productivity;
+    if (currentTask.length > 0 && productivity) {
+      // updateProductivity(
+      //   currentTask[0].id,
+      //   fichesUpdate,
+      //   erroUpDate,
+      //   refProd.current
+      // );
+    }
+  };
+
   //   import the created classe here
   const classes = useStyles();
 
-  const LinearProgressWithLabel = (props) => {
+  const LinearProgressWithLabel = React.forwardRef((props, ref) => {
     return (
       <Box display='flex' alignItems='center'>
-      <Box width='100%' mr={1}>
-      <LinearProgress
-      variant='determinate'
-      {...props}
-      color={
-        props.value >= 94
-        ? 'success'
-        : props.value > 90
-        ? 'warning'
-        : 'error'
-      }
-      />
+        <Box width='100%' mr={1}>
+          <LinearProgress
+            variant='determinate'
+            {...props}
+            color={
+              props.value >= 94
+                ? 'success'
+                : props.value > 90
+                ? 'warning'
+                : 'error'
+            }
+          />
+        </Box>
+        <Box minWidth={35}>
+          {props.value >= 94 ? (
+            <Typography
+              variant='body2'
+              color='#388e3c'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          ) : props.value > 90 ? (
+            <Typography
+              variant='body2'
+              color=' #f57c00'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          ) : (
+            <Typography
+              variant='body2'
+              color='#d32f2f'
+              sx={{ fontWeight: '900' }}
+            >
+              {' '}
+              {`${Math.round(props.value)}%`}
+            </Typography>
+          )}
+        </Box>
       </Box>
-      <Box minWidth={35}>
-      {props.value >= 94 ? (
-        <Typography
-        variant='body2'
-        color='#388e3c'
-        sx={{ fontWeight: '900' }}
-        >
-        {' '}
-        {`${Math.round(props.value)}%`}
-        </Typography>
-        ) : props.value > 90 ? (
-        <Typography
-        variant='body2'
-        color=' #f57c00'
-        sx={{ fontWeight: '900' }}
-        >
-        {' '}
-        {`${Math.round(props.value)}%`}
-        </Typography>
-        ) : (
-        <Typography
-        variant='body2'
-        color='#d32f2f'
-        sx={{ fontWeight: '900' }}
-        >
-        {' '}
-        {`${Math.round(props.value)}%`}
-        </Typography>
-        )}
-        </Box>
-        </Box>
-        );
-  };
+    );
+  });
   LinearProgressWithLabel.propTypes = {
     /**
      * The value of the progress indicator for the determinate and buffer variants.
      * Value between 0 and 100.
      */
-     value: PropTypes.number.isRequired,
-   };
+    value: PropTypes.number.isRequired,
+    onChange: PropTypes.func,
+  };
 
-   return (
+  return (
     <Box sx={{ margin: '0 1rem' }}>
-    <Box className={classes.processingBox}>
-    <Typography variant='body2' className={classes.processingTypography}>
-    Productivity
-    </Typography>
-    <Box sx={{ width: '100%' }}>
-    <LinearProgressWithLabel
-    value={productivity}
-    sx={{ height: '0.5rem', borderRadius: '25px' }}
-    />
+      <Box className={classes.processingBox}>
+        <Typography variant='body2' className={classes.processingTypography}>
+          Productivity
+        </Typography>
+        <Box sx={{ width: '100%' }}>
+          <LinearProgressWithLabel
+            value={productivity}
+            onChange={onProdChange()}
+            sx={{ height: '0.5rem', borderRadius: '25px' }}
+          />
+        </Box>
+      </Box>
     </Box>
-    </Box>
-    </Box>
-    );
- };
+  );
+};
 
- export default CurrentTaskProductivity;
+export default CurrentTaskProductivity;

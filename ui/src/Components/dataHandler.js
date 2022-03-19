@@ -619,22 +619,27 @@ const updateNumberAfter = async (
   return taskId;
 };
 
-const updateProductivity = async(taskId,fichesUpdate,errorUpDate,newProductivity) => {
+const updateProductivity = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  newProductivity
+) => {
   fichesUpdate({
-    variables:{
-      filter:{
-        id:taskId,
+    variables: {
+      filter: {
+        id: taskId,
       },
-      update:{
+      update: {
         productivity: newProductivity,
       },
     },
   });
   if (errorUpDate) {
-    console.log(errorUpDate)
+    console.log(errorUpDate);
   }
-  return taskId
-}
+  return taskId;
+};
 
 // set the current time the last update
 const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {

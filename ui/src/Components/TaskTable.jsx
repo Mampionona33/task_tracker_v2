@@ -18,6 +18,7 @@ import {
   updateElastedTime,
   dateFormater,
   setProcessToPause,
+  updateProductivity,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -281,6 +282,12 @@ export default function TaskTable() {
     return task.id;
   });
 
+  const prevTaskProd = prevTask.map((task) => {
+    return task.productivity;
+  });
+
+  console.log(prevTaskProd[0]);
+
   // loading data on component mount
   useEffect(() => {
     if (loadUnsubmitedTask !== undefined) {
@@ -306,7 +313,6 @@ export default function TaskTable() {
     if (item.processing === 'isPause' || item.processing === 'isOff') {
       formatDate = dateFormater(elapstedTaskPause);
     }
-
 
     arrayRows = {
       id: item.id,
