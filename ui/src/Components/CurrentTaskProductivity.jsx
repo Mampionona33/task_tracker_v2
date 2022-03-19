@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA } from '../GraphQL/Queries';
-import { updateProductivity } from './dataHandler';
+import { updateProductivity ,fetchProd} from './dataHandler';
 
 const CurrentTaskProductivity = () => {
   const [userTaskListUnsb, setUserTaskListUnsb] = useState([]);
@@ -20,6 +20,9 @@ const CurrentTaskProductivity = () => {
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
+
+  // Fetch prod from data
+  const prodFromData = fetchProd();
 
   // fetch all task type
   const allTaskType = fetchTaskType();
@@ -42,7 +45,7 @@ const CurrentTaskProductivity = () => {
     /* if task user list is not empty. make filter to find 
     pause and play task and asign it to the current task */
 
-    if (userTaskListUnsb.length > 0 && allTaskType) {
+    if (userTaskListUnsb.length > 0 && allTaskType && prodFromData) {
       // If task processing is play and allTaskType note empty
       if (
         taskPlay.length > 0 &&
@@ -69,10 +72,13 @@ const CurrentTaskProductivity = () => {
           const prevProd = prod - 1;
           setProductivity((prev) => (prod > 100 ? 100 : prod));
 
-          // if(prod === prevProd){
-          //   console.log(prod)
-          //   updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
-          // }
+
+          // Compare the productivity from database and the local prod
+          // if it's different, make update
+          if(prod != prodFromData){
+            updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
+          }
+
         }, 1000);
         return () => {
           clearInterval(count.current);
@@ -101,7 +107,7 @@ const CurrentTaskProductivity = () => {
     const refetchQuery = () => userLoggedTasks();
     window.addEventListener('focus', refetchQuery);
     return () => window.removeEventListener('focus', refetchQuery);
-  }, [userDataLoged, userTaskListUnsb, allTaskType, productivity]);
+  }, [userDataLoged, userTaskListUnsb, allTaskType, prodFromData]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({

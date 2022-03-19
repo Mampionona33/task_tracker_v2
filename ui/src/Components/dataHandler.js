@@ -211,10 +211,28 @@ const loadElapstedTime = () => {
     if (pauseData.length > 0) {
       setOutpoutElapstedTime(pauseData[0].elapstedTime);
     }
-  }, [playData, pauseData]);
+  },[playData, pauseData]);
 
   return outpoutElapstedTime;
 };
+
+// Fetching productivity
+const fetchProd = () => {
+  const [prodFecthced, setProdFecthed] = useState(0);
+  const playData = loadProcessingPlay();
+  const pauseData = loadProcessingPause();
+
+  useEffect(()=>{
+    if (playData.length > 0) {
+      setProdFecthed(playData[0].productivity);
+    }
+    if (pauseData.length > 0) {
+      setProdFecthed(pauseData[0].productivity);
+    }
+
+  },[playData,pauseData]);
+  return prodFecthced;
+}
 
 // Fetching listTypeTaches
 const fetchTaskType = () => {
@@ -300,7 +318,7 @@ const setPrevProcessIsOff = async (
   prevProcessPlayId,
   fichesUpdate,
   erroUpDate
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -384,24 +402,24 @@ const renderDate = (value) => {
     if (value) {
       setDay((prev) =>
         Math.floor((value % 86400) / 36000)
-          .toString()
-          .padStart(2, '0')
-      );
+        .toString()
+        .padStart(2, '0')
+        );
       setHours((prev) =>
         Math.floor((value % 86400) / 3600)
-          .toString()
-          .padStart(2, '0')
-      );
+        .toString()
+        .padStart(2, '0')
+        );
       setMin((prev) =>
         Math.floor((value % 3600) / 60)
-          .toString()
-          .padStart(2, '0')
-      );
+        .toString()
+        .padStart(2, '0')
+        );
       setSec((prev) =>
         Math.floor(value % 60)
-          .toString()
-          .padStart(2, '0')
-      );
+        .toString()
+        .padStart(2, '0')
+        );
     }
   }, [value]);
   return { day, hours, min, sec };
@@ -413,7 +431,7 @@ const updateElastedTime = async (
   elapstedTime,
   fichesUpdate,
   errorUpDate
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -435,7 +453,7 @@ const updateTaskNumber = async (
   fichesUpdate,
   erroUpDate,
   taskNumber
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -492,7 +510,7 @@ const updateStatCom = async (
   fichesUpdate,
   errorUpDate,
   newStatcomValue
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -514,7 +532,7 @@ const updateStatuIvpn = async (
   fichesUpdate,
   errorUpDate,
   newStatIvpn
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -536,7 +554,7 @@ const updateTaskType = async (
   fichesUpdate,
   errorUpDate,
   newTaskType
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -558,7 +576,7 @@ const updateTaskCase = async (
   fichesUpdate,
   errorUpDate,
   newTaskCase
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -580,7 +598,7 @@ const updateNumberBefore = async (
   fichesUpdate,
   errorUpDate,
   newNumberBeforeValue
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -602,7 +620,7 @@ const updateNumberAfter = async (
   fichesUpdate,
   errorUpDate,
   newNumberAfterValue
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -624,7 +642,7 @@ const updateProductivity = async (
   fichesUpdate,
   errorUpDate,
   newProductivity
-) => {
+  ) => {
   fichesUpdate({
     variables: {
       filter: {
@@ -681,17 +699,17 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
 
 const dateFormater = (value) => {
   let day = Math.floor(value / 86400)
-    .toString()
-    .padStart(2, '0');
+  .toString()
+  .padStart(2, '0');
   let hours = Math.floor((value % 86400) / 3600)
-    .toString()
-    .padStart(2, '0');
+  .toString()
+  .padStart(2, '0');
   let min = Math.floor((value % 3600) / 60)
-    .toString()
-    .padStart(2, '0');
+  .toString()
+  .padStart(2, '0');
   let sec = Math.floor(value % 60)
-    .toString()
-    .padStart(2, '0');
+  .toString()
+  .padStart(2, '0');
 
   return { day, hours, min, sec };
 };
@@ -734,4 +752,5 @@ export {
   updateNumberBefore,
   updateNumberAfter,
   updateProductivity,
+  fetchProd,
 };
