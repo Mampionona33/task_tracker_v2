@@ -58,6 +58,11 @@ export default function DialogAddNewTask({ open, onClose }) {
   const refNumFiche = useRef(null);
   const refCat =  useRef(null);
   const refStatCom = useRef(null);
+  const refUrl = useRef(null);
+  const refTaskType = useRef(null);
+  const refStatuIvpn = useRef(null);
+  const refNbBefore = useRef(null);
+  const refNbAfter = useRef(null);
 
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -152,7 +157,12 @@ export default function DialogAddNewTask({ open, onClose }) {
   async function handleSave(e) {
     console.log(refNumFiche.current.children[1].children[0].value);
     console.log(refCat.current.children[1].children[0].value);
+    console.log(refUrl.current.children[1].children[0].value);
+    console.log(refNbBefore.current.children[1].children[0].value);
+    console.log(refNbAfter.current.children[1].children[0].value);
     console.log(refStatCom.current.children[0].children[1].children[0].value);
+    console.log(refTaskType.current.children[0].children[1].children[0].value);
+    console.log(refStatuIvpn.current.children[0].children[1].children[0].value);
 
 
     /*await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
@@ -255,6 +265,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 type='text'
                 label='Url'
                 variant='standard'
+                ref = {refUrl}
                 // value={url}
                 // onChange={(e) => setUrl(e.target.value)}
               />
@@ -266,11 +277,12 @@ export default function DialogAddNewTask({ open, onClose }) {
                 id='comboboxTypeTrav'
                 options={listTaches}
                 size={'small'}
+                ref = {refTaskType}
                 sx={{ marginTop: 1.5 }}
                 // onChange={(e) => setTypeTrav(e.target.innerText)}
                 PaperComponent={({ children }) => (
-                  <Paper sx={{ typography: 'body2' }}>{children}</Paper>
-                )}
+                  <Paper sx={{ typography: 'body2' }}>{children}</Paper>  
+              )}
                 renderInput={(params) => (
                   <TextField {...params} label='Work Type' variant='standard' />
                 )}
@@ -282,6 +294,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 disablePortal
                 id='comboBoxStatIvpn'
                 options={comboListStatIvpn}
+                ref = {refStatuIvpn}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
                 // onChange={(e) => setStatuIvpn(e.target.innerText)}
@@ -307,6 +320,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 label='Nb BEFORE'
                 variant='standard'
                 value={nbBefor}
+                ref = {refNbBefore}
                 onChange={(e) => {
                   e.target.value === ''
                     ? setNbBefor(0)
@@ -323,6 +337,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 type='text'
                 label='Nb AFTER'
                 variant='standard'
+                ref= {refNbAfter}
                 value={nbAft}
                 onChange={(e) => {
                   e.target.value === ''
