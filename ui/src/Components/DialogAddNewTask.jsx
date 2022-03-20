@@ -13,7 +13,7 @@ import {
   Link,
   Divider,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 
 import { useMutation } from '@apollo/client';
 import { ADD_FICHE, UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -53,6 +53,11 @@ export default function DialogAddNewTask({ open, onClose }) {
   const [startDate, setStartDate] = useState(new Date());
   const [processing, setProcessing] = useState('isPlay');
   // const [lastUpdate, setLastUpdate] = useState([]);
+
+
+  const refNumFiche = useRef(null);
+  const refCat =  useRef(null);
+  const refStatCom = useRef(null);
 
   // get the user
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -142,8 +147,15 @@ export default function DialogAddNewTask({ open, onClose }) {
     }
   }, [allData, dataPlay, dataPause, currentTask]);
 
-  async function handleReset(e) {
-    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
+
+
+  async function handleSave(e) {
+    console.log(refNumFiche.current.children[1].children[0].value);
+    console.log(refCat.current.children[1].children[0].value);
+    console.log(refStatCom.current.children[0].children[1].children[0].value);
+
+
+    /*await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
       .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
       .then(addFiche())
       .then(
@@ -155,7 +167,7 @@ export default function DialogAddNewTask({ open, onClose }) {
         setNbBefor(0),
         setNbAft(0),
         setComment('')
-      );
+      );*/
   }
 
   const listTaches = typeTache.map((item) => item.name);
@@ -192,8 +204,9 @@ export default function DialogAddNewTask({ open, onClose }) {
                 type='text'
                 variant='standard'
                 name='numFiche'
-                value={numFiche}
-                onChange={(e) => setNumFiche(e.target.value)}
+                ref={refNumFiche}
+                // value={numFiche}
+                // onChange={(e) => setNumFiche(e.target.value)}                
               />
             </Box>
 
@@ -205,8 +218,9 @@ export default function DialogAddNewTask({ open, onClose }) {
                 type='text'
                 label='Category'
                 variant='standard'
-                value={cat}
-                onChange={(e) => setCat(e.target.value)}
+                ref = {refCat}
+                // value={cat}
+                // onChange={(e) => setCat(e.target.value)}
               />
             </Box>
 
@@ -216,8 +230,9 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listStatCom}
                 size={'small'}
                 id='comboBoxStateCom'
+                ref = {refStatCom}
                 defaultValue='---'
-                onChange={(e) => setStatuCom(e.target.innerText)}
+                // onChange={(e) => setStatuCom(e.target.innerText)}
                 sx={{ marginTop: 1.5 }}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
@@ -240,8 +255,8 @@ export default function DialogAddNewTask({ open, onClose }) {
                 type='text'
                 label='Url'
                 variant='standard'
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                // value={url}
+                // onChange={(e) => setUrl(e.target.value)}
               />
             </Box>
 
@@ -252,7 +267,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={listTaches}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
-                onChange={(e) => setTypeTrav(e.target.innerText)}
+                // onChange={(e) => setTypeTrav(e.target.innerText)}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
                 )}
@@ -269,7 +284,7 @@ export default function DialogAddNewTask({ open, onClose }) {
                 options={comboListStatIvpn}
                 size={'small'}
                 sx={{ marginTop: 1.5 }}
-                onChange={(e) => setStatuIvpn(e.target.innerText)}
+                // onChange={(e) => setStatuIvpn(e.target.innerText)}
                 PaperComponent={({ children }) => (
                   <Paper sx={{ typography: 'body2' }}>{children}</Paper>
                 )}
@@ -332,9 +347,10 @@ export default function DialogAddNewTask({ open, onClose }) {
 
         <DialogActions>
           <Button
+          type = "submit"
             onClick={(e) => {
               onClose();
-              handleReset();
+              handleSave();
               setStartDate(GetStartDateTime());
             }}
             component={Link}
