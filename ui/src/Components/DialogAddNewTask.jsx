@@ -97,6 +97,7 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   // Function to add new task in data base
   const addFiche = async () => {
+    console.log('from addFiche', parseInt(refNbBefore.current.children[1].children[0].value) );
     fichesAdd({
       variables: {
         fiche: {
@@ -111,23 +112,23 @@ export default function DialogAddNewTask({ open, onClose }) {
             phone_number: user.phone_number,
             profile: user.profile,
           },
-          numFiche: numFiche,
-          cat: cat,
-          typeTrav: typeTrav,
-          statuCom: statuCom,
-          statuIvpn: statuIvpn,
-          url: url,
-          nbBefor: nbBefor,
-          nbAft: nbAft,
+          numFiche: refNumFiche.current.children[1].children[0].value,
+          cat: refCat.current.children[1].children[0].value,
+          typeTrav: refTaskType.current.children[0].children[1].children[0].value,
+          statuCom: refStatCom.current.children[0].children[1].children[0].value,
+          statuIvpn: efStatuIvpn.current.children[0].children[1].children[0].value,
+          url: refUrl.current.children[1].children[0].value,
+          nbBefor: parseInt(refNbBefore.current.children[1].children[0].value),
+          nbAft: parseInt( refNbAfter.current.children[1].children[0].value),
           comment: comment,
           startDate: startDate,
-          processing: processing,
+          processing: 'isPlay',
           lastUpdate: new Date().toUTCString(),
         },
       },
     });
     if (errorCreatFiche) {
-      console.log(errorCreatFiche);
+      console.log('errorCreatFiche',errorCreatFiche);
     }
   };
 
@@ -150,25 +151,26 @@ export default function DialogAddNewTask({ open, onClose }) {
     if (dataPause.length > 0) {
       setPrevProcessId(dataPause[0].id);
     }
-  }, [allData, dataPlay, dataPause, currentTask]);
+  }, [allData, dataPlay, dataPause]);
 
 
 
   async function handleSave(e) {
-    console.log(refNumFiche.current.children[1].children[0].value);
+    /*console.log(refNumFiche.current.children[1].children[0].value);
     console.log(refCat.current.children[1].children[0].value);
     console.log(refUrl.current.children[1].children[0].value);
     console.log(refNbBefore.current.children[1].children[0].value);
     console.log(refNbAfter.current.children[1].children[0].value);
     console.log(refStatCom.current.children[0].children[1].children[0].value);
     console.log(refTaskType.current.children[0].children[1].children[0].value);
-    console.log(refStatuIvpn.current.children[0].children[1].children[0].value);
+    console.log(refStatuIvpn.current.children[0].children[1].children[0].value);*/
 
+    
 
-    /*await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
+    await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
       .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-      .then(addFiche())
-      .then(
+      .then(addFiche()).then(console.log(refNumFiche.current.children[1].children[0].value))
+      /*.then(
         setNumFiche(''),
         setCat(''),
         setStatuCom(''),
