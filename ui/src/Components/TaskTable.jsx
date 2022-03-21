@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Link, IconButton, Card, Typography } from '@mui/material';
+import { Box, Link, IconButton, Card, Typography, Paper } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
@@ -10,6 +10,7 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import DialogEditTask from './DialogEditTask.jsx';
+
 import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
@@ -112,6 +113,45 @@ export default function TaskTable() {
       headerAlign: 'center',
       flex: 1,
       minWidth: 90,
+      renderCell: (param) => {
+        // return <Typography variant='body2'>{param.value} %</Typography>;
+        if (param.value >= 100) {
+          return (
+            <Paper sx={{ backgroundColor: 'success.light', padding: 0 }}>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
+            </Paper>
+          );
+        }
+        if (param.value >= 95 && param.value < 100) {
+          return (
+            <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
+            </Paper>
+          );
+        }
+        if (param.value < 95) {
+          return (
+            <Paper sx={{ backgroundColor: 'error.main', padding: 0 }}>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
+            </Paper>
+          );
+        }
+      },
     },
     {
       field: 'cat',
