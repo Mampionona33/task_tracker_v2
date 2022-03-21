@@ -129,7 +129,7 @@ export default function TaskTable() {
         }
         if (param.value >= 95 && param.value < 100) {
           return (
-            <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
+            <Paper sx={{ backgroundColor: 'warning.main', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
