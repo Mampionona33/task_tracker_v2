@@ -1,28 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, Typography, LinearProgress } from '@mui/material';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { Box, Typography, LinearProgress, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { fetchTaskType, updateCat, userLoggedTasks } from './dataHandler';
 import { makeStyles } from '@mui/styles';
 import { useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import { LOAD_DATA } from '../GraphQL/Queries';
-import { updateProductivity ,fetchProd} from './dataHandler';
+import { updateProductivity } from './dataHandler';
 
 const CurrentTaskProductivity = () => {
   const [userTaskListUnsb, setUserTaskListUnsb] = useState([]);
   const [productivity, setProductivity] = useState(0);
   const [currentTask, setCurrentTask] = useState([]);
-  const [pt, setPt] = useState(0);
+  const [reelProd, setReelProd] = useState(0);
   const count = useRef(null);
-  const refProd = useRef(null);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
   });
-
-  // Fetch prod from data
-  const prodFromData = fetchProd();
 
   // fetch all task type
   const allTaskType = fetchTaskType();
@@ -45,7 +41,7 @@ const CurrentTaskProductivity = () => {
     /* if task user list is not empty. make filter to find 
     pause and play task and asign it to the current task */
 
-    if (userTaskListUnsb.length > 0 && allTaskType && prodFromData) {
+    if (userTaskListUnsb.length > 0 && allTaskType) {
       // If task processing is play and allTaskType note empty
       if (
         taskPlay.length > 0 &&
@@ -71,14 +67,7 @@ const CurrentTaskProductivity = () => {
           const prod = Math.round((return_ / returnGoal) * 100);
           const prevProd = prod - 1;
           setProductivity((prev) => (prod > 100 ? 100 : prod));
-
-
-          // Compare the productivity from database and the local prod
-          // if it's different, make update
-          if(prod != prodFromData){
-            updateProductivity(taskPlay[0].id,fichesUpdate,erroUpDate,prod)
-          }
-
+          setReelProd((prev) => prod);
         }, 1000);
         return () => {
           clearInterval(count.current);
@@ -87,7 +76,6 @@ const CurrentTaskProductivity = () => {
       }
 
       if (taskPause.length > 0) {
-        // console.log(taskPause[0])
         setCurrentTask((prev) => taskPause);
         const getGoalPause = allTaskType.filter(
           (taskType) => taskType.name === taskPause[0].typeTrav
@@ -101,13 +89,10 @@ const CurrentTaskProductivity = () => {
         const prod = Math.round((returnPause / returnGoalPause) * 100);
         clearInterval(count.current);
         setProductivity((prev) => (prod > 100 ? 100 : prod));
+        setReelProd((prev) => prod);
       }
     }
-
-    const refetchQuery = () => userLoggedTasks();
-    window.addEventListener('focus', refetchQuery);
-    return () => window.removeEventListener('focus', refetchQuery);
-  }, [userDataLoged, userTaskListUnsb, allTaskType, prodFromData]);
+  }, [userDataLoged, userTaskListUnsb, allTaskType]);
 
   //   create classe for Box and Typography
   const useStyles = makeStyles({
@@ -121,16 +106,25 @@ const CurrentTaskProductivity = () => {
     },
   });
 
+  /* 
+    use useMemo to run update only when reelProd
+    value change, it's use to limite loop update
+   */
+  const updateProd = useMemo(() => {
+    if (currentTask.length > 0) {
+      return updateProductivity(
+        currentTask[0].id,
+        fichesUpdate,
+        erroUpDate,
+        reelProd
+      );
+    }
+  }, [reelProd]);
+
   // save productivity on value change
   const onProdChange = () => {
-    // refProd.current = productivity;
     if (currentTask.length > 0 && productivity) {
-      // updateProductivity(
-      //   currentTask[0].id,
-      //   fichesUpdate,
-      //   erroUpDate,
-      //   refProd.current
-      // );
+      updateProd;
     }
   };
 
@@ -204,8 +198,12 @@ const CurrentTaskProductivity = () => {
         <Box sx={{ width: '100%' }}>
           <LinearProgressWithLabel
             value={productivity}
-            onChange={onProdChange()}
             sx={{ height: '0.5rem', borderRadius: '25px' }}
+          />
+          <TextField
+            value={reelProd}
+            onChange={onProdChange()}
+            sx={{ display: 'none' }}
           />
         </Box>
       </Box>

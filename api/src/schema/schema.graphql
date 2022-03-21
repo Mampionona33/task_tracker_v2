@@ -67,6 +67,7 @@ input FichesInputs {
   processing: ProcessingType = isOff
   elapstedTime: Int = 0
   lastUpdate: GraphQLDate
+  productivity: Float
 }
 ##Update Fiches --------
 input UpdateFiches {

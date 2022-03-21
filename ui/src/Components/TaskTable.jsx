@@ -210,16 +210,12 @@ export default function TaskTable() {
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-    console.log(event.row.processing);
 
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
       arrayRows.elapstedTime;
 
-    if (
-      event.row.processing === 'isPause' ||
-      event.row.processing === 'isOff'
-    ) {
+    if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
@@ -242,7 +238,12 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
-      setPrevProcessIsOff(event.id, fichesUpdate, erroUpDate);
+      setProcessToPause(event.id, fichesUpdate, erroUpDate);
+    }
+    if (event.row.processing === 'isPause') {
+      await setProcessToPlay(currentId, fichesUpdate, erroUpDate).then(
+        (window.location.href = '#/dashboard')
+      );
     }
   };
 
@@ -285,8 +286,6 @@ export default function TaskTable() {
   const prevTaskProd = prevTask.map((task) => {
     return task.productivity;
   });
-
-  console.log(prevTaskProd[0]);
 
   // loading data on component mount
   useEffect(() => {
