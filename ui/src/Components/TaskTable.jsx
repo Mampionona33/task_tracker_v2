@@ -238,12 +238,14 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
-      setProcessToPause(event.id, fichesUpdate, erroUpDate);
+      await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
+        modifyLastUpdate(currentId, fichesUpdate, erroUpDate)
+      );
     }
     if (event.row.processing === 'isPause') {
-      await setProcessToPlay(currentId, fichesUpdate, erroUpDate).then(
-        (window.location.href = '#/dashboard')
-      );
+      await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then((window.location.href = '#/dashboard'));
     }
   };
 
