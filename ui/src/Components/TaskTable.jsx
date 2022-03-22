@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Link, IconButton, Card, Typography, Paper } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
@@ -27,6 +27,11 @@ export default function TaskTable() {
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
+  const [id, setId] = useState(0);
+  const [timePlay, setTimePlay] = useState(0);
+  const [taskPlays, setTaskPlays] = useState([]);
+  const [taskPauses, setTaskPauses] = useState([]);
+  const refCount = useRef(null);
 
   // control DialogEditTask
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -329,15 +334,41 @@ export default function TaskTable() {
     return task.productivity;
   });
 
+  let aR = {};
+  let rows = [];
+  let arrayRows = {};
+
+  const incrementElapstedTime = () => {
+    setTimePlay((prev) => prev + 1);
+  };
+
   // loading data on component mount
   useEffect(() => {
-    if (loadUnsubmitedTask !== undefined) {
-      setList(dataUnsubmited);
+    if (dataUnsubmited !== undefined) {
+      setList((prev) => dataUnsubmited);
+      const playTask = dataUnsubmited.filter(
+        (item) => item.processing === 'isPlay'
+      );
+      setTaskPlays((prev) => playTask);
+
+      if (playTask.length > 0) {
+        setTimePlay((perv) => playTask[0].elapstedTime);
+        setId((prev) => playTask[0].id);
+        // console.log(playTask);
+        refCount.current = 0;
+        refCount.current = setInterval(() => incrementElapstedTime(), 1000);
+      }
     }
   }, [dataUnsubmited]);
 
-  let rows = [];
-  let arrayRows = {};
+  arrayRows.id = id;
+  if (timePlay > 0) {
+    const formatDate = dateFormater(timePlay);
+    arrayRows.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
+  }
+  rows.push(arrayRows);
+
+  // console.log(rows);
 
   const listRows = list.map((item) => {
     // format date before showing in table
@@ -374,9 +405,11 @@ export default function TaskTable() {
       processing: item.processing,
     };
 
-    rows.push(arrayRows);
-    return arrayRows;
+    // rows.push(arrayRows);
+    // return arrayRows;
   });
+
+  // console.log(rows);
 
   return (
     <Box
