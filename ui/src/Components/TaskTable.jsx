@@ -37,9 +37,13 @@ export default function TaskTable() {
   const [state, setState] = useState('');
   const [cat, setCat] = useState('');
   const [elapstedTime, setElapstedTime] = useState(0);
+  const [processing, setProcessing] = useState('');
   const [taskPlays, setTaskPlays] = useState([]);
   const [taskPauses, setTaskPauses] = useState([]);
   const [productivity, setProductivity] = useState(0);
+
+  const [offTasks, setOffTasks] = useState([]);
+
   const refTimer = useRef(null);
   const refProd = useRef(null);
 
@@ -264,7 +268,11 @@ export default function TaskTable() {
 
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
+    refProd.current = 0;
+    refTimer.current = 0;
     let currentId = event.id;
+    console.log('play', currentId);
+    console.log('event', event);
 
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
@@ -345,7 +353,9 @@ export default function TaskTable() {
   });
 
   let rows = [];
-  let arrayRows = {};
+  const arrayRows = {};
+  const dinamiqRowsData = {};
+  let statiqueRowsData = {};
 
   // function to execut in useEffect to increment timer every seconds
   const timerIncrement = (elaps, lastUpdate) => {
@@ -385,6 +395,7 @@ export default function TaskTable() {
         setStatusCom((prev) => playTask[0].statuCom);
         setState((prev) => playTask[0].state);
         setCat((prev) => playTask[0].cat);
+        setProcessing((prev) => playTask[0].processing);
 
         // calcul incrementation timer
         refTimer.current = 0;
@@ -432,30 +443,55 @@ export default function TaskTable() {
         setCat((prev) => pauseTask[0].cat);
         setProductivity((prev) => pauseTask[0].productivity);
         setElapstedTime((prev) => pauseTask[0].elapstedTime);
+        setProcessing((prev) => pauseTask[0].processing);
+      }
+
+      // filter all task with processing isOff
+      const offTask = dataUnsubmited.filter(
+        (task) => task.processing === 'isOff'
+      );
+      if (offTask.length > 0) {
+        setOffTasks((prev) => offTask);
       }
     }
   }, [dataUnsubmited, allTaskType]);
 
-  // console.log(elapstedTime);
-
-  arrayRows.id = id;
-  arrayRows.typeTrav = taskType;
-  arrayRows.numFiche = numFiche;
-  arrayRows.statIvpn = statIvpn;
-  arrayRows.statusCom = statusCom;
-  arrayRows.state = state;
-  arrayRows.productivity = productivity.toString().padStart(2, '0');
-  arrayRows.cat = cat;
-  arrayRows.link = numFiche;
-
+  dinamiqRowsData.id = id;
+  dinamiqRowsData.typeTrav = taskType;
+  dinamiqRowsData.numFiche = numFiche;
+  dinamiqRowsData.statIvpn = statIvpn;
+  dinamiqRowsData.statusCom = statusCom;
+  dinamiqRowsData.state = state;
+  dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
+  dinamiqRowsData.cat = cat;
+  dinamiqRowsData.link = numFiche;
   if (timePlay > 0) {
     const formatDate = dateFormater(elapstedTime);
-    arrayRows.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
+    dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
   }
+  rows.push(dinamiqRowsData);
 
-  rows.push(arrayRows);
-
-  // console.log(rows);
+  if (offTasks.length > 0) {
+    const getAllTaskOff = offTasks.map((item) => {
+      const formatDate = dateFormater(item.elapstedTime);
+      statiqueRowsData = {
+        id: item.id,
+        numFiche: item.numFiche,
+        typeTrav: item.typeTrav,
+        cat: item.cat,
+        statIvpn: item.statuIvpn,
+        statusCom: item.statuCom,
+        lastUpdate: item.lastUpdate,
+        nbBefor: item.nbBefor,
+        state: item.state,
+        productivity: item.productivity,
+        nbAft: item.nbAft,
+        processing: item.processing,
+        elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
+      };
+      rows.push(statiqueRowsData);
+    });
+  }
 
   const listRows = list.map((item) => {
     // format date before showing in table
@@ -473,24 +509,24 @@ export default function TaskTable() {
       formatDate = dateFormater(elapstedTaskPause);
     }
 
-    arrayRows = {
-      id: item.id,
-      numFiche: item.numFiche,
-      typeTrav: item.typeTrav,
-      cat: item.cat,
-      statIvpn: item.statuIvpn,
-      statusCom: item.statuCom,
-      lastUpdate: item.lastUpdate,
-      nbBefor: item.nbBefor,
-      state: item.state,
-      productivity: item.productivity,
-      nbAft: item.nbAft,
-      comment: item.comment,
-      elapstedTime: item.elapstedTime,
-      elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
-      link: item.url != '' ? item.url : 'https://www.google.mg/',
-      processing: item.processing,
-    };
+    // arrayRows = {
+    //   id: item.id,
+    //   numFiche: item.numFiche,
+    //   typeTrav: item.typeTrav,
+    //   cat: item.cat,
+    //   statIvpn: item.statuIvpn,
+    //   statusCom: item.statuCom,
+    //   lastUpdate: item.lastUpdate,
+    //   nbBefor: item.nbBefor,
+    //   state: item.state,
+    //   productivity: item.productivity,
+    //   nbAft: item.nbAft,
+    //   comment: item.comment,
+    //   elapstedTime: item.elapstedTime,
+    //   elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
+    //   link: item.url != '' ? item.url : 'https://www.google.mg/',
+    //   processing: item.processing,
+    // };
 
     // rows.push(arrayRows);
     // return arrayRows;
