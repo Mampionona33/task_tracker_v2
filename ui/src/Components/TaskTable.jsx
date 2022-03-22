@@ -29,6 +29,12 @@ export default function TaskTable() {
   const [list, setList] = useState([]);
   const [id, setId] = useState(0);
   const [timePlay, setTimePlay] = useState(0);
+  const [taskType, setTaskType] = useState('');
+  const [numFiche, setNumFiche] = useState('');
+  const [statIvpn, setStatIvpn] = useState('');
+  const [statusCom, setStatusCom] = useState('');
+  const [state, setState] = useState('');
+  const [cat, setCat] = useState('');
   const [taskPlays, setTaskPlays] = useState([]);
   const [taskPauses, setTaskPauses] = useState([]);
   const refCount = useRef(null);
@@ -354,7 +360,13 @@ export default function TaskTable() {
       if (playTask.length > 0) {
         setTimePlay((perv) => playTask[0].elapstedTime);
         setId((prev) => playTask[0].id);
-        // console.log(playTask);
+        setTaskType((prev) => playTask[0].typeTrav);
+        setNumFiche((prev) => playTask[0].numFiche);
+        setStatIvpn((prev) => playTask[0].statIvpn);
+        setStatusCom((prev) => playTask[0].statuCom);
+        setState((prev) => playTask[0].state);
+        setCat((prev) => playTask[0].cat);
+        console.log(playTask);
         refCount.current = 0;
         refCount.current = setInterval(() => incrementElapstedTime(), 1000);
       }
@@ -362,6 +374,15 @@ export default function TaskTable() {
   }, [dataUnsubmited]);
 
   arrayRows.id = id;
+  arrayRows.typeTrav = taskType;
+  arrayRows.numFiche = numFiche;
+  arrayRows.statIvpn = statIvpn;
+  arrayRows.statusCom = statusCom;
+  arrayRows.state = state;
+  arrayRows.productivity = numFiche;
+  arrayRows.cat = cat;
+  arrayRows.link = numFiche;
+
   if (timePlay > 0) {
     const formatDate = dateFormater(timePlay);
     arrayRows.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
