@@ -24,9 +24,9 @@ import {
 } from './dataHandler';
 
 export default function TaskTable() {
-  const [sortModel, setSortModel] = useState([
-    { field: 'lastUpdate', sort: 'desc' },
-  ]);
+  // const [sortModel, setSortModel] = useState([
+  //   { field: 'lastUpdate', sort: 'desc' },
+  // ]);
   const [list, setList] = useState([]);
   const [id, setId] = useState(0);
   const [timePlay, setTimePlay] = useState(0);
@@ -544,10 +544,13 @@ export default function TaskTable() {
           }}
           justifyContent='space-between'
           // default sorting to show sby on top of list
-          sortModel={sortModel}
-          onSortModelChange={(model) => setSortModel(model)}
+          // sortModel={sortModel}
+          // onSortModelChange={(model) => setSortModel(model)}
           // default filtering table to show normal state only
           initialState={{
+            sorting:{
+              sortModel:[{field:state , sort : 'asc'}],
+            },
             filter: {
               filterModel: {
                 items: [
