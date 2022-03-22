@@ -35,6 +35,7 @@ export default function TaskTable() {
   const [statusCom, setStatusCom] = useState('');
   const [state, setState] = useState('');
   const [cat, setCat] = useState('');
+  const [elapstedTime, setElapstedTime] = useState(0);
   const [taskPlays, setTaskPlays] = useState([]);
   const [taskPauses, setTaskPauses] = useState([]);
   const refCount = useRef(null);
@@ -340,12 +341,15 @@ export default function TaskTable() {
     return task.productivity;
   });
 
-  let aR = {};
   let rows = [];
   let arrayRows = {};
 
-  const incrementElapstedTime = () => {
-    setTimePlay((prev) => prev + 1);
+  const timerIncrement = (elaps, lastUpdate) => {
+    setElapstedTime((prev) =>
+      Math.round(
+        (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
+      )
+    );
   };
 
   // loading data on component mount
@@ -368,10 +372,16 @@ export default function TaskTable() {
         setCat((prev) => playTask[0].cat);
         console.log(playTask);
         refCount.current = 0;
-        refCount.current = setInterval(() => incrementElapstedTime(), 1000);
+        refCount.current = setInterval(
+          () =>
+            timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
+          1000
+        );
       }
     }
   }, [dataUnsubmited]);
+
+  console.log(elapstedTime);
 
   arrayRows.id = id;
   arrayRows.typeTrav = taskType;
@@ -384,9 +394,10 @@ export default function TaskTable() {
   arrayRows.link = numFiche;
 
   if (timePlay > 0) {
-    const formatDate = dateFormater(timePlay);
+    const formatDate = dateFormater(elapstedTime);
     arrayRows.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
   }
+
   rows.push(arrayRows);
 
   // console.log(rows);
