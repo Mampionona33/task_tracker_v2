@@ -20,6 +20,7 @@ import {
   dateFormater,
   setProcessToPause,
   updateProductivity,
+  fetchTaskType,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -38,7 +39,9 @@ export default function TaskTable() {
   const [elapstedTime, setElapstedTime] = useState(0);
   const [taskPlays, setTaskPlays] = useState([]);
   const [taskPauses, setTaskPauses] = useState([]);
-  const refCount = useRef(null);
+  const [productivity, setProductivity] = useState(0);
+  const refTimer = useRef(null);
+  const refProd = useRef(null);
 
   // control DialogEditTask
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -344,6 +347,7 @@ export default function TaskTable() {
   let rows = [];
   let arrayRows = {};
 
+  // function to execut in useEffect to increment timer every seconds
   const timerIncrement = (elaps, lastUpdate) => {
     setElapstedTime((prev) =>
       Math.round(
@@ -352,16 +356,27 @@ export default function TaskTable() {
     );
   };
 
+  const calculProdPlay = (elapTime, taskGoal, nbrProdAfter, lastUpdate) => {
+    elapTime++;
+    const prod = Math.round(
+      (nbrProdAfter / elapTime / (taskGoal / 3600)) * 100
+    );
+    setProductivity((prev) => prod);
+  };
+
+  // load all task type
+  const allTaskType = fetchTaskType();
   // loading data on component mount
   useEffect(() => {
     if (dataUnsubmited !== undefined) {
       setList((prev) => dataUnsubmited);
+      // setTaskPlays((prev) => playTask);
+
+      // if task play execut the folowing lines
       const playTask = dataUnsubmited.filter(
         (item) => item.processing === 'isPlay'
       );
-      setTaskPlays((prev) => playTask);
-
-      if (playTask.length > 0) {
+      if (playTask.length > 0 && allTaskType) {
         setTimePlay((perv) => playTask[0].elapstedTime);
         setId((prev) => playTask[0].id);
         setTaskType((prev) => playTask[0].typeTrav);
@@ -370,18 +385,58 @@ export default function TaskTable() {
         setStatusCom((prev) => playTask[0].statuCom);
         setState((prev) => playTask[0].state);
         setCat((prev) => playTask[0].cat);
-        console.log(playTask);
-        refCount.current = 0;
-        refCount.current = setInterval(
+
+        // calcul incrementation timer
+        refTimer.current = 0;
+        refTimer.current = setInterval(
           () =>
             timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
           1000
         );
+
+        // Calcul decrementation prod
+        if (playTask[0].typeTrav !== 'Empty Type') {
+          const taskRef = allTaskType.filter(
+            (task) => task.name === playTask[0].typeTrav
+          );
+
+          const prodGoal = taskRef[0].objectif;
+
+          let elaps_inc = Math.round(
+            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
+              1000 +
+              playTask[0].elapstedTime
+          );
+          refProd.current = 0;
+          refProd.current = setInterval(
+            () => calculProdPlay(elaps_inc, prodGoal, playTask[0].nbAft),
+            1000
+          );
+        } else {
+          setProductivity((prev) => 0);
+        }
+      }
+
+      // if task pause execute the following linges
+      const pauseTask = dataUnsubmited.filter(
+        (item) => item.processing === 'isPause'
+      );
+      if (pauseTask.length > 0) {
+        setTimePlay((perv) => pauseTask[0].elapstedTime);
+        setId((prev) => pauseTask[0].id);
+        setTaskType((prev) => pauseTask[0].typeTrav);
+        setNumFiche((prev) => pauseTask[0].numFiche);
+        setStatIvpn((prev) => pauseTask[0].statIvpn);
+        setStatusCom((prev) => pauseTask[0].statuCom);
+        setState((prev) => pauseTask[0].state);
+        setCat((prev) => pauseTask[0].cat);
+        setProductivity((prev) => pauseTask[0].productivity);
+        setElapstedTime((prev) => pauseTask[0].elapstedTime);
       }
     }
-  }, [dataUnsubmited]);
+  }, [dataUnsubmited, allTaskType]);
 
-  console.log(elapstedTime);
+  // console.log(elapstedTime);
 
   arrayRows.id = id;
   arrayRows.typeTrav = taskType;
@@ -389,7 +444,7 @@ export default function TaskTable() {
   arrayRows.statIvpn = statIvpn;
   arrayRows.statusCom = statusCom;
   arrayRows.state = state;
-  arrayRows.productivity = numFiche;
+  arrayRows.productivity = productivity.toString().padStart(2, '0');
   arrayRows.cat = cat;
   arrayRows.link = numFiche;
 
