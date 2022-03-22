@@ -38,8 +38,6 @@ export default function TaskTable() {
   const [cat, setCat] = useState('');
   const [elapstedTime, setElapstedTime] = useState(0);
   const [processing, setProcessing] = useState('');
-  const [taskPlays, setTaskPlays] = useState([]);
-  const [taskPauses, setTaskPauses] = useState([]);
   const [productivity, setProductivity] = useState(0);
 
   const [offTasks, setOffTasks] = useState([]);
@@ -269,8 +267,6 @@ export default function TaskTable() {
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-    console.log('play', currentId);
-    console.log('event', event);
 
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
@@ -299,7 +295,7 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
-      alert('tay');
+      console.log(event);
       clearInterval(refProd.current);
       clearInterval(refTimer.current);
       await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
@@ -367,15 +363,6 @@ export default function TaskTable() {
     );
   };
 
-  const calculProdPlay = (elapTime, taskGoal, nbrProdAfter, lastUpdate) => {
-    elapTime++;
-    const prod = Math.round(
-      (nbrProdAfter / elapTime / (taskGoal / 3600)) * 100
-    );
-    setProductivity((prev) => prod);
-    console.log(elapTime, prod);
-  };
-
   // load all task type
   const allTaskType = fetchTaskType();
   // loading data on component mount
@@ -435,6 +422,10 @@ export default function TaskTable() {
             refProd.current = 0;
           };
         }
+        return () => {
+          clearInterval(refTimer.current);
+          refTimer.current = 0;
+        };
       }
 
       // if task pause execute the following linges
@@ -474,6 +465,7 @@ export default function TaskTable() {
   dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
   dinamiqRowsData.cat = cat;
   dinamiqRowsData.link = numFiche;
+  dinamiqRowsData.processing = processing;
   if (timePlay > 0) {
     const formatDate = dateFormater(elapstedTime);
     dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
