@@ -268,8 +268,6 @@ export default function TaskTable() {
 
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
-    refProd.current = 0;
-    refTimer.current = 0;
     let currentId = event.id;
     console.log('play', currentId);
     console.log('event', event);
@@ -301,6 +299,9 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
+      alert('tay');
+      clearInterval(refProd.current);
+      clearInterval(refTimer.current);
       await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
         modifyLastUpdate(currentId, fichesUpdate, erroUpDate)
       );
@@ -372,6 +373,7 @@ export default function TaskTable() {
       (nbrProdAfter / elapTime / (taskGoal / 3600)) * 100
     );
     setProductivity((prev) => prod);
+    console.log(elapTime, prod);
   };
 
   // load all task type
@@ -418,13 +420,20 @@ export default function TaskTable() {
               1000 +
               playTask[0].elapstedTime
           );
+
           refProd.current = 0;
-          refProd.current = setInterval(
-            () => calculProdPlay(elaps_inc, prodGoal, playTask[0].nbAft),
-            1000
-          );
-        } else {
-          setProductivity((prev) => 0);
+          refProd.current = setInterval(() => {
+            elaps_inc++;
+            setProductivity((prev) =>
+              Math.round(
+                (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
+              )
+            );
+          }, 1000);
+          return () => {
+            clearInterval(refProd.current);
+            refProd.current = 0;
+          };
         }
       }
 
