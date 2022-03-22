@@ -502,47 +502,6 @@ export default function TaskTable() {
     });
   }
 
-  const listRows = list.map((item) => {
-    // format date before showing in table
-    const elapstedTaskPlay =
-      (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
-      item.elapstedTime;
-    const elapstedTaskPause = item.elapstedTime;
-
-    let formatDate;
-    if (item.processing === 'isPlay') {
-      formatDate = dateFormater(elapstedTaskPlay);
-    }
-
-    if (item.processing === 'isPause' || item.processing === 'isOff') {
-      formatDate = dateFormater(elapstedTaskPause);
-    }
-
-    // arrayRows = {
-    //   id: item.id,
-    //   numFiche: item.numFiche,
-    //   typeTrav: item.typeTrav,
-    //   cat: item.cat,
-    //   statIvpn: item.statuIvpn,
-    //   statusCom: item.statuCom,
-    //   lastUpdate: item.lastUpdate,
-    //   nbBefor: item.nbBefor,
-    //   state: item.state,
-    //   productivity: item.productivity,
-    //   nbAft: item.nbAft,
-    //   comment: item.comment,
-    //   elapstedTime: item.elapstedTime,
-    //   elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
-    //   link: item.url != '' ? item.url : 'https://www.google.mg/',
-    //   processing: item.processing,
-    // };
-
-    // rows.push(arrayRows);
-    // return arrayRows;
-  });
-
-  // console.log(rows);
-
   return (
     <Box
       sx={{
