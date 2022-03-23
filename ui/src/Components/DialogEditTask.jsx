@@ -12,7 +12,7 @@ import {
   TextareaAutosize,
   Divider,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   fetchListSatusIvpn,
   fetchingStatusCom,
@@ -76,6 +76,21 @@ const DialogEditTask = (props) => {
   const [hrs, setHrs] = useState(0);
   const [minit, setMinit] = useState(0);
   const [sec, setSec] = useState(0);
+
+  const refNumFiche = useRef(null);
+  const refStatuCom = useRef(null);
+  const refCat = useRef(null);
+  const refTaskType = useRef(null);
+  const refTaskCase = useRef(null);
+  const refStatuIvpn = useRef(null);
+  const refNumberBefore = useRef(null);
+  const refNumbrAfter = useRef(null);
+  const refComment = useRef(null);
+  const refDay = useRef(null);
+  const refHrs = useRef(null);
+  const refMin = useRef(null);
+  const refSec = useRef(null);
+  const refUrl = useRef(null);
 
   // function to limit digit in timer
   const timerDigitHandler = (evenT) => {
@@ -182,7 +197,11 @@ const DialogEditTask = (props) => {
 
   // function to execute on click in save button
   const handleClickSave = async () => {
-    console.log(selectedRowData);
+    console.log(refNumFiche.current.children[1].children[0].value);
+    console.log(refCat.current.children[1].children[0].value);
+    console.log(refUrl.current.children[1].children[0].value);
+    console.log(refStatuCom.current.children[0].children[1].children[0].value);
+    console.log(refStatuIvpn.current.children[0].children[1].children[0].value);
 
     const elapstedTime =
       parseInt(day) * 86400 +
@@ -190,7 +209,7 @@ const DialogEditTask = (props) => {
       parseInt(minit) * 60 +
       parseInt(sec);
 
-    await updateTaskNumber(
+    /*  await updateTaskNumber(
       selectedRowData.id,
       fichesUpdate,
       erroUpDate,
@@ -234,7 +253,7 @@ const DialogEditTask = (props) => {
       .then(
         updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
       )
-      .then(onClose);
+      .then(onClose); */
   };
 
   // input styles
@@ -273,6 +292,7 @@ const DialogEditTask = (props) => {
               variant='standard'
               label='numFiche'
               fullWidth
+              ref={refNumFiche}
               inputProps={{ style: textFieldInputStyle }}
               value={numFiche}
               onChange={(e) => setNumFiche(e.target.value)}
@@ -285,6 +305,7 @@ const DialogEditTask = (props) => {
               variant='standard'
               label='Categorie'
               fullWidth
+              ref={refCat}
               value={cat}
               onChange={(e) => setCat(e.target.value)}
             />
@@ -295,6 +316,7 @@ const DialogEditTask = (props) => {
               id='url'
               variant='standard'
               label='url'
+              ref={refUrl}
               value={defaultUrl}
               onChange={(e) => setDefaultUrl(e.target.value)}
             />
@@ -305,6 +327,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='comboBoxStateCom'
               size='small'
+              ref={refStatuCom}
               defaultValue={defaultStatCom}
               options={autoCompletStatuCom}
               onChange={(e) => setStatuCom(e.target.innerText)}
@@ -322,6 +345,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='comboBoxStatIvpn'
               size='small'
+              ref={refStatuIvpn}
               defaultValue={defaultStatuIvpn}
               options={autoCompletIvpn}
               onChange={(e) => {
@@ -341,6 +365,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='typeTask'
               size='small'
+              ref={refTaskType}
               options={autoCompletTypeTask}
               defaultValue={defaultTaskType}
               onChange={(e) => {
@@ -360,6 +385,7 @@ const DialogEditTask = (props) => {
               disablePortal
               id='taskCase'
               size='small'
+              ref={refTaskCase}
               defaultValue={defaultTaskCase}
               options={autoCompletTaskCase}
               onChange={(e) => {
@@ -385,6 +411,7 @@ const DialogEditTask = (props) => {
             <Box display='flex' columnGap={1}>
               <TextField
                 id='day'
+                ref={refDay}
                 variant='standard'
                 label='Day'
                 type='number'
@@ -399,6 +426,7 @@ const DialogEditTask = (props) => {
               />
               <TextField
                 id='hrs'
+                ref={refHrs}
                 variant='standard'
                 label='Hrs'
                 type='number'
@@ -414,6 +442,7 @@ const DialogEditTask = (props) => {
               <TextField
                 type='number'
                 id='min'
+                ref={refMin}
                 variant='standard'
                 label='min'
                 inputProps={{
@@ -430,6 +459,7 @@ const DialogEditTask = (props) => {
                 id='sec'
                 variant='standard'
                 label='sec'
+                ref={refSec}
                 inputProps={{
                   style: TimerTextFieldeStyle,
                   min: '0',
@@ -448,6 +478,7 @@ const DialogEditTask = (props) => {
               variant='standard'
               label='Numer Prod Before'
               fullWidth
+              ref={refNumberBefore}
               value={numberBefore}
               onChange={(e) => setNumberBefore(e.target.value)}
             />
@@ -459,6 +490,7 @@ const DialogEditTask = (props) => {
               variant='standard'
               label='Numer Prod After'
               fullWidth
+              ref={refNumbrAfter}
               value={numberAfter}
               onChange={(e) => setNumberAfter(e.target.value)}
             />
@@ -469,6 +501,7 @@ const DialogEditTask = (props) => {
           <Typography
             fontFamily='sans-serif'
             color='GrayText'
+            ref={refComment}
             sx={{ margin: '0.5rem' }}
           >
             COMMENT
