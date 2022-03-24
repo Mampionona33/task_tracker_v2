@@ -150,6 +150,7 @@ const DialogEditTask = (props) => {
 
     // if data from selected row is ready
     if (selectedRowData) {
+      // console.log(selectedRowData);
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
       setDefaultStatCom((prev) => selectedRowData.statusCom);
@@ -202,6 +203,7 @@ const DialogEditTask = (props) => {
     console.log(refUrl.current.children[1].children[0].value);
     console.log(refStatuCom.current.children[0].children[1].children[0].value);
     console.log(refStatuIvpn.current.children[0].children[1].children[0].value);
+    console.log(refTaskType.current.children[0].children[1].children[0].value);
 
     const elapstedTime =
       parseInt(day) * 86400 +

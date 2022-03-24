@@ -36,11 +36,12 @@ export default function TaskTable() {
   const [statusCom, setStatusCom] = useState('');
   const [state, setState] = useState('');
   const [cat, setCat] = useState('');
+  const [url, setUrl] = useState('');
   const [elapstedTime, setElapstedTime] = useState(0);
   const [processing, setProcessing] = useState('');
   const [productivity, setProductivity] = useState(0);
 
-  const [offTasks, setOffTasks] = useState([]); 
+  const [offTasks, setOffTasks] = useState([]);
   const [showDynamicRows, setShwoDynamicRows] = useState(false);
 
   const refTimer = useRef(null);
@@ -376,6 +377,7 @@ export default function TaskTable() {
         (item) => item.processing === 'isPlay'
       );
       if (playTask.length > 0 && allTaskType) {
+        // console.log(playTask);
         setShwoDynamicRows((prev) => true);
         setTimePlay((perv) => playTask[0].elapstedTime);
         setId((prev) => playTask[0].id);
@@ -385,6 +387,7 @@ export default function TaskTable() {
         setStatusCom((prev) => playTask[0].statuCom);
         setState((prev) => playTask[0].state);
         setCat((prev) => playTask[0].cat);
+        setUrl((prev) => playTask[0].url);
         setProcessing((prev) => playTask[0].processing);
 
         // calcul incrementation timer
@@ -446,6 +449,7 @@ export default function TaskTable() {
         setProductivity((prev) => pauseTask[0].productivity);
         setElapstedTime((prev) => pauseTask[0].elapstedTime);
         setProcessing((prev) => pauseTask[0].processing);
+        setUrl((prev) => pauseTask[0].url);
       }
 
       // filter all task with processing isOff
@@ -467,7 +471,7 @@ export default function TaskTable() {
     dinamiqRowsData.state = state;
     dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
     dinamiqRowsData.cat = cat;
-    dinamiqRowsData.link = numFiche;
+    dinamiqRowsData.link = url;
     dinamiqRowsData.processing = processing;
     if (timePlay > 0) {
       const formatDate = dateFormater(elapstedTime);
@@ -491,6 +495,7 @@ export default function TaskTable() {
         state: item.state,
         productivity: item.productivity,
         nbAft: item.nbAft,
+        link: item.url,
         processing: item.processing,
         elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
       };
