@@ -17,6 +17,9 @@ import React, { useState, useEffect, useRef } from 'react';
 const DialogTaskEdit_2 = (props) => {
   const open = props.open;
   const close = props.onClose;
+  const refNumFiche = useRef(null);
+
+  
   return (
     <Dialog
       open={open}
@@ -26,6 +29,17 @@ const DialogTaskEdit_2 = (props) => {
       fullWidth
     >
       <DialogTitle>Task Edit</DialogTitle>
+      <DialogContent>
+        <Box>
+          <TextField
+            id='numFiche'
+            variant='standard'
+            label='Task Number'
+            fullWidth
+            ref={refNumFiche}
+          />
+        </Box>
+      </DialogContent>
     </Dialog>
   );
 };

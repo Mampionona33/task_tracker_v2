@@ -41,6 +41,7 @@ export default function TaskTable() {
   const [elapstedTime, setElapstedTime] = useState(0);
   const [processing, setProcessing] = useState('');
   const [productivity, setProductivity] = useState(0);
+  const [didMount, setDidMount] = useState(false);
 
   const [offTasks, setOffTasks] = useState([]);
   const [showDynamicRows, setShwoDynamicRows] = useState(false);
@@ -365,6 +366,12 @@ export default function TaskTable() {
       )
     );
   };
+
+  // cleanning component useEffect
+  useEffect(() => {
+    setDidMount(true);
+    return () => setDidMount(false);
+  }, []);
 
   // load all task type
   const allTaskType = fetchTaskType();
