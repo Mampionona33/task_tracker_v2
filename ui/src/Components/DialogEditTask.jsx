@@ -189,9 +189,9 @@ const DialogEditTask = (props) => {
 
   // function to execute to make data update
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [
+    refetchQueries: () => [
       FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isUnsubmited' } } },
+      { variables: { input: { submiteState: 'isSubmited' } } },
     ],
     awaitRefetchQueries: true,
   });
@@ -210,7 +210,7 @@ const DialogEditTask = (props) => {
       erroUpDate,
       refNumFiche.current.children[1].children[0].value
     )
-      .then(
+      /* .then(
         updateCat(
           selectedRowData.id,
           fichesUpdate,
@@ -281,7 +281,7 @@ const DialogEditTask = (props) => {
           erroUpDate,
           refStatuCom.current.children[0].children[1].children[0].value
         )
-      )
+      ) */
       .then(onClose);
   };
 

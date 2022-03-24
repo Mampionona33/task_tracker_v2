@@ -70,11 +70,11 @@ export default function DialogAddNewTask({ open, onClose }) {
     refetchQueries: [{ query: LOAD_DATA }],
     refetchQueries: [
       FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isUnsubmited' } } },
+      { variables: { input: { submiteState: 'isSubmited' } } },
     ],
     refetchQueries: [
       FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isSubmited' } } },
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
     ],
     // ! execut refetch query after executing the mutation ADD_FICHE
     awaitRefetchQueries: true,

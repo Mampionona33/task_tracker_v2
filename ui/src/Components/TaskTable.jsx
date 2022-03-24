@@ -10,6 +10,7 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import DialogEditTask from './DialogEditTask.jsx';
+import DialogTaskEdit_2 from './DialogTaskEdit_2';
 
 import {
   loadUnsubmitedTask,
@@ -576,10 +577,15 @@ export default function TaskTable() {
       </Box>
       {/* DialogBox Edit Task */}
       <React.Fragment>
-        <DialogEditTask
+        {/* <DialogEditTask
           taskId={taskIdToEdit}
           open={dialogEditOpen}
           selectedRowData={selectedRowData}
+          onClose={handleClickDialogEditClose}
+        /> */}
+        <DialogTaskEdit_2
+          taskId={taskIdToEdit}
+          open={dialogEditOpen}
           onClose={handleClickDialogEditClose}
         />
       </React.Fragment>
