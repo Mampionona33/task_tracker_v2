@@ -44,6 +44,7 @@ function userLoggedTasks() {
   useEffect(() => {
     // make to refetch data when windows is focused to prevent un updated productivity
     if (fetchedData) {
+      refetchData;
       setUserTask((prev) => fetchedData.searchFiches);
     }
   }, [fetchedData]);
@@ -634,6 +635,28 @@ const updateNumberAfter = async (
   }
   return taskId;
 };
+// update laste update
+const updateLastUpdate = async (
+  taskId,
+  fichesUpdate,
+  errorUpDate,
+  lastUpdate
+) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        lastUpdate: lastUpdate,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
 
 const updateProductivity = async (
   taskId,
@@ -751,4 +774,5 @@ export {
   updateNumberAfter,
   updateProductivity,
   fetchProd,
+  updateLastUpdate,
 };

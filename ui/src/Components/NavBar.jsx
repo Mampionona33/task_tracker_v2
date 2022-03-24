@@ -85,32 +85,36 @@ export default function Navbar() {
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
+    awaitRefetchQueries: true,
   });
 
   const handelClickLoghout = async () => {
     const elapstedTimeToData = Math.round(
       (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elapstedTime
     );
-    const prevProcessIsOff =     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate);
-    if(prevProcessIsOff){
-    updateElastedTime(
-          prevProcessId,
-          elapstedTimeToData,
-          fichesUpdate,
-          erroUpDate
-        ).then(
-        console.log(
-          'prevProcessId',
-          prevProcessId,
-          ' / ',
-          'elapstedTimeToData: ',
-          elapstedTimeToData
-        )
+    const prevProcessIsOff = await setPrevProcessIsOff(
+      prevProcessId,
+      fichesUpdate,
+      erroUpDate
+    );
+    if (prevProcessIsOff) {
+      updateElastedTime(
+        prevProcessId,
+        elapstedTimeToData,
+        fichesUpdate,
+        erroUpDate
       )
-      .then(logout());
+        .then(
+          console.log(
+            'prevProcessId',
+            prevProcessId,
+            ' / ',
+            'elapstedTimeToData: ',
+            elapstedTimeToData
+          )
+        )
+        .then(logout());
     }
-      
-      
   };
 
   // creat custom drawer with custom paper

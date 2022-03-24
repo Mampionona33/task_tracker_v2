@@ -28,11 +28,12 @@ import {
   updateNumberBefore,
   updateNumberAfter,
   updateElastedTime,
+  modifyLastUpdate,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
-import { useMutation } from '@apollo/client';
-import { FILTRED_FICHE } from '../GraphQL/Queries';
+import { useMutation, useQuery } from '@apollo/client';
+import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
 const DialogEditTask = (props) => {
   const open = props.open;
@@ -76,6 +77,7 @@ const DialogEditTask = (props) => {
   const [hrs, setHrs] = useState(0);
   const [minit, setMinit] = useState(0);
   const [sec, setSec] = useState(0);
+  const [lastUpdate, setLastUpdate] = useState('');
 
   const refNumFiche = useRef(null);
   const refStatuCom = useRef(null);
@@ -150,7 +152,8 @@ const DialogEditTask = (props) => {
 
     // if data from selected row is ready
     if (selectedRowData) {
-      // console.log(selectedRowData);
+      console.log(selectedRowData);
+      setLastUpdate((prev) => selectedRowData.lastUpdate);
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
       setDefaultStatCom((prev) => selectedRowData.statusCom);
@@ -190,34 +193,31 @@ const DialogEditTask = (props) => {
       FILTRED_FICHE,
       { variables: { input: { submiteState: 'isUnsubmited' } } },
     ],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isSubmited' } } },
-    ],
+    awaitRefetchQueries: true,
   });
 
   // function to execute on click in save button
   const handleClickSave = async () => {
-    console.log(refNumFiche.current.children[1].children[0].value);
-    console.log(refCat.current.children[1].children[0].value);
-    console.log(refUrl.current.children[1].children[0].value);
-    console.log(refStatuCom.current.children[0].children[1].children[0].value);
-    console.log(refStatuIvpn.current.children[0].children[1].children[0].value);
-    console.log(refTaskType.current.children[0].children[1].children[0].value);
-
     const elapstedTime =
-      parseInt(day) * 86400 +
-      parseInt(hrs) * 3600 +
-      parseInt(minit) * 60 +
-      parseInt(sec);
+      parseInt(refDay.current.children[1].children[0].value) * 86400 +
+      parseInt(refHrs.current.children[1].children[0].value) * 3600 +
+      parseInt(refMin.current.children[1].children[0].value) * 60 +
+      parseInt(refSec.current.children[1].children[0].value);
 
-    /*  await updateTaskNumber(
+    await updateTaskNumber(
       selectedRowData.id,
       fichesUpdate,
       erroUpDate,
-      numFiche
+      refNumFiche.current.children[1].children[0].value
     )
-      .then(updateCat(selectedRowData.id, fichesUpdate, erroUpDate, cat))
+      .then(
+        updateCat(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refCat.current.children[1].children[0].value
+        )
+      )
       .then(
         updateElastedTime(
           selectedRowData.id,
@@ -226,13 +226,20 @@ const DialogEditTask = (props) => {
           erroUpDate
         )
       )
-      .then(updateUrl(selectedRowData.id, fichesUpdate, erroUpDate, defaultUrl))
+      .then(
+        updateUrl(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refUrl.current.children[1].children[0].value
+        )
+      )
       .then(
         updateNumberBefore(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
-          numberBefore
+          refNumberBefore.current.children[1].children[0].value
         )
       )
       .then(
@@ -240,22 +247,42 @@ const DialogEditTask = (props) => {
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
-          numberAfter
+          refNumbrAfter.current.children[1].children[0].value
         )
       )
       .then(
-        updateTaskCase(selectedRowData.id, fichesUpdate, erroUpDate, taskCase)
+        updateTaskCase(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refTaskCase.current.children[0].children[1].children[0].value
+        )
       )
       .then(
-        updateTaskType(selectedRowData.id, fichesUpdate, erroUpDate, taskType)
+        updateTaskType(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refTaskType.current.children[0].children[1].children[0].value
+        )
       )
       .then(
-        updateStatuIvpn(selectedRowData.id, fichesUpdate, erroUpDate, statuIvpn)
+        updateStatuIvpn(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refStatuIvpn.current.children[0].children[1].children[0].value
+        )
       )
       .then(
-        updateStatCom(selectedRowData.id, fichesUpdate, erroUpDate, statuCom)
+        updateStatCom(
+          selectedRowData.id,
+          fichesUpdate,
+          erroUpDate,
+          refStatuCom.current.children[0].children[1].children[0].value
+        )
       )
-      .then(onClose); */
+      .then(onClose);
   };
 
   // input styles
