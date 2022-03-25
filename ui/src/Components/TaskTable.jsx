@@ -44,7 +44,13 @@ export default function TaskTable() {
   const [elapstedTime, setElapstedTime] = useState(0);
   const [processing, setProcessing] = useState('');
   const [productivity, setProductivity] = useState(0);
+
+  // static data
+  const [staticId, setStaticId] = useState(0);
+  const [staticNumFiche, setStaticNumFiche] = useState('');
+
   const [showDynamicRows, setShwoDynamicRows] = useState(false);
+  const [showStaticRows, setShowStaticRows] = useState(false);
   // columns to use inside table
   const columns = [
     {
@@ -353,6 +359,23 @@ export default function TaskTable() {
   // load all task type
   const allTaskType = fetchTaskType();
 
+  useEffect(() => {
+    if (loadUnsubmitedTask !== undefined) {
+      const staticOff = dataUnsubmited.filter(
+        (item) => item.processing === 'isOff'
+      );
+      // if task processing isOff
+      if (staticOff.length > 0) {
+        console.log(staticOff);
+        setShowStaticRows((prev) => true);
+        for (let i = 0; i < staticOff.length; i++) {
+          setStaticId((prev) => staticOff[i].id);
+          setStaticNumFiche((prev) => staticOff[i].numFiche);
+        }
+      }
+    }
+  }, [dataUnsubmited]);
+
   // loading data on component mount
   useEffect(() => {
     if (loadUnsubmitedTask !== undefined) {
@@ -364,24 +387,6 @@ export default function TaskTable() {
       const dynamPause = dataUnsubmited.filter(
         (item) => item.processing === 'isPause'
       );
-      const staticOff = dataUnsubmited.filter(
-        (item) => item.processing === 'isOff'
-      );
-      // if task processing isOff
-      if (staticOff.length > 0) {
-        console.log(staticOff);
-        for (let i = 0; i < staticOff.length; i++) {
-          setId((prev) => staticOff[i].id);
-          setTaskType((prev) => staticOff[i].typeTrav);
-          setNumFiche((prev) => staticOff[i].numFiche);
-          setStatIvpn((prev) => staticOff[i].statIvpn);
-          setStatusCom((prev) => staticOff[i].statuCom);
-          setState((prev) => staticOff[i].state);
-          setCat((prev) => staticOff[i].cat);
-          setUrl((prev) => staticOff[i].url);
-          setProcessing((prev) => staticOff[i].processing);
-        }
-      }
 
       if (playTask.length > 0 && allTaskType) {
         setShwoDynamicRows((prev) => true);
@@ -446,6 +451,7 @@ export default function TaskTable() {
   let rows = [];
   let arrayRows = {};
   const dinamiqRowsData = {};
+  const staticRowsData = {};
 
   if (showDynamicRows === true) {
     dinamiqRowsData.id = id;
@@ -463,6 +469,11 @@ export default function TaskTable() {
       dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
     }
     rows.push(dinamiqRowsData);
+  }
+
+  if (showStaticRows === true) {
+    staticRowsData.id = staticId;
+    rows.push(staticRowsData);
   }
 
   console.log(rows);
