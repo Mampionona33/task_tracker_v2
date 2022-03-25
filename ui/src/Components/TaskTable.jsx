@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Link, IconButton, Card, Typography, Paper } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
@@ -10,7 +10,6 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import DialogEditTask from './DialogEditTask.jsx';
-import DialogTaskEdit_2 from './DialogTaskEdit_2';
 
 import {
   loadUnsubmitedTask,
@@ -21,37 +20,15 @@ import {
   dateFormater,
   setProcessToPause,
   updateProductivity,
-  fetchTaskType,
 } from './dataHandler';
 
 export default function TaskTable() {
-  // const [sortModel, setSortModel] = useState([
-  //   { field: 'lastUpdate', sort: 'desc' },
-  // ]);
+  const [sortModel, setSortModel] = useState([
+    { field: 'lastUpdate', sort: 'desc' },
+  ]);
   const [list, setList] = useState([]);
-  const [id, setId] = useState(0);
-  const [timePlay, setTimePlay] = useState(0);
-  const [taskType, setTaskType] = useState('');
-  const [numFiche, setNumFiche] = useState('');
-  const [statIvpn, setStatIvpn] = useState('');
-  const [statusCom, setStatusCom] = useState('');
-  const [state, setState] = useState('');
-  const [cat, setCat] = useState('');
-  const [url, setUrl] = useState('');
-  const [elapstedTime, setElapstedTime] = useState(0);
-  const [processing, setProcessing] = useState('');
-  const [productivity, setProductivity] = useState(0);
-  const [didMount, setDidMount] = useState(false);
-
-  const [offTasks, setOffTasks] = useState([]);
-  const [showDynamicRows, setShwoDynamicRows] = useState(false);
-
-  const refTimer = useRef(null);
-  const refProd = useRef(null);
-
   // control DialogEditTask
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
-
   // columns to use inside table
   const columns = [
     {
@@ -150,7 +127,7 @@ export default function TaskTable() {
         }
         if (param.value >= 95 && param.value < 100) {
           return (
-            <Paper sx={{ backgroundColor: 'warning.main', padding: 0 }}>
+            <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
@@ -231,7 +208,6 @@ export default function TaskTable() {
               <PlayCircleIcon />
             )}
           </IconButton>
-
           <IconButton
             color='primary'
             component='span'
@@ -240,7 +216,6 @@ export default function TaskTable() {
           >
             <EditIcon />
           </IconButton>
-
           <IconButton
             color='primary'
             component='span'
@@ -252,7 +227,6 @@ export default function TaskTable() {
       ),
     },
   ];
-
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -267,15 +241,12 @@ export default function TaskTable() {
     // to execute refetch
     awaitRefetchQueries: true,
   });
-
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
       arrayRows.elapstedTime;
-
     if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
@@ -299,9 +270,6 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
-      console.log(event);
-      clearInterval(refProd.current);
-      clearInterval(refTimer.current);
       await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
         modifyLastUpdate(currentId, fichesUpdate, erroUpDate)
       );
@@ -312,7 +280,6 @@ export default function TaskTable() {
         .then((window.location.href = '#/dashboard'));
     }
   };
-
   // function to execute on click edit buton
   const [taskIdToEdit, setTaskIdToEdit] = useState(0);
   const [selectedRowData, setSelectedRowData] = useState([]);
@@ -321,24 +288,19 @@ export default function TaskTable() {
     setSelectedRowData(event.row);
     setDialogEditOpen(true);
   };
-
   // function to execute to close DialogEditTask
   const handleClickDialogEditClose = () => {
     setDialogEditOpen(false);
   };
-
   // fetching data
   const dataUnsubmited = loadUnsubmitedTask();
-
   let taskPlay = [];
   let taskPause = [];
   let prevTask = [];
-
   if (list.length > 0) {
     taskPlay = list.filter((task) => task.processing === 'isPlay');
     taskPause = list.filter((task) => task.processing === 'isPause');
   }
-
   if (taskPlay.length > 0) {
     prevTask = taskPlay;
   }
@@ -348,169 +310,51 @@ export default function TaskTable() {
   const prevTaskId = prevTask.map((task) => {
     return task.id;
   });
-
   const prevTaskProd = prevTask.map((task) => {
     return task.productivity;
   });
-
-  let rows = [];
-  const arrayRows = {};
-  const dinamiqRowsData = {};
-  let statiqueRowsData = {};
-
-  // function to execut in useEffect to increment timer every seconds
-  const timerIncrement = (elaps, lastUpdate) => {
-    setElapstedTime((prev) =>
-      Math.round(
-        (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
-      )
-    );
-  };
-
-  // cleanning component useEffect
-  useEffect(() => {
-    setDidMount(true);
-    return () => setDidMount(false);
-  }, []);
-
-  // load all task type
-  const allTaskType = fetchTaskType();
   // loading data on component mount
   useEffect(() => {
-    if (dataUnsubmited !== undefined) {
-      setList((prev) => dataUnsubmited);
-
-      // if task play execut the folowing lines
-      const playTask = dataUnsubmited.filter(
-        (item) => item.processing === 'isPlay'
-      );
-      if (playTask.length > 0 && allTaskType) {
-        // console.log(playTask);
-        setShwoDynamicRows((prev) => true);
-        setTimePlay((perv) => playTask[0].elapstedTime);
-        setId((prev) => playTask[0].id);
-        setTaskType((prev) => playTask[0].typeTrav);
-        setNumFiche((prev) => playTask[0].numFiche);
-        setStatIvpn((prev) => playTask[0].statIvpn);
-        setStatusCom((prev) => playTask[0].statuCom);
-        setState((prev) => playTask[0].state);
-        setCat((prev) => playTask[0].cat);
-        setUrl((prev) => playTask[0].url);
-        setProcessing((prev) => playTask[0].processing);
-
-        // calcul incrementation timer
-        refTimer.current = 0;
-        refTimer.current = setInterval(
-          () =>
-            timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
-          1000
-        );
-
-        // Calcul decrementation prod
-        if (playTask[0].typeTrav !== 'Empty Type') {
-          const taskRef = allTaskType.filter(
-            (task) => task.name === playTask[0].typeTrav
-          );
-
-          const prodGoal = taskRef[0].objectif;
-
-          let elaps_inc = Math.round(
-            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
-              1000 +
-              playTask[0].elapstedTime
-          );
-
-          refProd.current = 0;
-          refProd.current = setInterval(() => {
-            elaps_inc++;
-            setProductivity((prev) =>
-              Math.round(
-                (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
-              )
-            );
-          }, 1000);
-          return () => {
-            clearInterval(refProd.current);
-            refProd.current = 0;
-          };
-        }
-        return () => {
-          clearInterval(refTimer.current);
-          refTimer.current = 0;
-        };
-      }
-
-      // if task pause execute the following linges
-      const pauseTask = dataUnsubmited.filter(
-        (item) => item.processing === 'isPause'
-      );
-      if (pauseTask.length > 0) {
-        setShwoDynamicRows((prev) => true);
-        setTimePlay((perv) => pauseTask[0].elapstedTime);
-        setId((prev) => pauseTask[0].id);
-        setTaskType((prev) => pauseTask[0].typeTrav);
-        setNumFiche((prev) => pauseTask[0].numFiche);
-        setStatIvpn((prev) => pauseTask[0].statIvpn);
-        setStatusCom((prev) => pauseTask[0].statuCom);
-        setState((prev) => pauseTask[0].state);
-        setCat((prev) => pauseTask[0].cat);
-        setProductivity((prev) => pauseTask[0].productivity);
-        setElapstedTime((prev) => pauseTask[0].elapstedTime);
-        setProcessing((prev) => pauseTask[0].processing);
-        setUrl((prev) => pauseTask[0].url);
-      }
-
-      // filter all task with processing isOff
-      const offTask = dataUnsubmited.filter(
-        (task) => task.processing === 'isOff'
-      );
-      if (offTask.length > 0) {
-        setOffTasks((prev) => offTask);
-      }
+    if (loadUnsubmitedTask !== undefined) {
+      setList(dataUnsubmited);
     }
-  }, [dataUnsubmited, allTaskType]);
-
-  if (showDynamicRows === true) {
-    dinamiqRowsData.id = id;
-    dinamiqRowsData.typeTrav = taskType;
-    dinamiqRowsData.numFiche = numFiche;
-    dinamiqRowsData.statIvpn = statIvpn;
-    dinamiqRowsData.statusCom = statusCom;
-    dinamiqRowsData.state = state;
-    dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
-    dinamiqRowsData.cat = cat;
-    dinamiqRowsData.link = url;
-    dinamiqRowsData.processing = processing;
-    if (timePlay > 0) {
-      const formatDate = dateFormater(elapstedTime);
-      dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
+  }, [dataUnsubmited]);
+  let rows = [];
+  let arrayRows = {};
+  const listRows = list.map((item) => {
+    // format date before showing in table
+    const elapstedTaskPlay =
+      (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
+      item.elapstedTime;
+    const elapstedTaskPause = item.elapstedTime;
+    let formatDate;
+    if (item.processing === 'isPlay') {
+      formatDate = dateFormater(elapstedTaskPlay);
     }
-    rows.push(dinamiqRowsData);
-  }
-
-  if (offTasks.length > 0) {
-    const getAllTaskOff = offTasks.map((item) => {
-      const formatDate = dateFormater(item.elapstedTime);
-      statiqueRowsData = {
-        id: item.id,
-        numFiche: item.numFiche,
-        typeTrav: item.typeTrav,
-        cat: item.cat,
-        statIvpn: item.statuIvpn,
-        statusCom: item.statuCom,
-        lastUpdate: item.lastUpdate,
-        nbBefor: item.nbBefor,
-        state: item.state,
-        productivity: item.productivity,
-        nbAft: item.nbAft,
-        link: item.url,
-        processing: item.processing,
-        elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
-      };
-      rows.push(statiqueRowsData);
-    });
-  }
-
+    if (item.processing === 'isPause' || item.processing === 'isOff') {
+      formatDate = dateFormater(elapstedTaskPause);
+    }
+    arrayRows = {
+      id: item.id,
+      numFiche: item.numFiche,
+      typeTrav: item.typeTrav,
+      cat: item.cat,
+      statIvpn: item.statuIvpn,
+      statusCom: item.statuCom,
+      lastUpdate: item.lastUpdate,
+      nbBefor: item.nbBefor,
+      state: item.state,
+      productivity: item.productivity,
+      nbAft: item.nbAft,
+      comment: item.comment,
+      elapstedTime: item.elapstedTime,
+      elapstedTimeRender: `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`,
+      link: item.url != '' ? item.url : 'https://www.google.mg/',
+      processing: item.processing,
+    };
+    rows.push(arrayRows);
+    return arrayRows;
+  });
   return (
     <Box
       sx={{
@@ -561,13 +405,10 @@ export default function TaskTable() {
           }}
           justifyContent='space-between'
           // default sorting to show sby on top of list
-          // sortModel={sortModel}
-          // onSortModelChange={(model) => setSortModel(model)}
+          sortModel={sortModel}
+          onSortModelChange={(model) => setSortModel(model)}
           // default filtering table to show normal state only
           initialState={{
-            sorting: {
-              sortModel: [{ field: state, sort: 'asc' }],
-            },
             filter: {
               filterModel: {
                 items: [
@@ -584,15 +425,10 @@ export default function TaskTable() {
       </Box>
       {/* DialogBox Edit Task */}
       <React.Fragment>
-        {/* <DialogEditTask
+        <DialogEditTask
           taskId={taskIdToEdit}
           open={dialogEditOpen}
           selectedRowData={selectedRowData}
-          onClose={handleClickDialogEditClose}
-        /> */}
-        <DialogTaskEdit_2
-          taskId={taskIdToEdit}
-          open={dialogEditOpen}
           onClose={handleClickDialogEditClose}
         />
       </React.Fragment>
