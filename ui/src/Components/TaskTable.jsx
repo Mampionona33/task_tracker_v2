@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Link, IconButton, Card, Typography, Paper } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
@@ -20,6 +20,7 @@ import {
   dateFormater,
   setProcessToPause,
   updateProductivity,
+  fetchTaskType,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -31,6 +32,19 @@ export default function TaskTable() {
   const [staticRows, setStaticRows] = useState([]);
   // control DialogEditTask
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  const [id, setId] = useState(0);
+  const [timePlay, setTimePlay] = useState(0);
+  const [taskType, setTaskType] = useState('');
+  const [numFiche, setNumFiche] = useState('');
+  const [statIvpn, setStatIvpn] = useState('');
+  const [statusCom, setStatusCom] = useState('');
+  const [state, setState] = useState('');
+  const [cat, setCat] = useState('');
+  const [url, setUrl] = useState('');
+  const [elapstedTime, setElapstedTime] = useState(0);
+  const [processing, setProcessing] = useState('');
+  const [productivity, setProductivity] = useState(0);
+  const [showDynamicRows, setShwoDynamicRows] = useState(false);
   // columns to use inside table
   const columns = [
     {
@@ -316,6 +330,15 @@ export default function TaskTable() {
     return task.productivity;
   });
 
+  // function to execut in useEffect to increment timer every seconds
+  const timerIncrement = (elaps, lastUpdate) => {
+    setElapstedTime((prev) =>
+      Math.round(
+        (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
+      )
+    );
+  };
+
   // cleaning useEffect
   const [didMount, setDidMount] = useState(false);
   useEffect(() => {
@@ -323,12 +346,19 @@ export default function TaskTable() {
     return () => setDidMount(false);
   }, []);
 
+  // initialisation refs
+  const refTimer = useRef(null);
+  const refProd = useRef(null);
+
+  // load all task type
+  const allTaskType = fetchTaskType();
+
   // loading data on component mount
   useEffect(() => {
     if (loadUnsubmitedTask !== undefined) {
       setList(dataUnsubmited);
 
-      const dynamPlay = dataUnsubmited.filter(
+      const playTask = dataUnsubmited.filter(
         (item) => item.processing === 'isPlay'
       );
       const dynamPause = dataUnsubmited.filter(
@@ -337,18 +367,76 @@ export default function TaskTable() {
       const staticOff = dataUnsubmited.filter(
         (item) => item.processing === 'isOff'
       );
-
-      if (dynamPlay.length > 0) {
-        setDynamicRow((prev) => dynamPlay);
+      // if task processing isOff
+      if (staticOff.length > 0) {
+        console.log(staticOff);
+        for (let i = 0; i < staticOff.length; i++) {
+          setId((prev) => staticOff[i].id);
+          setTaskType((prev) => staticOff[i].typeTrav);
+          setNumFiche((prev) => staticOff[i].numFiche);
+          setStatIvpn((prev) => staticOff[i].statIvpn);
+          setStatusCom((prev) => staticOff[i].statuCom);
+          setState((prev) => staticOff[i].state);
+          setCat((prev) => staticOff[i].cat);
+          setUrl((prev) => staticOff[i].url);
+          setProcessing((prev) => staticOff[i].processing);
+        }
       }
+
+      if (playTask.length > 0 && allTaskType) {
+        setShwoDynamicRows((prev) => true);
+        setTimePlay((perv) => playTask[0].elapstedTime);
+        setId((prev) => playTask[0].id);
+        setTaskType((prev) => playTask[0].typeTrav);
+        setNumFiche((prev) => playTask[0].numFiche);
+        setStatIvpn((prev) => playTask[0].statIvpn);
+        setStatusCom((prev) => playTask[0].statuCom);
+        setState((prev) => playTask[0].state);
+        setCat((prev) => playTask[0].cat);
+        setUrl((prev) => playTask[0].url);
+        setProcessing((prev) => playTask[0].processing);
+
+        // calcul incrementation timer
+        refTimer.current = 0;
+        refTimer.current = setInterval(
+          () =>
+            timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
+          1000
+        );
+        // Calcul decrementation prod
+        if (playTask[0].typeTrav !== 'Empty Type') {
+          const taskRef = allTaskType.filter(
+            (task) => task.name === playTask[0].typeTrav
+          );
+          const prodGoal = taskRef[0].objectif;
+          let elaps_inc = Math.round(
+            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
+              1000 +
+              playTask[0].elapstedTime
+          );
+          refProd.current = 0;
+          refProd.current = setInterval(() => {
+            elaps_inc++;
+            setProductivity((prev) =>
+              Math.round(
+                (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
+              )
+            );
+          }, 1000);
+          return () => {
+            clearInterval(refProd.current);
+            refProd.current = 0;
+          };
+        }
+        return () => {
+          clearInterval(refTimer.current);
+          refTimer.current = 0;
+        };
+      }
+
+      // if task processing isPause
       if (dynamPause.length > 0) {
         setDynamicRow((prev) => dynamPause);
-      }
-
-      if (staticOff.length > 0) {
-        setStaticRows((prev) => staticOff);
-
-        console.log(staticRows);
       }
     }
   }, [dataUnsubmited]);
@@ -357,7 +445,28 @@ export default function TaskTable() {
 
   let rows = [];
   let arrayRows = {};
-  const listRows = list.map((item) => {
+  const dinamiqRowsData = {};
+
+  if (showDynamicRows === true) {
+    dinamiqRowsData.id = id;
+    dinamiqRowsData.typeTrav = taskType;
+    dinamiqRowsData.numFiche = numFiche;
+    dinamiqRowsData.statIvpn = statIvpn;
+    dinamiqRowsData.statusCom = statusCom;
+    dinamiqRowsData.state = state;
+    dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
+    dinamiqRowsData.cat = cat;
+    dinamiqRowsData.link = url;
+    dinamiqRowsData.processing = processing;
+    if (timePlay > 0) {
+      const formatDate = dateFormater(elapstedTime);
+      dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
+    }
+    rows.push(dinamiqRowsData);
+  }
+
+  console.log(rows);
+  /*  const listRows = list.map((item) => {
     // format date before showing in table
     const elapstedTaskPlay =
       (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
@@ -390,7 +499,8 @@ export default function TaskTable() {
     };
     rows.push(arrayRows);
     return arrayRows;
-  });
+  }); */
+
   return (
     <Box
       sx={{
@@ -420,8 +530,8 @@ export default function TaskTable() {
         <DataGrid
           columns={columns}
           pageSize={7}
-          // rows={rows}
-          rows={dynamicRow.concat(staticRows)}
+          rows={rows}
+          // rows={staticRows}
           rowsPerPageOptions={[7]}
           pagination
           sx={{
