@@ -27,6 +27,8 @@ export default function TaskTable() {
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
+  const [dynamicRow, setDynamicRow] = useState([]);
+  const [staticRows, setStaticRows] = useState([]);
   // control DialogEditTask
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
   // columns to use inside table
@@ -313,12 +315,46 @@ export default function TaskTable() {
   const prevTaskProd = prevTask.map((task) => {
     return task.productivity;
   });
+
+  // cleaning useEffect
+  const [didMount, setDidMount] = useState(false);
+  useEffect(() => {
+    setDidMount(true);
+    return () => setDidMount(false);
+  }, []);
+
   // loading data on component mount
   useEffect(() => {
     if (loadUnsubmitedTask !== undefined) {
       setList(dataUnsubmited);
+
+      const dynamPlay = dataUnsubmited.filter(
+        (item) => item.processing === 'isPlay'
+      );
+      const dynamPause = dataUnsubmited.filter(
+        (item) => item.processing === 'isPause'
+      );
+      const staticOff = dataUnsubmited.filter(
+        (item) => item.processing === 'isOff'
+      );
+
+      if (dynamPlay.length > 0) {
+        setDynamicRow((prev) => dynamPlay);
+      }
+      if (dynamPause.length > 0) {
+        setDynamicRow((prev) => dynamPause);
+      }
+
+      if (staticOff.length > 0) {
+        setStaticRows((prev) => staticOff);
+
+        console.log(staticRows);
+      }
     }
   }, [dataUnsubmited]);
+
+  // console.log(dynamicRow);
+
   let rows = [];
   let arrayRows = {};
   const listRows = list.map((item) => {
@@ -384,7 +420,8 @@ export default function TaskTable() {
         <DataGrid
           columns={columns}
           pageSize={7}
-          rows={rows}
+          // rows={rows}
+          rows={dynamicRow.concat(staticRows)}
           rowsPerPageOptions={[7]}
           pagination
           sx={{
