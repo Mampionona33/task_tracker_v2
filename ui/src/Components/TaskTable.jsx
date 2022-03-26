@@ -22,7 +22,8 @@ import {
   loadProcessingPause,
   updateProductivity,
   fetchTaskType,
-  loadProcessingPlay
+  loadProcessingPlay,
+  loadProcessingOff
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -415,6 +416,9 @@ export default function TaskTable() {
   // load current task play
   const loadTaskPlay = loadProcessingPlay();
   const loadTaskPause = loadProcessingPause();
+  const loadTaskOff = loadProcessingOff();
+
+  const [rowsData,setRowsData] = useState([]);
 
 
   useEffect(()=>{
@@ -424,7 +428,13 @@ export default function TaskTable() {
     if(loadTaskPause){
       console.log(loadTaskPause);
     }
-  },[loadTaskPlay])
+    if(loadTaskOff.length > 0){
+      // console.log(loadTaskOff);
+      setRowsData(prev => [...prev,loadTaskOff]);
+    }
+  },[loadTaskPlay,loadTaskOff,loadTaskPause])
+
+  console.log(rowsData);
 
 
   return (

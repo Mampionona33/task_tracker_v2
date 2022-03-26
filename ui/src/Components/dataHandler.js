@@ -137,6 +137,39 @@ function loadProcessingPause() {
   return outputPause;
 }
 
+// Fetch all task with processing 'isOff'
+function loadProcessingOff() {
+  const [taskOff, setTaskOff] = useState([]);
+  const [userEmail, setUserEmail] = useState(``);
+  const { user, isLoading } = useAuth0();
+
+  const {
+    error: errorOff,
+    loading: loadingOff,
+    data: dataIsOff,
+  } = useQuery(FILTRED_FICHE, {
+    variables: {
+      input: {
+        processing: 'isOff',
+        submiteState: 'isUnsubmited',
+        user: {
+          email: userEmail,
+        },
+      },
+    },
+  });
+  useEffect(() => {
+    if (user) {
+      setUserEmail((prev) => user.email);
+    }
+    if (dataIsOff) {
+      setTaskOff(dataIsOff.searchFiches);
+    }
+  }, [dataIsOff, user]);
+  return taskOff;
+}
+
+
 // Fetching unsubmited task
 function loadUnsubmitedTask() {
   const [outpoutUnsubmited, setOutpoutUnsubmited] = useState([]);
@@ -745,6 +778,7 @@ export {
   loadProcessingPause,
   loadProcessingPlay,
   loadUnsubmitedTask,
+  loadProcessingOff,
   loadSubmitedTask,
   setPrevProcessIsOff,
   setProcessToPause,
