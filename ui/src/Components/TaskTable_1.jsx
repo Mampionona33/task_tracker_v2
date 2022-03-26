@@ -28,31 +28,29 @@ export default function TaskTable() {
     { field: 'lastUpdate', sort: 'desc' },
   ]);
   const [list, setList] = useState([]);
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  // const [dynamicRow, setDynamicRow] = useState([]);
-  // const [staticRows, setStaticRows] = useState([]);
+  const [dynamicRow, setDynamicRow] = useState([]);
+  const [staticRows, setStaticRows] = useState([]);
   // control DialogEditTask
-  // const [id, setId] = useState(0);
-  // const [timePlay, setTimePlay] = useState(0);
-  // const [taskType, setTaskType] = useState('');
-  // const [numFiche, setNumFiche] = useState('');
-  // const [statIvpn, setStatIvpn] = useState('');
-  // const [statusCom, setStatusCom] = useState('');
-  // const [state, setState] = useState('');
-  // const [cat, setCat] = useState('');
-  // const [url, setUrl] = useState('');
-  // const [elapstedTime, setElapstedTime] = useState(0);
-  // const [processing, setProcessing] = useState('');
-  // const [productivity, setProductivity] = useState(0);
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  const [id, setId] = useState(0);
+  const [timePlay, setTimePlay] = useState(0);
+  const [taskType, setTaskType] = useState('');
+  const [numFiche, setNumFiche] = useState('');
+  const [statIvpn, setStatIvpn] = useState('');
+  const [statusCom, setStatusCom] = useState('');
+  const [state, setState] = useState('');
+  const [cat, setCat] = useState('');
+  const [url, setUrl] = useState('');
+  const [elapstedTime, setElapstedTime] = useState(0);
+  const [processing, setProcessing] = useState('');
+  const [productivity, setProductivity] = useState(0);
 
   // static data
-  // const [staticId, setStaticId] = useState(0);
-  // const [staticNumFiche, setStaticNumFiche] = useState('');
+  const [staticId, setStaticId] = useState(0);
+  const [staticNumFiche, setStaticNumFiche] = useState('');
 
-  // const [showDynamicRows, setShwoDynamicRows] = useState(false);
-  // const [showStaticRows, setShowStaticRows] = useState(false);
-  
-
+  const [showDynamicRows, setShwoDynamicRows] = useState(false);
+  const [showStaticRows, setShowStaticRows] = useState(false);
   // columns to use inside table
   const columns = [
     {
@@ -361,17 +359,99 @@ export default function TaskTable() {
   // load all task type
   const allTaskType = fetchTaskType();
 
+  useEffect(() => {
+    if (loadUnsubmitedTask !== undefined) {
+      const staticOff = dataUnsubmited.filter(
+        (item) => item.processing === 'isOff'
+      );
+      // if task processing isOff
+      if (staticOff.length > 0) {
+        console.log(staticOff);
+        setShowStaticRows((prev) => true);
+        for (let i = 0; i < staticOff.length; i++) {
+          setStaticId((prev) => staticOff[i].id);
+          setStaticNumFiche((prev) => staticOff[i].numFiche);
+        }
+      }
+    }
+  }, [dataUnsubmited]);
+
+  // loading data on component mount
+  useEffect(() => {
+    if (loadUnsubmitedTask !== undefined) {
+      setList(dataUnsubmited);
+
+      const playTask = dataUnsubmited.filter(
+        (item) => item.processing === 'isPlay'
+      );
+      const dynamPause = dataUnsubmited.filter(
+        (item) => item.processing === 'isPause'
+      );
+
+      if (playTask.length > 0 && allTaskType) {
+        setShwoDynamicRows((prev) => true);
+        setTimePlay((perv) => playTask[0].elapstedTime);
+        setId((prev) => playTask[0].id);
+        setTaskType((prev) => playTask[0].typeTrav);
+        setNumFiche((prev) => playTask[0].numFiche);
+        setStatIvpn((prev) => playTask[0].statIvpn);
+        setStatusCom((prev) => playTask[0].statuCom);
+        setState((prev) => playTask[0].state);
+        setCat((prev) => playTask[0].cat);
+        setUrl((prev) => playTask[0].url);
+        setProcessing((prev) => playTask[0].processing);
+
+        // calcul incrementation timer
+        refTimer.current = 0;
+        refTimer.current = setInterval(
+          () =>
+            timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
+          1000
+        );
+        // Calcul decrementation prod
+        if (playTask[0].typeTrav !== 'Empty Type') {
+          const taskRef = allTaskType.filter(
+            (task) => task.name === playTask[0].typeTrav
+          );
+          const prodGoal = taskRef[0].objectif;
+          let elaps_inc = Math.round(
+            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
+              1000 +
+              playTask[0].elapstedTime
+          );
+          refProd.current = 0;
+          refProd.current = setInterval(() => {
+            elaps_inc++;
+            setProductivity((prev) =>
+              Math.round(
+                (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
+              )
+            );
+          }, 1000);
+          return () => {
+            clearInterval(refProd.current);
+            refProd.current = 0;
+          };
+        }
+        return () => {
+          clearInterval(refTimer.current);
+          refTimer.current = 0;
+        };
+      }
+
+      // if task processing isPause
+      if (dynamPause.length > 0) {
+        setDynamicRow((prev) => dynamPause);
+      }
+    }
+  }, [dataUnsubmited]);
+
+  // console.log(dynamicRow);
 
   let rows = [];
   let arrayRows = {};
   const dinamiqRowsData = {};
   const staticRowsData = {};
-
-  const arr = {
-    id:10, numFiche:'1456'
-  }
-
-  rows.push(arr)
 
   if (showDynamicRows === true) {
     dinamiqRowsData.id = id;
@@ -433,7 +513,83 @@ export default function TaskTable() {
   }); */
 
   return (
-    <React.Fragment>
-    </React.Fragment>
+    <Box
+      sx={{
+        width: '100%',
+        height: '85vh',
+        '& .emptyType': {
+          backgroundColor: 'warning.light',
+          color: 'warning.contrastText',
+        },
+        '& .sby': {
+          backgroundColor: 'error.main',
+          color: 'error.contrastText',
+        },
+      }}
+    >
+      <Card
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          backgroundColor: '#28B463',
+          color: '#fff',
+        }}
+      >
+        <Typography variant='h4'>Tasks List</Typography>
+      </Card>
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <DataGrid
+          columns={columns}
+          pageSize={7}
+          rows={rows}
+          // rows={staticRows}
+          rowsPerPageOptions={[7]}
+          pagination
+          sx={{
+            maxHeight: '80vh',
+            margin: '1rem 5rem',
+            color: 'contrastText',
+            backgroundColor: '#fff',
+            boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
+          }}
+          // Styling cell depanding on it's value
+          getCellClassName={(params) => {
+            if (params.value === 'Empty Type') {
+              return 'emptyType';
+            }
+            if (params.value === 'Sby') {
+              return 'sby';
+            }
+          }}
+          justifyContent='space-between'
+          // default sorting to show sby on top of list
+          sortModel={sortModel}
+          onSortModelChange={(model) => setSortModel(model)}
+          // default filtering table to show normal state only
+          initialState={{
+            filter: {
+              filterModel: {
+                items: [
+                  {
+                    // columnField: 'state',
+                    // operatorValue: 'equals',
+                    // value: 'Normal',
+                  },
+                ],
+              },
+            },
+          }}
+        />
+      </Box>
+      {/* DialogBox Edit Task */}
+      <React.Fragment>
+        <DialogEditTask
+          taskId={taskIdToEdit}
+          open={dialogEditOpen}
+          selectedRowData={selectedRowData}
+          onClose={handleClickDialogEditClose}
+        />
+      </React.Fragment>
+    </Box>
   );
 }
