@@ -741,8 +741,8 @@ const productivity = (currentTaskType, currentProdBefore, currentProdAfter) => {
 };
 
 export {
-  loadProcessingPause,
   loadAllData,
+  loadProcessingPause,
   loadProcessingPlay,
   loadUnsubmitedTask,
   loadSubmitedTask,
