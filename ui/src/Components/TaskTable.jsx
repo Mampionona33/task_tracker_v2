@@ -49,8 +49,8 @@ export default function TaskTable() {
   // const [staticId, setStaticId] = useState(0);
   // const [staticNumFiche, setStaticNumFiche] = useState('');
 
-  // const [showDynamicRows, setShwoDynamicRows] = useState(false);
-  // const [showStaticRows, setShowStaticRows] = useState(false);
+  const [showDynamicRows, setShwoDynamicRows] = useState(false);
+  const [showStaticRows, setShowStaticRows] = useState(false);
   
 
   // columns to use inside table
@@ -371,32 +371,9 @@ export default function TaskTable() {
     id:10, numFiche:'1456'
   }
 
-  rows.push(arr)
+  // rows.push(arr);
 
-  if (showDynamicRows === true) {
-    dinamiqRowsData.id = id;
-    dinamiqRowsData.typeTrav = taskType;
-    dinamiqRowsData.numFiche = numFiche;
-    dinamiqRowsData.statIvpn = statIvpn;
-    dinamiqRowsData.statusCom = statusCom;
-    dinamiqRowsData.state = state;
-    dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
-    dinamiqRowsData.cat = cat;
-    dinamiqRowsData.link = url;
-    dinamiqRowsData.processing = processing;
-    if (timePlay > 0) {
-      const formatDate = dateFormater(elapstedTime);
-      dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
-    }
-    rows.push(dinamiqRowsData);
-  }
-
-  if (showStaticRows === true) {
-    staticRowsData.id = staticId;
-    rows.push(staticRowsData);
-  }
-
-  console.log(rows);
+  // console.log(rows);
   /*  const listRows = list.map((item) => {
     // format date before showing in table
     const elapstedTaskPlay =
@@ -432,8 +409,88 @@ export default function TaskTable() {
     return arrayRows;
   }); */
 
+  // --------------------------------------------------------------------------
+
+  
+
   return (
-    <React.Fragment>
-    </React.Fragment>
+    <Box
+      sx={{
+        width: '100%',
+        height: '85vh',
+        '& .emptyType': {
+          backgroundColor: 'warning.light',
+          color: 'warning.contrastText',
+        },
+        '& .sby': {
+          backgroundColor: 'error.main',
+          color: 'error.contrastText',
+        },
+      }}
+    >
+      <Card
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          backgroundColor: '#28B463',
+          color: '#fff',
+        }}
+      >
+        <Typography variant='h4'>Tasks List</Typography>
+      </Card>
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <DataGrid
+          columns={columns}
+          pageSize={7}
+          rows={rows}
+          // rows={staticRows}
+          rowsPerPageOptions={[7]}
+          pagination
+          sx={{
+            maxHeight: '80vh',
+            margin: '1rem 5rem',
+            color: 'contrastText',
+            backgroundColor: '#fff',
+            boxShadow: '3px 5px 15px 1px rgba(0, 0, 0, 0.3)',
+          }}
+          // Styling cell depanding on it's value
+          getCellClassName={(params) => {
+            if (params.value === 'Empty Type') {
+              return 'emptyType';
+            }
+            if (params.value === 'Sby') {
+              return 'sby';
+            }
+          }}
+          justifyContent='space-between'
+          // default sorting to show sby on top of list
+          sortModel={sortModel}
+          onSortModelChange={(model) => setSortModel(model)}
+          // default filtering table to show normal state only
+          initialState={{
+            filter: {
+              filterModel: {
+                items: [
+                  {
+                    // columnField: 'state',
+                    // operatorValue: 'equals',
+                    // value: 'Normal',
+                  },
+                ],
+              },
+            },
+          }}
+        />
+      </Box>
+      {/* DialogBox Edit Task */}
+      <React.Fragment>
+        <DialogEditTask
+          taskId={taskIdToEdit}
+          open={dialogEditOpen}
+          selectedRowData={selectedRowData}
+          onClose={handleClickDialogEditClose}
+        />
+      </React.Fragment>
+    </Box>
   );
 }
