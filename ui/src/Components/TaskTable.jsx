@@ -476,8 +476,8 @@ export default function TaskTable() {
     rows.push(staticRowsData);
   }
 
-  console.log(rows);
-   const listRows = list.map((item) => {
+  // console.log(rows);
+  const listRows = list.map((item) => {
     // format date before showing in table
     const elapstedTaskPlay =
       (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
