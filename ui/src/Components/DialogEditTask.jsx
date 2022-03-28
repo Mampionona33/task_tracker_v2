@@ -152,7 +152,6 @@ const DialogEditTask = (props) => {
 
     // if data from selected row is ready
     if (selectedRowData) {
-      console.log(selectedRowData);
       setLastUpdate((prev) => selectedRowData.lastUpdate);
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);

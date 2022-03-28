@@ -19,162 +19,157 @@ import {
   updateElastedTime,
   dateFormater,
   setProcessToPause,
-  loadProcessingPause,
   updateProductivity,
   fetchTaskType,
-  loadProcessingPlay,
-  loadProcessingOff
 } from './dataHandler';
 
 export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
-    ]);
+  ]);
   const [list, setList] = useState([]);
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  // const [dynamicRow, setDynamicRow] = useState([]);
-  // const [staticRows, setStaticRows] = useState([]);
+  const [dynamicRow, setDynamicRow] = useState([]);
+  const [staticRows, setStaticRows] = useState([]);
   // control DialogEditTask
-  // const [id, setId] = useState(0);
-  // const [timePlay, setTimePlay] = useState(0);
-  // const [taskType, setTaskType] = useState('');
-  // const [numFiche, setNumFiche] = useState('');
-  // const [statIvpn, setStatIvpn] = useState('');
-  // const [statusCom, setStatusCom] = useState('');
-  // const [state, setState] = useState('');
-  // const [cat, setCat] = useState('');
-  // const [url, setUrl] = useState('');
-  // const [elapstedTime, setElapstedTime] = useState(0);
-  // const [processing, setProcessing] = useState('');
-  // const [productivity, setProductivity] = useState(0);
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  const [id, setId] = useState(0);
+  const [timePlay, setTimePlay] = useState(0);
+  const [taskType, setTaskType] = useState('');
+  const [numFiche, setNumFiche] = useState('');
+  const [statIvpn, setStatIvpn] = useState('');
+  const [statusCom, setStatusCom] = useState('');
+  const [state, setState] = useState('');
+  const [cat, setCat] = useState('');
+  const [url, setUrl] = useState('');
+  const [elapstedTime, setElapstedTime] = useState(0);
+  const [processing, setProcessing] = useState('');
+  const [productivity, setProductivity] = useState(0);
 
   // static data
-  // const [staticId, setStaticId] = useState(0);
-  // const [staticNumFiche, setStaticNumFiche] = useState('');
+  const [staticId, setStaticId] = useState(0);
+  const [staticNumFiche, setStaticNumFiche] = useState('');
 
   const [showDynamicRows, setShwoDynamicRows] = useState(false);
   const [showStaticRows, setShowStaticRows] = useState(false);
-  
-
   // columns to use inside table
   const columns = [
-  {
-    field: 'id',
-    headerName: 'Id',
-    headerAlign: 'center',
-    flex: 1,
-    hide: true,
-  },
-  {
-    field: 'statIvpn',
-    headerName: 'Status IVPN',
-    headerAlign: 'center',
-    flex: 1,
-    hide: true,
-  },
-  {
-    field: 'comment',
-    headerName: 'comment',
-    headerAlign: 'center',
-    flex: 1,
-    hide: true,
-  },
-  {
-    field: 'nbBefor',
-    headerName: 'Number Before',
-    headerAlign: 'center',
-    flex: 1,
-    hide: true,
-  },
-  {
-    field: 'nbAft',
-    headerName: 'Number After',
-    headerAlign: 'center',
-    flex: 1,
-    hide: true,
-  },
-  {
-    field: 'numFiche',
-    headerName: 'Num',
-    headerAlign: 'center',
-    flex: 1,
-    minWidth: 80,
-  },
-  {
-    field: 'typeTrav',
-    headerName: ' Task Type',
-    headerAlign: 'center',
-    valueFormatter: ({ value }) => `${value}`,
-    flex: 1,
-    minWidth: 150,
-  },
-  {
-    field: 'statusCom',
-    headerName: 'Status Com',
-    headerAlign: 'center',
-    flex: 1,
-    minWidth: 100,
-  },
-  {
-    field: 'state',
-    headerName: 'State',
-    headerAlign: 'center',
-    flex: 1,
-    minWidth: 75,
-  },
-  {
-    field: 'lastUpdate',
-    headerName: 'Last Update',
-    type: 'date',
-    align: 'center',
-    headerAlign: 'center',
-    hide: 'true',
-  },
-  {
-    field: 'productivity',
-    headerName: 'Productivity',
-    type: 'text',
-    align: 'center',
-    headerAlign: 'center',
-    flex: 1,
-    minWidth: 90,
-    renderCell: (param) => {
+    {
+      field: 'id',
+      headerName: 'Id',
+      headerAlign: 'center',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'statIvpn',
+      headerName: 'Status IVPN',
+      headerAlign: 'center',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'comment',
+      headerName: 'comment',
+      headerAlign: 'center',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'nbBefor',
+      headerName: 'Number Before',
+      headerAlign: 'center',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'nbAft',
+      headerName: 'Number After',
+      headerAlign: 'center',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'numFiche',
+      headerName: 'Num',
+      headerAlign: 'center',
+      flex: 1,
+      minWidth: 80,
+    },
+    {
+      field: 'typeTrav',
+      headerName: ' Task Type',
+      headerAlign: 'center',
+      valueFormatter: ({ value }) => `${value}`,
+      flex: 1,
+      minWidth: 150,
+    },
+    {
+      field: 'statusCom',
+      headerName: 'Status Com',
+      headerAlign: 'center',
+      flex: 1,
+      minWidth: 100,
+    },
+    {
+      field: 'state',
+      headerName: 'State',
+      headerAlign: 'center',
+      flex: 1,
+      minWidth: 75,
+    },
+    {
+      field: 'lastUpdate',
+      headerName: 'Last Update',
+      type: 'date',
+      align: 'center',
+      headerAlign: 'center',
+      hide: 'true',
+    },
+    {
+      field: 'productivity',
+      headerName: 'Productivity',
+      type: 'text',
+      align: 'center',
+      headerAlign: 'center',
+      flex: 1,
+      minWidth: 90,
+      renderCell: (param) => {
         // return <Typography variant='body2'>{param.value} %</Typography>;
         if (param.value >= 100) {
           return (
             <Paper sx={{ backgroundColor: 'success.light', padding: 0 }}>
-            <Typography
-            variant='body2'
-            sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
-            >
-            {param.value} %
-            </Typography>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
             </Paper>
-            );
+          );
         }
         if (param.value >= 95 && param.value < 100) {
           return (
             <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
-            <Typography
-            variant='body2'
-            sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
-            >
-            {param.value} %
-            </Typography>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
             </Paper>
-            );
+          );
         }
         if (param.value < 95) {
           return (
             <Paper sx={{ backgroundColor: 'error.main', padding: 0 }}>
-            <Typography
-            variant='body2'
-            sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
-            >
-            {param.value} %
-            </Typography>
+              <Typography
+                variant='body2'
+                sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
+              >
+                {param.value} %
+              </Typography>
             </Paper>
-            );
+          );
         }
       },
     },
@@ -205,9 +200,9 @@ export default function TaskTable() {
       flex: 1,
       renderCell: (params) => (
         <Link href={params.value} target='_blank'>
-        <LinkIcon />
+          <LinkIcon />
         </Link>
-        ),
+      ),
     },
     {
       field: 'actions',
@@ -220,50 +215,50 @@ export default function TaskTable() {
       minWidth: 200,
       renderCell: (param) => (
         <React.Fragment>
-        <IconButton
-        color='primary'
-        component='span'
-        arial-label='Play button'
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Play button'
             // using param and event to get id of the actual fiche
             onClick={(event) => handleClickPlay(event, param)}
             // conditionnal disabling button play on action column
             // disabled={param.row.processing === 'isPlay'}
-            >
+          >
             {param.row.processing === 'isPlay' ? (
               <PauseCircleIcon />
-              ) : (
+            ) : (
               <PlayCircleIcon />
-              )}
-              </IconButton>
-              <IconButton
-              color='primary'
-              component='span'
-              arial-label='Play button'
-              onClick={(event) => handleClickEdit(event, param)}
-              >
-              <EditIcon />
-              </IconButton>
-              <IconButton
-              color='primary'
-              component='span'
-              arial-label='Edit button'
-              >
-              <DeleteIcon />
-              </IconButton>
-              </React.Fragment>
-              ),
+            )}
+          </IconButton>
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Play button'
+            onClick={(event) => handleClickEdit(event, param)}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color='primary'
+            component='span'
+            arial-label='Edit button'
+          >
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ),
     },
-    ];
+  ];
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
     refetchQueries: [
-    FILTRED_FICHE,
-    { variables: { input: { submiteState: 'isUnsubmited' } } },
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
     ],
     refetchQueries: [
-    FILTRED_FICHE,
-    { variables: { input: { submiteState: 'isSubmited' } } },
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
     ],
     // to execute refetch
     awaitRefetchQueries: true,
@@ -272,39 +267,39 @@ export default function TaskTable() {
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
     const elapstedTime =
-    (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
-    arrayRows.elapstedTime;
+      (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
+      arrayRows.elapstedTime;
     if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
-      .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
-      .then(
-        updateElastedTime(
-          prevTaskId[0],
-          elapstedTime,
-          fichesUpdate,
-          erroUpDate
+        .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
+        .then(
+          updateElastedTime(
+            prevTaskId[0],
+            elapstedTime,
+            fichesUpdate,
+            erroUpDate
           )
         )
-      .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
-      .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then(() => {
-        if (event.row.processing === 'isPlay') {
-          return;
-        }
-        if (event.row.processing === 'isOff') {
-          window.location.href = '#/dashboard';
-        }
-      });
+        .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(() => {
+          if (event.row.processing === 'isPlay') {
+            return;
+          }
+          if (event.row.processing === 'isOff') {
+            window.location.href = '#/dashboard';
+          }
+        });
     }
     if (event.row.processing === 'isPlay') {
       await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
         modifyLastUpdate(currentId, fichesUpdate, erroUpDate)
-        );
+      );
     }
     if (event.row.processing === 'isPause') {
       await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
-      .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-      .then((window.location.href = '#/dashboard'));
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then((window.location.href = '#/dashboard'));
     }
   };
   // function to execute on click edit buton
@@ -346,8 +341,8 @@ export default function TaskTable() {
     setElapstedTime((prev) =>
       Math.round(
         (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
-        )
-      );
+      )
+    );
   };
 
   // cleaning useEffect
@@ -364,20 +359,125 @@ export default function TaskTable() {
   // load all task type
   const allTaskType = fetchTaskType();
 
+  useEffect(() => {
+    if (loadUnsubmitedTask !== undefined) {
+      const staticOff = dataUnsubmited.filter(
+        (item) => item.processing === 'isOff'
+      );
+      // if task processing isOff
+      if (staticOff.length > 0) {
+        console.log(staticOff);
+        setShowStaticRows((prev) => true);
+        for (let i = 0; i < staticOff.length; i++) {
+          setStaticId((prev) => staticOff[i].id);
+          setStaticNumFiche((prev) => staticOff[i].numFiche);
+        }
+      }
+    }
+  }, [dataUnsubmited]);
+
+  // loading data on component mount
+  useEffect(() => {
+    if (loadUnsubmitedTask !== undefined) {
+      setList(dataUnsubmited);
+
+      const playTask = dataUnsubmited.filter(
+        (item) => item.processing === 'isPlay'
+      );
+      const dynamPause = dataUnsubmited.filter(
+        (item) => item.processing === 'isPause'
+      );
+
+      if (playTask.length > 0 && allTaskType) {
+        setShwoDynamicRows((prev) => true);
+        setTimePlay((perv) => playTask[0].elapstedTime);
+        setId((prev) => playTask[0].id);
+        setTaskType((prev) => playTask[0].typeTrav);
+        setNumFiche((prev) => playTask[0].numFiche);
+        setStatIvpn((prev) => playTask[0].statIvpn);
+        setStatusCom((prev) => playTask[0].statuCom);
+        setState((prev) => playTask[0].state);
+        setCat((prev) => playTask[0].cat);
+        setUrl((prev) => playTask[0].url);
+        setProcessing((prev) => playTask[0].processing);
+
+        // calcul incrementation timer
+        refTimer.current = 0;
+        refTimer.current = setInterval(
+          () =>
+            timerIncrement(playTask[0].elapstedTime, playTask[0].lastUpdate),
+          1000
+        );
+        // Calcul decrementation prod
+        if (playTask[0].typeTrav !== 'Empty Type') {
+          const taskRef = allTaskType.filter(
+            (task) => task.name === playTask[0].typeTrav
+          );
+          const prodGoal = taskRef[0].objectif;
+          let elaps_inc = Math.round(
+            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
+              1000 +
+              playTask[0].elapstedTime
+          );
+          refProd.current = 0;
+          refProd.current = setInterval(() => {
+            elaps_inc++;
+            setProductivity((prev) =>
+              Math.round(
+                (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
+              )
+            );
+          }, 1000);
+          return () => {
+            clearInterval(refProd.current);
+            refProd.current = 0;
+          };
+        }
+        return () => {
+          clearInterval(refTimer.current);
+          refTimer.current = 0;
+        };
+      }
+
+      // if task processing isPause
+      if (dynamPause.length > 0) {
+        setDynamicRow((prev) => dynamPause);
+      }
+    }
+  }, [dataUnsubmited]);
+
+  // console.log(dynamicRow);
 
   let rows = [];
   let arrayRows = {};
   const dinamiqRowsData = {};
   const staticRowsData = {};
 
-  const arr = {
-    id:10, numFiche:'1456'
+  if (showDynamicRows === true) {
+    dinamiqRowsData.id = id;
+    dinamiqRowsData.typeTrav = taskType;
+    dinamiqRowsData.numFiche = numFiche;
+    dinamiqRowsData.statIvpn = statIvpn;
+    dinamiqRowsData.statusCom = statusCom;
+    dinamiqRowsData.state = state;
+    dinamiqRowsData.productivity = productivity.toString().padStart(2, '0');
+    dinamiqRowsData.cat = cat;
+    dinamiqRowsData.link = url;
+    dinamiqRowsData.processing = processing;
+    if (timePlay > 0) {
+      const formatDate = dateFormater(elapstedTime);
+      dinamiqRowsData.elapstedTimeRender = `${formatDate.day}:${formatDate.hours}:${formatDate.min}:${formatDate.sec}`;
+    }
+    rows.push(dinamiqRowsData);
   }
 
-  // rows.push(arr);
+  if (showStaticRows === true) {
+    staticRowsData.id = staticId;
+    rows.push(staticRowsData);
+  }
 
-  // console.log(rows);
-  /*  const listRows = list.map((item) => {
+  console.log(rows);
+   const listRows = list.map((item) => {
     // format date before showing in table
     const elapstedTaskPlay =
       (Date.parse(new Date()) - Date.parse(item.lastUpdate)) / 1000 +
@@ -410,63 +510,38 @@ export default function TaskTable() {
     };
     rows.push(arrayRows);
     return arrayRows;
-  }); */
-
-  // --------------------------------------------------------------------------
-  // load current task play
-  const loadTaskPlay = loadProcessingPlay();
-  const loadTaskPause = loadProcessingPause();
-  const loadTaskOff = loadProcessingOff();
-
-  const [rowsData,setRowsData] = useState([]);
-
-
-  useEffect(()=>{
-    if(loadTaskPlay){
-      console.log(loadTaskPlay);
-    }
-    if(loadTaskPause){
-      console.log(loadTaskPause);
-    }
-    if(loadTaskOff.length > 0){
-      // console.log(loadTaskOff);
-      setRowsData(prev => [...prev,loadTaskOff]);
-    }
-  },[loadTaskPlay,loadTaskOff,loadTaskPause])
-
-  console.log(rowsData);
-
+  });
 
   return (
     <Box
-    sx={{
-      width: '100%',
-      height: '85vh',
-      '& .emptyType': {
-        backgroundColor: 'warning.light',
-        color: 'warning.contrastText',
-      },
-      '& .sby': {
-        backgroundColor: 'error.main',
-        color: 'error.contrastText',
-      },
-    }}
+      sx={{
+        width: '100%',
+        height: '85vh',
+        '& .emptyType': {
+          backgroundColor: 'warning.light',
+          color: 'warning.contrastText',
+        },
+        '& .sby': {
+          backgroundColor: 'error.main',
+          color: 'error.contrastText',
+        },
+      }}
     >
-    <Card
-    sx={{
-      justifyContent: 'center',
-      display: 'flex',
-      backgroundColor: '#28B463',
-      color: '#fff',
-    }}
-    >
-    <Typography variant='h4'>Tasks List</Typography>
-    </Card>
-    <Box sx={{ width: '100%', height: '100%' }}>
-    <DataGrid
-    columns={columns}
-    pageSize={7}
-    rows={rows}
+      <Card
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          backgroundColor: '#28B463',
+          color: '#fff',
+        }}
+      >
+        <Typography variant='h4'>Tasks List</Typography>
+      </Card>
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <DataGrid
+          columns={columns}
+          pageSize={7}
+          rows={rows}
           // rows={staticRows}
           rowsPerPageOptions={[7]}
           pagination
@@ -495,26 +570,26 @@ export default function TaskTable() {
             filter: {
               filterModel: {
                 items: [
-                {
+                  {
                     // columnField: 'state',
                     // operatorValue: 'equals',
                     // value: 'Normal',
                   },
-                  ],
-                },
+                ],
               },
-            }}
-            />
-            </Box>
-          {/* DialogBox Edit Task */}
-          <React.Fragment>
-          <DialogEditTask
+            },
+          }}
+        />
+      </Box>
+      {/* DialogBox Edit Task */}
+      <React.Fragment>
+        <DialogEditTask
           taskId={taskIdToEdit}
           open={dialogEditOpen}
           selectedRowData={selectedRowData}
           onClose={handleClickDialogEditClose}
-          />
-          </React.Fragment>
-          </Box>
-          );
+        />
+      </React.Fragment>
+    </Box>
+  );
 }
