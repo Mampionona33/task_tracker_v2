@@ -193,6 +193,10 @@ export default function TaskTable() {
       headerAlign: 'center',
       flex: 1,
       minWidth: 150,
+      valueFormatter: (params) => {
+        const elpsRender = dateFormater(params.value);
+        return `${elpsRender.day}:${elpsRender.hours}:${elpsRender.min}:${elpsRender.sec}`;
+      },
     },
     {
       field: 'url',
@@ -563,7 +567,7 @@ export default function TaskTable() {
         <DataGrid
           columns={columns}
           pageSize={7}
-          rows={rows[0]}
+          rows={rows[0] !== undefined ? rows[0] : []}
           // rows={taskRows[0] !== undefined ? taskRows[0] : []}
           rowsPerPageOptions={[7]}
           pagination

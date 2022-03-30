@@ -29,6 +29,7 @@ import {
   updateNumberAfter,
   updateElastedTime,
   modifyLastUpdate,
+  dateFormater,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -163,26 +164,11 @@ const DialogEditTask = (props) => {
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
       setComment((prev) => selectedRowData.comment);
-      if (selectedRowData.elapstedTimeRender) {
-        setDay((prev) =>
-          selectedRowData.elapstedTimeRender.slice(0, -9).padStart(2, '0')
-        );
-        setHrs((prev) =>
-          selectedRowData.elapstedTimeRender
-            .slice(selectedRowData.elapstedTimeRender.length - 8, -6)
-            .padStart(2, '0')
-        );
-        setMinit((prev) =>
-          selectedRowData.elapstedTimeRender
-            .slice(selectedRowData.elapstedTimeRender.length - 5, -3)
-            .padStart(2, '0')
-        );
-        setSec((prev) =>
-          selectedRowData.elapstedTimeRender
-            .slice(selectedRowData.elapstedTimeRender.length - 2)
-            .padStart(2, '0')
-        );
-      }
+      const elapsFormated = dateFormater(selectedRowData.elapstedTime);
+      setDay((prev) => elapsFormated.day);
+      setHrs((prev) => elapsFormated.hours);
+      setMinit((prev) => elapsFormated.min);
+      setSec((prev) => elapsFormated.sec);
     }
   }, [listStatIvpn, listTaskTypes, listStatCom, listTaskCase, selectedRowData]);
 
