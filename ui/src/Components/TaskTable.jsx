@@ -522,12 +522,17 @@ export default function TaskTable() {
   const taskProcessIsOff = loadProcessingOff();
   const allTask = loadUnsubmitedTask();
 
+  const test = allTask.map((item) => item);
+
   useEffect(() => {
     if (allTask.length > 0) {
-      console.log(allTask);
-      setTaskRows((prev) => [...prev, allTask]);
+      console.log(test);
     }
   }, [allTask]);
+
+  if (test.length > 0) {
+    rows.push(test);
+  }
 
   return (
     <Box
@@ -558,8 +563,8 @@ export default function TaskTable() {
         <DataGrid
           columns={columns}
           pageSize={7}
-          // rows={rows}
-          rows={taskRows[0] !== undefined ? taskRows[0] : []}
+          rows={rows[0]}
+          // rows={taskRows[0] !== undefined ? taskRows[0] : []}
           rowsPerPageOptions={[7]}
           pagination
           sx={{
