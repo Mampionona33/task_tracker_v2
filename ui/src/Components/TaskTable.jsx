@@ -44,7 +44,7 @@ export default function TaskTable() {
   // const [state, setState] = useState('');
   // const [cat, setCat] = useState('');
   // const [url, setUrl] = useState('');
-  // const [elapstedTime, setElapstedTime] = useState(0);
+  const [elapstedTime, setElapstedTime] = useState(0);
   // const [processing, setProcessing] = useState('');
   // const [productivity, setProductivity] = useState(0);
 
@@ -193,9 +193,15 @@ export default function TaskTable() {
       headerAlign: 'center',
       flex: 1,
       minWidth: 150,
-      valueFormatter: (params) => {
-        const elpsRender = dateFormater(params.value);
-        return `${elpsRender.day}:${elpsRender.hours}:${elpsRender.min}:${elpsRender.sec}`;
+      renderCell: (params) => {
+        if (params.row.processing === 'isPlay') {
+          const i = dateFormater(elapstedTime);
+          return `${i.day}:${i.hours}:${i.min}:${i.sec}`;
+        }
+        if (params.row.processing === 'isOff') {
+          const i = dateFormater(params.row.elapstedTime);
+          return `${i.day}:${i.hours}:${i.min}:${i.sec}`;
+        }
       },
     },
     {
@@ -256,6 +262,7 @@ export default function TaskTable() {
       ),
     },
   ];
+
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
     refetchQueries: [LOAD_DATA],
@@ -360,8 +367,8 @@ export default function TaskTable() {
   }, []);
 
   // initialisation refs
-  // const refTimer = useRef(null);
-  // const refProd = useRef(null);
+  const refTimer = useRef(null);
+  const refProd = useRef(null);
 
   // load all task type
   const allTaskType = fetchTaskType();
@@ -529,10 +536,19 @@ export default function TaskTable() {
   const test = allTask.map((item) => item);
 
   useEffect(() => {
-    if (allTask.length > 0) {
-      console.log(test);
+    if (taskProcessIsPlay.length > 0) {
+      // calcul incrementation timer
+      refTimer.current = 0;
+      refTimer.current = setInterval(
+        () =>
+          timerIncrement(
+            taskProcessIsPlay[0].elapstedTime,
+            taskProcessIsPlay[0].lastUpdate
+          ),
+        1000
+      );
     }
-  }, [allTask]);
+  }, [taskProcessIsPlay]);
 
   if (test.length > 0) {
     rows.push(test);
