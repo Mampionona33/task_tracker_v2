@@ -158,7 +158,7 @@ const DialogEditTask = (props) => {
       setDefaultStatCom((prev) => selectedRowData.statuCom);
       setDefaultUrl((prev) => selectedRowData.url);
       setCat((prev) => selectedRowData.cat);
-      setDefaultStatuIvpn((prev) => selectedRowData.statIvpn);
+      setDefaultStatuIvpn((prev) => selectedRowData.statuIvpn);
       setDefaultTaskCase((prev) => selectedRowData.state);
       setNumberBefore((prev) => selectedRowData.nbBefor);
       setNumberAfter((prev) => selectedRowData.nbAft);
