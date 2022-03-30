@@ -155,8 +155,8 @@ const DialogEditTask = (props) => {
       setLastUpdate((prev) => selectedRowData.lastUpdate);
       setNumFiche((prev) => selectedRowData.numFiche);
       setDefaultTaskType((prev) => selectedRowData.typeTrav);
-      setDefaultStatCom((prev) => selectedRowData.statusCom);
-      setDefaultUrl((prev) => selectedRowData.link);
+      setDefaultStatCom((prev) => selectedRowData.statuCom);
+      setDefaultUrl((prev) => selectedRowData.url);
       setCat((prev) => selectedRowData.cat);
       setDefaultStatuIvpn((prev) => selectedRowData.statIvpn);
       setDefaultTaskCase((prev) => selectedRowData.state);
@@ -209,7 +209,7 @@ const DialogEditTask = (props) => {
       erroUpDate,
       refNumFiche.current.children[1].children[0].value
     )
-      /* .then(
+      .then(
         updateCat(
           selectedRowData.id,
           fichesUpdate,
@@ -280,7 +280,7 @@ const DialogEditTask = (props) => {
           erroUpDate,
           refStatuCom.current.children[0].children[1].children[0].value
         )
-      ) */
+      )
       .then(onClose);
   };
 
