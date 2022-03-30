@@ -198,7 +198,10 @@ export default function TaskTable() {
           const i = dateFormater(elapstedTime);
           return `${i.day}:${i.hours}:${i.min}:${i.sec}`;
         }
-        if (params.row.processing === 'isOff') {
+        if (
+          params.row.processing === 'isOff' ||
+          params.row.processing === 'isPause'
+        ) {
           const i = dateFormater(params.row.elapstedTime);
           return `${i.day}:${i.hours}:${i.min}:${i.sec}`;
         }
