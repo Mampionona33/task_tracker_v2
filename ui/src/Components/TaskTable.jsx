@@ -301,6 +301,9 @@ export default function TaskTable() {
     if (event.row.processing === 'isPause') {
       await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(
+          updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
+        )
         .then((window.location.href = '#/dashboard'));
     }
   };
@@ -386,7 +389,7 @@ export default function TaskTable() {
         (item) => item.processing === 'isPlay'
       );
 
-      if (playTask[0].typeTrav !== 'Empty Type') {
+      if (playTask[0].typeTrav !== 'Empty Type' || allTaskType.length > 0) {
         const taskRef = allTaskType.filter(
           (task) => task.name === playTask[0].typeTrav
         );
