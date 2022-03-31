@@ -389,7 +389,7 @@ export default function TaskTable() {
         (item) => item.processing === 'isPlay'
       );
 
-      if (playTask[0].typeTrav !== 'Empty Type' || allTaskType !== undefined) {
+      if (playTask[0].typeTrav !== 'Empty Type' && allTaskType !== undefined) {
         const taskRef = allTaskType.filter(
           (task) => task.name === playTask[0].typeTrav
         );
