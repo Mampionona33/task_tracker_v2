@@ -122,7 +122,7 @@ const CurrentTaskProductivity = () => {
   }, [reelProd]);
 
   // save productivity on value change
-  const onProdChange = () => {
+  const onProdChange = () => {  
     if (currentTask.length > 0 && productivity) {
       updateProd;
     }

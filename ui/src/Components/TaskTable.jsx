@@ -55,21 +55,28 @@ export default function TaskTable() {
       event.row.elapstedTime;
 
     if (event.row.processing === 'isOff') {
+      // console.log(elapstedTime);
+      // console.log(prevTaskElapstedTime[0]);
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
           updateElastedTime(
             prevTaskId[0],
-            elapstedTime,
+            prevTaskElapstedTime[0],
             fichesUpdate,
             erroUpDate
           )
         )
+        .then(
+          updateProductivity(
+            prevTaskId[0],
+            fichesUpdate,
+            erroUpDate,
+            productivity
+          )
+        )
         .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-        .then(
-          updateProductivity(currentId, fichesUpdate, erroUpDate, productivity)
-        )
         .then(() => {
           if (event.row.processing === 'isPlay') {
             return;
@@ -126,6 +133,11 @@ export default function TaskTable() {
   const prevTaskId = prevTask.map((task) => {
     return task.id;
   });
+
+  const prevTaskElapstedTime = prevTask.map((task) => {
+    return task.elapstedTime;
+  });
+
   const prevTaskProd = prevTask.map((task) => {
     return task.productivity;
   });
@@ -400,6 +412,7 @@ export default function TaskTable() {
           (task) => task.name === playTask[0].typeTrav
         );
         const prodGoal = taskRef[0].objectif;
+
         let elaps_inc = Math.round(
           (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) / 1000 +
             playTask[0].elapstedTime
@@ -407,11 +420,10 @@ export default function TaskTable() {
         refProd.current = 0;
         refProd.current = setInterval(() => {
           elaps_inc++;
-          setProductivity((prev) =>
-            Math.round(
-              (playTask[0].nbAft / elaps_inc / (prodGoal / 3600)) * 100
-            )
-          );
+          const returnGoal = prodGoal / 3600;
+          const return_ = playTask[0].nbAft / elaps_inc;
+          const prod = Math.round((return_ / returnGoal) * 100);
+          setProductivity((prev) => prod);
         }, 1000);
         return () => {
           clearInterval(refProd.current);
