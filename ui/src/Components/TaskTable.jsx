@@ -34,6 +34,126 @@ export default function TaskTable() {
   const [elapstedTime, setElapstedTime] = useState(0);
   const [productivity, setProductivity] = useState(0);
 
+  // execute mutation fichesUpdate with useMutation
+  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
+    refetchQueries: [LOAD_DATA],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isUnsubmited' } } },
+    ],
+    refetchQueries: [
+      FILTRED_FICHE,
+      { variables: { input: { submiteState: 'isSubmited' } } },
+    ],
+    // to execute refetch
+    awaitRefetchQueries: true,
+  });
+  // function to execute on play button click
+  const handleClickPlay = async (param, event) => {
+    let currentId = event.id;
+    const elapstedTime =
+      (Date.parse(new Date()) - Date.parse(event.row.lastUpdate)) / 1000 +
+      event.row.elapstedTime;
+    if (event.row.processing === 'isOff') {
+      await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
+        .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
+        .then(
+          updateElastedTime(
+            prevTaskId[0],
+            elapstedTime,
+            fichesUpdate,
+            erroUpDate
+          )
+        )
+        .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(() => {
+          if (event.row.processing === 'isPlay') {
+            return;
+          }
+          if (event.row.processing === 'isOff') {
+            window.location.href = '#/dashboard';
+          }
+        });
+    }
+    if (event.row.processing === 'isPlay') {
+      await setProcessToPause(event.id, fichesUpdate, erroUpDate)
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(
+          updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
+        );
+    }
+    if (event.row.processing === 'isPause') {
+      await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
+        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then((window.location.href = '#/dashboard'));
+    }
+  };
+  // function to execute on click edit buton
+  const [taskIdToEdit, setTaskIdToEdit] = useState(0);
+  const [selectedRowData, setSelectedRowData] = useState([]);
+  const handleClickEdit = async (param, event) => {
+    setTaskIdToEdit(event.id);
+    setSelectedRowData(event.row);
+    setDialogEditOpen(true);
+  };
+  // function to execute to close DialogEditTask
+  const handleClickDialogEditClose = () => {
+    setDialogEditOpen(false);
+  };
+  // fetching datas
+  const dataUnsubmited = loadUnsubmitedTask();
+  let taskPlay = [];
+  let taskPause = [];
+  let prevTask = [];
+  const allTask = loadUnsubmitedTask();
+  if (allTask.length > 0) {
+    taskPlay = allTask.filter((task) => task.processing === 'isPlay');
+    taskPause = allTask.filter((task) => task.processing === 'isPause');
+  }
+  if (taskPlay.length > 0) {
+    prevTask = taskPlay;
+  }
+  if (taskPause.length > 0) {
+    prevTask = taskPause;
+  }
+  const prevTaskId = prevTask.map((task) => {
+    return task.id;
+  });
+  const prevTaskProd = prevTask.map((task) => {
+    return task.productivity;
+  });
+
+  // function to execut in useEffect to increment timer every seconds
+  const timerIncrement = (elaps, lastUpdate) => {
+    setElapstedTime((prev) =>
+      Math.round(
+        (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
+      )
+    );
+  };
+
+  // cleaning useEffect
+  const [didMount, setDidMount] = useState(false);
+  useEffect(() => {
+    setDidMount(true);
+    return () => setDidMount(false);
+  }, []);
+
+  // initialisation refs
+  const refTimer = useRef(null);
+  const refProd = useRef(null);
+
+  // load all task type
+  const allTaskType = fetchTaskType();
+
+  // get task with processing isPlay
+  const taskProcessIsPlay = loadProcessingPlay();
+  const allTaskData = allTask.map((item) => item);
+
+  // initialise rows
+  const rows = [];
+  // Initialize columns
   const columns = [
     {
       field: 'id',
@@ -251,126 +371,6 @@ export default function TaskTable() {
     },
   ];
 
-  // execute mutation fichesUpdate with useMutation
-  const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
-    refetchQueries: [LOAD_DATA],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isUnsubmited' } } },
-    ],
-    refetchQueries: [
-      FILTRED_FICHE,
-      { variables: { input: { submiteState: 'isSubmited' } } },
-    ],
-    // to execute refetch
-    awaitRefetchQueries: true,
-  });
-  // function to execute on play button click
-  const handleClickPlay = async (param, event) => {
-    let currentId = event.id;
-    const elapstedTime =
-      (Date.parse(new Date()) - Date.parse(param.lastUpdate)) / 1000 +
-      param.elapstedTime;
-    if (event.row.processing === 'isOff') {
-      await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
-        .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
-        .then(
-          updateElastedTime(
-            prevTaskId[0],
-            elapstedTime,
-            fichesUpdate,
-            erroUpDate
-          )
-        )
-        .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
-        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-        .then(() => {
-          if (event.row.processing === 'isPlay') {
-            return;
-          }
-          if (event.row.processing === 'isOff') {
-            window.location.href = '#/dashboard';
-          }
-        });
-    }
-    if (event.row.processing === 'isPlay') {
-      await setProcessToPause(event.id, fichesUpdate, erroUpDate).then(
-        modifyLastUpdate(currentId, fichesUpdate, erroUpDate)
-      );
-    }
-    if (event.row.processing === 'isPause') {
-      await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
-        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
-        .then(
-          updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
-        )
-        .then((window.location.href = '#/dashboard'));
-    }
-  };
-  // function to execute on click edit buton
-  const [taskIdToEdit, setTaskIdToEdit] = useState(0);
-  const [selectedRowData, setSelectedRowData] = useState([]);
-  const handleClickEdit = async (param, event) => {
-    setTaskIdToEdit(event.id);
-    setSelectedRowData(event.row);
-    setDialogEditOpen(true);
-  };
-  // function to execute to close DialogEditTask
-  const handleClickDialogEditClose = () => {
-    setDialogEditOpen(false);
-  };
-  // fetching datas
-  const dataUnsubmited = loadUnsubmitedTask();
-  let taskPlay = [];
-  let taskPause = [];
-  let prevTask = [];
-  const allTask = loadUnsubmitedTask();
-  if (allTask.length > 0) {
-    taskPlay = allTask.filter((task) => task.processing === 'isPlay');
-    taskPause = allTask.filter((task) => task.processing === 'isPause');
-  }
-  if (taskPlay.length > 0) {
-    prevTask = taskPlay;
-  }
-  if (taskPause.length > 0) {
-    prevTask = taskPause;
-  }
-  const prevTaskId = prevTask.map((task) => {
-    return task.id;
-  });
-  const prevTaskProd = prevTask.map((task) => {
-    return task.productivity;
-  });
-
-  // function to execut in useEffect to increment timer every seconds
-  const timerIncrement = (elaps, lastUpdate) => {
-    setElapstedTime((prev) =>
-      Math.round(
-        (Date.parse(new Date()) - Date.parse(lastUpdate)) / 1000 + elaps
-      )
-    );
-  };
-
-  // cleaning useEffect
-  const [didMount, setDidMount] = useState(false);
-  useEffect(() => {
-    setDidMount(true);
-    return () => setDidMount(false);
-  }, []);
-
-  // initialisation refs
-  const refTimer = useRef(null);
-  const refProd = useRef(null);
-
-  // load all task type
-  const allTaskType = fetchTaskType();
-
-  // initialise rows
-  const rows = [];
-  // get task with processing isPlay
-  const taskProcessIsPlay = loadProcessingPlay();
-  const allTaskData = allTask.map((item) => item);
-
   useEffect(() => {
     if (taskProcessIsPlay.length > 0) {
       // calcul incrementation timer
@@ -389,7 +389,7 @@ export default function TaskTable() {
         (item) => item.processing === 'isPlay'
       );
 
-      if (playTask[0].typeTrav !== 'Empty Type' || allTaskType.length > 0) {
+      if (playTask[0].typeTrav !== 'Empty Type' || allTaskType !== undefined) {
         const taskRef = allTaskType.filter(
           (task) => task.name === playTask[0].typeTrav
         );
