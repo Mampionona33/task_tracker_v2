@@ -283,9 +283,10 @@ export default function TaskTable() {
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
+    console.log(param);
     const elapstedTime =
-      (Date.parse(new Date()) - Date.parse(arrayRows.lastUpdate)) / 1000 +
-      arrayRows.elapstedTime;
+      (Date.parse(new Date()) - Date.parse(param.lastUpdate)) / 1000 +
+      param.elapstedTime;
     if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
@@ -333,25 +334,26 @@ export default function TaskTable() {
   };
   // fetching data
   // const dataUnsubmited = loadUnsubmitedTask();
-  // let taskPlay = [];
-  // let taskPause = [];
-  // let prevTask = [];
-  // if (list.length > 0) {
-  //   taskPlay = list.filter((task) => task.processing === 'isPlay');
-  //   taskPause = list.filter((task) => task.processing === 'isPause');
-  // }
-  // if (taskPlay.length > 0) {
-  //   prevTask = taskPlay;
-  // }
-  // if (taskPause.length > 0) {
-  //   prevTask = taskPause;
-  // }
-  // const prevTaskId = prevTask.map((task) => {
-  //   return task.id;
-  // });
-  // const prevTaskProd = prevTask.map((task) => {
-  //   return task.productivity;
-  // });
+  let taskPlay = [];
+  let taskPause = [];
+  let prevTask = [];
+  const allTask = loadUnsubmitedTask();
+  if (allTask.length > 0) {
+    taskPlay = allTask.filter((task) => task.processing === 'isPlay');
+    taskPause = allTask.filter((task) => task.processing === 'isPause');
+  }
+  if (taskPlay.length > 0) {
+    prevTask = taskPlay;
+  }
+  if (taskPause.length > 0) {
+    prevTask = taskPause;
+  }
+  const prevTaskId = prevTask.map((task) => {
+    return task.id;
+  });
+  const prevTaskProd = prevTask.map((task) => {
+    return task.productivity;
+  });
 
   // function to execut in useEffect to increment timer every seconds
   const timerIncrement = (elaps, lastUpdate) => {
@@ -534,7 +536,6 @@ export default function TaskTable() {
   // get task with processing isPlay
   const taskProcessIsPlay = loadProcessingPlay();
   const taskProcessIsOff = loadProcessingOff();
-  const allTask = loadUnsubmitedTask();
 
   const test = allTask.map((item) => item);
 
@@ -550,6 +551,10 @@ export default function TaskTable() {
           ),
         1000
       );
+      return () => {
+        clearInterval(refTimer.current);
+        refTimer.current = 0;
+      };
     }
   }, [taskProcessIsPlay]);
 
