@@ -22,8 +22,6 @@ import {
   updateProductivity,
   fetchTaskType,
   loadProcessingPlay,
-  loadProcessingOff,
-  loadAllData,
 } from './dataHandler';
 
 export default function TaskTable() {
@@ -48,20 +46,30 @@ export default function TaskTable() {
     // to execute refetch
     awaitRefetchQueries: true,
   });
+
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(event.row.lastUpdate)) / 1000 +
       event.row.elapstedTime;
+
     if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
-          updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
+          updateElastedTime(
+            prevTaskId[0],
+            elapstedTime,
+            fichesUpdate,
+            erroUpDate
+          )
         )
         .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(
+          updateProductivity(currentId, fichesUpdate, erroUpDate, productivity)
+        )
         .then(() => {
           if (event.row.processing === 'isPlay') {
             return;
@@ -84,6 +92,7 @@ export default function TaskTable() {
         .then((window.location.href = '#/dashboard'));
     }
   };
+
   // function to execute on click edit buton
   const [taskIdToEdit, setTaskIdToEdit] = useState(0);
   const [selectedRowData, setSelectedRowData] = useState([]);
@@ -92,10 +101,12 @@ export default function TaskTable() {
     setSelectedRowData(event.row);
     setDialogEditOpen(true);
   };
+
   // function to execute to close DialogEditTask
   const handleClickDialogEditClose = () => {
     setDialogEditOpen(false);
   };
+
   // fetching datas
   const dataUnsubmited = loadUnsubmitedTask();
   let taskPlay = [];
