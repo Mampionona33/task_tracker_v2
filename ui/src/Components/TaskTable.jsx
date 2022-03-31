@@ -268,7 +268,6 @@ export default function TaskTable() {
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
     let currentId = event.id;
-    console.log(param);
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(param.lastUpdate)) / 1000 +
       param.elapstedTime;
