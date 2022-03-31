@@ -58,12 +58,7 @@ export default function TaskTable() {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
-          updateElastedTime(
-            prevTaskId[0],
-            elapstedTime,
-            fichesUpdate,
-            erroUpDate
-          )
+          updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
         )
         .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
