@@ -162,7 +162,7 @@ export default function DialogAddNewTask({ open, onClose }) {
   async function handleSave(e) {
     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
       .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-      .then(addFiche());
+      .then(addFiche()).then((window.location.href = '#/dashboard'));
   }
 
   const listTaches = typeTache.map((item) => item.name);

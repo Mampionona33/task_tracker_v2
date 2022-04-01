@@ -254,46 +254,44 @@ export default function TaskTable() {
       flex: 1,
       minWidth: 90,
       renderCell: (param) => {
-        // return <Typography variant='body2'>{param.value} %</Typography>;
-        if (param.value >= 100) {
+        
+        let prodRender = param.value;
+        if(param.row.processing === 'isPlay'){
+          prodRender = productivity;
+        }
+
+        if (prodRender >= 100) {
           return (
             <Paper sx={{ backgroundColor: 'success.light', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-                {param.row.processing === 'isPlay'
-                  ? `${productivity}%`
-                  : `${param.value}%`}
+              {`${prodRender}%`}              
               </Typography>
             </Paper>
           );
         }
-        if ((param.value >= 95 && param.value < 100) ) {
+        if ((prodRender >= 95 && prodRender < 100) ) {
           return (
             <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-                {param.row.processing === 'isPlay'
-                  ? `${productivity}%`
-                  : `${param.value}%`}
+              {`${prodRender}%`}                
               </Typography>
             </Paper>
           );
         }
-        if (param.value < 95 ) {
-          console.log(productivity)
+        if (prodRender < 95 ) {
           return (
             <Paper sx={{ backgroundColor: 'error.main', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-                {param.row.processing === 'isPlay'
-                  ? `${productivity}%`
-                  : `${param.value}%`}
+              {`${prodRender}%`}                
               </Typography>
             </Paper>
           );

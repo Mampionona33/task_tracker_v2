@@ -30,7 +30,7 @@ async function resetMongo() {
       },
       {
         _id: 'typeTaches',
-        current: 48,
+        current: 49,
       },
       {
         _id: 'statCom',
@@ -462,6 +462,11 @@ async function resetMongo() {
         id: 47,
         name: 'AUTOVALIDMAJFULLPrio',
         objectif: 15,
+      },
+      {
+        id: 48,
+        name: 'Empty Type',
+        objectif: 0,
       },
     ];
     const initialStatCom = [
