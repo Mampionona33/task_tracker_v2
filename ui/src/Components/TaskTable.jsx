@@ -255,7 +255,7 @@ export default function TaskTable() {
       minWidth: 90,
       renderCell: (param) => {
         // return <Typography variant='body2'>{param.value} %</Typography>;
-        if (param.value >= 100 || productivity >= 100) {
+        if (param.value >= 100) {
           return (
             <Paper sx={{ backgroundColor: 'success.light', padding: 0 }}>
               <Typography
@@ -269,7 +269,7 @@ export default function TaskTable() {
             </Paper>
           );
         }
-        if (param.value >= 95 && param.value < 100 || productivity < 100 && productivity >= 95) {
+        if ((param.value >= 95 && param.value < 100) ) {
           return (
             <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
               <Typography
@@ -283,7 +283,8 @@ export default function TaskTable() {
             </Paper>
           );
         }
-        if (param.value < 95 || productivity < 95) {
+        if (param.value < 95 ) {
+          console.log(productivity)
           return (
             <Paper sx={{ backgroundColor: 'error.main', padding: 0 }}>
               <Typography
