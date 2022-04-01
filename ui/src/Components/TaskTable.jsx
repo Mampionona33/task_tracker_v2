@@ -54,9 +54,7 @@ export default function TaskTable() {
       (Date.parse(new Date()) - Date.parse(event.row.lastUpdate)) / 1000 +
       event.row.elapstedTime;
 
-    if (event.row.processing === 'isOff') {
-      // console.log(elapstedTime);
-      // console.log(prevTaskElapstedTime[0]);
+    if (event.row.processing === 'isOff') {      
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
@@ -87,6 +85,8 @@ export default function TaskTable() {
         });
     }
     if (event.row.processing === 'isPlay') {
+      clearInterval(refProd.current);
+      clearInterval(refTimer.current);
       await setProcessToPause(event.id, fichesUpdate, erroUpDate)
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
         .then(
