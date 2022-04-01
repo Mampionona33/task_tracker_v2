@@ -193,8 +193,6 @@ const DialogEditTask = (props) => {
 
   // fucntion to calculate productivity
   const calculProd = (taskGoal, elapstedTime, numberAfter) => {
-    console.log(taskGoal);
-    console.log(elapstedTime);
     const goalPerHours = taskGoal / 3600;
     const actualProd = numberAfter / elapstedTime;
     const prod = Math.round((actualProd / goalPerHours) * 100);

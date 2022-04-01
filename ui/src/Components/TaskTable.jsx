@@ -49,12 +49,12 @@ export default function TaskTable() {
 
   // function to execute on play button click
   const handleClickPlay = async (param, event) => {
-    let currentId = event.id;
+    const currentId = event.id;
     const elapstedTime =
       (Date.parse(new Date()) - Date.parse(event.row.lastUpdate)) / 1000 +
       event.row.elapstedTime;
 
-    if (event.row.processing === 'isOff') {      
+    if (event.row.processing === 'isOff') {
       await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(
@@ -98,6 +98,12 @@ export default function TaskTable() {
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
         .then((window.location.href = '#/dashboard'));
     }
+  };
+
+  // function to execute on click in strash icone
+  const handleClickDelete = async (param, event) => {
+    const currentId = event.id;
+    console.log(currentId);
   };
 
   // function to execute on click edit buton
@@ -254,9 +260,8 @@ export default function TaskTable() {
       flex: 1,
       minWidth: 90,
       renderCell: (param) => {
-        
         let prodRender = param.value;
-        if(param.row.processing === 'isPlay'){
+        if (param.row.processing === 'isPlay') {
           prodRender = productivity;
         }
 
@@ -267,31 +272,31 @@ export default function TaskTable() {
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-              {`${prodRender}%`}              
+                {`${prodRender}%`}
               </Typography>
             </Paper>
           );
         }
-        if ((prodRender >= 95 && prodRender < 100) ) {
+        if (prodRender >= 95 && prodRender < 100) {
           return (
             <Paper sx={{ backgroundColor: 'warning.light', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-              {`${prodRender}%`}                
+                {`${prodRender}%`}
               </Typography>
             </Paper>
           );
         }
-        if (prodRender < 95 ) {
+        if (prodRender < 95) {
           return (
             <Paper sx={{ backgroundColor: 'error.main', padding: 0 }}>
               <Typography
                 variant='body2'
                 sx={{ color: 'primary.contrastText', margin: '0 0.2rem' }}
               >
-              {`${prodRender}%`}                
+                {`${prodRender}%`}
               </Typography>
             </Paper>
           );
@@ -380,6 +385,7 @@ export default function TaskTable() {
             color='primary'
             component='span'
             arial-label='Edit button'
+            onClick={(event) => handleClickDelete(event, param)}
           >
             <DeleteIcon />
           </IconButton>
