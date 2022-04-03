@@ -169,7 +169,6 @@ function loadProcessingOff() {
   return taskOff;
 }
 
-
 // Fetching unsubmited task
 function loadUnsubmitedTask() {
   const [outpoutUnsubmited, setOutpoutUnsubmited] = useState([]);
@@ -751,6 +750,24 @@ const submitecurrentTask = async (taskId, fichesUpdate, errorUpDate) => {
   return taskId;
 };
 
+// Set the current task submite state to isDelete
+const setSubmitStateToDelete = async (taskId, fichesUpdate, errorUpDate) => {
+  fichesUpdate({
+    variables: {
+      filter: {
+        id: taskId,
+      },
+      update: {
+        submiteState: 'isDelete',
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return taskId;
+};
+
 const dateFormater = (value) => {
   let day = Math.floor(value / 86400)
     .toString()
@@ -809,4 +826,5 @@ export {
   updateProductivity,
   fetchProd,
   updateLastUpdate,
+  setSubmitStateToDelete,
 };

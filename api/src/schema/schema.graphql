@@ -12,6 +12,7 @@ enum ProcessingType {
 enum SubmitType {
   isSubmited
   isUnsubmited
+  isDelete
 }
 #Fiches ---------
 type Fiches {

@@ -10,6 +10,7 @@ import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries, useMutation } from '@apollo/client';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import DialogEditTask from './DialogEditTask.jsx';
+import DialogConfirmDeleteTask from './DialogConfirmDeleteTask';
 
 import {
   loadUnsubmitedTask,
@@ -28,6 +29,7 @@ export default function TaskTable() {
   const [sortModel, setSortModel] = useState([
     { field: 'lastUpdate', sort: 'desc' },
   ]);
+  const [dialogConfirmDileteOpen, setDialogConfirmDileteOpen] = useState(false);
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
   const [elapstedTime, setElapstedTime] = useState(0);
   const [productivity, setProductivity] = useState(0);
