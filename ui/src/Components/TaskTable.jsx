@@ -103,14 +103,16 @@ export default function TaskTable() {
   };
 
   // function to execute on click in strash icone
+  const [taskIdToEdit, setTaskIdToEdit] = useState(0);
+  const [selectedRowData, setSelectedRowData] = useState([]);
   const handleClickDelete = async (param, event) => {
     const currentId = event.id;
+    setSelectedRowData(event.row);
+    setDialogConfirmDileteOpen(true);
     console.log(currentId);
   };
 
   // function to execute on click edit buton
-  const [taskIdToEdit, setTaskIdToEdit] = useState(0);
-  const [selectedRowData, setSelectedRowData] = useState([]);
   const handleClickEdit = async (param, event) => {
     setTaskIdToEdit(event.id);
     setSelectedRowData(event.row);
@@ -120,6 +122,11 @@ export default function TaskTable() {
   // function to execute to close DialogEditTask
   const handleClickDialogEditClose = () => {
     setDialogEditOpen(false);
+  };
+
+  // Function to execute to close DialogConfirmDeleteTask
+  const handleClickDialogConfirmDeleteTaskClose = () => {
+    setDialogConfirmDileteOpen(falses);
   };
 
   // fetching datas
@@ -526,6 +533,10 @@ export default function TaskTable() {
           selectedRowData={selectedRowData}
           onClose={handleClickDialogEditClose}
         />
+      </React.Fragment>
+      {/* Dialog Delete Task open on click strash button */}
+      <React.Fragment>
+        <DialogConfirmDeleteTask open={dialogConfirmDileteOpen} />
       </React.Fragment>
     </Box>
   );

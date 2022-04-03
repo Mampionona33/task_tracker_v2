@@ -7,7 +7,7 @@ import { Divider, Typography, Button } from '@mui/material';
 
 const DialogConfirmDeleteTask = (props) => {
   return (
-    <Dialog>
+    <Dialog open={props.open}>
       <DialogTitle id='alert-dialog-delet-task'>Delete task</DialogTitle>
       <Divider />
       <DialogContent>
