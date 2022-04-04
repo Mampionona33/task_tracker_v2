@@ -109,7 +109,6 @@ export default function TaskTable() {
     const currentId = event.id;
     setSelectedRowData(event.row);
     setDialogConfirmDileteOpen(true);
-    console.log(currentId);
   };
 
   // function to execute on click edit buton
@@ -539,6 +538,7 @@ export default function TaskTable() {
         <DialogConfirmDeleteTask
           open={dialogConfirmDileteOpen}
           onClose={handleClickDialogConfirmDeleteTaskClose}
+          selectedRowData={selectedRowData}
         />
       </React.Fragment>
     </Box>
