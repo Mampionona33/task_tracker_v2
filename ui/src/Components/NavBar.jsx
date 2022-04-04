@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { useLocation } from 'react-router-dom';
+import { Paper } from '@mui/material';
 
 import {
   setPrevProcessIsOff,
@@ -89,8 +90,7 @@ export default function Navbar() {
     // listen to the location change
     if (location.pathname.includes('tasklist')) {
       setWindTitle((prev) => 'Task List');
-    }
-    if (location.pathname.includes('dashboard')) {
+    } else if (location.pathname.includes('dashboard')) {
       setWindTitle((prev) => 'Dashboard');
     }
   }, [userData, location]);
@@ -156,8 +156,11 @@ export default function Navbar() {
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 Task Tracker
               </Typography>
-
-              <Typography>{windTitle}</Typography>
+              <Box sx={{ flexGrow: 1 }}>
+                <Paper sx={{ width: '50%', textAlign: 'center' }}>
+                  <Typography>{windTitle}</Typography>
+                </Paper>
+              </Box>
 
               <Button
                 variant='outlined'
