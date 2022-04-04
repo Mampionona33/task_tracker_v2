@@ -477,9 +477,7 @@ export default function TaskTable() {
           backgroundColor: '#28B463',
           color: '#fff',
         }}
-      >
-        <Typography variant='h4'>Tasks List</Typography>
-      </Card>
+      ></Card>
       <Box sx={{ width: '100%', height: '100%' }}>
         <DataGrid
           columns={columns}
