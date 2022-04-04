@@ -575,8 +575,12 @@ const DialogEditTask = (props) => {
       </DialogContent>
       {/* Button */}
       <DialogActions>
-        <Button onClick={handleClickSave}>Save</Button>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button variant='outlined' onClick={handleClickSave}>
+          Save
+        </Button>
+        <Button variant='outlined' onClick={onClose}>
+          Cancel
+        </Button>
       </DialogActions>
     </Dialog>
   );
