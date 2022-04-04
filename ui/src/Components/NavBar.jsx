@@ -16,6 +16,7 @@ import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { useLocation } from 'react-router-dom';
 
 import {
   setPrevProcessIsOff,
@@ -67,6 +68,10 @@ export default function Navbar() {
   const taskPlay = userData.filter((task) => task.processing === 'isPlay');
   const taskPause = userData.filter((task) => task.processing === 'isPause');
 
+  // get current url
+  const location = useLocation();
+  const [windTitle, setWindTitle] = useState('');
+
   useEffect(() => {
     if (userData.length > 0) {
       if (taskPlay.length > 0) {
@@ -80,7 +85,15 @@ export default function Navbar() {
         setLastUpdate((prev) => taskPause[0].lastUpdate);
       }
     }
-  }, [userData]);
+
+    // listen to the location change
+    if (location.pathname.includes('tasklist')) {
+      setWindTitle((prev) => 'Task List');
+    }
+    if (location.pathname.includes('dashboard')) {
+      setWindTitle((prev) => 'Dashboard');
+    }
+  }, [userData, location]);
 
   // execute mutation fichesUpdate with useMutation
   const [fichesUpdate, { error: erroUpDate }] = useMutation(UPDATE_FICHE, {
@@ -143,6 +156,8 @@ export default function Navbar() {
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 Task Tracker
               </Typography>
+
+              <Typography>{windTitle}</Typography>
 
               <Button
                 variant='outlined'
