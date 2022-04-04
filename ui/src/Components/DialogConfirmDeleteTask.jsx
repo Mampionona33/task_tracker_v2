@@ -25,7 +25,6 @@ const DialogConfirmDeleteTask = (props) => {
 
   // function to execute to set submiteState to isDelete on click in Agree button
   const confirmDelete = async () => {
-    console.log(props.selectedRowData.id);
     await setSubmitStateToDelete(
       props.selectedRowData.id,
       fichesUpdate,
