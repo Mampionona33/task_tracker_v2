@@ -126,7 +126,7 @@ export default function TaskTable() {
 
   // Function to execute to close DialogConfirmDeleteTask
   const handleClickDialogConfirmDeleteTaskClose = () => {
-    setDialogConfirmDileteOpen(falses);
+    setDialogConfirmDileteOpen(false);
   };
 
   // fetching datas
@@ -536,7 +536,10 @@ export default function TaskTable() {
       </React.Fragment>
       {/* Dialog Delete Task open on click strash button */}
       <React.Fragment>
-        <DialogConfirmDeleteTask open={dialogConfirmDileteOpen} />
+        <DialogConfirmDeleteTask
+          open={dialogConfirmDileteOpen}
+          onClose={handleClickDialogConfirmDeleteTaskClose}
+        />
       </React.Fragment>
     </Box>
   );
