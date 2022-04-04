@@ -57,8 +57,7 @@ export default function TaskTable() {
       event.row.elapstedTime;
 
     if (event.row.processing === 'isOff') {
-      await modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate)
-        .then(setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate))
+      await setPrevProcessIsOff(prevTaskId[0], fichesUpdate, erroUpDate)
         .then(
           updateElastedTime(
             prevTaskId[0],
@@ -76,6 +75,7 @@ export default function TaskTable() {
           )
         )
         .then(setProcessToPlay(currentId, fichesUpdate, erroUpDate))
+        .then(modifyLastUpdate(prevTaskId[0], fichesUpdate, erroUpDate))
         .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
         .then(() => {
           if (event.row.processing === 'isPlay') {
