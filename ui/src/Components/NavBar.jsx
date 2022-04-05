@@ -92,6 +92,8 @@ export default function Navbar() {
       setWindTitle((prev) => 'Task List');
     } else if (location.pathname.includes('dashboard')) {
       setWindTitle((prev) => 'Dashboard');
+    } else if (location.pathname.includes('submitedList')) {
+      setWindTitle((prev) => 'Submited Task List');
     } else {
       setWindTitle((prev) => '');
     }
