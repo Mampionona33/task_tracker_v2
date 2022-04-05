@@ -177,9 +177,7 @@ export default function SubmitedListe() {
           backgroundColor: '#FDAD0C',
           color: '#fff',
         }}
-      >
-        <Typography variant='h4'>Submited Tasks</Typography>
-      </Card>
+      ></Card>
       <DataGrid
         columns={columns}
         pageSize={7}
