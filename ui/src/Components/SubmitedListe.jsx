@@ -21,6 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 import { useQuery, gql, refetchQueries } from '@apollo/client';
+import { loadSubmitedTask } from './dataHandler';
 
 const columns = [
   {
@@ -85,39 +86,11 @@ const columns = [
     ),
   },
   {
-    field: 'actions',
-    headerName: 'Action',
+    field: 'submitDate',
+    headerName: 'Submite Date',
     align: 'center',
-    type: 'link',
-    justifyContent: 'space-between',
-    flex: 1,
-    headerAlign: 'center',
-    flexWrap: 'wrap',
-    headerClassName: 'super-app-theme--header',
-    renderCell: (params) => (
-      <React.Fragment>
-        <IconButton
-          color='primary'
-          component='span'
-          arial-label='Pause button'
-          onClick={handleClickPause}
-        >
-          <PlayCircleIcon />
-        </IconButton>
-        <IconButton color='primary' component='span' arial-label='Pause button'>
-          <EditIcon />
-        </IconButton>
-        <IconButton color='primary' component='span' arial-label='Pause button'>
-          <DeleteIcon />
-        </IconButton>
-      </React.Fragment>
-    ),
   },
 ];
-
-const handleClickPause = () => {
-  window.location.href = '#/dashboard';
-};
 
 // --------------------------------------
 export default function SubmitedListe() {
@@ -126,43 +99,17 @@ export default function SubmitedListe() {
   ]);
   const [list, setList] = useState([]);
 
-  // Loading unsubmited fiches
-  const {
-    error: errorUnsubmited,
-    loading: loadingUnsumbited,
-    data: dataUnsubmited,
-  } = useQuery(FILTRED_FICHE, {
-    variables: {
-      input: {
-        submiteState: 'isSubmited',
-      },
-    },
-  });
+  // load all submited task
+  const allSubmitedTask = loadSubmitedTask();
 
   // loading data on component mount
   useEffect(() => {
-    if (dataUnsubmited) {
-      setList(dataUnsubmited.searchFiches);
+    if (allSubmitedTask) {
+      setList((prev) => [...prev, allSubmitedTask]);
     }
-  });
-
-  let rows = [];
-  let arrayRows = {};
-
-  const listRows = list.map((item) => {
-    arrayRows = {
-      id: item.id,
-      numFiche: item.numFiche,
-      typeTrav: item.typeTrav,
-      statusCom: item.statusCom,
-      lastUpdate: item.lastUpdate,
-      state: item.state,
-      link: item.url,
-    };
-
-    rows.push(arrayRows);
-  });
-
+  }, [allSubmitedTask]);
+  const rows = [];
+  console.log(list);
   return (
     <Box
       sx={{
