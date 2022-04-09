@@ -39,7 +39,7 @@ const columns = [
     headerClassName: 'super-app-theme--header',
   },
   {
-    field: 'statusCom',
+    field: 'statuCom',
     headerName: 'Status Com',
     flex: 1,
     headerAlign: 'center',
@@ -52,16 +52,7 @@ const columns = [
     headerAlign: 'center',
     headerClassName: 'super-app-theme--header',
   },
-  {
-    field: 'lastUpdate',
-    headerName: 'Last Update',
-    flex: 1,
-    type: 'date',
-    align: 'center',
-    headerAlign: 'center',
-    headerClassName: 'super-app-theme--header',
-    hide: 'true',
-  },
+
   {
     field: 'productivity',
     headerName: 'Productivity',
@@ -72,7 +63,7 @@ const columns = [
     headerClassName: 'super-app-theme--header',
   },
   {
-    field: 'link',
+    field: 'url',
     headerName: 'Link',
     type: 'link',
     align: 'center',
@@ -86,9 +77,20 @@ const columns = [
     ),
   },
   {
-    field: 'submitDate',
-    headerName: 'Submite Date',
+    field: 'lastUpdate',
+    headerName: 'Submit Date',
+    flex: 1,
+    type: 'date',
     align: 'center',
+    headerAlign: 'center',
+    headerClassName: 'super-app-theme--header',
+    renderCell: (params) => {
+      return (
+        <Typography>
+          {new Date(params.value).toString().slice(0, 15)}
+        </Typography>
+      );
+    },
   },
 ];
 
@@ -105,11 +107,15 @@ export default function SubmitedListe() {
   // loading data on component mount
   useEffect(() => {
     if (allSubmitedTask) {
-      setList((prev) => [...prev, allSubmitedTask]);
+      setList((prev) => allSubmitedTask);
     }
   }, [allSubmitedTask]);
+
   const rows = [];
-  console.log(list);
+  if (list.length > 0) {
+    rows.push(list);
+  }
+  console.log(rows[0]);
   return (
     <Box
       sx={{
@@ -128,8 +134,9 @@ export default function SubmitedListe() {
       <DataGrid
         columns={columns}
         pageSize={7}
-        rows={rows}
         pagination
+        rowsPerPageOptions={[7]}
+        rows={rows.length > 0 ? rows[0] : []}
         sx={{
           maxHeight: '80vh',
           margin: '1rem 5rem',
