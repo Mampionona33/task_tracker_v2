@@ -420,29 +420,36 @@ export default function TaskTable() {
         (item) => item.processing === 'isPlay'
       );
 
-      if (playTask[0].typeTrav !== 'Empty Type' && allTaskType !== undefined) {
-        const taskRef = allTaskType.filter(
-          (task) => task.name === playTask[0].typeTrav
-        );
-        const prodGoal = taskRef[0].objectif;
+      if (playTask.length > 0) {
+        if (
+          playTask[0].typeTrav !== 'Empty Type' &&
+          allTaskType !== undefined
+        ) {
+          const taskRef = allTaskType.filter(
+            (task) => task.name === playTask[0].typeTrav
+          );
+          const prodGoal = taskRef[0].objectif;
 
-        let elaps_inc = Math.round(
-          (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) / 1000 +
-            playTask[0].elapstedTime
-        );
-        refProd.current = 0;
-        refProd.current = setInterval(() => {
-          elaps_inc++;
-          const returnGoal = prodGoal / 3600;
-          const return_ = playTask[0].nbAft / elaps_inc;
-          const prod = Math.round((return_ / returnGoal) * 100);
-          setProductivity((prev) => prod);
-        }, 1000);
-        return () => {
-          clearInterval(refProd.current);
+          let elaps_inc = Math.round(
+            (Date.parse(new Date()) - Date.parse(playTask[0].lastUpdate)) /
+              1000 +
+              playTask[0].elapstedTime
+          );
           refProd.current = 0;
-        };
+          refProd.current = setInterval(() => {
+            elaps_inc++;
+            const returnGoal = prodGoal / 3600;
+            const return_ = playTask[0].nbAft / elaps_inc;
+            const prod = Math.round((return_ / returnGoal) * 100);
+            setProductivity((prev) => prod);
+          }, 1000);
+          return () => {
+            clearInterval(refProd.current);
+            refProd.current = 0;
+          };
+        }
       }
+
       return () => {
         clearInterval(refTimer.current);
         refTimer.current = 0;
