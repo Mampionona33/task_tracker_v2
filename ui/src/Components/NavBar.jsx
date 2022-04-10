@@ -18,12 +18,14 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { useLocation } from 'react-router-dom';
 import { Paper } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import {
   setPrevProcessIsOff,
   userLoggedTasks,
   updateElastedTime,
 } from './dataHandler';
+
 // import components
 import DrawerListItem from './DrawerListItem.jsx';
 import DialogAddNewTask from './DialogAddNewTask.jsx';
@@ -267,7 +269,7 @@ export default function Navbar() {
               />
               <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<PlaylistAddCheckIcon />}
+                icon={<SettingsIcon />}
                 itemText='Settings'
                 href='#/settings'
               />
