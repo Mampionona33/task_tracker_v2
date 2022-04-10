@@ -6,6 +6,7 @@ import { Typography, Box } from '@mui/material';
 import TaskList from './Components/TaskList.jsx';
 import DashBoard from './Components/Dashboard.jsx';
 import SubmitedTable from './Components/SubmitedTable.jsx';
+import Settings from './Components/Setting.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NotFound = () => {
@@ -32,6 +33,7 @@ export default function Contents() {
       <Route path='/tasklist' element={<TaskList />} />
       <Route path='/dashboard' element={<DashBoard />} />
       <Route path='/submitedList' element={<SubmitedTable />} />
+      <Route path='/settings' element={<Settings />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   );

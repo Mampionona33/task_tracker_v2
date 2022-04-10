@@ -87,13 +87,15 @@ export default function Navbar() {
       }
     }
 
-    // listen to the location change
+    // listen to the location change to set windows title
     if (location.pathname.includes('tasklist')) {
       setWindTitle((prev) => 'Task List');
     } else if (location.pathname.includes('dashboard')) {
       setWindTitle((prev) => 'Dashboard');
     } else if (location.pathname.includes('submitedList')) {
       setWindTitle((prev) => 'Submited Task List');
+    } else if (location.pathname.includes('settings')) {
+      setWindTitle((prev) => 'Settings');
     } else {
       setWindTitle((prev) => '');
     }
@@ -262,6 +264,12 @@ export default function Navbar() {
                 icon={<PlaylistAddCheckIcon />}
                 itemText='Submited Task'
                 href='#/submitedList'
+              />
+              <DrawerListItem
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<PlaylistAddCheckIcon />}
+                itemText='Settings'
+                href='#/settings'
               />
             </List>
           </CustomDrawer>
