@@ -160,9 +160,13 @@ export default function Navbar() {
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 Task Tracker
               </Typography>
-              <Box sx={{ flexGrow: 1 }}>
-                <Paper sx={{ width: '50%', textAlign: 'center' }}>
-                  <Typography>{windTitle}</Typography>
+              <Box
+                display={'flex'}
+                justifyContent={'flex-start'}
+                sx={{ flexGrow: 1 }}
+              >
+                <Paper sx={{ textAlign: 'center', padding: '0 1rem 0 1rem ' }}>
+                  <Typography variant='h5'>{windTitle}</Typography>
                 </Paper>
               </Box>
 
