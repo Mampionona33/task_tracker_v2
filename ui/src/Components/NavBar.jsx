@@ -41,7 +41,13 @@ export default function Navbar() {
 `;
 
   // get the loged user
-  const { logout, user, isLoading } = useAuth0();
+  const { logout, user, isLoading, getIdTokenClaims } = useAuth0();
+
+  // get user role
+  const claim = getIdTokenClaims();
+  if (claim !== undefined) {
+    console.log(claim);
+  }
 
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
