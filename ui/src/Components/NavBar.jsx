@@ -43,11 +43,17 @@ export default function Navbar() {
   // get the loged user
   const { logout, user, isLoading, getIdTokenClaims } = useAuth0();
 
-  // get user role
+  // get user role google auth
   const claim = getIdTokenClaims();
-  if (claim !== undefined) {
-    console.log(claim);
-  }
+  const [userRole, setUserRole] = useState('');
+  useEffect(() => {
+    if (claim != undefined) {
+      claim.then((result) => {
+        // console.log(result['http://localhost:8000//roles'][0]);
+        setUserRole((prev) => result['http://localhost:8000//roles'][0]);
+      });
+    }
+  }, [claim]);
 
   // Gestion d'affichage de Drawer
   const [isOpen, setIsOpen] = useState(false);
