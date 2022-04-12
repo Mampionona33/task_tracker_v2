@@ -11,6 +11,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
+      style={{}}
       {...other}
     >
       {value === index && (
@@ -49,6 +50,8 @@ export default function SettingTabPanel(params) {
         bgcolor: 'background.paper',
         display: 'flex',
         height: 'calc(100vh - 48px)',
+        background:
+          'linear-gradient(55deg, rgba(112,128,144,1) 0%, rgba(192,192,192,1) 36%, rgba(192,192,192,1) 62%, rgba(112,128,144,1) 100%)',
       }}
     >
       <Tabs
@@ -57,7 +60,11 @@ export default function SettingTabPanel(params) {
         value={value}
         onChange={handleChange}
         aria-label='Vertical tabs example'
-        sx={{ borderRight: 1, borderColor: 'divider' }}
+        sx={{
+          borderRight: 1,
+          borderColor: 'divider',
+          backgroundColor: 'white',
+        }}
       >
         <Tab label='Item One' {...a11yProps(0)} />
         <Tab label='Item Two' {...a11yProps(1)} />
