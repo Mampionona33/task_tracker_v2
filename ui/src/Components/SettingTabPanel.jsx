@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Typography, Box, Button } from '@mui/material';
+import SettingManageTaskTypeTable from '../Components/SettingManageTaskTypeTable.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,7 +77,7 @@ export default function SettingTabPanel(params) {
         <Tab label='Item Seven' {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        <SettingManageTaskTypeTable />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
