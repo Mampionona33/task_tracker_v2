@@ -12,8 +12,6 @@ import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import DialogEditTask from './DialogEditTask.jsx';
 import DialogConfirmDeleteTask from './DialogConfirmDeleteTask';
 
-
-
 import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
@@ -479,14 +477,6 @@ export default function TaskTable() {
         },
       }}
     >
-      <Card
-        sx={{
-          justifyContent: 'center',
-          display: 'flex',
-          backgroundColor: '#28B463',
-          color: '#fff',
-        }}
-      ></Card>
       <Box sx={{ width: '100%', height: '100%' }}>
         <DataGrid
           columns={columns}
