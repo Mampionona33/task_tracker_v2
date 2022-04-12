@@ -279,12 +279,16 @@ export default function Navbar() {
                 itemText='Submited Task'
                 href='#/submitedList'
               />
-              <DrawerListItem
-                drawerOpen={(state) => setIsOpen(state)}
-                icon={<SettingsIcon />}
-                itemText='Settings'
-                href='#/settings'
-              />
+              {userRole === 'admin' ? (
+                <DrawerListItem
+                  drawerOpen={(state) => setIsOpen(state)}
+                  icon={<SettingsIcon />}
+                  itemText='Settings'
+                  href='#/settings'
+                />
+              ) : (
+                ''
+              )}
             </List>
           </CustomDrawer>
         </Box>
