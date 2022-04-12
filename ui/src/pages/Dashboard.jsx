@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 
 // impot components
-import DashboardInProgress from "./DashboardInProgress.jsx";
-import DashboardSubmitTask from "./DashboardSubmitTask.jsx";
-import DashboardCurrentTask from "./DashboardCurrentTask.jsx";
+import DashboardInProgress from "../Components/DashboardInProgress.jsx";
+import DashboardSubmitTask from "../Components/DashboardSubmitTask.jsx";
+import DashboardCurrentTask from "../Components/DashboardCurrentTask.jsx";
 
 export default function DashBoard() {
   return (

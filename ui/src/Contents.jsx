@@ -3,10 +3,10 @@ import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
 
 // import components
-import TaskList from './Components/TaskList.jsx';
-import DashBoard from './Components/Dashboard.jsx';
-import SubmitedTable from './Components/SubmitedTable.jsx';
-import Settings from './Components/Setting.jsx';
+import TaskList from './pages/TaskList.jsx';
+import DashBoard from './pages/Dashboard.jsx';
+import SubmitedTable from './pages/SubmitedTable.jsx';
+import Settings from './pages/Setting.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const NotFound = () => {
