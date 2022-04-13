@@ -1,7 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Tab, Typography, Box, Button } from '@mui/material';
-import SettingManageTaskTypeTable from '../Components/SettingManageTaskTypeTable.jsx';
+import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
+import SettingManageData from '../Components/settingManageData.jsx';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +42,35 @@ export default function SettingTabPanel(params) {
     setValue(newValue);
   };
 
+  // colums for task type table
+  const taskTypeColumns = [
+    { field: 'id', headerName: 'Id', headerAlign: 'center', hide: 'true' },
+    { field: 'name', headerName: 'Task Name', headerAlign: 'center', flex: 1 },
+    {
+      field: 'objectif',
+      headerName: 'Task Goal',
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      headerAlign: 'center',
+      renderCell: (params) => (
+        <React.Fragment>
+          <IconButton color='primary' aria-label='Edit'>
+            <EditIcon />
+          </IconButton>
+          <IconButton color='primary' aria-label='Delete'>
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ),
+    },
+  ];
+  // rows for task type table
+  const tastTypeRows = [{ id: 0, name: 'test', objectif: 6 }];
+
   return (
     <Box
       sx={{
@@ -73,7 +104,7 @@ export default function SettingTabPanel(params) {
         <Tab label='Item Seven' {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <SettingManageTaskTypeTable />
+        <SettingManageData columns={taskTypeColumns} rows={tastTypeRows} dataType={'Task'} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
