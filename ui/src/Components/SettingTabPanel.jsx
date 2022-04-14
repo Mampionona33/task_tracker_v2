@@ -52,7 +52,12 @@ export default function SettingTabPanel(params) {
   // colums for task type table
   const taskTypeColumns = [
     { field: 'id', headerName: 'Id', headerAlign: 'center', hide: 'true' },
-    { field: 'name', headerName: 'Task Name', headerAlign: 'center', flex: 1 },
+    {
+      field: 'name',
+      headerName: 'Task Type Name',
+      headerAlign: 'center',
+      flex: 1,
+    },
     {
       field: 'objectif',
       headerName: 'Task Goal',
@@ -121,7 +126,7 @@ export default function SettingTabPanel(params) {
           <SettingManageData
             columns={taskTypeColumns}
             rows={tastTypeRows}
-            dataType={'Task'}
+            dataType={'Task Type'}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

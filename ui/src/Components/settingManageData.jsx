@@ -1,6 +1,7 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 export default function SettingManageData(props) {
   console.log(props);
@@ -22,6 +23,7 @@ export default function SettingManageData(props) {
       </Box>
       <Box>
         <Button size='small' variant='contained'>
+          <LibraryAddIcon />
           Creat New {props.dataType}
         </Button>
       </Box>
