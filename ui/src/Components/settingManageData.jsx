@@ -12,7 +12,7 @@ export default function SettingManageData(props) {
       gap={'1rem'}
       width={'75vw'}
     >
-      <Box height={'75vh'} bgcolor={'#fff'} width={'100vw'} >
+      <Box height={'75vh'} bgcolor={'#fff'} width={'100vw'}>
         <DataGrid
           columns={props.columns}
           rows={props.rows}
@@ -21,7 +21,9 @@ export default function SettingManageData(props) {
         />
       </Box>
       <Box>
-        <Button variant='contained'>Add new {props.dataType}</Button>
+        <Button size='small' variant='contained'>
+          Creat New {props.dataType}
+        </Button>
       </Box>
     </Box>
   );
