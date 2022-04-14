@@ -12,7 +12,7 @@ export default function SettingManageData(props) {
       gap={'1rem'}
       width={'75vw'}
     >
-      <Box height={'75vh'} bgcolor={'#fff'} sx={{ width: '100%' }}>
+      <Box height={'75vh'} bgcolor={'#fff'} width={'100vw'}>
         <DataGrid
           columns={props.columns}
           rows={props.rows}

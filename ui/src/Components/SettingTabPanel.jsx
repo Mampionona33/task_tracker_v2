@@ -57,13 +57,13 @@ export default function SettingTabPanel(params) {
       field: 'objectif',
       headerName: 'Task Goal',
       headerAlign: 'center',
-      flex: 1,
     },
     {
       field: 'actions',
       headerName: 'Actions',
       headerAlign: 'center',
       align: 'center',
+
       renderCell: (params) => (
         <React.Fragment>
           <IconButton color='primary' aria-label='Edit'>
