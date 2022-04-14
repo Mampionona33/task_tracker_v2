@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
 import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { fetchTaskType } from './dataHandler.js';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,6 +43,12 @@ export default function SettingTabPanel(params) {
     setValue(newValue);
   };
 
+  /* 
+    Format task Type data
+  */
+  const taskTypeList = fetchTaskType();
+  const [tastTypeRows, setTastTypeRows] = useState([]);
+  //  -----------------------------------------------------------
   // colums for task type table
   const taskTypeColumns = [
     { field: 'id', headerName: 'Id', headerAlign: 'center', hide: 'true' },
@@ -56,6 +63,7 @@ export default function SettingTabPanel(params) {
       field: 'actions',
       headerName: 'Actions',
       headerAlign: 'center',
+      align: 'center',
       renderCell: (params) => (
         <React.Fragment>
           <IconButton color='primary' aria-label='Edit'>
@@ -68,8 +76,12 @@ export default function SettingTabPanel(params) {
       ),
     },
   ];
-  // rows for task type table
-  const tastTypeRows = [{ id: 0, name: 'test', objectif: 6 }];
+  React.useEffect(() => {
+    if (taskTypeList) {
+      setTastTypeRows((prev) => taskTypeList);
+    }
+  }, [taskTypeList]);
+  //  -----------------------------------------------------------
 
   return (
     <Box
@@ -104,7 +116,11 @@ export default function SettingTabPanel(params) {
         <Tab label='Item Seven' {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <SettingManageData columns={taskTypeColumns} rows={tastTypeRows} dataType={'Task'} />
+        <SettingManageData
+          columns={taskTypeColumns}
+          rows={tastTypeRows}
+          dataType={'Task'}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
