@@ -116,7 +116,7 @@ export default function SettingTabPanel(params) {
         <Tab label='Item Six' {...a11yProps(5)} />
         <Tab label='Item Seven' {...a11yProps(6)} />
       </Tabs>
-      <Box display={'flex'} marginRight={'5vw'}>
+      <Box display={'flex'}>
         <TabPanel value={value} index={0}>
           <SettingManageData
             columns={taskTypeColumns}
