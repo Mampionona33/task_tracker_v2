@@ -71,7 +71,11 @@ export default function SettingTabPanel(params) {
 
       renderCell: (params) => (
         <React.Fragment>
-          <IconButton color='primary' aria-label='Edit'>
+          <IconButton
+            color='primary'
+            aria-label='Edit'
+            onClick={(event) => handleClickEdit(event, params)}
+          >
             <EditIcon />
           </IconButton>
           <IconButton color='primary' aria-label='Delete'>
@@ -88,6 +92,10 @@ export default function SettingTabPanel(params) {
   }, [taskTypeList]);
   //  -----------------------------------------------------------
 
+  // function to execut on click in  EditIcon button
+  const handleClickEdit = (event, params) => {
+    console.log('event: ', event, ' params : ', params);
+  };
   return (
     <Box
       sx={{

@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 export default function SettingManageData(props) {
-  console.log(props);
+  
   return (
     <Box
       display={'flex'}
