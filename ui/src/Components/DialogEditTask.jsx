@@ -39,6 +39,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { LOAD_DATA, FILTRED_FICHE } from '../GraphQL/Queries';
 
 const DialogEditTask = (props) => {
+  /* 
+    props.open and props.onClose 
+    are get from TaskTable.jsx 
+  */
   const open = props.open;
   const onClose = props.onClose;
   const selectedRowData = props.selectedRowData;

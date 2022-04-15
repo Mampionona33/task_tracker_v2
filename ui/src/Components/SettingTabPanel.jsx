@@ -5,6 +5,7 @@ import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchTaskType } from './dataHandler.js';
+import SettingDialogEdit from './SettingDialogEdit.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,7 +96,14 @@ export default function SettingTabPanel(params) {
   // function to execut on click in  EditIcon button
   const handleClickEdit = (event, params) => {
     console.log('event: ', event, ' params : ', params);
+    setDialogEditOpen((prev) => true);
   };
+
+  // ------------
+  // Dialog Edit
+  // ------------------------
+  const [dialogEditIsOpen, setDialogEditOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -135,6 +143,11 @@ export default function SettingTabPanel(params) {
             columns={taskTypeColumns}
             rows={tastTypeRows}
             dataType={'Task Type'}
+          />
+          <SettingDialogEdit
+            open={dialogEditIsOpen}
+            close={() => setDialogEditOpen((prev) => false)}
+            dialogTitle={'Task Type'}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
