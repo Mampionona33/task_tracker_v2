@@ -27,11 +27,14 @@ export default function SettingDialogEdit({
       const refTaskTypeName = useRef('');
       const refGoal = useRef(0);
       const [taskTypeName, setTaskTypeName] = useState(selectedRowdata.name);
-      const [goal, setGoal] = useState(0);
+      const [goal, setGoal] = useState(selectedRowdata.objectif);
 
       // function to execute on click in save button
       const handleClicksave = () => {
+        // Get the current value of task Type name
         console.log(refTaskTypeName.current.children[1].children[0].value);
+        // Get the current value of goal input
+        console.log(refGoal.current.children[1].children[0].value);
       };
 
       return (
@@ -54,6 +57,8 @@ export default function SettingDialogEdit({
                   type={'number'}
                   placeholder='Goal per hours'
                   ref={refGoal}
+                  value={goal}
+                  onChange={(e) => setGoal((prev) => e.target.value)}
                 />
               </Box>
               <Box
