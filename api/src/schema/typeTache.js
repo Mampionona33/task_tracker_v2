@@ -36,16 +36,17 @@ async function add(_, { typeTache }) {
 async function update(_, { filter: { id }, update: { name, objectif } }) {
   const db = getDb();
   const filter = { id: id };
-  const update = {
-    $set: {
-      name: name,
-      objectif: objectif,
-    },
-  };
+  const update = [{ $set: {} }];
+  if (name) {
+    update[0].$set.name = name;
+  }
+  if (objectif) {
+    update[0].$set.objectif = objectif;
+  }
   const options = { upsert: false, returnNewDocument: true };
   const updateFiche = db
     .collection('typeTache')
-    .findOneAndUpdate(filter, update, options, (error, doc) => {
+    .findOneAndUpdate(filter, ...update, options, (error, doc) => {
       if (error) {
         console.log('error');
       }
