@@ -89,3 +89,13 @@ export const UPDATE_FICHE = gql`
     }
   }
 `;
+
+export const UPDATE_TASK_TYPE = gql`
+  mutation TypeTacheUpdate($filter: FilterById, $update: TachesInputs) {
+    typeTacheUpdate(filter: $filter, update: $update) {
+      id
+      name
+      objectif
+    }
+  }
+`;

@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Button,
   Dialog,
@@ -8,6 +9,8 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useRef, useState } from 'react';
+import { UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
+import { updateTaskTypeName } from './dataHandler';
 
 /*
     This component is called from SettingTabPanel.jsx
@@ -29,12 +32,21 @@ export default function SettingDialogEdit({
       const [taskTypeName, setTaskTypeName] = useState(selectedRowdata.name);
       const [goal, setGoal] = useState(selectedRowdata.objectif);
 
+      const [typeTacheUpdate, { error: errorUpdate }] =
+        useMutation(UPDATE_TASK_TYPE);
+
       // function to execute on click in save button
-      const handleClicksave = () => {
+      const handleClicksave = async () => {
         // Get the current value of task Type name
         console.log(refTaskTypeName.current.children[1].children[0].value);
         // Get the current value of goal input
         console.log(refGoal.current.children[1].children[0].value);
+        await updateTaskTypeName(
+          selectedRowdata.id,
+          typeTacheUpdate,
+          errorUpdate,
+          refTaskTypeName.current.children[1].children[0].value
+        ).then(close);
       };
 
       return (

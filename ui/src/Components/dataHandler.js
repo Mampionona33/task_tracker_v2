@@ -790,6 +790,29 @@ const productivity = (currentTaskType, currentProdBefore, currentProdAfter) => {
   return currentTaskType;
 };
 
+// update the task type name
+const updateTaskTypeName = async (
+  id,
+  typeTacheUpdate,
+  errorUpDate,
+  newTaskTypeName
+) => {
+  typeTacheUpdate({
+    variables: {
+      filter: {
+        id: id,
+      },
+      update: {
+        name: newTaskTypeName,
+      },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return true;
+};
+
 export {
   loadAllData,
   loadProcessingPause,
@@ -827,4 +850,5 @@ export {
   fetchProd,
   updateLastUpdate,
   setSubmitStateToDelete,
+  updateTaskTypeName,
 };
