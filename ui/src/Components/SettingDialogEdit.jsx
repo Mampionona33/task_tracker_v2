@@ -7,7 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /*
     This component is called from SettingTabPanel.jsx
@@ -20,40 +20,65 @@ export default function SettingDialogEdit({
   dialogTitle,
   selectedRowdata,
 }) {
-  console.log(selectedRowdata);
+  // console.log(selectedRowdata);
 
-  const ConditionalDialogContent = (selectedRowdata) => {
+  const ConditionalDialogComponent = () => {
     if (selectedRowdata.__typename === 'TypeTache') {
+      const refTaskTypeName = useRef('');
+      const refGoal = useRef(0);
+      const [taskTypeName, setTaskTypeName] = useState(selectedRowdata.name);
+      const [goal, setGoal] = useState(0);
+
+      // function to execute on click in save button
+      const handleClicksave = () => {
+        console.log(refTaskTypeName.current.children[1].children[0].value);
+      };
+
       return (
-        <DialogContent>
-          <Box>
-            <Box>
-              <TextField
-                label='Task type name'
-                type={'text'}
-                placeholder='Write here the task type name'
-              />
-              <TextField
-                label='Goal'
-                type={'number'}
-                placeholder='Goal per hours'
-              />
+        <React.Fragment>
+          <DialogTitle>Edit {dialogTitle}</DialogTitle>
+          <Divider />
+          <DialogContent>
+            <Box display={'flex'} flexDirection='column' gap={'1rem'}>
+              <Box display={'flex'} gap={'1rem'}>
+                <TextField
+                  label='Task type name'
+                  type={'text'}
+                  placeholder='Write here the task type name'
+                  ref={refTaskTypeName}
+                  value={taskTypeName}
+                  onChange={(e) => setTaskTypeName((prev) => e.target.value)}
+                />
+                <TextField
+                  label='Goal'
+                  type={'number'}
+                  placeholder='Goal per hours'
+                  ref={refGoal}
+                />
+              </Box>
+              <Box
+                display={'flex'}
+                flexDirection={'row'}
+                justifyContent='flex-end'
+                gap='1rem'
+              >
+                <Button variant='outlined' onClick={() => handleClicksave()}>
+                  Save
+                </Button>
+                <Button variant='outlined' onClick={close}>
+                  Cancel
+                </Button>
+              </Box>
             </Box>
-            <Box>
-              <Button>Save</Button>
-              <Button>Cancel</Button>
-            </Box>
-          </Box>
-        </DialogContent>
+          </DialogContent>
+        </React.Fragment>
       );
     }
   };
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>Edit {dialogTitle}</DialogTitle>
-      <Divider />
-      {ConditionalDialogContent(selectedRowdata)}
+      {ConditionalDialogComponent()}
     </Dialog>
   );
 }
