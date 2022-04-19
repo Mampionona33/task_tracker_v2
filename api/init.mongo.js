@@ -29,7 +29,7 @@ async function resetMongo() {
         current: 7,
       },
       {
-        _id: 'typeTaches',
+        _id: 'typeTache',
         current: 49,
       },
       {
