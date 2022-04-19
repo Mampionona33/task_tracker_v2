@@ -26,9 +26,40 @@ export default function SettingDialogEdit({
   buttonEvent,
 }) {
   const ConditionalDialogComponent = () => {
+    const [goal, setGoal] = useState(0);
+    const [taskTypeName, setTaskTypeName] = useState('');
+    const refGoal = useRef(null);
+    const refTaskTypeName = useRef(null);
+
     return (
       <React.Fragment>
         <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogContent>
+          <Box display={'flex'} flexDirection='column' gap={'1rem'}>
+            <Box display={'flex'} gap={'1rem'}>
+              <TextField
+                label='Task type name'
+                type={'text'}
+                placeholder='Write here the task type name'
+              />
+              <TextField
+                label='Goal'
+                type={'number'}
+                placeholder='Goal per hours'
+              />
+            </Box>
+            <Box
+              display={'flex'}
+              flexDirection={'row'}
+              justifyContent='flex-end'
+              gap='1rem'
+            >
+              <Button variant='outlined' onClick={close}>
+                Cancel
+              </Button>
+            </Box>
+          </Box>
+        </DialogContent>
       </React.Fragment>
     );
   };
