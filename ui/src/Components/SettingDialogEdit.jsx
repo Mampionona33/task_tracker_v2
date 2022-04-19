@@ -25,59 +25,58 @@ export default function SettingDialogEdit({
   selectedRowdata,
   buttonEvent,
 }) {
-  const ConditionalDialogComponent = () => {
-    const [goal, setGoal] = useState(0);
-    const [taskTypeName, setTaskTypeName] = useState('');
-    const refGoal = useRef(null);
-    const refTaskTypeName = useRef(null);
+  const [goal, setGoal] = useState(0);
+  const [taskTypeName, setTaskTypeName] = useState('');
+  const refGoal = useRef(null);
+  const refTaskTypeName = useRef(null);
+  const [id, setId] = useState(undefined);
 
-    useEffect(() => {
-      if (selectedRowdata !== undefined) {
-        setGoal((prev) => selectedRowdata.objectif);
-        setTaskTypeName((prev) => selectedRowdata.name);
-      }
-    }, [selectedRowdata]);
-
-    return (
-      <React.Fragment>
-        <DialogTitle>{dialogTitle}</DialogTitle>
-        <Divider />
-        <DialogContent>
-          <Box display={'flex'} flexDirection='column' gap={'1rem'}>
-            <Box display={'flex'} gap={'1rem'}>
-              <TextField
-                label='Task type name'
-                type={'text'}
-                placeholder='Write here the task type name'
-                value={taskTypeName}
-              />
-              <TextField
-                label='Goal'
-                type={'number'}
-                placeholder='Goal per hours'
-                value={goal}
-              />
-            </Box>
-
-            <Box
-              display={'flex'}
-              flexDirection={'row'}
-              justifyContent='flex-end'
-              gap='1rem'
-            >
-              <Button variant='outlined' onClick={close}>
-                Cancel
-              </Button>
-            </Box>
-          </Box>
-        </DialogContent>
-      </React.Fragment>
-    );
-  };
+  useEffect(() => {
+    if (selectedRowdata !== undefined) {
+      setGoal((prev) => selectedRowdata.objectif);
+      setTaskTypeName((prev) => selectedRowdata.name);
+      setId((prev) => selectedRowdata.id);
+    }
+  }, [selectedRowdata]);
 
   return (
     <Dialog open={open} onClose={close}>
-      {ConditionalDialogComponent()}
+      <DialogTitle>{dialogTitle}</DialogTitle>
+      <Divider />
+      <DialogContent>
+        <Box display={'flex'} flexDirection='column' gap={'1rem'}>
+          <Box display={'flex'} gap={'1rem'}>
+            <TextField
+              label='Task type name'
+              type={'text'}
+              placeholder='Write here the task type name'
+              ref={refTaskTypeName}
+              value={taskTypeName}
+              onChange={(e) => setTaskTypeName((prev) => e.target.value)}
+            />
+            <TextField
+              label='Goal'
+              type={'number'}
+              placeholder='Goal per hours'
+              ref={refGoal}
+              value={goal}
+              onChange={(e) => setTaskTypeName((prev) => e.target.value)}
+            />
+          </Box>
+
+          <Box
+            display={'flex'}
+            flexDirection={'row'}
+            justifyContent='flex-end'
+            gap='1rem'
+          >
+            <Button variant='outlined'>Save</Button>
+            <Button variant='outlined' onClick={close}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </DialogContent>
     </Dialog>
   );
 }
