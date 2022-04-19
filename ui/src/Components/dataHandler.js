@@ -813,6 +813,26 @@ const updateTaskTypeName = async (
   return true;
 };
 
+// update the task Type goal
+const updateTaskTypeGoal = async (
+  id,
+  typeTacheUpdate,
+  errorUpDate,
+  newTaskTypeGoal
+) => {
+  typeTacheUpdate({
+    variables: {
+      filter: { id: id },
+      update: { objectif: parseFloat(newTaskTypeGoal) },
+    },
+  });
+  if (errorUpDate) {
+    console.log(errorUpDate);
+  }
+  return true;
+};
+
+// function to execute to get all task Type frome data base
 const fetchTaskTypeData = () => {
   const [output, setOutput] = useState([]);
   const {
@@ -869,4 +889,5 @@ export {
   setSubmitStateToDelete,
   updateTaskTypeName,
   fetchTaskTypeData,
+  updateTaskTypeGoal,
 };

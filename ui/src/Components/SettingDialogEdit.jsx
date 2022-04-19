@@ -11,7 +11,7 @@ import { Box } from '@mui/system';
 import React, { useEffect, useRef, useState } from 'react';
 import { UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
 import { LIST_TASK_TYPE } from '../GraphQL/Queries';
-import { updateTaskTypeName } from './dataHandler';
+import { updateTaskTypeGoal, updateTaskTypeName } from './dataHandler';
 
 /*
     This component is called from SettingTabPanel.jsx
@@ -49,7 +49,16 @@ export default function SettingDialogEdit({
           typeTacheUpdate,
           errorUpdate,
           refTaskTypeName.current.children[1].children[0].value
-        ).then(close);
+        )
+          .then(
+            updateTaskTypeGoal(
+              selectedRowdata.id,
+              typeTacheUpdate,
+              errorUpdate,
+              refGoal.current.children[1].children[0].value
+            )
+          )
+          .then(close);
       };
 
       return (
