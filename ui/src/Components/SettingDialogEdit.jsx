@@ -9,9 +9,13 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useRef, useState } from 'react';
-import { UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
+import { CREAT_TASK_TYPE, UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
 import { LIST_TASK_TYPE } from '../GraphQL/Queries';
-import { updateTaskTypeGoal, updateTaskTypeName } from './dataHandler';
+import {
+  createTaskType,
+  updateTaskTypeGoal,
+  updateTaskTypeName,
+} from './dataHandler';
 
 /*
     This component is called from SettingTabPanel.jsx
@@ -36,6 +40,11 @@ export default function SettingDialogEdit({
     { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
   );
 
+  const [typeTachesAdd, { error: errorCreatTaskType }] = useMutation(
+    CREAT_TASK_TYPE,
+    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+  );
+
   useEffect(() => {
     if (selectedRowdata !== undefined) {
       setGoal((prev) => selectedRowdata.objectif);
@@ -45,21 +54,31 @@ export default function SettingDialogEdit({
   }, [selectedRowdata]);
 
   const handleClickSave = async () => {
-    await updateTaskTypeName(
-      selectedRowdata.id,
-      typeTacheUpdate,
-      errorUpdate,
-      refTaskTypeName.current.children[1].children[0].value
-    )
-      .then(
-        updateTaskTypeGoal(
-          selectedRowdata.id,
-          typeTacheUpdate,
-          errorUpdate,
-          refGoal.current.children[1].children[0].value
-        )
+    if (dialogTitle === 'Edit Task Type') {
+      await updateTaskTypeName(
+        selectedRowdata.id,
+        typeTacheUpdate,
+        errorUpdate,
+        refTaskTypeName.current.children[1].children[0].value
       )
-      .then(close);
+        .then(
+          updateTaskTypeGoal(
+            selectedRowdata.id,
+            typeTacheUpdate,
+            errorUpdate,
+            refGoal.current.children[1].children[0].value
+          )
+        )
+        .then(close);
+    }
+    if (dialogTitle === 'Add New Task Type') {
+      await createTaskType(
+        typeTachesAdd,
+        refTaskTypeName.current.children[1].children[0].value,
+        refGoal.current.children[1].children[0].value,
+        errorCreatTaskType
+      ).then(close);
+    }
   };
 
   return (

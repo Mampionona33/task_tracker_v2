@@ -99,3 +99,13 @@ export const UPDATE_TASK_TYPE = gql`
     }
   }
 `;
+
+export const CREAT_TASK_TYPE = gql`
+  mutation TypeTachesAdd($typeTache: TachesInputs) {
+    typeTachesAdd(typeTache: $typeTache) {
+      id
+      name
+      objectif
+    }
+  }
+`;

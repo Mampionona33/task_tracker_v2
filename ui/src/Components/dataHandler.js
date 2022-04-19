@@ -790,7 +790,7 @@ const productivity = (currentTaskType, currentProdBefore, currentProdAfter) => {
   return currentTaskType;
 };
 
-// update the task type name
+// update the task type
 const updateTaskTypeName = async (
   id,
   typeTacheUpdate,
@@ -809,6 +809,22 @@ const updateTaskTypeName = async (
   });
   if (errorUpDate) {
     console.log(errorUpDate);
+  }
+  return true;
+};
+
+// add new task type
+const createTaskType = async (typeTachesAdd, taskTypeName, goal, error) => {
+  typeTachesAdd({
+    variables: {
+      typeTache: {
+        name: taskTypeName,
+        objectif: parseFloat(goal),
+      },
+    },
+  });
+  if (error) {
+    console.log(error);
   }
   return true;
 };
@@ -890,4 +906,5 @@ export {
   updateTaskTypeName,
   fetchTaskTypeData,
   updateTaskTypeGoal,
+  createTaskType,
 };
