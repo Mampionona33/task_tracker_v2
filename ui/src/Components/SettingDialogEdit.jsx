@@ -31,6 +31,11 @@ export default function SettingDialogEdit({
   const refTaskTypeName = useRef(null);
   const [id, setId] = useState(undefined);
 
+  const [typeTacheUpdate, { error: errorUpdate }] = useMutation(
+    UPDATE_TASK_TYPE,
+    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+  );
+
   useEffect(() => {
     if (selectedRowdata !== undefined) {
       setGoal((prev) => selectedRowdata.objectif);
@@ -38,6 +43,24 @@ export default function SettingDialogEdit({
       setId((prev) => selectedRowdata.id);
     }
   }, [selectedRowdata]);
+
+  const handleClickSave = async () => {
+    await updateTaskTypeName(
+      selectedRowdata.id,
+      typeTacheUpdate,
+      errorUpdate,
+      refTaskTypeName.current.children[1].children[0].value
+    )
+      .then(
+        updateTaskTypeGoal(
+          selectedRowdata.id,
+          typeTacheUpdate,
+          errorUpdate,
+          refGoal.current.children[1].children[0].value
+        )
+      )
+      .then(close);
+  };
 
   return (
     <Dialog open={open} onClose={close}>
@@ -60,7 +83,7 @@ export default function SettingDialogEdit({
               placeholder='Goal per hours'
               ref={refGoal}
               value={goal}
-              onChange={(e) => setTaskTypeName((prev) => e.target.value)}
+              onChange={(e) => setGoal((prev) => e.target.value)}
             />
           </Box>
 
@@ -70,7 +93,9 @@ export default function SettingDialogEdit({
             justifyContent='flex-end'
             gap='1rem'
           >
-            <Button variant='outlined'>Save</Button>
+            <Button variant='outlined' onClick={handleClickSave}>
+              Save
+            </Button>
             <Button variant='outlined' onClick={close}>
               Cancel
             </Button>
