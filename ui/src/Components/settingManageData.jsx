@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import SettingDialogEdit from './SettingDialogEdit';
 
 export default function SettingManageData(props) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [buttonEvent, setButtonEvent] = useState([]);
+
+  const handleClickAddNew = (event) => {
+    // console.log('event: ', event.target);
+    setDialogOpen((prve) => true);
+    setButtonEvent((prev) => event);
+  };
   return (
     <Box
       display={'flex'}
@@ -21,10 +30,20 @@ export default function SettingManageData(props) {
         />
       </Box>
       <Box>
-        <Button size='small' variant='contained'>
+        <Button
+          size='small'
+          variant='contained'
+          onClick={(event) => handleClickAddNew(event)}
+        >
           <LibraryAddIcon />
           Creat New {props.dataType}
         </Button>
+        <SettingDialogEdit
+          open={dialogOpen}
+          close={() => setDialogOpen((prev) => false)}
+          dialogTitle={'Add New Task Type'}
+          buttonEvent={buttonEvent}
+        />
       </Box>
     </Box>
   );

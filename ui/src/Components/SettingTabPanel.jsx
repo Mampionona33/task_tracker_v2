@@ -95,9 +95,10 @@ export default function SettingTabPanel(params) {
 
   // function to execut on click in  EditIcon button
   const handleClickEdit = (event, params) => {
-    // console.log('event: ', event, ' params : ', params.row);
+    // console.log('event: ', event.target, ' params : ', params);
     setDialogEditOpen((prev) => true);
     setSelectedRowData((prev) => params.row);
+    setButtonEvent((prev) => event);
   };
 
   // ------------
@@ -105,6 +106,7 @@ export default function SettingTabPanel(params) {
   // ------------------------
   const [dialogEditIsOpen, setDialogEditOpen] = useState(false);
   const [selectedRowdata, setSelectedRowData] = useState([]);
+  const [buttonEvent, setButtonEvent] = useState([]);
 
   return (
     <Box
@@ -149,8 +151,9 @@ export default function SettingTabPanel(params) {
           <SettingDialogEdit
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
-            dialogTitle={'Task Type'}
+            dialogTitle={'Edit Task Type'}
             selectedRowdata={selectedRowdata}
+            buttonEvent={buttonEvent}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

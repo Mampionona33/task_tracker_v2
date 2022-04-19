@@ -23,15 +23,43 @@ export default function SettingDialogEdit({
   close,
   dialogTitle,
   selectedRowdata,
+  buttonEvent,
 }) {
-  // console.log(selectedRowdata);
-
   const ConditionalDialogComponent = () => {
-    if (selectedRowdata.__typename === 'TypeTache') {
+    let initGoal = 0;
+    let initTastTypeName = '';
+
+    if (buttonEvent.target !== undefined) {
+      // console.log(buttonEvent.target);
+      if (buttonEvent.target.tagName === 'svg') {
+        initGoal = selectedRowdata.objectif;
+        initTastTypeName = selectedRowdata.name;
+      } else if (buttonEvent.target.tagName === 'button') {
+        initGoal = 0;
+        initTastTypeName = '';
+      }
+
+      const ButtonSave = () => {
+        return (
+          <React.Fragment>
+            <Button variant='outlined' onClick={handleClicksave}>
+              Save
+            </Button>
+          </React.Fragment>
+        );
+      };
+
+      const ButtonAdd = () => {
+        return (
+          <React.Fragment>
+            <Button onClick={handleClickAdd}>Add</Button>
+          </React.Fragment>
+        );
+      };
       const refTaskTypeName = useRef('');
       const refGoal = useRef(0);
-      const [taskTypeName, setTaskTypeName] = useState(selectedRowdata.name);
-      const [goal, setGoal] = useState(selectedRowdata.objectif);
+      const [taskTypeName, setTaskTypeName] = useState(initTastTypeName);
+      const [goal, setGoal] = useState(initGoal);
 
       const [typeTacheUpdate, { error: errorUpdate }] = useMutation(
         UPDATE_TASK_TYPE,
@@ -61,9 +89,14 @@ export default function SettingDialogEdit({
           .then(close);
       };
 
+      // function to execute on Click in add button
+      const handleClickAdd = async () => {
+        console.log('test');
+      };
+
       return (
         <React.Fragment>
-          <DialogTitle>Edit {dialogTitle}</DialogTitle>
+          <DialogTitle>{dialogTitle}</DialogTitle>
           <Divider />
           <DialogContent>
             <Box display={'flex'} flexDirection='column' gap={'1rem'}>
@@ -91,9 +124,11 @@ export default function SettingDialogEdit({
                 justifyContent='flex-end'
                 gap='1rem'
               >
-                <Button variant='outlined' onClick={() => handleClicksave()}>
-                  Save
-                </Button>
+                {buttonEvent.target.tagName === 'svg' ? (
+                  <ButtonSave />
+                ) : (
+                  <ButtonAdd />
+                )}
                 <Button variant='outlined' onClick={close}>
                   Cancel
                 </Button>
