@@ -813,6 +813,23 @@ const updateTaskTypeName = async (
   return true;
 };
 
+const fetchTaskTypeData = () => {
+  const [output, setOutput] = useState([]);
+  const {
+    data: taskTypeData,
+    loading: loadingTaskTypeData,
+    error: errorTaskTypeData,
+  } = useQuery(LIST_TASK_TYPE);
+
+  useEffect(() => {
+    if (taskTypeData) {
+      setOutput((prev) => taskTypeData.listTypeTaches);
+    }
+  }, [taskTypeData]);
+
+  return output;
+};
+
 export {
   loadAllData,
   loadProcessingPause,
@@ -851,4 +868,5 @@ export {
   updateLastUpdate,
   setSubmitStateToDelete,
   updateTaskTypeName,
+  fetchTaskTypeData,
 };

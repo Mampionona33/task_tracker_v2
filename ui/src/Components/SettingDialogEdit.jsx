@@ -10,6 +10,7 @@ import {
 import { Box } from '@mui/system';
 import React, { useEffect, useRef, useState } from 'react';
 import { UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
+import { LIST_TASK_TYPE } from '../GraphQL/Queries';
 import { updateTaskTypeName } from './dataHandler';
 
 /*
@@ -32,8 +33,10 @@ export default function SettingDialogEdit({
       const [taskTypeName, setTaskTypeName] = useState(selectedRowdata.name);
       const [goal, setGoal] = useState(selectedRowdata.objectif);
 
-      const [typeTacheUpdate, { error: errorUpdate }] =
-        useMutation(UPDATE_TASK_TYPE);
+      const [typeTacheUpdate, { error: errorUpdate }] = useMutation(
+        UPDATE_TASK_TYPE,
+        { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+      );
 
       // function to execute on click in save button
       const handleClicksave = async () => {

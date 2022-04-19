@@ -4,7 +4,7 @@ import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
 import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { fetchTaskType } from './dataHandler.js';
+import { fetchTaskTypeData } from './dataHandler.js';
 import SettingDialogEdit from './SettingDialogEdit.jsx';
 
 function TabPanel(props) {
@@ -47,7 +47,7 @@ export default function SettingTabPanel(params) {
   /* 
     Format task Type data
   */
-  const taskTypeList = fetchTaskType();
+  const taskTypeList = fetchTaskTypeData();
   const [tastTypeRows, setTastTypeRows] = useState([]);
   //  -----------------------------------------------------------
   // colums for task type table
