@@ -1,11 +1,27 @@
-import { Dialog, DialogTitle } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+} from '@mui/material';
 import React from 'react';
 
-export default function DialogBoxConfirmDel({ open, close }) {
+export default function DialogBoxConfirmDel({ open, close, title }) {
   return (
     <React.Fragment>
       <Dialog open={open} onClose={close}>
-        <DialogTitle>Confirm deletition</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
+        <Divider />
+        <DialogContent>
+          <DialogActions>
+            <Button variant='outlined'>Confirm</Button>
+            <Button variant='outlined' onClick={close}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </DialogContent>
       </Dialog>
     </React.Fragment>
   );

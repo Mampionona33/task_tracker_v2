@@ -172,6 +172,7 @@ export default function SettingTabPanel(params) {
           <DialogBoxConfirmDel
             open={dialogDelOpen}
             close={() => setDialogDelOpen((prev) => false)}
+            title='Delete Task Type'
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
