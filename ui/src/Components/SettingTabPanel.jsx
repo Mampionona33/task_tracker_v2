@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchTaskTypeData } from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
+import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +80,11 @@ export default function SettingTabPanel(params) {
           >
             <EditIcon />
           </IconButton>
-          <IconButton color='primary' aria-label='Delete'>
+          <IconButton
+            color='primary'
+            aria-label='Delete'
+            onClick={(event) => handleClickDel(event, params)}
+          >
             <DeleteIcon />
           </IconButton>
         </React.Fragment>
@@ -102,11 +107,20 @@ export default function SettingTabPanel(params) {
   };
 
   // ------------
-  // Dialog Edit
-  // ------------------------
+  // Dialog Edit //
+  // -------------
   const [dialogEditIsOpen, setDialogEditOpen] = useState(false);
   const [selectedRowdata, setSelectedRowData] = useState([]);
   const [buttonEvent, setButtonEvent] = useState([]);
+  // -----------------------------------------------------------
+
+  //--------------------
+  // Dialog Confirm Del
+  //--------------------
+  const [dialogDelOpen, setDialogDelOpen] = useState(false);
+  const handleClickDel = () => {
+    setDialogDelOpen((prev) => true);
+  };
 
   return (
     <Box
@@ -154,6 +168,10 @@ export default function SettingTabPanel(params) {
             dialogTitle={'Edit Task Type'}
             selectedRowdata={selectedRowdata}
             buttonEvent={buttonEvent}
+          />
+          <DialogBoxConfirmDel
+            open={dialogDelOpen}
+            close={() => setDialogDelOpen((prev) => false)}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
