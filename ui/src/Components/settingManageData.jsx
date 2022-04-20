@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import SettingDialogEdit from './SettingDialogEdit';
+import SettingDialogTaskType from './SettingDialogTaskType';
 
 export default function SettingManageData(props) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function SettingManageData(props) {
           <LibraryAddIcon />
           Creat New {props.dataType}
         </Button>
-        <SettingDialogEdit
+        <SettingDialogTaskType
           open={dialogOpen}
           close={() => setDialogOpen((prev) => false)}
           dialogTitle={'Add New Task Type'}

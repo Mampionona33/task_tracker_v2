@@ -5,7 +5,7 @@ import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchTaskTypeData } from './dataHandler.js';
-import SettingDialogEdit from './SettingDialogEdit.jsx';
+import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -148,7 +148,7 @@ export default function SettingTabPanel(params) {
             rows={tastTypeRows}
             dataType={'Task Type'}
           />
-          <SettingDialogEdit
+          <SettingDialogTaskType
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
             dialogTitle={'Edit Task Type'}
