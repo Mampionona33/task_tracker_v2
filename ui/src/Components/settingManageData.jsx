@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import SettingDialogTaskType from './SettingDialogTaskType';
+import DialogAddOrEdit from './DialogAddOrEdit';
 
 export default function SettingManageData(props) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -38,12 +39,19 @@ export default function SettingManageData(props) {
           <LibraryAddIcon />
           Creat New {props.dataType}
         </Button>
-        <SettingDialogTaskType
+        <DialogAddOrEdit
+          open={dialogOpen}
+          close={() => setDialogOpen((prev) => false)}
+          title={'Create New Task'}
+          data={{ name: '', objectif: 0 }}
+          inputLabel={['Task Type name', 'Task Goal']}
+        />
+        {/* <SettingDialogTaskType
           open={dialogOpen}
           close={() => setDialogOpen((prev) => false)}
           dialogTitle={'Add New Task Type'}
           buttonEvent={buttonEvent}
-        />
+        /> */}
       </Box>
     </Box>
   );

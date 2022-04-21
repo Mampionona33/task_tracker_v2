@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchTaskTypeData } from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
+import DialogAddOrEdit from './DialogAddOrEdit.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -162,17 +163,25 @@ export default function SettingTabPanel(params) {
             rows={tastTypeRows}
             dataType={'Task Type'}
           />
-          <SettingDialogTaskType
+          {/* <SettingDialogTaskType
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
             dialogTitle={'Edit Task Type'}
             selectedRowdata={selectedRowdata}
             buttonEvent={buttonEvent}
+          /> */}
+          <DialogAddOrEdit
+            open={dialogEditIsOpen}
+            close={() => setDialogEditOpen((prev) => false)}
+            title={'Edit Task Type'}
+            data={selectedRowdata}
+            inputLabel={['Task Type name', 'Task Goal']}
           />
           <DialogBoxConfirmDel
             open={dialogDelOpen}
             close={() => setDialogDelOpen((prev) => false)}
             title='Delete Task Type'
+            inputLabel={['Task Type name', 'Task Goal']}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
