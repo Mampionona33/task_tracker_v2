@@ -25,11 +25,7 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
   }, [inputLabel]);
 
   const CustomDialogContent = label.map((item, key) => {
-    return (
-      <Box>
-        <TextField label={item} key={key} />
-      </Box>
-    );
+    return <TextField label={item} key={key} />;
   });
 
   return (
