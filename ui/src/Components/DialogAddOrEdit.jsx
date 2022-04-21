@@ -43,7 +43,13 @@ export default function DialogAddOrEdit({
       <DialogTitle>{title}</DialogTitle>
       <Divider />
       <DialogContent>
-        <Box display={'flex'} flexDirection='row' gap={'1rem'}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2,1fr)',
+            gap: 1,
+          }}
+        >
           {CustomDialogContent}
         </Box>
       </DialogContent>
