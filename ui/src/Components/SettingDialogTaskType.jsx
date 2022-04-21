@@ -54,8 +54,10 @@ export default function SettingDialogTaskType({
     }
   }, [selectedRowdata]);
 
+  let title = '';
   const handleClickSave = async () => {
-    if (dialogTitle === 'Edit Task Type') {
+    title = dialogTitle;
+    if (title.includes('Edit')) {
       await updateTaskTypeName(
         selectedRowdata.id,
         typeTacheUpdate,
@@ -72,7 +74,7 @@ export default function SettingDialogTaskType({
         )
         .then(close);
     }
-    if (dialogTitle === 'Add New Task Type') {
+    if (title.includes('Add')) {
       await createTaskType(
         typeTachesAdd,
         refTaskTypeName.current.children[1].children[0].value,
