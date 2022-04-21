@@ -5,29 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "firefox",
+      "name": "Launch Chrome UI ",
       "request": "launch",
-      "reAttach": true,
-      "name": "Launch firefox localhost API",
-      "url": "http://localhost:3000/graphql",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "type": "firefox",
-      "request": "launch",
-      "reAttach": true,
-      "name": "Launch firefox localhost UI",
+      "type": "chrome",
       "url": "http://localhost:8000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": ["*/<node_internals>/**", "*/<node_modules>/**"]
     },
 
-    {
-      "name": "Launch Chrome UI",
-      "request": "launch",
-      "type": "pwa-chrome",
-      "url": "http://localhost:8000",
-      "webRoot": "${workspaceFolder}"
-    },
     {
       "name": "Launch Chrome API",
       "request": "launch",
