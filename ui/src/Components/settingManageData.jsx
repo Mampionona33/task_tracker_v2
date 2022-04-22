@@ -44,7 +44,7 @@ export default function SettingManageData(props) {
           close={() => setDialogOpen((prev) => false)}
           title={'Create New Task'}
           data={{ name: '', objectif: 0 }}
-          inputLabel={['Task Type name', 'Task Goal']}
+          inputs={[{ 'Task Type name': 'test' }, { 'Task Goal': 0 }]}
         />
         {/* <SettingDialogTaskType
           open={dialogOpen}

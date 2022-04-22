@@ -5,28 +5,50 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  ListItem,
   TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-export default function DialogAdd({ title, open, close, data, inputLabel }) {
-  //   if (data) {
-  //     const arrayData = Array.from(Object.keys(data));
-  //     // console.log(`${Object.keys(data)}: ${Object.values(data)}`);
-  //     console.log(arrayData);
-  //   }
+export default function DialogAddOrEdit({
+  title,
+  open,
+  close,
+  data,
+  inputs,
+}) {
+  const labelInputRefs = useRef([]);
 
-  const [label, setLabel] = useState([]);
-  useEffect(() => {
-    if (inputLabel) {
-      setLabel((prev) => inputLabel);
+  const addToRefs = (elem) => {
+    if (elem && !labelInputRefs.current.includes(elem)) {
+      labelInputRefs.current.push(elem);
     }
-  }, [inputLabel]);
+  };
 
-  const CustomDialogContent = label.map((item, key) => {
-    return <TextField label={item} key={key} />;
+  const CustomDialogContent = inputs.map((item, key) => {
+    const [val, setVal] = useState(0);
+    useEffect(() => {
+      if (item) {
+        setVal((prev) => Object.values(item));
+      }
+    }, [item]);
+    return (
+      <TextField
+        key={key}
+        label={Object.keys(item)}
+        value={val}
+        ref={addToRefs}
+        onChange={(e) => setVal((prev) => e.target.value)}
+      />
+    );
   });
+
+  const handleClickSave = () => {
+    for (let i = 0; i < labelInputRefs.current.length; i++) {
+      console.log(labelInputRefs.current[i].children[1].children[0].value);
+    }
+  };
 
   return (
     <Dialog open={open} onClose={close}>
@@ -44,7 +66,7 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button>Save</Button>
+        <Button onClick={handleClickSave}>Save</Button>
         <Button onClick={close}>Cancel</Button>
       </DialogActions>
     </Dialog>
