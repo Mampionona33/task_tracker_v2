@@ -5,27 +5,29 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  ListItem,
   TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState, useRef } from 'react';
 
-export default function DialogAddOrEdit({
-  title,
-  open,
-  close,
-  data,
-  inputs,
-}) {
+/* 
+    title : type | string @title of the dialog
+    open : type | function @open the dialog on click on parent button
+    close : type | function @close the dialog box on click on button close
+    input : type | Array of Object @use to field the inputs label and value
+*/
+
+export default function DialogAdd({ title, open, close, data, inputs }) {
   const labelInputRefs = useRef([]);
 
+  //   add the element to ref
   const addToRefs = (elem) => {
     if (elem && !labelInputRefs.current.includes(elem)) {
       labelInputRefs.current.push(elem);
     }
   };
 
+  //   component to show the dialog content input
   const CustomDialogContent = inputs.map((item, key) => {
     const [val, setVal] = useState(0);
     useEffect(() => {
@@ -44,12 +46,14 @@ export default function DialogAddOrEdit({
     );
   });
 
+  //   function to execute on click in button save
   const handleClickSave = () => {
     for (let i = 0; i < labelInputRefs.current.length; i++) {
       console.log(labelInputRefs.current[i].children[1].children[0].value);
     }
   };
 
+  //   root render element
   return (
     <Dialog open={open} onClose={close}>
       <DialogTitle>{title}</DialogTitle>
