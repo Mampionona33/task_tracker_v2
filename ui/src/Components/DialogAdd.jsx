@@ -17,7 +17,7 @@ import React, { useEffect, useState, useRef } from 'react';
     input : type | Array of Object @use to field the inputs label and value
 */
 
-export default function DialogAdd({ title, open, close, data, inputs }) {
+export default function DialogAdd({ title, open, close, data, inputLabel }) {
   const labelInputRefs = useRef([]);
 
   //   add the element to ref
@@ -28,7 +28,7 @@ export default function DialogAdd({ title, open, close, data, inputs }) {
   };
 
   //   component to show the dialog content input
-  const CustomDialogContent = inputs.map((item, key) => {
+  const CustomDialogContent = inputLabel.map((item, key) => {
     const [val, setVal] = useState(0);
     useEffect(() => {
       if (item) {
