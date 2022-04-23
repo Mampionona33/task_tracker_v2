@@ -19,6 +19,12 @@ import React, { useEffect, useState, useRef } from 'react';
 
 export default function DialogAdd({ title, open, close, data, inputLabel }) {
   const labelInputRefs = useRef([]);
+  const [inputLab, setInputLab] = useState([]);
+  useEffect(() => {
+    if (inputLabel) {
+      setInputLab((prev) => inputLabel);
+    }
+  }, [inputLabel]);
 
   //   add the element to ref
   const addToRefs = (elem) => {
@@ -28,29 +34,29 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
   };
 
   //   component to show the dialog content input
-  const CustomDialogContent = inputLabel.map((item, key) => {
-    const [val, setVal] = useState(0);
-    useEffect(() => {
-      if (item) {
-        setVal((prev) => Object.values(item));
-      }
-    }, [item]);
-    return (
-      <TextField
-        key={key}
-        label={Object.keys(item)}
-        value={val}
-        ref={addToRefs}
-        onChange={(e) => setVal((prev) => e.target.value)}
-      />
-    );
-  });
+  // const CustomDialogContent = inputLabel.map((item, key) => {
+  //   const [val, setVal] = useState(0);
+  //   useEffect(() => {
+  //     if (item) {
+  //       setVal((prev) => Object.values(item));
+  //     }
+  //   }, [item]);
+  //   return (
+  //     <TextField
+  //       key={key}
+  //       label={Object.keys(item)}
+  //       value={val}
+  //       ref={addToRefs}
+  //       onChange={(e) => setVal((prev) => e.target.value)}
+  //     />
+  //   );
+  // });
 
   //   function to execute on click in button save
   const handleClickSave = () => {
-    for (let i = 0; i < labelInputRefs.current.length; i++) {
-      console.log(labelInputRefs.current[i].children[1].children[0].value);
-    }
+    // for (let i = 0; i < labelInputRefs.current.length; i++) {
+    //   console.log(labelInputRefs.current[i].children[1].children[0].value);
+    // }
   };
 
   //   root render element
@@ -66,7 +72,7 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
             gap: 1,
           }}
         >
-          {CustomDialogContent}
+          {/* {CustomDialogContent} */}
         </Box>
       </DialogContent>
       <DialogActions>

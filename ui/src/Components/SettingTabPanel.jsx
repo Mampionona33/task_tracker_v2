@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchTaskTypeData } from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
+import DialogAdd from './DialogAdd.jsx';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -176,6 +177,7 @@ export default function SettingTabPanel(params) {
             data={selectedRowdata}
             inputLabel={['Task Type name', 'Task Goal', 'test']}
           /> */}
+
           <DialogBoxConfirmDel
             open={dialogDelOpen}
             close={() => setDialogDelOpen((prev) => false)}
