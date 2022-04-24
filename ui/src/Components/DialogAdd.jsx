@@ -17,14 +17,43 @@ import React, { useEffect, useState, useRef } from 'react';
     input : type | Array of Object @use to field the inputs label and value
 */
 
-export default function DialogAdd({ title, open, close, data, inputLabel }) {
+export default function DialogAdd({
+  title,
+  open,
+  close,
+  data,
+  inputLabel,
+  columnHeader,
+}) {
+  // console.log(Object.keys(data));
+  // console.log(columnHeader);
+
+  const [filter, setFilter] = useState([]);
+
   const labelInputRefs = useRef([]);
   const [inputLab, setInputLab] = useState([]);
+
   useEffect(() => {
     if (inputLabel) {
       setInputLab((prev) => inputLabel);
     }
-  }, [inputLabel]);
+    if (columnHeader) {
+      setFilter((prev) => columnHeader);
+    }
+  }, [inputLabel, columnHeader]);
+
+  const initialInputValue = [];
+
+  filter.map((item) => {
+    Object.entries(data).map((elem) => {
+      if (elem[0] === item) {
+        // console.log(elem[1]);
+        initialInputValue.push(elem[1]);
+      }
+    });
+  });
+
+  console.log(initialInputValue);
 
   //   add the element to ref
   const addToRefs = (elem) => {
@@ -32,6 +61,18 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
       labelInputRefs.current.push(elem);
     }
   };
+
+  const CustomDialogContent = inputLab.map((item, key) => {
+    if (initialInputValue.length > 0) {
+      return (
+        <TextField
+          key={key}
+          label={item}
+          value={initialInputValue.map((i) => i)}
+        />
+      );
+    }
+  });
 
   //   component to show the dialog content input
   // const CustomDialogContent = inputLabel.map((item, key) => {
@@ -72,7 +113,7 @@ export default function DialogAdd({ title, open, close, data, inputLabel }) {
             gap: 1,
           }}
         >
-          {/* {CustomDialogContent} */}
+          {CustomDialogContent}
         </Box>
       </DialogContent>
       <DialogActions>

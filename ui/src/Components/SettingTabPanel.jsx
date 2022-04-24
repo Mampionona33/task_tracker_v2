@@ -174,7 +174,7 @@ export default function SettingTabPanel(params) {
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
             title={'Edit Task Type'}
-            data={selectedRowdata}
+            data={selectedRowdat  a}
             inputLabel={['Task Type name', 'Task Goal', 'test']}
           /> */}
 
@@ -184,6 +184,7 @@ export default function SettingTabPanel(params) {
             title='Edit Task Type'
             inputLabel={['Type Task Name', 'Type Task Goal']}
             data={selectedRowdata}
+            columnHeader={['name', 'objectif']}
           />
 
           <DialogBoxConfirmDel
