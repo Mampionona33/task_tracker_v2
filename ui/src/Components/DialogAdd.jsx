@@ -24,9 +24,11 @@ export default function DialogAdd({
   data,
   inputLabel,
   columnHeader,
+  filterDown,
 }) {
   // console.log(Object.keys(data));
   // console.log(columnHeader);
+  console.log(filterDown);
   console.log(data);
 
   const [filter, setFilter] = useState([]);
