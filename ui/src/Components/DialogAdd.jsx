@@ -27,6 +27,7 @@ export default function DialogAdd({
 }) {
   // console.log(Object.keys(data));
   // console.log(columnHeader);
+  console.log(data);
 
   const [filter, setFilter] = useState([]);
 
@@ -52,7 +53,7 @@ export default function DialogAdd({
             for (let b = 0; b < dataKeyValueSecondFilter.length; b++) {
               // console.log(dataFilter[i]);
               if (dataFilter[i] === dataKeyValueSecondFilter[b]) {
-                console.log(dataKeyValueSecondFilter[b + 1]);
+                // console.log(dataKeyValueSecondFilter[b + 1]);
               }
             }
           }

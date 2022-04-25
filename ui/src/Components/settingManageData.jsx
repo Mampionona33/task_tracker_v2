@@ -8,12 +8,16 @@ import DialogAdd from './DialogAdd';
 export default function SettingManageData(props) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [buttonEvent, setButtonEvent] = useState([]);
+  const [objData, setObjData] = useState({});
 
   const handleClickAddNew = (event) => {
     // console.log('event: ', event.target);
     setDialogOpen((prve) => true);
     setButtonEvent((prev) => event);
+    const objD = { name: 'test', objectif: 0 };
+    setObjData((prev) => objD);
   };
+
   return (
     <Box
       display={'flex'}
@@ -43,7 +47,7 @@ export default function SettingManageData(props) {
           open={dialogOpen}
           close={() => setDialogOpen((prev) => false)}
           title={'Create New Task'}
-          data={{ name: '', objectif: 0 }}
+          data={objData}
           inputLabel={['Task Type name', 'Task Goal']}
         />
         {/* <SettingDialogTaskType
