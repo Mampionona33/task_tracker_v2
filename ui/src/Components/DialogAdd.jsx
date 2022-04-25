@@ -37,23 +37,42 @@ export default function DialogAdd({
     if (inputLabel) {
       setInputLab((prev) => inputLabel);
     }
-    if (columnHeader) {
-      setFilter((prev) => columnHeader);
+    if (columnHeader && data) {
+      const dataFilter = columnHeader.map((item) => item);
+      const dataKeyValueFirstFilter = Object.entries(data);
+
+      if (dataKeyValueFirstFilter.length > 0) {
+        // console.log(dataFilter[0]);
+        // console.log(dataKeyValueFirstFilter[0][0]);
+        for (let i = 0; i < dataFilter.length; i++) {
+          for (let a = 0; a < dataKeyValueFirstFilter.length; a++) {
+            const dataKeyValueSecondFilter = dataKeyValueFirstFilter[a];
+            // console.log(dataKeyValueSecondFilter);
+            // console.log(dataFilter[i]);
+            for (let b = 0; b < dataKeyValueSecondFilter.length; b++) {
+              // console.log(dataFilter[i]);
+              if (dataFilter[i] === dataKeyValueSecondFilter[b]) {
+                console.log(dataKeyValueSecondFilter[b + 1]);
+              }
+            }
+          }
+        }
+      }
     }
-  }, [inputLabel, columnHeader]);
+  }, [inputLabel, columnHeader, data]);
 
   const initialInputValue = [];
 
-  filter.map((item) => {
-    Object.entries(data).map((elem) => {
-      if (elem[0] === item) {
-        // console.log(elem[1]);
-        initialInputValue.push(elem[1]);
-      }
-    });
-  });
+  // filter.map((item) => {
+  //   Object.entries(data).map((elem) => {
+  //     if (elem[0] === item) {
+  //       console.log(elem[1]);
+  //       // initialInputValue.push(elem[1]);
+  //     }
+  //   });
+  // });
 
-  console.log(initialInputValue);
+  // console.log(initialInputValue);
 
   //   add the element to ref
   const addToRefs = (elem) => {
@@ -63,15 +82,8 @@ export default function DialogAdd({
   };
 
   const CustomDialogContent = inputLab.map((item, key) => {
-    if (initialInputValue.length > 0) {
-      return (
-        <TextField
-          key={key}
-          label={item}
-          value={initialInputValue.map((i) => i)}
-        />
-      );
-    }
+    // console.log(filter);
+    return <TextField key={key} label={item} />;
   });
 
   //   component to show the dialog content input
