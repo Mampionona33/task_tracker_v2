@@ -73,12 +73,13 @@ export default function DialogAdd({
   };
 
   const CustomInputList = inputVal.map((item, index) => {
-    console.log(item);
+    console.log(typeof item);
     return (
       <TextField
         label={inputItem[index]}
         key={index}
         value={item}
+        type={typeof item === 'number' ? 'number' : 'text'}
         onChange={(e) => handleInputChange(e, index)}
       />
     );
