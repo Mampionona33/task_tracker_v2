@@ -184,7 +184,7 @@ export default function SettingTabPanel(params) {
             title='Edit Task Type'
             inputLabel={['Type Task Name', 'Type Task Goal']}
             data={selectedRowdata}
-            columnHeader={['name', 'objectif']}
+            dataFilter={['name', 'objectif']}
           />
 
           <DialogBoxConfirmDel

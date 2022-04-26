@@ -49,7 +49,7 @@ export default function SettingManageData(props) {
           title={'Create New Task'}
           data={objData}
           inputLabel={['Task Type name', 'Task Goal']}
-          filterDown={['objectif', 'name']}
+          dataFilter={[ 'name','objectif']}
         />
         {/* <SettingDialogTaskType
           open={dialogOpen}
