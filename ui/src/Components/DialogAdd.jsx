@@ -26,44 +26,6 @@ export default function DialogAdd({
   dataFilter,
   filterDown,
 }) {
-  const [filter, setFilter] = useState([]);
-  const labelInputRefs = useRef([]);
-  const [inputLab, setInputLab] = useState([]);
-  const [inputVal, setInputVal] = useState([]);
-  const [val, setVal] = useState('');
-
-  useEffect(() => {
-    if (inputLabel) {
-      setInputLab((prev) => inputLabel);
-    }
-    if (data && dataFilter) {
-      dataFilter.map((item) => {
-        // console.log(item, ':', data[item]);
-        if (data[item] !== undefined) {
-          setInputVal((prev) => [...prev, data[item]]);
-        }
-      });
-    }
-  }, [inputLabel, data, dataFilter]);
-
-  //   add the element to ref
-  const addToRefs = (elem) => {
-    if (elem && !labelInputRefs.current.includes(elem)) {
-      labelInputRefs.current.push(elem);
-    }
-  };
-
-  const handleInputChange = (event, key) => {
-    console.log(key);
-    console.log(event);
-  };
-
-  const CustomDialogContent = inputLab.map((item, key) => {
-    if (inputVal.length > 0) {
-      return <TextField key={key} label={item} />;
-    }
-  });
-
   //   component to show the dialog content input
   // const CustomDialogContent = inputLabel.map((item, key) => {
   //   const [val, setVal] = useState(0);
@@ -98,9 +60,7 @@ export default function DialogAdd({
             gridTemplateColumns: 'repeat(2,1fr)',
             gap: 1,
           }}
-        >
-          {CustomDialogContent}
-        </Box>
+        ></Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClickSave}>Save</Button>
