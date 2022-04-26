@@ -30,41 +30,20 @@ export default function DialogAdd({
   const [inputItem, setInputItem] = useState([]);
   useEffect(() => {
     if (dataFilter.length > 0) {
-      dataFilter.map((item) => {
+      const inp = dataFilter.map((item) => {
         if (data[item] !== undefined) {
-          setInputVal((prev) => [...prev, data[item]]);
+          return data[item];
         }
       });
+      setInputVal((prev) => inp);
     }
     if (inputLabel) {
       setInputItem((prev) => inputLabel);
     }
   }, [dataFilter, data, inputLabel]);
 
-  //   component to show the dialog content input
-  // const CustomDialogContent = inputLabel.map((item, key) => {
-  //   const [val, setVal] = useState(0);
-  //   useEffect(() => {
-  //     if (item) {
-  //       setVal((prev) => Object.values(item));
-  //     }
-  //   }, [item]);
-  //   return (
-  //     <TextField
-  //       key={key}
-  //       label={Object.keys(item)}
-  //       value={val}
-  //       ref={addToRefs}
-  //       onChange={(e) => setVal((prev) => e.target.value)}
-  //     />
-  //   );
-  // });
-
   //   function to execute on click in button save
   const handleClickSave = () => {};
-
-  // console.log(inputVal);
-  // console.log(inputItem);
 
   const handleInputChange = (event, index) => {
     const newInputVal = [...inputVal];
