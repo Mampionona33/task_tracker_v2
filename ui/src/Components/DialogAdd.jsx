@@ -14,7 +14,11 @@ import React, { useEffect, useState, useRef } from 'react';
     title : type | string @title of the dialog
     open : type | function @open the dialog on click on parent button
     close : type | function @close the dialog box on click on button close
-    input : type | Array of Object @use to field the inputs label and value
+    inputLabel : type | Array of Object @use to field the inputs label and value
+
+    This component is used in : 
+      - SettingTabPanel.jsx;
+      - settingManageData.jsx
 */
 
 export default function DialogAdd({
@@ -28,6 +32,8 @@ export default function DialogAdd({
 }) {
   const [inputVal, setInputVal] = useState([]);
   const [inputItem, setInputItem] = useState([]);
+  const refInputLab = useRef([]);
+
   useEffect(() => {
     if (dataFilter.length > 0) {
       const inp = dataFilter.map((item) => {
@@ -42,17 +48,27 @@ export default function DialogAdd({
     }
   }, [dataFilter, data, inputLabel]);
 
-  //   function to execute on click in button save
-  const handleClickSave = () => {};
+  // Function to execute to create ref
+  const addToRef = (elem) => {
+    if (elem && !refInputLab.current.includes(elem)) {
+      refInputLab.current.push(elem);
+    }
+  };
 
+  //   function to execute on click in button save
+  const handleClickSave = () => {
+    console.log(refInputLab.current[0]);
+  };
+
+  // Function to execute on input change
   const handleInputChange = (event, index) => {
     const newInputVal = [...inputVal];
     newInputVal[index] = event.target.value;
     setInputVal(newInputVal);
   };
 
+  // Function to populate dialog by inputs
   const CustomInputList = inputVal.map((item, index) => {
-    console.log(typeof item);
     return (
       <TextField
         label={inputItem[index]}
@@ -60,6 +76,7 @@ export default function DialogAdd({
         value={item}
         type={typeof item === 'number' ? 'number' : 'text'}
         onChange={(e) => handleInputChange(e, index)}
+        ref={addToRef}
       />
     );
   });
