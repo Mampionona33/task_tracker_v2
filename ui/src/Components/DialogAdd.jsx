@@ -26,6 +26,21 @@ export default function DialogAdd({
   dataFilter,
   filterDown,
 }) {
+  const [inputVal, setInputVal] = useState([]);
+  const [inputItem, setInputItem] = useState([]);
+  useEffect(() => {
+    if (dataFilter.length > 0) {
+      dataFilter.map((item) => {
+        if (data[item] !== undefined) {
+          setInputVal((prev) => [...prev, data[item]]);
+        }
+      });
+    }
+    if (inputLabel) {
+      setInputItem((prev) => inputLabel);
+    }
+  }, [dataFilter, data, inputLabel]);
+
   //   component to show the dialog content input
   // const CustomDialogContent = inputLabel.map((item, key) => {
   //   const [val, setVal] = useState(0);
@@ -48,6 +63,27 @@ export default function DialogAdd({
   //   function to execute on click in button save
   const handleClickSave = () => {};
 
+  // console.log(inputVal);
+  // console.log(inputItem);
+
+  const handleInputChange = (event, index) => {
+    const newInputVal = [...inputVal];
+    newInputVal[index] = event.target.value;
+    setInputVal(newInputVal);
+  };
+
+  const CustomInputList = inputVal.map((item, index) => {
+    console.log(item);
+    return (
+      <TextField
+        label={inputItem[index]}
+        key={index}
+        value={item}
+        onChange={(e) => handleInputChange(e, index)}
+      />
+    );
+  });
+
   //   root render element
   return (
     <Dialog open={open} onClose={close}>
@@ -60,7 +96,9 @@ export default function DialogAdd({
             gridTemplateColumns: 'repeat(2,1fr)',
             gap: 1,
           }}
-        ></Box>
+        >
+          {CustomInputList}
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClickSave}>Save</Button>
