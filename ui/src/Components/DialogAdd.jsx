@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Button,
   Dialog,
@@ -9,7 +10,9 @@ import {
   Box,
 } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
-import { updateTaskTypeName } from './dataHandler';
+import { CREAT_TASK_TYPE, UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
+import { LIST_TASK_TYPE } from '../GraphQL/Queries';
+import { updateTaskTypeGoal, updateTaskTypeName } from './dataHandler';
 
 /* 
     title : type | string @title of the dialog
@@ -67,6 +70,15 @@ export default function DialogAdd({
     return true;
   };
 
+  const [typeTachesAdd, { error: errorCreatTaskType }] = useMutation(
+    CREAT_TASK_TYPE,
+    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+  );
+  const [typeTacheUpdate, { error: errorUpdate }] = useMutation(
+    UPDATE_TASK_TYPE,
+    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+  );
+
   //   function to execute on click in button save
   const handleClickSave = async () => {
     // refInputVal.current.map((item) => {
@@ -80,10 +92,19 @@ export default function DialogAdd({
     //     console.log('Create');
     //   }
     // });
-    if (title.includes('Edit') && title.includes('Task')) {
-      console.log('Edit');
+    if (title.includes('Edit')) {
+      if (title.includes('Task')) {
+        console.log('Edit');
+        console.log(inputVal);
+        await updateTaskTypeName(id, typeTacheUpdate, errorUpdate, inputVal[0])
+          .then(
+            updateTaskTypeGoal(id, typeTacheUpdate, errorUpdate, inputVal[1])
+          )
+          .then(close);
+      }
     } else if (title.includes('Creat') && title.includes('Task')) {
       console.log('Creat');
+      console.log(inputVal);
     } else {
       console.log('test');
     }
