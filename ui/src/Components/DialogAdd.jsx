@@ -33,10 +33,11 @@ export default function DialogAdd({
   const [inputVal, setInputVal] = useState([]);
   const [inputItem, setInputItem] = useState([]);
   const [id, setId] = useState(0);
-  const refInputLab = useRef([]);
+  const refInputVal = useRef([]);
 
   useEffect(() => {
     if (data.id !== 0 && data !== undefined && data.id !== undefined) {
+      console.log(data);
       setId((prev) => data.id);
     }
     if (dataFilter.length > 0) {
@@ -54,16 +55,31 @@ export default function DialogAdd({
 
   // Function to execute to create ref
   const addToRef = (elem) => {
-    if (elem && !refInputLab.current.includes(elem)) {
-      refInputLab.current.push(elem);
+    if (elem && !refInputVal.current.includes(elem)) {
+      refInputVal.current.push(elem);
     }
   };
 
+  // reset ref
+  const resetRef = async () => {
+    refInputVal.current = [];
+    return true;
+  };
+
   //   function to execute on click in button save
-  const handleClickSave = () => {
-    refInputLab.current.map((item) => {
-      console.log(item.children[1].children[0].value);
+  const handleClickSave = async () => {
+    refInputVal.current.map((item) => {
+      let value = item.children[1].children[0].value;
+      // console.log(item.children[1].children[0].value);
+      console.log(value);
+      if (title.includes('Edit')) {
+        console.log('Edit');
+      } else {
+        console.log('Create');
+      }
+      value = '';
     });
+    await resetRef().then(close);
   };
 
   // Function to execute on input change
