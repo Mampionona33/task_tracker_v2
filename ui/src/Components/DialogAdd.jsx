@@ -32,9 +32,13 @@ export default function DialogAdd({
 }) {
   const [inputVal, setInputVal] = useState([]);
   const [inputItem, setInputItem] = useState([]);
+  const [id, setId] = useState(0);
   const refInputLab = useRef([]);
 
   useEffect(() => {
+    if (data.id !== 0 && data !== undefined && data.id !== undefined) {
+      setId((prev) => data.id);
+    }
     if (dataFilter.length > 0) {
       const inp = dataFilter.map((item) => {
         if (data[item] !== undefined) {
@@ -57,7 +61,9 @@ export default function DialogAdd({
 
   //   function to execute on click in button save
   const handleClickSave = () => {
-    console.log(refInputLab.current[0]);
+    refInputLab.current.map((item) => {
+      console.log(item.children[1].children[0].value);
+    });
   };
 
   // Function to execute on input change
