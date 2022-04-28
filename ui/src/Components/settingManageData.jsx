@@ -14,7 +14,7 @@ export default function SettingManageData(props) {
     // console.log('event: ', event.target);
     setDialogOpen((prve) => true);
     setButtonEvent((prev) => event);
-    const objD = { name: 'test', objectif: 0 };
+    const objD = { name: '', objectif: 0 };
     setObjData((prev) => objD);
   };
 
@@ -49,7 +49,7 @@ export default function SettingManageData(props) {
           title={'Create New Task'}
           data={objData}
           inputLabel={['Task Type name', 'Task Goal']}
-          dataFilter={[ 'name','objectif']}
+          dataFilter={['name', 'objectif']}
         />
         {/* <SettingDialogTaskType
           open={dialogOpen}

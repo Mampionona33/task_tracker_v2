@@ -12,7 +12,11 @@ import {
 import React, { useEffect, useState, useRef } from 'react';
 import { CREAT_TASK_TYPE, UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
 import { LIST_TASK_TYPE } from '../GraphQL/Queries';
-import { updateTaskTypeGoal, updateTaskTypeName } from './dataHandler';
+import {
+  createTaskType,
+  updateTaskTypeGoal,
+  updateTaskTypeName,
+} from './dataHandler';
 
 /* 
     title : type | string @title of the dialog
@@ -94,17 +98,22 @@ export default function DialogAdd({
     // });
     if (title.includes('Edit')) {
       if (title.includes('Task')) {
-        console.log('Edit');
-        console.log(inputVal);
         await updateTaskTypeName(id, typeTacheUpdate, errorUpdate, inputVal[0])
           .then(
             updateTaskTypeGoal(id, typeTacheUpdate, errorUpdate, inputVal[1])
           )
           .then(close);
       }
-    } else if (title.includes('Creat') && title.includes('Task')) {
-      console.log('Creat');
-      console.log(inputVal);
+    } else if (title.includes('Creat')) {
+      if (title.includes('Task')) {
+        console.log('Creat');
+        await createTaskType(
+          typeTachesAdd,
+          inputVal[0],
+          inputVal[1],
+          errorCreatTaskType
+        ).then(close);
+      }
     } else {
       console.log('test');
     }
