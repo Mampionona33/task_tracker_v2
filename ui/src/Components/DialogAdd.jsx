@@ -9,6 +9,7 @@ import {
   Box,
 } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
+import { updateTaskTypeName } from './dataHandler';
 
 /* 
     title : type | string @title of the dialog
@@ -68,17 +69,25 @@ export default function DialogAdd({
 
   //   function to execute on click in button save
   const handleClickSave = async () => {
-    refInputVal.current.map((item) => {
-      let value = item.children[1].children[0].value;
-      // console.log(item.children[1].children[0].value);
-      console.log(value);
-      if (title.includes('Edit')) {
-        console.log('Edit');
-      } else {
-        console.log('Create');
-      }
-      value = '';
-    });
+    // refInputVal.current.map((item) => {
+    //   console.log(inputVal);
+    //   let value = item.children[1].children[0].value;
+    //   // console.log(item.children[1].children[0].value);
+    //   console.log(value);
+    //   if (title.includes('Edit')) {
+    //     console.log('Edit');
+    //   } else {
+    //     console.log('Create');
+    //   }
+    // });
+    if (title.includes('Edit') && title.includes('Task')) {
+      console.log('Edit');
+    } else if (title.includes('Creat') && title.includes('Task')) {
+      console.log('Creat');
+    } else {
+      console.log('test');
+    }
+
     await resetRef().then(close);
   };
 
