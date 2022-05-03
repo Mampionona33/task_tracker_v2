@@ -148,6 +148,9 @@ export default function Navbar() {
         )
         .then(logout());
     }
+    if (prevProcessId === 0) {
+      logout();
+    }
   };
 
   // creat custom drawer with custom paper
