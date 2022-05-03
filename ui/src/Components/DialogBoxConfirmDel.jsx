@@ -8,7 +8,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-export default function DialogBoxConfirmDel({ open, close, title }) {
+export default function DialogBoxConfirmDel({ open, close, title, rowId }) {
+  console.log(rowId);
   return (
     <React.Fragment>
       <Dialog open={open} onClose={close}>

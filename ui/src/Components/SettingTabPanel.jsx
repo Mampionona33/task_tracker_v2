@@ -113,13 +113,16 @@ export default function SettingTabPanel(params) {
   const [dialogEditIsOpen, setDialogEditOpen] = useState(false);
   const [selectedRowdata, setSelectedRowData] = useState([]);
   const [buttonEvent, setButtonEvent] = useState([]);
+  const [taskTypeId, setTaskTypeId] = useState(0);
   // -----------------------------------------------------------
 
   //--------------------
   // Dialog Confirm Del
   //--------------------
   const [dialogDelOpen, setDialogDelOpen] = useState(false);
-  const handleClickDel = () => {
+  const handleClickDel = (event, params) => {
+    // console.log(params);
+    setTaskTypeId((prev) => params.id);
     setDialogDelOpen((prev) => true);
   };
 
@@ -191,6 +194,8 @@ export default function SettingTabPanel(params) {
             open={dialogDelOpen}
             close={() => setDialogDelOpen((prev) => false)}
             title='Delete Task Type'
+            data={selectedRowdata}
+            rowId={taskTypeId}
             inputLabel={['Task Type name', 'Task Goal']}
           />
         </TabPanel>

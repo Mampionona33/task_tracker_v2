@@ -45,7 +45,7 @@ export default function DialogAdd({
 
   useEffect(() => {
     if (data.id !== 0 && data !== undefined && data.id !== undefined) {
-      console.log(data);
+      // console.log(data);
       setId((prev) => data.id);
     }
     if (dataFilter.length > 0) {
@@ -85,17 +85,6 @@ export default function DialogAdd({
 
   //   function to execute on click in button save
   const handleClickSave = async () => {
-    // refInputVal.current.map((item) => {
-    //   console.log(inputVal);
-    //   let value = item.children[1].children[0].value;
-    //   // console.log(item.children[1].children[0].value);
-    //   console.log(value);
-    //   if (title.includes('Edit')) {
-    //     console.log('Edit');
-    //   } else {
-    //     console.log('Create');
-    //   }
-    // });
     if (title.includes('Edit')) {
       if (title.includes('Task')) {
         await updateTaskTypeName(id, typeTacheUpdate, errorUpdate, inputVal[0])
