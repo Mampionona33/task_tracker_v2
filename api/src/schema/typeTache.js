@@ -9,12 +9,13 @@ async function list() {
 
 function validate(tache) {
   const errors = [];
-  if (tache.name === null) {
+  if (tache.name === '') {
     errors.push('Nom de la type de tache ne doit pas étre vide');
   }
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
+  return tache;
 }
 /* le varriable tache doit etre exactement 
 identique au varriable qui se trouve dans schema.graphql 
