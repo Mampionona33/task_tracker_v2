@@ -68,7 +68,7 @@ export default function DialogAdd({
     }
   };
 
-  // reset ref
+  // reset refcd
   const resetRef = async () => {
     refInputVal.current = [];
     return true;
