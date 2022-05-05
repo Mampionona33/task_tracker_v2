@@ -103,7 +103,7 @@ type TypeTache {
 }
 ##Taches Inputs ------
 input TachesInputs {
-  name: String!
+  name: String
   objectif: Float
 }
 
