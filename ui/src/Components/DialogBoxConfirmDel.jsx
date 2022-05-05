@@ -9,10 +9,16 @@ import {
 import React from 'react';
 import { deletTaskType } from './dataHandler';
 
-export default function DialogBoxConfirmDel({ open, close, title, rowId }) {
+export default function DialogBoxConfirmDel({
+  open,
+  close,
+  title,
+  rowId,
+  data,
+}) {
   const handleConfirm = async () => {
     if (title.includes('Task Type')) {
-      console.log('task type');
+      console.log('task type data', data);
     }
   };
   return (

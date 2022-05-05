@@ -44,11 +44,11 @@ export default function DialogAdd({
   const refInputVal = useRef([]);
 
   useEffect(() => {
-    if (data.id !== 0 && data !== undefined && data.id !== undefined) {
+    if (data && data.id !== 0 && data !== undefined && data.id !== undefined) {
       // console.log(data);
       setId((prev) => data.id);
     }
-    if (dataFilter.length > 0) {
+    if (data && dataFilter.length > 0) {
       const inp = dataFilter.map((item) => {
         if (data[item] !== undefined) {
           return data[item];

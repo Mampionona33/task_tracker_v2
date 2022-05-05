@@ -123,6 +123,7 @@ export default function SettingTabPanel(params) {
   const handleClickDel = (event, params) => {
     // console.log(params);
     setTaskTypeId((prev) => params.id);
+    setSelectedRowData((prev) => params.row);
     setDialogDelOpen((prev) => true);
   };
 
