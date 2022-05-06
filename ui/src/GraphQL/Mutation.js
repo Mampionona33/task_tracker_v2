@@ -109,3 +109,13 @@ export const CREAT_TASK_TYPE = gql`
     }
   }
 `;
+
+
+export const DELETE_TASK_TYPE = gql`
+mutation TypeTacheDelete($filter: FilterById) {
+  typeTacheDelete(filter: $filter) {
+    acknowledged
+    deletedCount    
+  }
+}
+`;

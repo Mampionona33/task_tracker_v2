@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Button,
   Dialog,
@@ -8,6 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { DELETE_TASK_TYPE } from '../GraphQL/Mutation';
+import { LIST_TASK_TYPE } from '../GraphQL/Queries';
 import { deletTaskType } from './dataHandler';
 
 export default function DialogBoxConfirmDel({
@@ -17,9 +20,14 @@ export default function DialogBoxConfirmDel({
   rowId,
   data,
 }) {
+  const [typeTacheDelete, { error: errorDelete }] = useMutation(
+    DELETE_TASK_TYPE,
+    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+  );
+
   const handleConfirm = async () => {
     if (title.includes('Task Type')) {
-      console.log('task type data', data.name);
+      await deletTaskType(typeTacheDelete, rowId, errorDelete).then(close);
     }
   };
 
@@ -27,7 +35,8 @@ export default function DialogBoxConfirmDel({
     if (title.includes('Task Type')) {
       return (
         <Typography>
-          Do you realy want to delete {data.name} : {data.objectif} from database ?
+          Do you realy want to delete {data.name} : {data.objectif} from
+          database ?
         </Typography>
       );
     }

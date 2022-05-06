@@ -58,7 +58,9 @@ async function update(_, { filter: { id }, update: { name, objectif } }) {
 
 async function del(_, { filter: { id } }) {
   const db = getDb();
-  const deletedTache = db.collection('typeTache').deleteOne({ id: id });
+  const filter = { id: id };
+  console.log('filter : ', filter);
+  const deletedTache = db.collection('typeTache').deleteOne(filter);
   return deletedTache;
 }
 

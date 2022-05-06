@@ -830,12 +830,20 @@ const createTaskType = async (typeTachesAdd, taskTypeName, goal, error) => {
 };
 
 // Delete TaskType by id
-const deletTaskType = async (typeTacheDelete, id) => {
+const deletTaskType = async (typeTacheDelete, id, errorDelete) => {
   typeTacheDelete({
-    variable: {
+    variables: {
+      update: {
+        acknowledged: true,
+        deletedCount: 1,
+      },
       filter: { id: id },
     },
   });
+  if (errorDelete) {
+    console.log(errorDelete);
+  }
+  return true;
 };
 
 // update the task Type goal
