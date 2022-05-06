@@ -883,6 +883,21 @@ const fetchTaskTypeData = () => {
   return output;
 };
 
+// Fetch statu com
+const fetchStatucom = () => {
+  const [out, setOut] = useState([]);
+  const {
+    data: statuComData,
+    loadin: loadingStatuCom,
+    error: errorStatuCom,
+  } = useQuery(LIST_STATUS_COMMERCIALE);
+  useEffect(() => {
+    if (statuComData) {
+      setOut((prev) => statuComData.listStatCom);
+    }
+  }, [statuComData]);
+  return out;
+};
 export {
   loadAllData,
   loadProcessingPause,
@@ -925,4 +940,5 @@ export {
   updateTaskTypeGoal,
   createTaskType,
   deletTaskType,
+  fetchStatucom,
 };

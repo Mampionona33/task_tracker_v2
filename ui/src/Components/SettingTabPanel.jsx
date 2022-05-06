@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
 import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { fetchTaskTypeData } from './dataHandler.js';
+import { fetchStatucom, fetchTaskTypeData } from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
 import DialogAdd from './DialogAdd.jsx';
@@ -127,6 +127,50 @@ export default function SettingTabPanel(params) {
     setDialogDelOpen((prev) => true);
   };
 
+  // statu com column
+  const statuComColumn = [
+    { field: 'id', headerName: 'Id', headerAlign: 'center', hide: 'true' },
+    {
+      field: 'name',
+      headerName: 'Task Type Name',
+      headerAlign: 'center',
+      flex: 1,
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      headerAlign: 'center',
+      align: 'center',
+
+      renderCell: (params) => (
+        <React.Fragment>
+          <IconButton
+            color='primary'
+            aria-label='Edit'
+            onClick={(event) => handleClickEdit(event, params)}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color='primary'
+            aria-label='Delete'
+            onClick={(event) => handleClickDel(event, params)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ),
+    },
+  ];
+  const statuComList = fetchStatucom(); // load statu com from data base
+  const [statuComRows, setStatuComRows] = useState([]);
+  useEffect(() => {
+    if (statuComList) {
+      // console.log(statuComList);
+      setStatuComRows((prev) => statuComList);
+    }
+  }, [statuComList]);
+
   return (
     <Box
       sx={{
@@ -201,7 +245,11 @@ export default function SettingTabPanel(params) {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <SettingManageData
+            columns={statuComColumn}
+            rows={statuComRows}
+            dataType={'statu Com'}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three
