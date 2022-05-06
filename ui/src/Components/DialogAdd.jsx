@@ -85,7 +85,9 @@ export default function DialogAdd({
 
   //   function to execute on click in button save
   const handleClickSave = async () => {
+    // test if the edit button is clicked
     if (title.includes('Edit')) {
+      // test if the table title include Task
       if (title.includes('Task')) {
         await updateTaskTypeName(id, typeTacheUpdate, errorUpdate, inputVal[0])
           .then(
@@ -93,6 +95,10 @@ export default function DialogAdd({
           )
           .then(close);
       }
+      if (title.includes('statu Com')) {
+        console.log('Edit statu com');
+      }
+      // test if Create button is clicked
     } else if (title.includes('Creat')) {
       if (title.includes('Task')) {
         console.log('Creat');

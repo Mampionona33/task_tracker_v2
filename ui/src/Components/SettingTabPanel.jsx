@@ -250,6 +250,14 @@ export default function SettingTabPanel(params) {
             rows={statuComRows}
             dataType={'statu Com'}
           />
+          <DialogAdd
+            open={dialogEditIsOpen}
+            close={() => setDialogEditOpen((prev) => false)}
+            title='Edit Task Type'
+            inputLabel={['Statu Com Name']}
+            data={selectedRowdata}
+            dataFilter={['name']}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three
