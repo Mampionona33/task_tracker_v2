@@ -7,8 +7,20 @@ async function list() {
   return statCom;
 }
 
+const validate = (statCom) => {
+  const error = [];
+  if (statCom.value === '') {
+    error.push('Commertial status can not be empty');
+  }
+  if (error.length > 0) {
+    throw new UserInputError('Invalid inputs(s)', { errors });
+  }
+  return statCom;
+};
+
 async function add(_, { statCom }) {
   const db = getDb();
+  validate(statCom);
   const newStatCom = Object.assign({}, statCom);
   newStatCom.id = await getNextSequence('statCom');
 
