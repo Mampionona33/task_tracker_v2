@@ -12,10 +12,37 @@ export default function SettingManageData(props) {
 
   const handleClickAddNew = (event) => {
     console.log('event: ', event.target);
+    // console.log('event: ', props.dataType);
     setDialogTaskOpen((prve) => true);
     setButtonEvent((prev) => event);
     const objD = { name: '', objectif: 0 };
     setObjData((prev) => objD);
+  };
+
+  const CustomDialog = () => {
+    if (props.dataType.includes('statu Com')) {
+      return (
+        <DialogAdd
+          open={dialogTaskOpen}
+          close={() => setDialogTaskOpen((prev) => false)}
+          title={'Create New Statu Com'}
+          data={objData}
+          inputLabel={['Statu Com name']}
+          dataFilter={['name']}
+        />
+      );
+    } else if (props.dataType.includes('Task Type')) {
+      return (
+        <DialogAdd
+          open={dialogTaskOpen}
+          close={() => setDialogTaskOpen((prev) => false)}
+          title={'Create New Task'}
+          data={objData}
+          inputLabel={['Task Type name', 'Task Goal']}
+          dataFilter={['name', 'objectif']}
+        />
+      );
+    }
   };
 
   return (
@@ -43,14 +70,8 @@ export default function SettingManageData(props) {
           <LibraryAddIcon />
           Creat New {props.dataType}
         </Button>
-        <DialogAdd
-          open={dialogTaskOpen}
-          close={() => setDialogTaskOpen((prev) => false)}
-          title={'Create New Task'}
-          data={objData}
-          inputLabel={['Task Type name', 'Task Goal']}
-          dataFilter={['name', 'objectif']}
-        />
+        <CustomDialog />
+
         {/* <SettingDialogTaskType
           open={dialogOpen}
           close={() => setDialogOpen((prev) => false)}
