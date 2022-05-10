@@ -143,15 +143,7 @@ export default function DialogAdd({
       <DialogTitle>{title}</DialogTitle>
       <Divider />
       <DialogContent>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2,1fr)',
-            gap: 1,
-          }}
-        >
-          {CustomInputList}
-        </Box>
+        <Box sx={{ display: 'flex', gap: '1rem' }}>{CustomInputList}</Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClickSave}>Save</Button>
