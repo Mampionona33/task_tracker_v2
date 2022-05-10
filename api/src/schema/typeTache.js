@@ -9,6 +9,10 @@ async function list() {
 
 function validate(tache) {
   const errors = [];
+  if (typeof tache.objectif !== 'number') {
+    errors.push('Task Goal must be a number');
+    console.log('task goal type is ', typeof tache.objectif);
+  }
   if (tache.name === '') {
     errors.push('Nom de la type de tache ne doit pas étre vide');
   }
