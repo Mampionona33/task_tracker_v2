@@ -253,7 +253,7 @@ export default function SettingTabPanel(params) {
           <DialogAdd
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
-            title='Edit Task Type'
+            title='Edit statu Com'
             inputLabel={['Statu Com Name']}
             data={selectedRowdata}
             dataFilter={['name']}
