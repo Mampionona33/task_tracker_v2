@@ -900,7 +900,12 @@ const fetchStatucom = () => {
 };
 
 // update statu com "it's used in DialogAdd.jsx"
-const updateStatuCom = async (id, statuComName, errorUpdateSatuCom) => {
+const updateStatuCom = async (
+  id,
+  statuComName,
+  statComUpdate,
+  errorUpdateSatuCom
+) => {
   statComUpdate({
     variables: {
       filter: { id: id },

@@ -110,8 +110,14 @@ export default function DialogAdd({
           .then(close);
       }
       if (title.includes('statu Com')) {
-        console.log('Edit statu com', id);
-        await updateStatuCom(id,inputVal[0],errorUpdateStatCom).then(close)
+        console.log('Edit statu com', id, inputVal[0]);
+
+        await updateStatuCom(
+          id,
+          inputVal[0],
+          statComUpdate,
+          errorUpdateStatCom
+        ).then(close);
       }
       // test if Create button is clicked
     } else if (title.includes('Creat')) {
