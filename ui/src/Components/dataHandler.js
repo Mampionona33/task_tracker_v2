@@ -899,8 +899,19 @@ const fetchStatucom = () => {
   return out;
 };
 
-// update statu com
-const updateStatuCom = async (id, statuComName, error) => {};
+// update statu com "it's used in DialogAdd.jsx"
+const updateStatuCom = async (id, statuComName, errorUpdateSatuCom) => {
+  statComUpdate({
+    variables: {
+      filter: { id: id },
+      update: { name: statuComName },
+    },
+  });
+  if (errorUpdateSatuCom) {
+    console.log(errorUpdateSatuCom);
+  }
+  return true;
+};
 export {
   loadAllData,
   loadProcessingPause,
@@ -944,4 +955,5 @@ export {
   createTaskType,
   deletTaskType,
   fetchStatucom,
+  updateStatuCom,
 };

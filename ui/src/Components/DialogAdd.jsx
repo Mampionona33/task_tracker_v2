@@ -10,10 +10,15 @@ import {
   Box,
 } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
-import { CREAT_TASK_TYPE, UPDATE_TASK_TYPE } from '../GraphQL/Mutation';
-import { LIST_TASK_TYPE } from '../GraphQL/Queries';
+import {
+  CREAT_TASK_TYPE,
+  UPDATE_STATU_COM,
+  UPDATE_TASK_TYPE,
+} from '../GraphQL/Mutation';
+import { LIST_STATUS_COMMERCIALE, LIST_TASK_TYPE } from '../GraphQL/Queries';
 import {
   createTaskType,
+  updateStatuCom,
   updateTaskTypeGoal,
   updateTaskTypeName,
 } from './dataHandler';
@@ -74,6 +79,7 @@ export default function DialogAdd({
     return true;
   };
 
+  // Mutation for the task type--------------------------------------
   const [typeTachesAdd, { error: errorCreatTaskType }] = useMutation(
     CREAT_TASK_TYPE,
     { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
@@ -82,6 +88,14 @@ export default function DialogAdd({
     UPDATE_TASK_TYPE,
     { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
   );
+  // Mutation for the task type--------------------------------------
+
+  // Mutation for statu com -----------------------------------------
+  const [statComUpdate, { error: errorUpdateStatCom }] = useMutation(
+    UPDATE_STATU_COM,
+    { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true }
+  );
+  // Mutation for statu com -----------------------------------------
 
   //   function to execute on click in button save
   const handleClickSave = async () => {
@@ -97,6 +111,7 @@ export default function DialogAdd({
       }
       if (title.includes('statu Com')) {
         console.log('Edit statu com', id);
+        await updateStatuCom(id,inputVal[0],errorUpdateStatCom).then(close)
       }
       // test if Create button is clicked
     } else if (title.includes('Creat')) {

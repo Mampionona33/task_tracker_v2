@@ -110,12 +110,20 @@ export const CREAT_TASK_TYPE = gql`
   }
 `;
 
-
 export const DELETE_TASK_TYPE = gql`
-mutation TypeTacheDelete($filter: FilterById) {
-  typeTacheDelete(filter: $filter) {
-    acknowledged
-    deletedCount    
+  mutation TypeTacheDelete($filter: FilterById) {
+    typeTacheDelete(filter: $filter) {
+      acknowledged
+      deletedCount
+    }
   }
-}
+`;
+
+export const UPDATE_STATU_COM = gql`
+  mutation StatComUpdate($filter: FilterById, $update: StatComInput) {
+    statComUpdate(filter: $filter, update: $update) {
+      id
+      name
+    }
+  }
 `;
