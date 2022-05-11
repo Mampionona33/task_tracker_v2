@@ -130,7 +130,7 @@ export default function DialogAdd({
         label={inputItem[index]}
         key={index}
         value={item}
-        type={typeof item === 'number' ? 'number' : 'text'}
+        type={dataFilter[index].includes('objectif') ? 'number' : 'text'}
         onChange={(e) => handleInputChange(e, index)}
         ref={addToRef}
       />
