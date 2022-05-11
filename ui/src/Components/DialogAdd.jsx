@@ -96,7 +96,7 @@ export default function DialogAdd({
           .then(close);
       }
       if (title.includes('statu Com')) {
-        console.log('Edit statu com');
+        console.log('Edit statu com', id);
       }
       // test if Create button is clicked
     } else if (title.includes('Creat')) {

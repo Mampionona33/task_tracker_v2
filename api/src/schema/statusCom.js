@@ -31,16 +31,21 @@ async function add(_, { statCom }) {
   return savedStatCom;
 }
 
-async function update(_, { filter: { id }, update: { value } }) {
+async function update(_, { filter: { id }, update: { name } }) {
   const db = getDb();
   const filter = { id: id };
-  const update = { $set: { value: value } };
+  const update = [{ $set: {} }];
+  if (name) {
+    update[0].$set.name = name;
+  }
   const options = { upsert: false, returnNewDocument: true };
   const updateStatCom = db
     .collection('statCom')
     .findOneAndUpdate(filter, update, options);
   const savedUpdate = db.collection('statCom').findOne({ id: id });
-  return savedUpdate;
+  if (updateStatCom) {
+    return savedUpdate;
+  }
 }
 
 async function del(_, { filter: { id } }) {

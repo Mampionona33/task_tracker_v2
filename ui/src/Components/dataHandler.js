@@ -898,6 +898,9 @@ const fetchStatucom = () => {
   }, [statuComData]);
   return out;
 };
+
+// update statu com
+const updateStatuCom = async (id, statuComName, error) => {};
 export {
   loadAllData,
   loadProcessingPause,
