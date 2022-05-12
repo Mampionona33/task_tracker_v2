@@ -258,6 +258,14 @@ export default function SettingTabPanel(params) {
             data={selectedRowdata}
             dataFilter={['name']}
           />
+          <DialogBoxConfirmDel
+            open={dialogDelOpen}
+            close={() => setDialogDelOpen((prev) => false)}
+            title='Delete statu com'
+            data={selectedRowdata}
+            rowId={taskTypeId}
+            inputLabel={['statu com name']}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three

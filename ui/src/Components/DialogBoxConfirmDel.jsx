@@ -39,6 +39,12 @@ export default function DialogBoxConfirmDel({
           database ?
         </Typography>
       );
+    } else if (title.includes('statu com')) {
+      return (
+        <Typography>
+          Do you realy want to delete {data.name} from database ?
+        </Typography>
+      );
     }
   };
 
