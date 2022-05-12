@@ -127,3 +127,13 @@ export const UPDATE_STATU_COM = gql`
     }
   }
 `;
+
+export const CREAT_STATU_COM = gql`
+  mutation StatComAdd($statCom: StatComInput) {
+    statComAdd(statCom: $statCom) {
+      _id
+      id
+      name
+    }
+  }
+`;

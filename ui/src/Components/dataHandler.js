@@ -899,6 +899,25 @@ const fetchStatucom = () => {
   return out;
 };
 
+// Create new statu com in data base
+const creatNewStatuCom = async (
+  statComAdd,
+  newStatuComName,
+  errorCreateStatCom
+) => {
+  statComAdd({
+    variables: {
+      statCom: {
+        name: newStatuComName,
+      },
+    },
+  });
+  if (errorCreateStatCom) {
+    console.log(errorCreateStatCom);
+  }
+  return true;
+};
+
 // update statu com "it's used in DialogAdd.jsx"
 const updateStatuCom = async (
   id,
@@ -961,4 +980,5 @@ export {
   deletTaskType,
   fetchStatucom,
   updateStatuCom,
+  creatNewStatuCom,
 };

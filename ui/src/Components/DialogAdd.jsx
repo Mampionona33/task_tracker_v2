@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
 import {
+  CREAT_STATU_COM,
   CREAT_TASK_TYPE,
   UPDATE_STATU_COM,
   UPDATE_TASK_TYPE,
@@ -18,6 +19,7 @@ import {
 import { LIST_STATUS_COMMERCIALE, LIST_TASK_TYPE } from '../GraphQL/Queries';
 import {
   createTaskType,
+  creatNewStatuCom,
   updateStatuCom,
   updateTaskTypeGoal,
   updateTaskTypeName,
@@ -95,6 +97,10 @@ export default function DialogAdd({
     UPDATE_STATU_COM,
     { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true }
   );
+  const [statComAdd, { error: errorCreateStatCom }] = useMutation(
+    CREAT_STATU_COM,
+    { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true }
+  );
   // Mutation for statu com -----------------------------------------
 
   //   function to execute on click in button save
@@ -110,8 +116,6 @@ export default function DialogAdd({
           .then(close);
       }
       if (title.includes('statu Com')) {
-        console.log('Edit statu com', id, inputVal[0]);
-
         await updateStatuCom(
           id,
           inputVal[0],
@@ -131,6 +135,11 @@ export default function DialogAdd({
         ).then(close);
       } else if (title.includes('statu Com')) {
         console.log('test');
+        await creatNewStatuCom(
+          statComAdd,
+          inputVal[0],
+          errorCreateStatCom
+        ).then(close);
       }
     }
 
