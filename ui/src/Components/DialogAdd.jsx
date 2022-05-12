@@ -129,9 +129,9 @@ export default function DialogAdd({
           inputVal[1],
           errorCreatTaskType
         ).then(close);
+      } else if (title.includes('statu Com')) {
+        console.log('test');
       }
-    } else {
-      console.log('test');
     }
 
     await resetRef().then(close);

@@ -11,7 +11,7 @@ export default function SettingManageData(props) {
   const [objData, setObjData] = useState({});
 
   const handleClickAddNew = (event) => {
-    console.log('event: ', event.target);
+    // console.log('event: ', event.target);
     // console.log('event: ', props.dataType);
     setDialogTaskOpen((prve) => true);
     setButtonEvent((prev) => event);
@@ -25,7 +25,7 @@ export default function SettingManageData(props) {
         <DialogAdd
           open={dialogTaskOpen}
           close={() => setDialogTaskOpen((prev) => false)}
-          title={'Create New Statu Com'}
+          title={'Create New statu Com'}
           data={objData}
           inputLabel={['Statu Com name']}
           dataFilter={['name']}
