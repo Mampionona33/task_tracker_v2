@@ -104,18 +104,23 @@ export default function DialogAdd({
   // Mutation for statu com -----------------------------------------
 
   //   function to execute on click in button save
+  const regExStatCom = /statu Com/gi;
+  const regExTaskType = /Task Type/gi;
+  const regExEdit = /edit/gi;
+  const regExCreate = /creat/gi;
+
   const handleClickSave = async () => {
     // test if the edit button is clicked
-    if (title.includes('Edit')) {
+    if (title.match(regExEdit)) {
       // test if the table title include Task
-      if (title.includes('Task')) {
+      if (title.match(regExTaskType)) {
         await updateTaskTypeName(id, typeTacheUpdate, errorUpdate, inputVal[0])
           .then(
             updateTaskTypeGoal(id, typeTacheUpdate, errorUpdate, inputVal[1])
           )
           .then(close);
       }
-      if (title.includes('statu Com')) {
+      if (title.match(regExStatCom)) {
         await updateStatuCom(
           id,
           inputVal[0],
@@ -124,8 +129,8 @@ export default function DialogAdd({
         ).then(close);
       }
       // test if Create button is clicked
-    } else if (title.includes('Creat')) {
-      if (title.includes('Task')) {
+    } else if (title.match(regExCreate)) {
+      if (title.match(regExTaskType)) {
         console.log('Creat');
         await createTaskType(
           typeTachesAdd,
@@ -133,7 +138,7 @@ export default function DialogAdd({
           inputVal[1],
           errorCreatTaskType
         ).then(close);
-      } else if (title.includes('statu Com')) {
+      } else if (title.match(regExStatCom)) {
         console.log('test');
         await creatNewStatuCom(
           statComAdd,

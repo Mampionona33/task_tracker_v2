@@ -137,3 +137,12 @@ export const CREAT_STATU_COM = gql`
     }
   }
 `;
+
+export const DELETE_STATU_COM = gql`
+  mutation StatComDelete($filter: FilterById) {
+    statComDelete(filter: $filter) {
+      acknowledged
+      deletedCount
+    }
+  }
+`;

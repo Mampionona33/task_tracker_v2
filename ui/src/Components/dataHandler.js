@@ -936,6 +936,23 @@ const updateStatuCom = async (
   }
   return true;
 };
+
+// delete statu com fromdata base. It's use in DialogConfirmDel
+const deletedStatuCom = async (statComDelete, id, errorDeleteStatuCom) => {
+  statComDelete({
+    variables: {
+      filter: { id: id },
+      update: {
+        acknowledged: true,
+        deletedCount: 1,
+      },
+    },
+  });
+  if (errorDeleteStatuCom) {
+    console.log(errorDeleteStatuCom);
+  }
+  return true;
+};
 export {
   loadAllData,
   loadProcessingPause,
@@ -981,4 +998,5 @@ export {
   fetchStatucom,
   updateStatuCom,
   creatNewStatuCom,
+  deletedStatuCom,
 };
