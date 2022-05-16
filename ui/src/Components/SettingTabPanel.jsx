@@ -4,7 +4,11 @@ import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
 import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { fetchStatucom, fetchTaskTypeData } from './dataHandler.js';
+import {
+  fetchListSatusIvpn,
+  fetchStatucom,
+  fetchTaskTypeData,
+} from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
 import DialogAdd from './DialogAdd.jsx';
@@ -127,7 +131,7 @@ export default function SettingTabPanel(params) {
     setDialogDelOpen((prev) => true);
   };
 
-  // statu com column
+  // column for statu com ---------------------------------------------------
   const statuComColumn = [
     { field: 'id', headerName: 'Id', headerAlign: 'center', hide: 'true' },
     {
@@ -166,10 +170,47 @@ export default function SettingTabPanel(params) {
   const [statuComRows, setStatuComRows] = useState([]);
   useEffect(() => {
     if (statuComList) {
-      // console.log(statuComList);
       setStatuComRows((prev) => statuComList);
     }
   }, [statuComList]);
+  // ------------------------------------------------------column for statu com
+
+  // Column for statu IVPN and rows -----------------------------------------------------
+  const statuIvpnList = fetchListSatusIvpn();
+  const statuIvpnColmn = [
+    { field: 'id', headerName: 'Id', hide: 'true' },
+    { field: 'name', headerName: 'Statu IVPN Name', flex: 1 },
+    {
+      field: 'action',
+      headerName: 'Action',
+      renderCell: (params) => (
+        <React.Fragment>
+          <IconButton
+            color='primary'
+            aria-label='Edit'
+            onClick={(event) => handleClickEdit(event, params)}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color='primary'
+            aria-label='Delete'
+            onClick={(event) => handleClickDel(event, params)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </React.Fragment>
+      ),
+    },
+  ];
+  const [statuIvpnRows, setStatuIvpanRows] = useState([]);
+  useEffect(() => {
+    if (statuIvpnList) {
+      setStatuIvpanRows((prev) => statuIvpnList);
+      console.log(statuIvpnList);
+    }
+  }, [statuIvpnList]);
+  // -----------------------------------------------------Column for statu IVPN and rows
 
   return (
     <Box
@@ -205,27 +246,13 @@ export default function SettingTabPanel(params) {
         <Tab label='Item Seven' {...a11yProps(6)} />
       </Tabs>
       <Box display={'flex'}>
+        {/* Menu Manage Task Type */}
         <TabPanel value={value} index={0}>
           <SettingManageData
             columns={taskTypeColumns}
             rows={tastTypeRows}
             dataType={'Task Type'}
           />
-          {/* <SettingDialogTaskType
-            open={dialogEditIsOpen}
-            close={() => setDialogEditOpen((prev) => false)}
-            dialogTitle={'Edit Task Type'}
-            selectedRowdata={selectedRowdata}
-            buttonEvent={buttonEvent}
-          /> */}
-          {/* <DialogAddOrEdit
-            open={dialogEditIsOpen}
-            close={() => setDialogEditOpen((prev) => false)}
-            title={'Edit Task Type'}
-            data={selectedRowdat  a}
-            inputLabel={['Task Type name', 'Task Goal', 'test']}
-          /> */}
-
           <DialogAdd
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}
@@ -234,7 +261,6 @@ export default function SettingTabPanel(params) {
             data={selectedRowdata}
             dataFilter={['name', 'objectif']}
           />
-
           <DialogBoxConfirmDel
             open={dialogDelOpen}
             close={() => setDialogDelOpen((prev) => false)}
@@ -244,6 +270,7 @@ export default function SettingTabPanel(params) {
             inputLabel={['Task Type name', 'Task Goal']}
           />
         </TabPanel>
+        {/* Menu Manage Statu Com */}
         <TabPanel value={value} index={1}>
           <SettingManageData
             columns={statuComColumn}
@@ -267,8 +294,29 @@ export default function SettingTabPanel(params) {
             inputLabel={['statu com name']}
           />
         </TabPanel>
+        {/* Menu Manage Statu IVPN */}
         <TabPanel value={value} index={2}>
-          Item Three
+          <SettingManageData
+            columns={statuIvpnColmn}
+            rows={statuIvpnRows}
+            dataType={'statu IVPN'}
+          />
+          <DialogAdd
+            open={dialogEditIsOpen}
+            close={() => setDialogEditOpen((prev) => false)}
+            title='Edit statu IVPN'
+            inputLabel={['Statu IVPN Name']}
+            data={selectedRowdata}
+            dataFilter={['name']}
+          />
+          <DialogBoxConfirmDel
+            open={dialogDelOpen}
+            close={() => setDialogDelOpen((prev) => false)}
+            title='Delete statu IVPN'
+            data={selectedRowdata}
+            rowId={taskTypeId}
+            inputLabel={['statu IVPN name']}
+          />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Item Four

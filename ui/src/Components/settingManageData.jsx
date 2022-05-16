@@ -19,8 +19,12 @@ export default function SettingManageData(props) {
     setObjData((prev) => objD);
   };
 
+  const regExStatCom = /statu Com/gi;
+  const regExTaskType = /Task Type/gi;
+  const regExStatuIvpn = /statu ivpn/gi;
+
   const CustomDialog = () => {
-    if (props.dataType.includes('statu Com')) {
+    if (props.dataType.match(regExStatCom)) {
       return (
         <DialogAdd
           open={dialogTaskOpen}
@@ -31,7 +35,7 @@ export default function SettingManageData(props) {
           dataFilter={['name']}
         />
       );
-    } else if (props.dataType.includes('Task Type')) {
+    } else if (props.dataType.match(regExTaskType)) {
       return (
         <DialogAdd
           open={dialogTaskOpen}
@@ -40,6 +44,17 @@ export default function SettingManageData(props) {
           data={objData}
           inputLabel={['Task Type name', 'Task Goal']}
           dataFilter={['name', 'objectif']}
+        />
+      );
+    } else if (props.dataType.match(regExStatuIvpn)) {
+      return (
+        <DialogAdd
+          open={dialogTaskOpen}
+          close={() => setDialogTaskOpen((prev) => false)}
+          title={'Create New Task Statu IVPN'}
+          data={objData}
+          inputLabel={['Statu IVPN name']}
+          dataFilter={['name']}
         />
       );
     }
@@ -71,13 +86,6 @@ export default function SettingManageData(props) {
           Creat New {props.dataType}
         </Button>
         <CustomDialog />
-
-        {/* <SettingDialogTaskType
-          open={dialogOpen}
-          close={() => setDialogOpen((prev) => false)}
-          dialogTitle={'Add New Task Type'}
-          buttonEvent={buttonEvent}
-        /> */}
       </Box>
     </Box>
   );

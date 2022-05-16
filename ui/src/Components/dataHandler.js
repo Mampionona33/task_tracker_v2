@@ -289,7 +289,7 @@ const fetchListSatusIvpn = () => {
   } = useQuery(LIST_STATUS_IVPN);
   useEffect(() => {
     if (listStatusIvpnData != null) {
-      setOut((prev) => listStatusIvpnData);
+      setOut((prev) => listStatusIvpnData.listStatIvpn);
     }
   }, [listStatusIvpnData]);
   return out;
