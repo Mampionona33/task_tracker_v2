@@ -106,6 +106,7 @@ export default function DialogAdd({
   //   function to execute on click in button save
   const regExStatCom = /statu Com/gi;
   const regExTaskType = /Task Type/gi;
+  const regExStatuIvpn = /statu IVPN/gi;
   const regExEdit = /edit/gi;
   const regExCreate = /creat/gi;
 
@@ -128,6 +129,9 @@ export default function DialogAdd({
           errorUpdateStatCom
         ).then(close);
       }
+      if(title.match(regExStatuIvpn)){
+        console.log('Edit statu Ivpn')
+      }
       // test if Create button is clicked
     } else if (title.match(regExCreate)) {
       if (title.match(regExTaskType)) {
@@ -145,6 +149,8 @@ export default function DialogAdd({
           inputVal[0],
           errorCreateStatCom
         ).then(close);
+      }else if(title.match(regExStatuIvpn)){
+        console.log('Create statu IVPN');
       }
     }
 

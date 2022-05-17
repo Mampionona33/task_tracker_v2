@@ -558,6 +558,7 @@ const updateStatCom = async (
   return taskId;
 };
 
+// Update the status ivpn for the current task
 const updateTaskStatuIvpn = async (
   taskId,
   fichesUpdate,
