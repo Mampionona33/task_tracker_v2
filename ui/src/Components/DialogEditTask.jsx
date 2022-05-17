@@ -22,7 +22,7 @@ import {
   updateCat,
   updateUrl,
   updateStatCom,
-  updateStatuIvpn,
+  updateTaskStatuIvpn,
   updateTaskType,
   updateTaskCase,
   updateNumberBefore,
@@ -55,7 +55,7 @@ const DialogEditTask = (props) => {
   const allTaskType = fetchTaskType();
 
   // Get status IVPN from fetchingListStatIvpn
-  const listStatIvpn = fetchingListStatIvpn.listStatIvpn;
+  const listStatIvpn = fetchingListStatIvpn;
   const listTaskType = listTaskTypes.listTypeTaches;
   const listStatCom = listStatusComs.listStatCom;
   const listTaskCase = listTaskCases.listTaskCase;
@@ -293,7 +293,7 @@ const DialogEditTask = (props) => {
         )
       )
       .then(
-        updateStatuIvpn(
+        updateTaskStatuIvpn(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,

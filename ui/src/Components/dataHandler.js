@@ -558,7 +558,7 @@ const updateStatCom = async (
   return taskId;
 };
 
-const updateStatuIvpn = async (
+const updateTaskStatuIvpn = async (
   taskId,
   fichesUpdate,
   errorUpDate,
@@ -981,7 +981,7 @@ export {
   updateCat,
   updateUrl,
   updateStatCom,
-  updateStatuIvpn,
+  updateTaskStatuIvpn,
   updateTaskType,
   updateTaskCase,
   updateNumberBefore,
