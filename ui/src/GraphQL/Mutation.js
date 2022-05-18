@@ -146,3 +146,21 @@ export const DELETE_STATU_COM = gql`
     }
   }
 `;
+
+export const CREAT_STATU_IVPN = gql`
+  mutation StatIvpnAdd($statIvpn: StatIvpnInput) {
+    statIvpnAdd(statIvpn: $statIvpn) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_STATU_IVPN = gql`
+  mutation StatIvpnAdd($filter: FilterById) {
+    statIvpnDelete(filter: $filter) {
+      acknowledged
+      deletedCount
+    }
+  }
+`;

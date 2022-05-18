@@ -3,9 +3,10 @@ const { UserInputError } = require('apollo-server-express');
 
 // input validation
 async function validation(statIvpn) {
+  const prevStatuIvpn = await list();
+  // console.log('prevStatuIvpn', prevStatuIvpn);
   const errors = [];
   let nameLenght = statIvpn.name.length;
-  console.log(nameLenght);
   // check if user insert more than one character
   if (nameLenght > 1) {
     errors.push(`Le statut IVPN ne doit comporter qu' une seule caractère`);
@@ -14,9 +15,15 @@ async function validation(statIvpn) {
   if (nameLenght <= 0) {
     errors.push(`Le statut IVPN ne doit pas étre vide`);
   }
+
+  prevStatuIvpn.forEach((element) => {
+    if (element.name === statIvpn.name) {
+      errors.push(`La valeure existe déjà !!`);
+    }
+  });
   // check if there is some error , them print the error
   if (errors.length > 0) {
-    console.log(errors.length);
+    console.log(errors);
     throw new UserInputError('Invalid input(s)', { errors });
   }
 }
@@ -68,8 +75,12 @@ async function update(_, { filter: { id }, update: { name } }) {
   const db = getDb();
   // initialise parameters
   const filter = { id: id };
-  const update = { $set: { name: name } };
-  console.log(`name est : ${name}`);
+  // const update = { $set: { name: name } };
+  const update = [{ $set: {} }];
+  if (name) {
+    update[0].$set.name = name;
+  }
+  // console.log(`name est : ${name}`);
   const options = { upsert: false, returnNewDocument: true };
   // validate the user input before proced to update
   await validateUpdate(name);

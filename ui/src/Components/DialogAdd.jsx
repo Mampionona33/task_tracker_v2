@@ -8,21 +8,28 @@ import {
   Divider,
   TextField,
   Box,
+  Alert,
 } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
 import {
   CREAT_STATU_COM,
+  CREAT_STATU_IVPN,
   CREAT_TASK_TYPE,
   UPDATE_STATU_COM,
   UPDATE_TASK_TYPE,
 } from '../GraphQL/Mutation';
-import { LIST_STATUS_COMMERCIALE, LIST_TASK_TYPE } from '../GraphQL/Queries';
+import {
+  LIST_STATUS_COMMERCIALE,
+  LIST_STATUS_IVPN,
+  LIST_TASK_TYPE,
+} from '../GraphQL/Queries';
 import {
   createTaskType,
   creatNewStatuCom,
   updateStatuCom,
   updateTaskTypeGoal,
   updateTaskTypeName,
+  createNewStatuIvpn,
 } from './dataHandler';
 
 /* 
@@ -103,6 +110,13 @@ export default function DialogAdd({
   );
   // Mutation for statu com -----------------------------------------
 
+  // Mutation for statu IVPN--------------------------------------------
+  const [statIvpnAdd, { error: errorCreateStatIvpn }] = useMutation(
+    CREAT_STATU_IVPN,
+    { refetchQueries: [LIST_STATUS_IVPN], awaitRefetchQueries: true }
+  );
+  // --------------------------------------------Mutation for statu IVPN
+
   //   function to execute on click in button save
   const regExStatCom = /statu Com/gi;
   const regExTaskType = /Task Type/gi;
@@ -129,8 +143,8 @@ export default function DialogAdd({
           errorUpdateStatCom
         ).then(close);
       }
-      if(title.match(regExStatuIvpn)){
-        console.log('Edit statu Ivpn')
+      if (title.match(regExStatuIvpn)) {
+        console.log('Edit statu Ivpn');
       }
       // test if Create button is clicked
     } else if (title.match(regExCreate)) {
@@ -149,8 +163,12 @@ export default function DialogAdd({
           inputVal[0],
           errorCreateStatCom
         ).then(close);
-      }else if(title.match(regExStatuIvpn)){
-        console.log('Create statu IVPN');
+      } else if (title.match(regExStatuIvpn)) {
+        await createNewStatuIvpn(
+          statIvpnAdd,
+          inputVal[0],
+          errorCreateStatIvpn
+        ).then(close);
       }
     }
 
@@ -180,16 +198,18 @@ export default function DialogAdd({
 
   //   root render element
   return (
-    <Dialog open={open} onClose={close}>
-      <DialogTitle>{title}</DialogTitle>
-      <Divider />
-      <DialogContent>
-        <Box sx={{ display: 'flex', gap: '1rem' }}>{CustomInputList}</Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClickSave}>Save</Button>
-        <Button onClick={close}>Cancel</Button>
-      </DialogActions>
-    </Dialog>
+    <Box>
+      <Dialog open={open} onClose={close}>
+        <DialogTitle>{title}</DialogTitle>
+        <Divider />
+        <DialogContent>
+          <Box sx={{ display: 'flex', gap: '1rem' }}>{CustomInputList}</Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickSave}>Save</Button>
+          <Button onClick={close}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }

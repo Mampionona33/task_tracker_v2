@@ -11,6 +11,7 @@ import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import React, { useEffect, useState, useRef } from 'react';
 import { formatNbr } from '../Features/formatNbr';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Alert } from '@mui/material';
 
 // FETHING DATA-----------------------------
 // Get user logged data
@@ -958,6 +959,41 @@ const deletedStatuCom = async (statComDelete, id, errorDeleteStatuCom) => {
   }
   return true;
 };
+
+// create new statu Ivpn
+const createNewStatuIvpn = async (
+  statIvpnAdd,
+  newStatuIvpnName,
+  errorCreateStatIvpn
+) => {
+  statIvpnAdd({
+    variables: {
+      statIvpn: {
+        name: newStatuIvpnName.toUpperCase(),
+      },
+    },
+  });
+  if (errorCreateStatIvpn) {
+    console.error(errorCreateStatIvpn);
+  }
+  return true;
+};
+
+// delete statu ivpn frome data base
+const deletedStatIvpn = async (statIvpnDelete, id, errorDeleteStatuIvpn) => {
+  statIvpnDelete({
+    variables: {
+      filter: {
+        id: id,
+      },
+    },
+  });
+  if (errorDeleteStatuIvpn) {
+    console.log(errorDeleteStatuIvpn);
+  }
+  return true;
+};
+
 export {
   loadAllData,
   loadProcessingPause,
@@ -1004,4 +1040,6 @@ export {
   updateStatuCom,
   creatNewStatuCom,
   deletedStatuCom,
+  createNewStatuIvpn,
+  deletedStatIvpn,
 };
