@@ -116,7 +116,8 @@ export default function DialogAdd({
     {
       refetchQueries: [LIST_STATUS_IVPN],
       awaitRefetchQueries: true,
-      onError: (error) => console.log(error),
+      onError: (error) =>
+        console.log(error.graphQLErrors[0].extensions.errors[0]),
     }
   );
 
