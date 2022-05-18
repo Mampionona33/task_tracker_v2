@@ -28,7 +28,7 @@ import {
   loadAllData,
   loadProcessingPlay,
   setPrevProcessIsOff,
-  modifyLastUpdate,
+  updateTaskLastUpdate,
 } from './dataHandler';
 import { getUtcDateNow } from '../Features/getUtcDateNow';
 
@@ -161,8 +161,9 @@ export default function DialogAddNewTask({ open, onClose }) {
 
   async function handleSave(e) {
     await setPrevProcessIsOff(prevProcessId, fichesUpdate, erroUpDate)
-      .then(modifyLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
-      .then(addFiche()).then((window.location.href = '#/dashboard'));
+      .then(updateTaskLastUpdate(prevProcessId, fichesUpdate, erroUpDate))
+      .then(addFiche())
+      .then((window.location.href = '#/dashboard'));
   }
 
   const listTaches = typeTache.map((item) => item.name);

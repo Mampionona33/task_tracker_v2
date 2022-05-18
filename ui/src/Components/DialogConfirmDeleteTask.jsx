@@ -10,7 +10,7 @@ import { FILTRED_FICHE } from '../GraphQL/Queries';
 import WarningIcon from '@mui/icons-material/Warning';
 import {
   setSubmitStateToDelete,
-  modifyLastUpdate,
+  updateTaskLastUpdate,
   setPrevProcessIsOff,
 } from './dataHandler';
 
@@ -36,7 +36,7 @@ const DialogConfirmDeleteTask = (props) => {
       erroUpDate
     )
       .then(setPrevProcessIsOff(selectedRowData.id, fichesUpdate, erroUpDate))
-      .then(modifyLastUpdate(selectedRowData.id, fichesUpdate, erroUpDate))
+      .then(updateTaskLastUpdate(selectedRowData.id, fichesUpdate, erroUpDate))
       .then(props.onClose);
   };
 

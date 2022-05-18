@@ -581,7 +581,7 @@ const updateTaskStatuIvpn = async (
   return taskId;
 };
 
-const updateTaskType = async (
+const updateTaskTaskType = async (
   taskId,
   fichesUpdate,
   errorUpDate,
@@ -625,7 +625,7 @@ const updateTaskCase = async (
   return taskId;
 };
 
-const updateNumberBefore = async (
+const updateTaskNumberBefore = async (
   taskId,
   fichesUpdate,
   errorUpDate,
@@ -647,7 +647,7 @@ const updateNumberBefore = async (
   return taskId;
 };
 
-const updateNumberAfter = async (
+const updateTaskNumberAfter = async (
   taskId,
   fichesUpdate,
   errorUpDate,
@@ -691,7 +691,7 @@ const updateLastUpdate = async (
   return taskId;
 };
 
-const updateProductivity = async (
+const updateTaskProductivity = async (
   taskId,
   fichesUpdate,
   errorUpDate,
@@ -714,7 +714,11 @@ const updateProductivity = async (
 };
 
 // set the current time the last update
-const modifyLastUpdate = async (currentFicheId, fichesUpdate, errorUpDate) => {
+const updateTaskLastUpdate = async (
+  currentFicheId,
+  fichesUpdate,
+  errorUpDate
+) => {
   const dateNow = new Date();
 
   fichesUpdate({
@@ -968,7 +972,7 @@ export {
   renderDate,
   updateElastedTime,
   loadElapstedTime,
-  modifyLastUpdate,
+  updateTaskLastUpdate,
   submitecurrentTask,
   userLoggedTasks,
   dateFormater,
@@ -983,11 +987,11 @@ export {
   updateUrl,
   updateStatCom,
   updateTaskStatuIvpn,
-  updateTaskType,
+  updateTaskTaskType,
   updateTaskCase,
-  updateNumberBefore,
-  updateNumberAfter,
-  updateProductivity,
+  updateTaskNumberBefore,
+  updateTaskNumberAfter,
+  updateTaskProductivity,
   fetchProd,
   updateLastUpdate,
   setSubmitStateToDelete,

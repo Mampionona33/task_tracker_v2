@@ -16,11 +16,11 @@ import {
   loadUnsubmitedTask,
   setPrevProcessIsOff,
   setProcessToPlay,
-  modifyLastUpdate,
+  updateTaskLastUpdate,
   updateElastedTime,
   dateFormater,
   setProcessToPause,
-  updateProductivity,
+  updateTaskProductivity,
   fetchTaskType,
   loadProcessingPlay,
 } from './dataHandler';
@@ -67,7 +67,7 @@ export default function TaskTable() {
           )
         )
         .then(
-          updateProductivity(
+          updateTaskProductivity(
             prevTaskId[0],
             fichesUpdate,
             erroUpDate,
@@ -90,14 +90,14 @@ export default function TaskTable() {
       clearInterval(refProd.current);
       clearInterval(refTimer.current);
       await setProcessToPause(event.id, fichesUpdate, erroUpDate)
-        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(updateTaskLastUpdate(currentId, fichesUpdate, erroUpDate))
         .then(
           updateElastedTime(currentId, elapstedTime, fichesUpdate, erroUpDate)
         );
     }
     if (event.row.processing === 'isPause') {
       await setProcessToPlay(currentId, fichesUpdate, erroUpDate)
-        .then(modifyLastUpdate(currentId, fichesUpdate, erroUpDate))
+        .then(updateTaskLastUpdate(currentId, fichesUpdate, erroUpDate))
         .then((window.location.href = '#/dashboard'));
     }
   };

@@ -8,7 +8,7 @@ import {
   setProcessToPause,
   setProcessToPlay,
   updateElastedTime,
-  modifyLastUpdate,
+  updateTaskLastUpdate,
   loadAllData,
   loadUnsubmitedTask,
 } from './dataHandler';
@@ -126,7 +126,7 @@ const CurrentTaskTimer = () => {
       currentTaskDataArray.id,
       fichesUpdate,
       erroUpDate
-    ).then(modifyLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate));
+    ).then(updateTaskLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate));
   };
 
   const handleClickPause = async (e) => {
@@ -148,7 +148,7 @@ const CurrentTaskTimer = () => {
         setProcessToPause(currentTaskDataArray.id, fichesUpdate, erroUpDate)
       )
       .then(
-        modifyLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate)
+        updateTaskLastUpdate(currentTaskDataArray.id, fichesUpdate, erroUpDate)
       );
   };
 

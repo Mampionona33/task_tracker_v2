@@ -23,15 +23,15 @@ import {
   updateUrl,
   updateStatCom,
   updateTaskStatuIvpn,
-  updateTaskType,
+  updateTaskTaskType,
   updateTaskCase,
-  updateNumberBefore,
-  updateNumberAfter,
+  updateTaskNumberBefore,
+  updateTaskNumberAfter,
   updateElastedTime,
   modifyLastUpdate,
   dateFormater,
   fetchTaskType,
-  updateProductivity,
+  updateTaskProductivity,
 } from './dataHandler';
 import { formatTimer } from '../Features/formatNbr';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
@@ -261,7 +261,7 @@ const DialogEditTask = (props) => {
         )
       )
       .then(
-        updateNumberBefore(
+        updateTaskNumberBefore(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
@@ -269,7 +269,7 @@ const DialogEditTask = (props) => {
         )
       )
       .then(
-        updateNumberAfter(
+        updateTaskNumberAfter(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
@@ -285,7 +285,7 @@ const DialogEditTask = (props) => {
         )
       )
       .then(
-        updateTaskType(
+        updateTaskTaskType(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
@@ -309,7 +309,7 @@ const DialogEditTask = (props) => {
         )
       )
       .then(
-        updateProductivity(
+        updateTaskProductivity(
           selectedRowData.id,
           fichesUpdate,
           erroUpDate,
