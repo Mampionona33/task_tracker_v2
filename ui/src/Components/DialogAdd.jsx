@@ -113,10 +113,14 @@ export default function DialogAdd({
   // Mutation for statu IVPN--------------------------------------------
   const [statIvpnAdd, { error: errorCreateStatIvpn }] = useMutation(
     CREAT_STATU_IVPN,
-    { refetchQueries: [LIST_STATUS_IVPN], awaitRefetchQueries: true }
+    {
+      refetchQueries: [LIST_STATUS_IVPN],
+      awaitRefetchQueries: true,
+      onError: (error) => console.log(error),
+    }
   );
-  // --------------------------------------------Mutation for statu IVPN
 
+  // --------------------------------------------Mutation for statu IVPN
   //   function to execute on click in button save
   const regExStatCom = /statu Com/gi;
   const regExTaskType = /Task Type/gi;
@@ -157,18 +161,17 @@ export default function DialogAdd({
           errorCreatTaskType
         ).then(close);
       } else if (title.match(regExStatCom)) {
-        console.log('test');
         await creatNewStatuCom(
           statComAdd,
           inputVal[0],
           errorCreateStatCom
         ).then(close);
       } else if (title.match(regExStatuIvpn)) {
-        await createNewStatuIvpn(
-          statIvpnAdd,
-          inputVal[0],
-          errorCreateStatIvpn
-        ).then(close);
+        await createNewStatuIvpn(statIvpnAdd, inputVal[0], errorCreateStatIvpn)
+          .then(close)
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
 

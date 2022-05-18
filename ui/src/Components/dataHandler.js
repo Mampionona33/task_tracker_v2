@@ -955,7 +955,7 @@ const deletedStatuCom = async (statComDelete, id, errorDeleteStatuCom) => {
     },
   });
   if (errorDeleteStatuCom) {
-    console.log(errorDeleteStatuCom);
+    console.log(errorDeleteStatuCom.graphQlErrors[0]);
   }
   return true;
 };
