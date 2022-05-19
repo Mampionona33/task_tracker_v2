@@ -17,11 +17,13 @@ import {
   CREAT_TASK_TYPE,
   UPDATE_STATU_COM,
   UPDATE_TASK_TYPE,
+  UPDATE_MESSAGE,
 } from '../GraphQL/Mutation';
 import {
   LIST_STATUS_COMMERCIALE,
   LIST_STATUS_IVPN,
   LIST_TASK_TYPE,
+  GET_MESSAGE,
 } from '../GraphQL/Queries';
 import {
   createTaskType,
@@ -30,6 +32,7 @@ import {
   updateTaskTypeGoal,
   updateTaskTypeName,
   createNewStatuIvpn,
+  updateMessage,
 } from './dataHandler';
 
 /* 
@@ -88,6 +91,12 @@ export default function DialogAdd({
     return true;
   };
 
+  // change message on error
+  const [setMessage, { error: errorSetMessage }] = useMutation(UPDATE_MESSAGE, {
+    refetchQueries: [GET_MESSAGE],
+    awaitRefetchQueries: true,
+  });
+
   // Mutation for the task type--------------------------------------
   const [typeTachesAdd, { error: errorCreatTaskType }] = useMutation(
     CREAT_TASK_TYPE,
@@ -117,9 +126,20 @@ export default function DialogAdd({
       refetchQueries: [LIST_STATUS_IVPN],
       awaitRefetchQueries: true,
       onError: (error) =>
-        console.log(error.graphQLErrors[0].extensions.errors[0]),
+        //   console.log(error.graphQLErrors[0].extensions.errors[0]),
+        updateMessage(
+          setMessage,
+          error.graphQLErrors[0].extensions.errors[0],
+          errorCreatTaskType
+        ),
     }
   );
+  // clear error from updating unmounted component after updateMessage on error
+  const [didMount, setDidMount] = useState(false);
+  useEffect(() => {
+    setDidMount(true);
+    return () => setDidMount(false);
+  });
 
   // --------------------------------------------Mutation for statu IVPN
   //   function to execute on click in button save
@@ -168,11 +188,11 @@ export default function DialogAdd({
           errorCreateStatCom
         ).then(close);
       } else if (title.match(regExStatuIvpn)) {
-        await createNewStatuIvpn(statIvpnAdd, inputVal[0], errorCreateStatIvpn)
-          .then(close)
-          .catch((e) => {
-            console.log(e);
-          });
+        await createNewStatuIvpn(
+          statIvpnAdd,
+          inputVal[0],
+          errorCreateStatIvpn
+        ).then(close);
       }
     }
 

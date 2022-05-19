@@ -147,3 +147,9 @@ export const LILST_TASK_CASE = gql`
     }
   }
 `;
+
+export const GET_MESSAGE = gql`
+  query Query {
+    getMessage
+  }
+`;

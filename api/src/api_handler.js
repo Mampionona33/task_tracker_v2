@@ -6,6 +6,7 @@ require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 
 const about = require('./schema/about');
+const message = require('./schema/message');
 const fiches = require('./schema/fiches');
 const typeTache = require('./schema/typeTache');
 const statCom = require('./schema/statusCom');
@@ -17,6 +18,8 @@ const taskCase = require('./schema/taskCase');
 const resolvers = {
   Query: {
     about: about.getMessage,
+
+    getMessage: message.getMessage,
 
     listFiches: fiches.list,
 
@@ -34,6 +37,7 @@ const resolvers = {
   },
   Mutation: {
     setAboutMessage: about.setMessage,
+    setMessage: message.setMessage,
     // type de tache
     typeTachesAdd: typeTache.add,
     typeTacheUpdate: typeTache.update,

@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Tab, Typography, Box, Button, IconButton } from '@mui/material';
+import {
+  Tabs,
+  Tab,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Alert,
+} from '@mui/material';
 import SettingManageData from '../Components/settingManageData.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,10 +16,15 @@ import {
   fetchListSatusIvpn,
   fetchStatucom,
   fetchTaskTypeData,
+  fetchMessage,
+  updateMessage,
 } from './dataHandler.js';
 import SettingDialogTaskType from './SettingDialogTaskType.jsx';
 import DialogBoxConfirmDel from './DialogBoxConfirmDel.jsx';
 import DialogAdd from './DialogAdd.jsx';
+import { UPDATE_MESSAGE } from '../GraphQL/Mutation.js';
+import { GET_MESSAGE } from '../GraphQL/Queries.js';
+import { useMutation } from '@apollo/client';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -212,6 +225,30 @@ export default function SettingTabPanel(params) {
   }, [statuIvpnList]);
   // -----------------------------------------------------Column for statu IVPN and rows
 
+  // handle message prompt-------------------------------------------------------------
+  const [setMessage, { error: errorSetMessage }] = useMutation(UPDATE_MESSAGE, {
+    refetchQueries: [GET_MESSAGE],
+    awaitRefetchQueries: true,
+  });
+
+  const message = fetchMessage();
+  const [showPopUp, setShowPopUp] = useState(false);
+
+  // this function is use to update the message and close the alert
+  const clearMessage = () => {
+    updateMessage(setMessage, '', errorSetMessage);
+    setShowPopUp(false);
+  };
+
+  useEffect(() => {
+    if (message) {
+      setShowPopUp(true);
+    }
+    const timer = setTimeout(() => clearMessage(), 3000);
+    return () => clearTimeout(timer);
+  }, [message]);
+  // -------------------------------------------------------------handle message prompt
+
   return (
     <Box
       sx={{
@@ -296,11 +333,18 @@ export default function SettingTabPanel(params) {
         </TabPanel>
         {/* Menu Manage Statu IVPN */}
         <TabPanel value={value} index={2}>
-          <SettingManageData
-            columns={statuIvpnColmn}
-            rows={statuIvpnRows}
-            dataType={'statu IVPN'}
-          />
+          <Box display={'flex'} gap={'1rem'} flexDirection='column'>
+            <SettingManageData
+              columns={statuIvpnColmn}
+              rows={statuIvpnRows}
+              dataType={'statu IVPN'}
+            />
+            {showPopUp === true ? (
+              <Alert severity='error'>{message}</Alert>
+            ) : (
+              ''
+            )}
+          </Box>
           <DialogAdd
             open={dialogEditIsOpen}
             close={() => setDialogEditOpen((prev) => false)}

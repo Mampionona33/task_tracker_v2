@@ -164,3 +164,9 @@ export const DELETE_STATU_IVPN = gql`
     }
   }
 `;
+
+export const UPDATE_MESSAGE = gql`
+  mutation SetAboutMessage($message: String) {
+    setMessage(message: $message)
+  }
+`;

@@ -203,6 +203,7 @@ type TaskCase {
 #### top level declarations
 type Query {
   about: String!
+  getMessage: String
   listFiches: [Fiches!]!
   listTypeTaches: [TypeTache!]!
   listStatCom: [StatCom!]!
@@ -214,6 +215,9 @@ type Query {
 
 type Mutation {
   setAboutMessage(message: String!): String
+
+  # Mutation for message
+  setMessage(message: String): String
 
   # Mutation for type de taches
   typeTachesAdd(typeTache: TachesInputs): TypeTache

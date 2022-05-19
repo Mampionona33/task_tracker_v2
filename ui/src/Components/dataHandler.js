@@ -6,6 +6,7 @@ import {
   LIST_STATUS_COMMERCIALE,
   LIST_TASK_TYPE,
   LILST_TASK_CASE,
+  GET_MESSAGE,
 } from '../GraphQL/Queries';
 import { UPDATE_FICHE } from '../GraphQL/Mutation';
 import React, { useEffect, useState, useRef } from 'react';
@@ -976,7 +977,7 @@ const createNewStatuIvpn = async (
   if (errorCreateStatIvpn) {
     console.error(errorCreateStatIvpn);
   }
-  return true;
+  return newStatuIvpnName;
 };
 
 // delete statu ivpn frome data base
@@ -992,6 +993,31 @@ const deletedStatIvpn = async (statIvpnDelete, id, errorDeleteStatuIvpn) => {
     console.log(errorDeleteStatuIvpn);
   }
   return true;
+};
+
+// get current message
+const fetchMessage = () => {
+  const [outPut, setOutput] = useState('');
+  const { data: message, error: errorLoadingMessage } = useQuery(GET_MESSAGE);
+  useEffect(() => {
+    if (message) {
+      setOutput((prev) => message);
+    }
+  }, [message]);
+  return outPut.getMessage;
+};
+
+// update Message
+const updateMessage =  (setMessage, newMessage, errorSetMessage) => {
+  setMessage({
+    variables: {
+      message: newMessage,
+    },
+  });
+  if (errorSetMessage) {
+    console.log(errorSetMessage);
+  }
+  return newMessage;
 };
 
 export {
@@ -1042,4 +1068,6 @@ export {
   deletedStatuCom,
   createNewStatuIvpn,
   deletedStatIvpn,
+  fetchMessage,
+  updateMessage,
 };
