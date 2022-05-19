@@ -4,6 +4,10 @@ import { Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import SettingDialogTaskType from './SettingDialogTaskType';
 import DialogAdd from './DialogAdd';
+import { useMutation } from '@apollo/client';
+import { UPDATE_MESSAGE } from '../GraphQL/Mutation';
+import { GET_MESSAGE } from '../GraphQL/Queries';
+import { fetchMessage } from './dataHandler';
 
 export default function SettingManageData(props) {
   const [dialogTaskOpen, setDialogTaskOpen] = useState(false);
@@ -59,6 +63,15 @@ export default function SettingManageData(props) {
       );
     }
   };
+
+  // handle prompte Message -----------------------
+  const [setMessage, { error: errorSetMessage }] = useMutation(UPDATE_MESSAGE, {
+    refetchQueries: [GET_MESSAGE],
+    awaitRefetchQueries: true,
+  });
+  const message = fetchMessage();
+  const [showAlert, setShowAlert] = useState(false);
+  //  -----------------------handle prompte Message
 
   return (
     <Box
