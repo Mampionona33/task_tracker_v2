@@ -4,7 +4,6 @@ const { UserInputError } = require('apollo-server-express');
 // input validation
 async function validation(statIvpn) {
   const prevStatuIvpn = await list();
-  // console.log('prevStatuIvpn', prevStatuIvpn);
   const errors = [];
   let nameLenght = statIvpn.name.length;
   // check if user insert more than one character

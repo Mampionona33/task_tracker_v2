@@ -7,20 +7,26 @@ async function list() {
   return statCom;
 }
 
-const validate = (statCom) => {
-  const error = [];
+const validate = async (statCom) => {
+  const prevStatComList = await list();
+  const errors = [];
   if (statCom.value === '') {
     error.push('Commertial status can not be empty');
   }
-  if (error.length > 0) {
-    throw new UserInputError('Invalid inputs(s)', { errors });
+  prevStatComList.forEach((element) => {
+    if (element.name === statCom.name) {
+      errors.push('This value already exist !! ');
+    }
+  });
+  if (errors.length > 0) {
+    console.log(errors);
+    throw new UserInputError('Invalid input(s)', { errors });
   }
-  return statCom;
 };
 
 async function add(_, { statCom }) {
   const db = getDb();
-  validate(statCom);
+  await validate(statCom);
   const newStatCom = Object.assign({}, statCom);
   newStatCom.id = await getNextSequence('statCom');
 

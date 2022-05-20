@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Alert, Box, Button } from '@mui/material';
+import { Alert, Box, Button, Stack } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import SettingDialogTaskType from './SettingDialogTaskType';
 import DialogAdd from './DialogAdd';
@@ -112,7 +112,13 @@ export default function SettingManageData(props) {
           rowsPerPageOptions={[7]}
           sx={{ background: '#fff' }}
         />
-        {showAlert ? <Alert severity='error'>{message}</Alert> : ''}
+        {showAlert ? (
+          <Alert severity='error' onClose={clearMessage}>
+            {message}
+          </Alert>
+        ) : (
+          ''
+        )}
       </Box>
       <Box>
         <Button
