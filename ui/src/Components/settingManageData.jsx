@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import SettingDialogTaskType from './SettingDialogTaskType';
 import DialogAdd from './DialogAdd';
 import { useMutation } from '@apollo/client';
 import { UPDATE_MESSAGE } from '../GraphQL/Mutation';
 import { GET_MESSAGE } from '../GraphQL/Queries';
-import { fetchMessage } from './dataHandler';
+import { fetchMessage, updateMessage } from './dataHandler';
 
 export default function SettingManageData(props) {
   const [dialogTaskOpen, setDialogTaskOpen] = useState(false);
@@ -64,14 +64,26 @@ export default function SettingManageData(props) {
     }
   };
 
-  // handle prompte Message -----------------------
+  // handle prompte Message --------------------------------------------------
   const [setMessage, { error: errorSetMessage }] = useMutation(UPDATE_MESSAGE, {
     refetchQueries: [GET_MESSAGE],
     awaitRefetchQueries: true,
   });
   const message = fetchMessage();
   const [showAlert, setShowAlert] = useState(false);
-  //  -----------------------handle prompte Message
+  // function to clear message and hide alert
+  const clearMessage = () => {
+    updateMessage(setMessage, '', errorSetMessage);
+    setShowAlert(false);
+  };
+  useEffect(() => {
+    if (message) {
+      setShowAlert(true);
+    }
+    const alertTimer = setTimeout(() => clearMessage(), 5000);
+    return () => clearTimeout(alertTimer);
+  }, [message]);
+  //  --------------------------------------------------handle prompte Message
 
   return (
     <Box
@@ -81,13 +93,26 @@ export default function SettingManageData(props) {
       gap={'1rem'}
       width={'75vw'}
     >
-      <Box height={'75vh'} bgcolor={'#fff'} width={'100vw'}>
+      <Box
+        height={'75vh'}
+        bgcolor={'#fff'}
+        width={'100vw'}
+        display='flex'
+        flexDirection='column'
+        gap={'1rem'}
+        sx={{
+          background:
+            'linear-gradient(55deg, rgba(112,128,144,0) 0%, rgba(192,192,192,0) 36%, rgba(192,192,192,0) 62%, rgba(112,128,144,0) 100%)',
+        }}
+      >
         <DataGrid
           columns={props.columns}
           rows={props.rows}
           pageSize={7}
           rowsPerPageOptions={[7]}
+          sx={{ background: '#fff' }}
         />
+        {showAlert ? <Alert severity='error'>{message}</Alert> : ''}
       </Box>
       <Box>
         <Button

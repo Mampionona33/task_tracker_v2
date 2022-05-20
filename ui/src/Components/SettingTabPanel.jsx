@@ -225,30 +225,6 @@ export default function SettingTabPanel(params) {
   }, [statuIvpnList]);
   // -----------------------------------------------------Column for statu IVPN and rows
 
-  // handle message prompt-------------------------------------------------------------
-  const [setMessage, { error: errorSetMessage }] = useMutation(UPDATE_MESSAGE, {
-    refetchQueries: [GET_MESSAGE],
-    awaitRefetchQueries: true,
-  });
-
-  const message = fetchMessage();
-  const [showPopUp, setShowPopUp] = useState(false);
-
-  // this function is use to update the message and close the alert
-  const clearMessage = () => {
-    updateMessage(setMessage, '', errorSetMessage);
-    setShowPopUp(false);
-  };
-
-  useEffect(() => {
-    if (message) {
-      setShowPopUp(true);
-    }
-    const timer = setTimeout(() => clearMessage(), 3000);
-    return () => clearTimeout(timer);
-  }, [message]);
-  // -------------------------------------------------------------handle message prompt
-
   return (
     <Box
       sx={{
@@ -339,11 +315,6 @@ export default function SettingTabPanel(params) {
               rows={statuIvpnRows}
               dataType={'statu IVPN'}
             />
-            {showPopUp === true ? (
-              <Alert severity='error'>{message}</Alert>
-            ) : (
-              ''
-            )}
           </Box>
           <DialogAdd
             open={dialogEditIsOpen}
