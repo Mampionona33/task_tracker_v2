@@ -9,16 +9,21 @@ async function validation(statIvpn) {
   let nameLenght = statIvpn.name.length;
   // check if user insert more than one character
   if (nameLenght > 1) {
-    errors.push(`Le statut IVPN ne doit comporter qu' une seule caractère`);
+    errors.push(`IVPN status must a single letter`);
   }
   // check if user insert no character
   if (nameLenght <= 0) {
-    errors.push(`Le statut IVPN ne doit pas étre vide`);
+    errors.push(`IVPN status must not be empty`);
+  }
+
+  const regExName = /[a-z]/gi;
+  if (!statIvpn.name.match(regExName)) {
+    errors.push(`IVPN status must be a letter`);
   }
 
   prevStatuIvpn.forEach((element) => {
     if (element.name === statIvpn.name) {
-      errors.push(`La valeure existe déjà !!`);
+      errors.push(`This value already exist !!`);
     }
   });
   // check if there is some error , them print the error
