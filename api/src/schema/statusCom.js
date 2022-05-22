@@ -15,8 +15,8 @@ const validate = async (statCom) => {
   }
   prevStatComList.forEach((element) => {
     const regExName = new RegExp("^" + element.name,'i');
-    console.log(regExName);
     if (statCom.name.match(regExName)) {
+      console.log(element);
       errors.push('This value already exist !! ');
     }
   });

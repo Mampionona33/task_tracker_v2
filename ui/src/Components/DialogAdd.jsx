@@ -100,7 +100,14 @@ export default function DialogAdd({
   // Mutation for the task type--------------------------------------
   const [typeTachesAdd, { error: errorCreatTaskType }] = useMutation(
     CREAT_TASK_TYPE,
-    { refetchQueries: [LIST_TASK_TYPE], awaitRefetchQueries: true }
+    { 
+      refetchQueries: [LIST_TASK_TYPE], 
+      awaitRefetchQueries: true ,
+      onError : (error) => [
+        console.log(error.graphQLErrors[0].extensions.errors[0]),
+        updateMessage(setMessage,error.graphQLErrors[0].extensions.errors[0],errorCreatTaskType),
+      ]
+    }
   );
   const [typeTacheUpdate, { error: errorUpdate }] = useMutation(
     UPDATE_TASK_TYPE,

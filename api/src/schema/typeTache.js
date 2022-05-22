@@ -7,26 +7,36 @@ async function list() {
   return taches;
 }
 
-function validate(tache) {
+async function validate(tache) {
+  const prevTypeTaskList = await list();
   const errors = [];
   if (typeof tache.objectif !== 'number') {
     errors.push('Task Goal must be a number');
     console.log('task goal type is ', typeof tache.objectif);
   }
+
+  prevTypeTaskList.forEach((element) => {
+    const regExName = new RegExp("^"+ element.name ,'i');
+    if(tache.name.match(regExName)){
+      console.log(element);
+      errors.push('This value already exist !!');
+    }
+  });
+
   if (tache.name === '') {
-    errors.push('Nom de la type de tache ne doit pas étre vide');
+    errors.push('Task type must not be empty');
   }
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors });
   }
-  return tache;
+  
 }
 /* le varriable tache doit etre exactement 
 identique au varriable qui se trouve dans schema.graphql 
  tachesAdd(tache: TachesInputs): Taches <=> async function add(_, { tache }) */
 
 async function add(_, { typeTache }) {
-  validate(typeTache);
+  await validate(typeTache);
   const db = getDb();
   const newTache = Object.assign({}, typeTache);
   newTache.id = await getNextSequence('typeTache');
