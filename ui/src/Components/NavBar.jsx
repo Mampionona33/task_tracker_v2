@@ -282,6 +282,12 @@ export default function Navbar() {
                 itemText='Submited Task'
                 href='#/submitedList'
               />
+              <DrawerListItem 
+                drawerOpen={(state) => setIsOpen(state)}
+                icon={<PlaylistAddCheckIcon/>}
+                itemText='History'
+                href = '#/hystory'
+              />
               {userRole === 'admin' ? (
                 <DrawerListItem
                   drawerOpen={(state) => setIsOpen(state)}
