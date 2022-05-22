@@ -111,11 +111,22 @@ export default function DialogAdd({
   // Mutation for statu com -----------------------------------------
   const [statComUpdate, { error: errorUpdateStatCom }] = useMutation(
     UPDATE_STATU_COM,
-    { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true }
+    { refetchQueries: [LIST_STATUS_COMMERCIALE], 
+      awaitRefetchQueries: true ,
+      onError:(error) => [
+        console.log(error.graphQLErrors[0].extensions.errors[0]),
+        updateMessage(setMessage, error.graphQLErrors[0].extensions.errors[0],errorUpdateStatCom),
+      ]
+    },
   );
   const [statComAdd, { error: errorCreateStatCom }] = useMutation(
     CREAT_STATU_COM,
-    { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true }
+    { refetchQueries: [LIST_STATUS_COMMERCIALE], awaitRefetchQueries: true ,
+      onError :(error) => [
+        console.log(error.graphQLErrors[0].extensions.errors[0]),
+        updateMessage(setMessage,error.graphQLErrors[0].extensions.errors[0],errorCreateStatCom),
+      ]
+    }
   );
   // Mutation for statu com -----------------------------------------
 

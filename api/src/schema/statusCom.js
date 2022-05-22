@@ -10,11 +10,13 @@ async function list() {
 const validate = async (statCom) => {
   const prevStatComList = await list();
   const errors = [];
-  if (statCom.value === '') {
-    error.push('Commertial status can not be empty');
+  if (statCom.name === '') {
+    errors.push('Commertial status can not be empty');
   }
   prevStatComList.forEach((element) => {
-    if (element.name === statCom.name) {
+    const regExName = new RegExp("^" + element.name,'i');
+    console.log(regExName);
+    if (statCom.name.match(regExName)) {
       errors.push('This value already exist !! ');
     }
   });
@@ -41,6 +43,7 @@ async function update(_, { filter: { id }, update: { name } }) {
   const db = getDb();
   const filter = { id: id };
   const update = [{ $set: {} }];
+  await validate({name});
   if (name) {
     update[0].$set.name = name;
   }
