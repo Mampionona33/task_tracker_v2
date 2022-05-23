@@ -8,6 +8,7 @@ import DashBoard from './pages/Dashboard.jsx';
 import SubmitedTable from './pages/SubmitedTable.jsx';
 import Settings from './pages/Setting.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
+import History from './Components/History.jsx';
 
 const NotFound = () => {
   return (
@@ -33,6 +34,7 @@ export default function Contents() {
       <Route path='/tasklist' element={<TaskList />} />
       <Route path='/dashboard' element={<DashBoard />} />
       <Route path='/submitedList' element={<SubmitedTable />} />
+      <Route path='/history' element={<History />} />
       <Route path='/settings' element={<Settings />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
