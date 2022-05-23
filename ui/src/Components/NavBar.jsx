@@ -16,6 +16,7 @@ import { Button, Avatar, keyframes } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import { useLocation } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -282,11 +283,11 @@ export default function Navbar() {
                 itemText='Submited Task'
                 href='#/submitedList'
               />
-              <DrawerListItem 
+              <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
-                icon={<PlaylistAddCheckIcon/>}
+                icon={<WorkHistoryIcon />}
                 itemText='History'
-                href = '#/hystory'
+                href='#/hystory'
               />
               {userRole === 'admin' ? (
                 <DrawerListItem
