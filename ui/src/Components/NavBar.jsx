@@ -287,7 +287,7 @@ export default function Navbar() {
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<WorkHistoryIcon />}
                 itemText='History'
-                href='#/hystory'
+                href='#/history'
               />
               {userRole === 'admin' ? (
                 <DrawerListItem
