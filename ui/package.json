@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "#start": "UI server. HMR is enabled in dev mode.",
+    "build": "Webpack",
     "start": "nodemon cross-env NODE_OPTIONS=--max-old-space-size=400 -w uiserver.js -w .env usiserver.js",
     "watch": "webpack --watch "
   },
