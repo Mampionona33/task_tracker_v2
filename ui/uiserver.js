@@ -44,7 +44,7 @@ app.get('/env.js', (req, res) => {
 });
 const serverPort = 8000;
 
-const PORT = process.env.UI_SERVER_PORT || serverPort;
+const PORT = process.env.UI_SERVER_PORT || serverPort || process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`UI server started on port ${PORT}`);
