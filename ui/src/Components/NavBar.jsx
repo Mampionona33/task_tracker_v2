@@ -283,12 +283,12 @@ export default function Navbar() {
                 itemText='Submited Task'
                 href='#/submitedList'
               />
-              <DrawerListItem
+              {/* <DrawerListItem
                 drawerOpen={(state) => setIsOpen(state)}
                 icon={<WorkHistoryIcon />}
                 itemText='History'
                 href='#/history'
-              />
+              /> */}
               {userRole === 'admin' ? (
                 <DrawerListItem
                   drawerOpen={(state) => setIsOpen(state)}
