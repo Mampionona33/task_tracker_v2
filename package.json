@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "( cd api && npm install ) && (cd ui && npm install) ",
-    "start": " (cd ui && npm start)",
+    "start": "(cd api && npm start) && (cd ui && npm start)",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ui && npm run build --prefix ui"
   },
   "repository": {
