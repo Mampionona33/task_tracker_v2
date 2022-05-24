@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server.js",
+    "start": "node -w ./src/server.js",
     "client": "npm start --prefix ui",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ui && npm run build --prefix ui",
     "server": "nodemon -w ./src -e js,graphql -w .env ./src/server.js "
