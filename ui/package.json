@@ -6,7 +6,8 @@
   "scripts": {
     "#start": "UI server. HMR is enabled in dev mode.",
     "build": "webpack",
-    "start": "nodemon cross-env NODE_OPTIONS=--max-old-space-size=400 -w uiserver.js -w .env usiserver.js",
+    "start":"node -w uiserver.js",
+    "dev": "nodemon cross-env NODE_OPTIONS=--max-old-space-size=400 -w uiserver.js -w .env usiserver.js",
     "watch": "webpack --watch "
   },
   "dependencies": {
