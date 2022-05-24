@@ -2,7 +2,10 @@
   "name": "task_tracker_v2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./ui/public/index.js",
+  "engines": {
+    "node": "16.12.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npm install --prefix api && install --prefix ui",
