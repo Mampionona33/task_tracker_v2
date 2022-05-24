@@ -43,8 +43,8 @@ app.get('/env.js', (req, res) => {
   res.send(`window.ENV = ${JSON.stringify(env)}`);
 });
 
-const port = process.env.UI_SERVER_PORT || 8000;
+const PORT = process.env.UI_SERVER_PORT || 8000;
 
-app.listen(port, () => {
-  console.log(`UI server started on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`UI server started on port ${PORT}`);
 });
